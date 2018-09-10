@@ -1,22 +1,22 @@
 package cz.mg.toolkit.environment;
 
 import cz.mg.toolkit.graphics.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
+import cz.mg.toolkit.impl.ImplCursor;
+import cz.mg.toolkit.impl.swing.SwingImplCursor;
 
 
 public class Cursor {
-    private final java.awt.Cursor implCursor;
+    private final ImplCursor implCursor;
 
-    public Cursor(java.awt.Cursor implCursor) {
-        this.implCursor = implCursor;
+    public Cursor(ImplCursor.NativeCursor nativeCursor) {
+        this.implCursor = new SwingImplCursor(nativeCursor);
     }
     
     public Cursor(Image image, int dx, int dy){
-        this.implCursor = Toolkit.getDefaultToolkit().createCustomCursor(image.getImplImage(), new Point(dx, dy), "custom");
+        this.implCursor = new SwingImplCursor(image, dx, dy);
     }
 
-    public java.awt.Cursor getImplCursor() {
+    public ImplCursor getImplCursor() {
         return implCursor;
     }
 }

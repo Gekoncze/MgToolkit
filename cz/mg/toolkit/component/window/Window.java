@@ -1,11 +1,11 @@
 package cz.mg.toolkit.component.window;
 
 import cz.mg.toolkit.environment.Cursor;
-import cz.mg.toolkit.environment.NativeWindow;
 import cz.mg.toolkit.component.wrappers.Decoration;
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.containers.Wrapper;
 import cz.mg.toolkit.component.wrappers.decorations.SystemDecoration;
+import cz.mg.toolkit.impl.swing.SwingImplWindow;
 import cz.mg.toolkit.environment.cursors.ArrowCursor;
 import cz.mg.toolkit.environment.cursors.NoCursor;
 import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
@@ -33,12 +33,13 @@ import cz.mg.toolkit.graphics.designers.DefaultDesigner;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import cz.mg.toolkit.utilities.KeystrokeRepeater;
 import static cz.mg.toolkit.utilities.properties.PropertiesInterface.*;
+import cz.mg.toolkit.impl.ImplWindow;
 
 
 public class Window extends Wrapper {
     private static final Cursor BLANK_CURSOR = new NoCursor();
     
-    private final NativeWindow nativeWindow = new NativeWindow();
+    private final ImplWindow implWindow = new SwingImplWindow();
     private Component keyboardFocus = null;
     private Component mouseFocus = null;
     private Decoration decoration;
@@ -55,7 +56,7 @@ public class Window extends Wrapper {
         initComponent();
         initComponents();
         addEventListeners();
-        nativeWindow.setWindow(this);
+        implWindow.setWindow(this);
     }
     
     private void initComponent(){
@@ -114,7 +115,7 @@ public class Window extends Wrapper {
             @Override
             public void onEventEnter(RedrawEvent e) {
                 e.consume();
-                nativeWindow.redraw();
+                implWindow.redraw();
             }
         });
         
@@ -123,15 +124,15 @@ public class Window extends Wrapper {
             public void onEventEnter(RelayoutEvent e) {
                 e.consume();
                 relayout = true;
-                nativeWindow.redraw();
+                implWindow.redraw();
             }
         });
         
         getEventListeners().addLast(new AfterLayoutAdapter() {
             @Override
             public void onEventLeave(AfterLayoutEvent e) {
-                if(!equalsD(getWidth(), nativeWindow.getWidth()) || !equalsD(getHeight(), nativeWindow.getHeight())){
-                    nativeWindow.setSize(getWidth(), getHeight());
+                if(!equalsD(getWidth(), implWindow.getWidth()) || !equalsD(getHeight(), implWindow.getHeight())){
+                    implWindow.setSize(getWidth(), getHeight());
                 }
             }
         });
@@ -146,8 +147,8 @@ public class Window extends Wrapper {
         });
     }
 
-    public final NativeWindow getNativeWindow() {
-        return nativeWindow;
+    public final ImplWindow getImplWindow() {
+        return implWindow;
     }
 
     public final Component getKeyboardFocus() {
@@ -170,15 +171,15 @@ public class Window extends Wrapper {
     
     private void updatePosition(){
         reshapeLock = true;
-        if(getX() != nativeWindow.getX()) { setX(nativeWindow.getX()); relayout = true; };
-        if(getY() != nativeWindow.getY()) { setY(nativeWindow.getY()); relayout = true; };
+        if(getX() != implWindow.getX()) { setX(implWindow.getX()); relayout = true; };
+        if(getY() != implWindow.getY()) { setY(implWindow.getY()); relayout = true; };
         reshapeLock = false;
     }
     
     private void updateSize(){
         reshapeLock = true;
-        if(getWidth() != nativeWindow.getWidth()){ setWidth(nativeWindow.getWidth()); relayout = true; };
-        if(getHeight() != nativeWindow.getHeight()){ setHeight(nativeWindow.getHeight()); relayout = true; };
+        if(getWidth() != implWindow.getWidth()){ setWidth(implWindow.getWidth()); relayout = true; };
+        if(getHeight() != implWindow.getHeight()){ setHeight(implWindow.getHeight()); relayout = true; };
         reshapeLock = false;
     }
     
@@ -189,45 +190,41 @@ public class Window extends Wrapper {
         }
     }
     
-    public final void close(){
-        sendEvent(new WindowCloseEvent(this));
-    }
-    
     public final void closeImmediately(){
-        nativeWindow.closeImmediately();
+        implWindow.close();
         keystrokeRepeater.stop();
     }
     
     public final boolean isMinimized(){
-        return nativeWindow.isMinimized();
+        return implWindow.isMinimized();
     }
     
     public final void setMinimized(boolean value){
-        nativeWindow.setMinimized(value);
+        implWindow.setMinimized(value);
     }
     
     public final boolean isMaximized(){
-        return nativeWindow.isMaximized();
+        return implWindow.isMaximized();
     }
     
     public final void setMaximized(boolean value){
-        nativeWindow.setMaximized(value);
+        implWindow.setMaximized(value);
     }
     
     public final boolean isActivated(){
-        return nativeWindow.isActivated();
+        return implWindow.isActivated();
     }
     
     public final void setActivated(boolean value){
-        nativeWindow.setActivated(value);
+        implWindow.setActivated(value);
     }
     
     public final boolean isResizable(){
-        return nativeWindow.isResizable();
+        return implWindow.isResizable();
     }
     
     public final void setResizable(boolean value){
-        nativeWindow.setResizable(value);
+        implWindow.setResizable(value);
     }
     
     public final boolean isDecorated(){
@@ -237,9 +234,9 @@ public class Window extends Wrapper {
     public final void setDecorated(boolean value){
         this.decorated = value;
         if(this.decoration instanceof SystemDecoration){
-            nativeWindow.setDecorated(value);
+            implWindow.setDecorated(value);
         } else {
-            nativeWindow.setDecorated(false);
+            implWindow.setDecorated(false);
             if(value){
                 decoration.setParent(this);
                 getContentPanel().setParent(decoration.getContentPanel());
@@ -258,49 +255,53 @@ public class Window extends Wrapper {
         this.decoration = decoration;
         decoration.setParent(this);
         getContentPanel().setParent(decoration.getContentPanel());
-        nativeWindow.setDecorated(decoration instanceof SystemDecoration);
+        implWindow.setDecorated(decoration instanceof SystemDecoration);
         decoration.setIcon(icon);
         decoration.setTitle(title);
     }
     
     public final void open(){
-        nativeWindow.show();
+        implWindow.open();
+    }
+    
+    public final void close(){
+        sendEvent(new WindowCloseEvent(this));
     }
     
     public final void center(){
-        nativeWindow.center();
+        implWindow.center();
     }
 
     @Override
     public final void setX(double x) {
         super.setX(x);
-        if(!reshapeLock) nativeWindow.setLocation((int) Math.round(x), (int) Math.round(getY()));
+        if(!reshapeLock) implWindow.setLocation((int) Math.round(x), (int) Math.round(getY()));
     }
 
     @Override
     public final void setY(double y) {
         super.setY(y);
-        if(!reshapeLock) nativeWindow.setLocation((int) Math.round(getX()), (int) Math.round(y));
+        if(!reshapeLock) implWindow.setLocation((int) Math.round(getX()), (int) Math.round(y));
     }
 
     @Override
     public final void setWidth(double width) {
         super.setWidth(width);
-        if(!reshapeLock) nativeWindow.setSize((int) Math.round(width), (int) Math.round(getHeight()));
+        if(!reshapeLock) implWindow.setSize((int) Math.round(width), (int) Math.round(getHeight()));
     }
 
     @Override
     public final void setHeight(double height) {
         super.setHeight(height);
-        if(!reshapeLock) nativeWindow.setSize((int) Math.round(getWidth()), (int) Math.round(height));
+        if(!reshapeLock) implWindow.setSize((int) Math.round(getWidth()), (int) Math.round(height));
     }
     
     public final void setContentWidth(double width){
-        nativeWindow.setContentWidth((int) Math.round(width));
+        implWindow.setContentWidth((int) Math.round(width));
     }
     
     public final void setContentHeight(double height){
-        nativeWindow.setContentHeight((int) Math.round(height));
+        implWindow.setContentHeight((int) Math.round(height));
     }
     
     public final void setContentSize(double width, double height){
@@ -332,7 +333,7 @@ public class Window extends Wrapper {
 
     public final void setCursor(Cursor cursor) {
         this.cursor = cursor;
-        nativeWindow.setCursor(cursorVisible ? cursor : BLANK_CURSOR);
+        implWindow.setCursor(cursorVisible ? cursor : BLANK_CURSOR);
     }
     
     public final boolean isCursorVisible(){
@@ -341,7 +342,7 @@ public class Window extends Wrapper {
     
     public final void setCursorVisible(boolean value){
         this.cursorVisible = value;
-        nativeWindow.setCursor(cursorVisible ? cursor : BLANK_CURSOR);
+        implWindow.setCursor(cursorVisible ? cursor : BLANK_CURSOR);
     }
 
     public boolean isRelayoutNeeded() {

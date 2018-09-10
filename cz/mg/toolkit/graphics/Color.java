@@ -1,5 +1,8 @@
 package cz.mg.toolkit.graphics;
 
+import cz.mg.toolkit.impl.ImplColor;
+import cz.mg.toolkit.impl.swing.SwingImplColor;
+
 
 public class Color {
     public static final Color TRANSPARENT = new Color(0, 0, 0, 0);
@@ -15,34 +18,18 @@ public class Color {
     public static final Color BLUE = new Color(0, 0, 255, 255);
     public static final Color HOT_PINK = new Color(0, 255, 0, 255);
     
-    private java.awt.Color implColor;
+    private final ImplColor implColor;
     
     public Color(int r, int g, int b, int a){
-        if(r < 0) r = 0;
-        if(g < 0) g = 0;
-        if(b < 0) b = 0;
-        if(a < 0) a = 0;
-        if(r > 255) r = 255;
-        if(g > 255) g = 255;
-        if(b > 255) b = 255;
-        if(a > 255) a = 255;
-        implColor = new java.awt.Color(r, g, b, a);
+        this.implColor = new SwingImplColor(r, g, b, a);
     }
     
     public Color(float r, float g, float b, float a){
-        if(r < 0) r = 0;
-        if(g < 0) g = 0;
-        if(b < 0) b = 0;
-        if(a < 0) a = 0;
-        if(r > 1) r = 1;
-        if(g > 1) g = 1;
-        if(b > 1) b = 1;
-        if(a > 1) a = 1;
-        implColor = new java.awt.Color(r, g, b, a);
+        this.implColor = new SwingImplColor(r, g, b, a);
     }
 
-    public Color(java.awt.Color implColor) {
-        this.implColor = implColor;
+    public ImplColor getImplColor() {
+        return implColor;
     }
     
     public int getRed(){
@@ -75,9 +62,5 @@ public class Color {
     
     public float getAlphaF(){
         return implColor.getAlpha() / 255.0f;
-    }
-    
-    public java.awt.Color getImplColor(){
-        return implColor;
     }
 }

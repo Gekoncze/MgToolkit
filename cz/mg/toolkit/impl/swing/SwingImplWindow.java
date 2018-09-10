@@ -1,6 +1,7 @@
-package cz.mg.toolkit.environment;
+package cz.mg.toolkit.impl.swing;
 
 import cz.mg.toolkit.component.window.Window;
+import cz.mg.toolkit.environment.Cursor;
 import cz.mg.toolkit.event.Event;
 import cz.mg.toolkit.graphics.Image;
 import cz.mg.toolkit.environment.device.devices.Display;
@@ -24,21 +25,23 @@ import cz.mg.toolkit.event.EventObserver;
 import cz.mg.toolkit.event.events.DisplayResolutionEvent;
 import cz.mg.toolkit.event.events.WindowCloseEvent;
 import cz.mg.toolkit.event.events.WindowStateEvent;
+import cz.mg.toolkit.impl.ImplCursor;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import cz.mg.toolkit.impl.ImplWindow;
 
 
-public class NativeWindow implements EventObserver {
+public class SwingImplWindow implements EventObserver, ImplWindow {
     private JFrame jframe;
     private JPanel jpanel;
-    
     private Image icon;
     private Window window;
+    private Cursor cursor;
     private boolean relayout = true;
 
-    public NativeWindow() {
+    public SwingImplWindow() {
         initKeyboardButtons();
         initMouseButtons();
         initNativeComponents();
@@ -208,6 +211,8 @@ public class NativeWindow implements EventObserver {
         });
         
         jframe.getContentPane().add(jpanel);
+        
+        cursor = new Cursor(ImplCursor.NativeCursor.ARROW);
     }
     
     private double th(int value){
@@ -257,7 +262,7 @@ public class NativeWindow implements EventObserver {
     }
 
     @Override
-    public void sendEvent(Event e) {
+    public final void sendEvent(Event e) {
         if(window != null) window.sendEvent(e);
     }
     
@@ -271,80 +276,98 @@ public class NativeWindow implements EventObserver {
         return event;
     }
 
+    @Override
     public final Window getWindow() {
         return window;
     }
 
+    @Override
     public final void setWindow(Window window) {
         this.window = window;
     }
     
+    @Override
     public final double getX(){
         if((jframe.getExtendedState() & JFrame.MAXIMIZED_HORIZ) != 0) return 0;
         return th(jframe.getX());
     }
     
+    @Override
     public final double getY(){
         if((jframe.getExtendedState() & JFrame.MAXIMIZED_VERT) != 0) return 0;
         return tv(jframe.getY());
     }
     
+    @Override
     public final void setLocation(double x, double y){
         jframe.setLocation(trh(x), trv(y));
     }
     
+    @Override
     public final double getWidth(){
         return th(jframe.getWidth());
     }
     
+    @Override
     public final double getHeight(){
         return tv(jframe.getHeight());
     }
     
+    @Override
     public final double getContentWidth(){
         return th(jpanel.getWidth());
     }
     
+    @Override
     public final double getContentHeight(){
         return tv(jpanel.getHeight());
     }
     
+    @Override
     public final void setSize(double width, double height){
         jframe.setSize(trh(width), trv(height));
     }
     
+    @Override
     public final void setContentWidth(double width){
         jpanel.setPreferredSize(new Dimension(trh(width), jpanel.getHeight()));
         jframe.pack();
     }
     
+    @Override
     public final void setContentHeight(double height){
         jpanel.setPreferredSize(new Dimension(jpanel.getWidth(), trv(height)));
         jframe.pack();
     }
     
+    @Override
     public final Image getIcon(){
         return icon;
     }
     
+    @Override
     public final void setIcon(Image image){
         this.icon = image;
-        if(jframe != null && image != null) jframe.setIconImage(image.getImplImage());
+        if(jframe != null && image != null) jframe.setIconImage(((SwingImplImage)image.getImplImage()).swingImage);
     }
     
+    @Override
     public final String getTitle(){
         return jframe.getTitle();
     }
     
+    @Override
     public final void setTitle(String title){
         if(jframe != null) jframe.setTitle(title);
     }
     
+    @Override
     public final boolean isDecorated(){
         return !jframe.isUndecorated();
     }
     
-    public void setDecorated(boolean value){
+    @Override
+    public final void setDecorated(boolean value){
         if(jframe.isUndecorated() == !value) return;
         boolean wasVisible = jframe.isVisible();
         if(wasVisible) jframe.dispose();
@@ -352,30 +375,32 @@ public class NativeWindow implements EventObserver {
         if(wasVisible) jframe.setVisible(true);
     }
     
+    @Override
     public final double getLeftInsets(){
         return th(jframe.getInsets().left);
     }
     
+    @Override
     public final double getRightInsets(){
         return th(jframe.getInsets().right);
     }
     
+    @Override
     public final double getTopInsets(){
         return tv(jframe.getInsets().top);
     }
     
+    @Override
     public final double getBottomInsets(){
         return tv(jframe.getInsets().bottom);
     }
     
-    public final void closeImmediately(){
-        jframe.dispose();
-    }
-    
+    @Override
     public final boolean isMinimized() {
         return (jframe.getExtendedState() & Frame.ICONIFIED) != 0;
     }
 
+    @Override
     public final void setMinimized(boolean value) {
         if(value){
             jframe.setExtendedState(jframe.getExtendedState() | Frame.ICONIFIED);
@@ -384,10 +409,12 @@ public class NativeWindow implements EventObserver {
         }
     }
 
+    @Override
     public final boolean isMaximized() {
         return (jframe.getExtendedState() & Frame.MAXIMIZED_BOTH) != 0;
     }
     
+    @Override
     public final void setMaximized(boolean value) {
         if(value){
             jframe.setExtendedState(jframe.getExtendedState() | Frame.MAXIMIZED_BOTH);
@@ -396,53 +423,60 @@ public class NativeWindow implements EventObserver {
         }
     }
 
+    @Override
     public final boolean isActivated() {
         return jframe.isActive();
     }
 
+    @Override
     public final void setActivated(boolean value) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public final boolean isResizable() {
         return jframe.isResizable();
     }
 
+    @Override
     public final void setResizable(boolean value) {
         jframe.setResizable(value);
     }
     
-    public void minimize(){
-        jframe.setState(Frame.ICONIFIED);
+    @Override
+    public final Cursor getCursor(){
+        return cursor;
     }
     
-    public void maximize(){
-        if((jframe.getExtendedState() & JFrame.MAXIMIZED_BOTH) > 0){
-            jframe.setExtendedState(jframe.getExtendedState() & (~JFrame.MAXIMIZED_BOTH));
-        } else {
-            jframe.setExtendedState(jframe.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-        }
+    @Override
+    public final void setCursor(Cursor cursor){
+        this.cursor = cursor;
+        jframe.setCursor(((SwingImplCursor)cursor.getImplCursor()).swingCursor);
     }
     
-    public void show(){
+    @Override
+    public final void open(){
         jframe.setVisible(true);
     }
     
-    public void center(){
+    @Override
+    public final void close(){
+        jframe.dispose();
+    }
+    
+    @Override
+    public final void center(){
         jframe.setLocationRelativeTo(null);
     }
     
-    public void redraw(){
+    @Override
+    public final void redraw(){
         jframe.repaint();
     }
     
-    public void relayout(){
+    private final void relayout(){
         relayout = true;
         jframe.repaint();
-    }
-    
-    public void setCursor(Cursor cursor){
-        jframe.setCursor(cursor.getImplCursor());
     }
     
     private static int codeLocationToButton(int code, int location){

@@ -1,50 +1,31 @@
 package cz.mg.toolkit.graphics;
 
-import java.awt.image.BufferedImage;
+import cz.mg.toolkit.impl.ImplImage;
+import cz.mg.toolkit.impl.swing.SwingImplImage;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.imageio.ImageIO;
 
 
 public class Image {
-    private java.awt.image.BufferedImage implImage;
+    private final ImplImage implImage;
     
     public Image(InputStream stream) throws IOException {
-        this.implImage = ImageIO.read(stream);
+        this.implImage = new SwingImplImage(stream);
     }
 
-    public Image(int width, int height, ColorModel colorModel) {
-        if(width < 1) width = 1;
-        if(height < 1) height = 1;
-        this.implImage = new BufferedImage(width, height, colorModel.toImplid());
-    }
-    
-    public Image(BufferedImage implImage) {
-        this.implImage = implImage;
+    public Image(int width, int height) {
+        this.implImage = new SwingImplImage(width, height);
     }
 
-    public BufferedImage getImplImage() {
+    public ImplImage getImplImage() {
         return implImage;
     }
     
-    public int getWidth(){
-        return implImage.getWidth();
+    public final int getHorizontalResolution(){
+        return implImage.getHorizontalResolution();
     }
     
-    public int getHeight(){
-        return implImage.getHeight();
-    }
-    
-    public static enum ColorModel {
-        RGB,
-        RGBA;
-        
-        public int toImplid(){
-            switch(this){
-                case RGB: return BufferedImage.TYPE_INT_RGB;
-                case RGBA: return BufferedImage.TYPE_INT_ARGB;
-                default: throw new RuntimeException();
-            }
-        }
+    public final int getVerticalResolution(){
+        return implImage.getVerticalResolution();
     }
 }

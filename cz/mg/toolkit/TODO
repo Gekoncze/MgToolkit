@@ -29,7 +29,7 @@
         other user defined renderers
 
 #### LATER:
-    create separate repository and change it to library
+    add insets to window too, not only impl window, might not need impl window getter then... MIGHT!
     horizontal / vertical slider
     cobmo box
     spinner
@@ -45,10 +45,20 @@
 #### NOW
     move all design to the designer class
     improve bridge interface
+    add environment impl interface and some global container to set it globally
+    extract timer interface
 
 #### DONE
-Small cleanup
-    created controls package and moved some components to it
-    created containers package and moved some components to it
-    moved devices package to environment package
-    changed separators to be content instead of panel
+Separation of swing implementation - part 1
+    renamed native window to impl window
+    separated impl window implementation to swing impl window
+    removed color model from image
+    created impl environment package and moved some classes in it
+    create swing impl environment package and moved some classes in it
+    separated implementation of image to swing impl image
+    separated implementation of font to swing impl font
+    separated implementation of graphics to swing impl graphics
+    separated implementation of color to swing impl color
+    separated implementation of cursor to swing impl cursor
+    separated implementation of clipboard to swing impl clipboard
+    TODO: extract more implementation classes, add global environment attribute

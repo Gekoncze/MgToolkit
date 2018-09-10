@@ -1,164 +1,110 @@
 package cz.mg.toolkit.graphics;
 
-import cz.mg.collections.list.chainlist.ChainList;
 import cz.mg.toolkit.environment.device.devices.Display;
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
+import cz.mg.toolkit.impl.ImplGraphics;
+import cz.mg.toolkit.impl.swing.SwingImplGraphics;
 
 
 public class Graphics {
-    public static final java.awt.Graphics GRAPHICS = new java.awt.image.BufferedImage(1, 1, java.awt.image.BufferedImage.TYPE_INT_ARGB).getGraphics();
-    
-    private final Display display;
-    private final java.awt.Graphics2D g;
-    private final ChainList<AffineTransform> transforms = new ChainList<>();
-    private final ChainList<Shape> clips = new ChainList<>();
-    private Color color;
-    private Font font;
+    private final ImplGraphics implGraphics;
 
     public Graphics(Display display, java.awt.Graphics g) {
-        this.display = display;
-        this.g = (Graphics2D)g;
-        color = new Color(g.getColor());
-        font = new Font("default", 8, Font.Style.REGULAR);
+        this.implGraphics = new SwingImplGraphics(display, g);
     }
     
-    public void pushTransform(){
-        transforms.addLast(g.getTransform());
+    public final void pushTransform(){
+        implGraphics.pushTransform();
     }
     
-    public void popTransform(){
-        g.setTransform(transforms.removeLast());
+    public final void popTransform(){
+        implGraphics.popTransform();
     }
     
-    public void pushClip(){
-        clips.addLast(g.getClip());
+    public final void pushClip(){
+        implGraphics.pushClip();
     }
     
-    public void popClip(){
-        g.setClip(clips.removeLast());
-    }
-    
-    public void translate(double x, double y){
-        g.translate(th(x), tv(y));
+    public final void popClip(){
+        implGraphics.popClip();
     }
 
-    public Color getColor(){
-        return color;
+    public final Color getColor(){
+        return implGraphics.getColor();
     }
 
-    public void setColor(Color c){
-        this.color = c;
-        g.setColor(c.getImplColor());
+    public final void setColor(Color color){
+        implGraphics.setColor(color);
     }
 
-    public Font getFont(){
-        return font;
+    public final Font getFont(){
+        return implGraphics.getFont();
     }
 
-    public void setFont(Font font){
-        this.font = font;
+    public final void setFont(Font font){
+        implGraphics.setFont(font);
     }
 
-    public Rectangle getClipBounds(){
-        return g.getClipBounds();
+    public final void clip(double x, double y, double width, double height){
+        implGraphics.clip(x, y, width, height);
     }
 
-    public void clipRectangle(double x, double y, double width, double height){
-        g.clipRect(th(x), tv(y), th(width), tv(height));
+    public final void drawLine(double x1, double y1, double x2, double y2){
+        implGraphics.drawLine(x1, y1, x2, y2);
     }
 
-    public void setClip(double x, double y, double width, double height){
-        g.setClip(th(x), tv(y), th(width), tv(height));
+    public final void fillRectangle(double x, double y, double width, double height){
+        implGraphics.fillRectangle(x, y, width, height);
     }
 
-    public void drawLine(double x1, double y1, double x2, double y2){
-        g.drawLine(th(x1), tv(y1), th(x2), tv(y2));
+    public final void drawRectangle(double x, double y, double width, double height) {
+        implGraphics.drawRectangle(x, y, width, height);
     }
 
-    public void fillRectangle(double x, double y, double width, double height){
-        g.fillRect(th(x), tv(y), th(width), tv(height));
+    public final void drawOval(double x, double y, double width, double height){
+        implGraphics.drawOval(x, y, width, height);
     }
 
-    public void drawRectangle(double x, double y, double width, double height) {
-        g.drawRect(th(x), tv(y), th(width), tv(height));
-    }
-    
-    public void clearRectangle(double x, double y, double width, double height){
-        g.clearRect(th(x), tv(y), th(width), tv(height));
-    }
-
-    public void drawRoundRectangle(double x, double y, double width, double height, double arcWidth, double arcHeight){
-        g.drawRoundRect(th(x), tv(y), th(width), tv(height), th(arcWidth), tv(arcHeight));
-    }
-
-    public void fillRoundRectangle(double x, double y, double width, double height, double arcWidth, double arcHeight){
-        g.fillRoundRect(th(x), tv(y), th(width), tv(height), th(arcWidth), tv(arcHeight));
-    }
-
-    public void drawOval(double x, double y, double width, double height){
-        g.drawOval(th(x), tv(y), th(width), tv(height));
-    }
-
-    public void fillOval(double x, double y, double width, double height){
-        g.fillOval(th(x), tv(y), th(width), tv(height));
-    }
-
-    public void drawArc(double x, double y, double width, double height, double startAngle, double arcAngle){
-        g.drawArc(th(x), tv(y), th(width), tv(height), th(startAngle), tv(arcAngle));
-    }
-
-    public void fillArc(double x, double y, double width, double height, double startAngle, double arcAngle){
-        g.fillArc(th(x), tv(y), th(width), tv(height), th(startAngle), tv(arcAngle));
+    public final void fillOval(double x, double y, double width, double height){
+        implGraphics.fillOval(x, y, width, height);
     }
 
     public final void drawText(String text, double x, double y){
-        drawImage(font.render(text, color), x, y, font.getWidth(text)-1, font.getHeight()-1);
+        implGraphics.drawText(text, x, y);
     }
 
-    public final boolean drawImage(Image img, double x, double y){
-        return g.drawImage(img.getImplImage(), th(x), tv(y), null);
+    public final void drawImage(Image img, double x, double y){
+        implGraphics.drawImage(img, x, y);
     }
 
-    public final boolean drawImage(Image img, double x, double y, double width, double height){
-        return g.drawImage(img.getImplImage(), th(x), tv(y), th(width), tv(height), null);
+    public final void drawImage(Image img, double x, double y, double width, double height){
+        implGraphics.drawImage(img, x, y, width, height);
     }
 
     public final void setTransparency(double value){
-        if(value < 0.0) value = 0.0;
-        if(value > 1.0) value = 1.0;
-        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) value));
+        implGraphics.setTransparency(value);
+    }
+    
+    public final void translate(double x, double y){
+        implGraphics.translate(x, y);
     }
 
-    public void rotate(double theta){
-        g.rotate(theta);
+    public final void rotate(double theta){
+        implGraphics.rotate(theta);
     }
 
-    public void rotate(double theta, double x, double y){
-        g.rotate(theta, x, y);
+    public final void rotate(double theta, double x, double y){
+        implGraphics.rotate(theta, x, y);
     }
 
-    public void scale(double sx, double sy){
-        g.scale(sx, sy);
+    public final void scale(double sx, double sy){
+        implGraphics.scale(sx, sy);
     }
 
-    public void shear(double shx, double shy){
-        g.shear(shx, shy);
+    public final void shear(double shx, double shy){
+        implGraphics.shear(shx, shy);
     }
 
     public final void setAntialiasing(boolean value){
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, value ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF);
-    }
-    
-    private int th(double value){
-        return display.millimetersToPixelsH(value);
-    }
-    
-    private int tv(double value){
-        return display.millimetersToPixelsV(value);
+        implGraphics.setAntialiasing(value);
     }
 }

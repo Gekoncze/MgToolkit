@@ -1,10 +1,11 @@
 package cz.mg.toolkit.environment.cursors;
 
 import cz.mg.toolkit.environment.Cursor;
+import cz.mg.toolkit.impl.ImplCursor;
 
 
 public class LoadingCursor extends Cursor {
     public LoadingCursor() {
-        super(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+        super(ImplCursor.NativeCursor.LOADING);
     }
 }

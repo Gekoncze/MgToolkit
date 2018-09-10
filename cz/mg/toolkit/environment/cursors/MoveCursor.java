@@ -1,10 +1,11 @@
 package cz.mg.toolkit.environment.cursors;
 
 import cz.mg.toolkit.environment.Cursor;
+import cz.mg.toolkit.impl.ImplCursor;
 
 
 public class MoveCursor extends Cursor {
     public MoveCursor() {
-        super(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
+        super(ImplCursor.NativeCursor.MOVE);
     }
 }

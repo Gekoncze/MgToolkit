@@ -25,6 +25,9 @@ public class Display extends Device {
         if(instance == null) instance = new Display();
         return instance;
     }
+    
+    private Display() {
+    }
 
     public int getId() {
         return id;

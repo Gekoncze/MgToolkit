@@ -6,6 +6,6 @@ import cz.mg.toolkit.graphics.Image;
 
 public class NoCursor extends Cursor {
     public NoCursor() {
-        super(new Image(16, 16, Image.ColorModel.RGBA), 0, 0);
+        super(new Image(16, 16), 0, 0);
     }
 }

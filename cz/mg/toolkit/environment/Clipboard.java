@@ -1,31 +1,27 @@
 package cz.mg.toolkit.environment;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
+import cz.mg.toolkit.impl.ImplClipboard;
+import cz.mg.toolkit.impl.swing.SwingImplClipboard;
 
 
 public class Clipboard {
     private static Clipboard instance = null;
-    private final java.awt.datatransfer.Clipboard implClipboard;
+    private final ImplClipboard implClipboard;
 
-    public Clipboard(java.awt.datatransfer.Clipboard implClipboard) {
-        this.implClipboard = implClipboard;
+    private Clipboard() {
+        this.implClipboard = new SwingImplClipboard();
     }
     
     public static Clipboard getInstance() {
-        if(instance == null) instance = new Clipboard(java.awt.Toolkit.getDefaultToolkit().getSystemClipboard());
+        if(instance == null) instance = new Clipboard();
         return instance;
     }
     
     public final void setText(String text){
-        implClipboard.setContents(new StringSelection(text), null);
+        implClipboard.setText(text);
     }
     
     public final String getText(){
-        try {
-            return (String) implClipboard.getData(DataFlavor.stringFlavor);
-        } catch (Exception e) {
-            return null;
-        }
+        return implClipboard.getText();
     }
 }

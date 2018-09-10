@@ -21,7 +21,7 @@ public final class GraphicsEventContext extends EventContext {
         graphics.pushClip();
         graphics.pushTransform();
         graphics.translate(component.getX(), component.getY());
-        graphics.clipRectangle(0, 0, component.getWidth(), component.getHeight());
+        graphics.clip(0, 0, component.getWidth(), component.getHeight());
     }
 
     @Override
