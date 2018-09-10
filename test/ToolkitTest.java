@@ -73,6 +73,7 @@ public class ToolkitTest {
         window.setTitle("Yay!");
         window.setIcon(new Image(ToolkitTest2.class.getResourceAsStream("mg.png")));
         window.center();
+        setDesigner(window, new TestDesigner());
         
         window.getEventListeners().addLast(new KeyboardButtonAdapter() {
             @Override
@@ -80,7 +81,7 @@ public class ToolkitTest {
                 if(!wasButtonPressed(e)) return;
                 if(e.getButton() == Keyboard.F1_BUTTON) {window.setDecorated(!window.isDecorated());}
                 if(e.getButton() == Keyboard.F2_BUTTON) window.setDecoration(new SystemDecoration());
-                if(e.getButton() == Keyboard.F3_BUTTON) {window.setDecoration(new ToolkitDecoration());window.redesign();}
+                if(e.getButton() == Keyboard.F3_BUTTON) {window.setDecoration(new ToolkitDecoration());}
                 if(e.getButton() == Keyboard.F4_BUTTON) ;
                 if(e.getButton() == Keyboard.F5_BUTTON) ;
                 if(e.getButton() == Keyboard.F6_BUTTON) ;
@@ -119,8 +120,8 @@ public class ToolkitTest {
         int n = 5;
         for(int i = 0; i <= n; i++){
             label = new TextContent(i + "" + i + "" + i + "" + i + "" + i);
-            label.setParent(tabs);
             setContext(label, "my top label");
+            label.setParent(tabs);
             if(i < n){
                 tabs.getChildren().addLast(new HorizontalSeparator());
             }
@@ -256,13 +257,11 @@ public class ToolkitTest {
             label.setParent(grid);
             setHorizontalAlignment(label, 0.5);
             setCell(label, x, y);
-            if(i == 42) label.setHidden(true);
-            if(i == 43) label.setHidden(true);
-            if(i == 44) label.setHidden(true);
+            if(i == 42) setHidden(label, true);
+            if(i == 43) setHidden(label, true);
+            if(i == 44) setHidden(label, true);
         }
         
-        window.setDesigner(new TestDesigner());
-        window.redesign();
         window.open();
         window.relayout();
     }

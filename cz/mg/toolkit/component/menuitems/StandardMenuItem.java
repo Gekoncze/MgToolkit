@@ -39,29 +39,29 @@ public class StandardMenuItem extends ActionMenuItem {
     }
     
     private void initComponents(Image icon, String text, KeyboardShortcut keyboardShortcut, Boolean checked, SelectionGroup selectionGroup) {
-        if(icon == null) imageContent.setHidden(true);
+        if(icon == null) setHidden(imageContent, true);
         setColumn(imageContent, 0);
         imageContent.setContentWidth(DEFAULT_ICON_SIZE);
         imageContent.setContentHeight(DEFAULT_ICON_SIZE);
         imageContent.setUsePrefferedSize(false);
         imageContent.setImage(icon);
         
-        if(checked == null) radioButton.setHidden(true);
-        if(checked == null) checkBox.setHidden(true);
-        if(selectionGroup == null) radioButton.setHidden(true);
-        if(selectionGroup != null) checkBox.setHidden(true);
+        if(checked == null) setHidden(radioButton, true);
+        if(checked == null) setHidden(checkBox, true);
+        if(selectionGroup == null) setHidden(radioButton, true);
+        if(selectionGroup != null) setHidden(checkBox, true);
         setColumn(radioButton, 1);
         setColumn(checkBox, 1);
         if(checked != null) radioButton.setSelected(checked);
         if(checked != null) checkBox.setSelected(checked);
         if(selectionGroup != null) radioButton.setSelectionGroup(selectionGroup);
         
-        if(text == null) textContent.setHidden(true);
+        if(text == null) setHidden(textContent, true);
         setColumn(textContent, 2);
         textContent.setText(text);
         setContext(textContent, "menu item");
         
-        if(keyboardShortcut == null) keyTextContent.setHidden(true);
+        if(keyboardShortcut == null) setHidden(keyTextContent, true);
         setColumn(keyTextContent, 3);
         if(keyboardShortcut != null) keyTextContent.setText(keyboardShortcut.toString());
         setContext(keyTextContent, "menu item shortcut");
@@ -86,8 +86,8 @@ public class StandardMenuItem extends ActionMenuItem {
 
     @Override
     public void trigger() {
-        if(!radioButton.isHidden()) radioButton.trigger();
-        else if(!checkBox.isHidden()) checkBox.trigger();
+        if(!isHidden(radioButton)) radioButton.trigger();
+        else if(!isHidden(checkBox)) checkBox.trigger();
         else super.trigger();
     }
 }

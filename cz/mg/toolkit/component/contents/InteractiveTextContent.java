@@ -47,7 +47,7 @@ public class InteractiveTextContent extends TextContent {
         getEventListeners().addLast(new BeforeDrawAdapter() {
             @Override
             public void onEventEnter(BeforeDrawEvent e) {
-                setHighlighted(hasKeyboardFocus());
+                setHighlighted(InteractiveTextContent.this, hasKeyboardFocus());
             }
         });
         

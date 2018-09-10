@@ -34,7 +34,7 @@ public abstract class StackLayout extends Layout {
     @Override
     public void onBeforeLayoutLeave(Container parent) {
         for(Stack stack : stacks){
-            stack.setHidden(true);
+            setHidden(stack, true);
             stack.setContentSize(0, 0);
             stack.components.clear();
             setHorizontalSpacing(stack, getHorizontalSpacing(parent));
@@ -42,10 +42,10 @@ public abstract class StackLayout extends Layout {
         }
         
         for(Component component : parent.getChildren()) {
-            if(component.isHidden()) continue;
+            if(isHidden(component)) continue;
             int s = getStack(component);
             Stack stack = stacks.get(s);
-            stack.setHidden(false);
+            setHidden(stack, false);
             stack.components.addLast(component);
         }
         

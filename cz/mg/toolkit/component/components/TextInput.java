@@ -42,7 +42,7 @@ public class TextInput extends Panel {
         getEventListeners().addLast(new BeforeDrawAdapter() {
             @Override
             public void onEventEnter(BeforeDrawEvent e) {
-                setHighlighted(textContent.hasKeyboardFocus());
+                setHighlighted(TextInput.this, textContent.hasKeyboardFocus());
             }
         });
         

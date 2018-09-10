@@ -68,10 +68,10 @@ public class HorizontalTabArea extends Panel {
         Tab tab = new Tab();
         
         if(icon != null) tab.getHeader().getIcon().setImage(icon);
-        else tab.getHeader().getIcon().setHidden(true);
+        else setHidden(tab.getHeader().getIcon(), true);
         
         if(text != null) tab.getHeader().getText().setText(text);
-        else tab.getHeader().getText().setHidden(true);
+        else setHidden(tab.getHeader().getText(), true);
         
         tabs.addLast(tab);
         updateComponents();
@@ -100,13 +100,13 @@ public class HorizontalTabArea extends Panel {
     public final void activateTab(Tab tab){
         tab.lastActivationTime = Timer.getCurrentTimeInMilliseconds();
         for(Tab t : tabs){
-            t.getHeader().setHighlighted(false);
-            t.getContentPanel().setHidden(true);
-            for(Component c : t.getHeader().getChildren()) c.setHighlighted(false);
+            setHighlighted(t.getHeader(), false);
+            setHidden(t.getContentPanel(), true);
+            for(Component c : t.getHeader().getChildren()) setHighlighted(c, false);
         }
-        tab.getHeader().setHighlighted(true);
-        tab.getContentPanel().setHidden(false);
-        for(Component c : tab.getHeader().getChildren()) c.setHighlighted(true);
+        setHighlighted(tab.getHeader(), true);
+        setHidden(tab.getContentPanel(), false);
+        for(Component c : tab.getHeader().getChildren()) setHighlighted(c, true);
     }
     
     public class Tab {

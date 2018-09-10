@@ -6,22 +6,22 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 
 public class Reshape {
     public static double getEffectiveMinWidth(Component component){
-        if(component.isHidden()) return 0.0;
+        if(isHidden(component)) return 0.0;
         else return getMinWidth(component);
     }
     
     public static double getEffectiveMaxWidth(Component component){
-        if(component.isHidden()) return 0.0;
+        if(isHidden(component)) return 0.0;
         else return getMaxWidth(component);
     }
     
     public static double getEffectiveMinHeight(Component component){
-        if(component.isHidden()) return 0.0;
+        if(isHidden(component)) return 0.0;
         else return getMinHeight(component);
     }
     
     public static double getEffectiveMaxHeight(Component component){
-        if(component.isHidden()) return 0.0;
+        if(isHidden(component)) return 0.0;
         else return getMaxHeight(component);
     }
     

@@ -44,10 +44,13 @@
 
 #### NOW
     move all design to the designer class
-    decide of what is the best way to do design...
-        maybe leaving design at component creation is not that bad idea
-        at the same time need to think user might want powerful redesign capabilities
-        and at the same time user might want on demand colors, fonts etc or just work EASILY with the default design
 
 #### DONE
-    
+Designer improvements + minor changes
+    merged component and shape class
+    added designer event context - designer changes if not null on coponent
+    added designer property to components
+    added parent change listener to tree node
+    components now redesign automatically when their parent changes
+    moved hidden, disabled and highlighted to properties
+    adapted affected classes

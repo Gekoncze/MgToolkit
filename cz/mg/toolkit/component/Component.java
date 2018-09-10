@@ -1,5 +1,6 @@
 package cz.mg.toolkit.component;
 
+import cz.mg.collections.node.TreeNode;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.event.Event;
 import cz.mg.toolkit.event.EventListener;
@@ -8,15 +9,16 @@ import cz.mg.toolkit.event.events.*;
 import cz.mg.toolkit.event.adapters.BeforeLayoutAdapter;
 import cz.mg.toolkit.event.adapters.DesignAdapter;
 import cz.mg.toolkit.event.adapters.VisitAdapter;
+import cz.mg.toolkit.event.contexts.DesignerEventContext;
+import cz.mg.toolkit.graphics.Designer;
 import cz.mg.toolkit.utilities.EventListeners;
 import cz.mg.toolkit.utilities.properties.Properties;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
-public abstract class Component extends Shape implements EventObserver {
-    private boolean hidden = false;
-    private boolean disabled = false;
-    private boolean highlighted = false;
+public abstract class Component extends TreeNode<Component, Component> implements EventObserver {
+    private double x, y;
+    private double width, height;
     private final EventListeners eventListeners = new EventListeners();
     private Properties properties = new Properties();
 
@@ -47,9 +49,71 @@ public abstract class Component extends Shape implements EventObserver {
         getEventListeners().addLast(new DesignAdapter() {
             @Override
             public void onEventEnter(DesignEvent e) {
-                e.getDesigner().design(Component.this);
+                getDesigner(e).design(Component.this);
             }
         });
+        
+        getParentChangeListeners().addLast(new TreeNodeParentChangeListener() {
+            @Override
+            public void parentChanged() {
+                if(getParent() != null) design();
+            }
+        });
+    }
+    
+    public final double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public final double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+    
+    public final void setPosition(double x, double y) {
+        setX(x);
+        setY(y);
+    }
+    
+    public final void move(double dx, double dy){
+        this.x += dx;
+        this.y += dy;
+    }
+    
+    public final void moveHorizontally(double dx){
+        this.x += dx;
+    }
+    
+    public final void moveVertically(double dy){
+        this.y += dy;
+    }
+
+    public final double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public final double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+    
+    public final void setSize(double width, double height){
+        setWidth(width);
+        setHeight(height);
     }
     
     private void updateSizeIntervals(){
@@ -60,9 +124,8 @@ public abstract class Component extends Shape implements EventObserver {
     }
     
     public final boolean isEffectivelyDisabled(){
-        if(isDisabled()) return true;
-        boolean value = isDisabled();
-        if(getParent() != null) value |= getParent().isEffectivelyDisabled();
+        boolean value = isDisabled(this);
+        if(!value) if(getParent() != null) value |= getParent().isEffectivelyDisabled();
         return value;
     }
 
@@ -148,6 +211,21 @@ public abstract class Component extends Shape implements EventObserver {
         sendEvent(new AfterLayoutEvent());
     }
     
+    public final void design(){
+        Component current = this;
+        Designer designer = null;
+        while(current != null){
+            designer = getDesigner(current);
+            if(designer != null) break;
+            current = current.getParent();
+        }
+        if(designer == null) return;
+        
+        DesignEvent event = new DesignEvent();
+        event.setEventContext(new DesignerEventContext(designer));
+        sendEvent(event);
+    }
+    
     @Override
     public final void sendEvent(Event e){
         if(shallSkipEvent(e)) return;
@@ -155,7 +233,7 @@ public abstract class Component extends Shape implements EventObserver {
     }
     
     public final boolean shallSkipEvent(Event e){
-        return e.isConsumed() || isHidden() || (isEffectivelyDisabled() && !e.isDisabledFriendly());
+        return e.isConsumed() || isHidden(this) || (isDisabled(this) && !e.isDisabledFriendly());
     }
     
     public final boolean shallIgnoreEvent(Event e){
@@ -204,30 +282,6 @@ public abstract class Component extends Shape implements EventObserver {
         for(EventListener listener : eventListeners) if(listener.acceptsEvent(e)) listener.onEventLeave(e);
     }
     
-    public final boolean isHidden() {
-        return hidden;
-    }
-
-    public final void setHidden(boolean hidden) {
-        this.hidden = hidden;
-    }
-    
-    public final boolean isDisabled() {
-        return disabled;
-    }
-
-    public final void setDisabled(boolean disabled) {
-        this.disabled = disabled;
-    }
-
-    public final boolean isHighlighted() {
-        return highlighted;
-    }
-
-    public final void setHighlighted(boolean highlighted) {
-        this.highlighted = highlighted;
-    }
-    
     public abstract double getContentWidth();
     public abstract double getContentHeight();
     
@@ -240,5 +294,9 @@ public abstract class Component extends Shape implements EventObserver {
     
     public final double getAvailableHeight(){
         return getHeight() - getTopPadding(this) - getBottomPadding(this);
+    }
+    
+    public boolean isInside(double px, double py){
+        return px >= x && py >= y && px < (x + width) && py < (y + height);
     }
 }

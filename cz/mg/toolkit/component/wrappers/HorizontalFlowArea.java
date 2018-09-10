@@ -40,7 +40,7 @@ public class HorizontalFlowArea extends ScrollArea {
         boolean first = true;
         
         for(Component component : getContentPanel().getChildren()){
-            if(component.isHidden()) continue;
+            if(isHidden(component)) continue;
             if(!first) currentHeight += verticalSpacing;
             currentHeight += getMinHeight(component);
             if(currentHeight > availableHeight && !first){

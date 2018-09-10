@@ -75,10 +75,10 @@ public class CompactVerticalScrollArea extends Wrapper {
     }
     
     private void autosetVerticalScrollControlsVisibility(boolean shouldBeVisible){
-        if(upButton.isHidden() && downButton.isHidden() && !shouldBeVisible) return;
-        if(!upButton.isHidden() && !downButton.isHidden() && shouldBeVisible) return;
-        upButton.setHidden(!shouldBeVisible);
-        downButton.setHidden(!shouldBeVisible);
+        if(isHidden(upButton) && isHidden(downButton) && !shouldBeVisible) return;
+        if(!isHidden(upButton) && !isHidden(downButton) && shouldBeVisible) return;
+        setHidden(upButton, !shouldBeVisible);
+        setHidden(downButton, !shouldBeVisible);
         relayout();
     }
     

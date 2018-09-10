@@ -75,10 +75,10 @@ public class CompactHorizontalScrollArea extends Wrapper {
     }
     
     private void autosetHorizontalScrollControlsVisibility(boolean shouldBeVisible){
-        if(leftButton.isHidden() && rightButton.isHidden() && !shouldBeVisible) return;
-        if(!leftButton.isHidden() && !rightButton.isHidden() && shouldBeVisible) return;
-        leftButton.setHidden(!shouldBeVisible);
-        rightButton.setHidden(!shouldBeVisible);
+        if(isHidden(leftButton) && isHidden(rightButton) && !shouldBeVisible) return;
+        if(!isHidden(leftButton) && !isHidden(rightButton) && shouldBeVisible) return;
+        setHidden(leftButton, !shouldBeVisible);
+        setHidden(rightButton, !shouldBeVisible);
         relayout();
     }
     

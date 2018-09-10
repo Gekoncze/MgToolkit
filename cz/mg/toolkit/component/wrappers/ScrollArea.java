@@ -91,16 +91,16 @@ public class ScrollArea extends Wrapper {
     }
     
     private void autosetHorizontalScrollControlsVisibility(boolean shouldBeVisible){
-        if(horizontalScrollBar.isHidden() && !shouldBeVisible) return;
-        if(!horizontalScrollBar.isHidden() && shouldBeVisible) return;
-        horizontalScrollBar.setHidden(!shouldBeVisible);
+        if(isHidden(horizontalScrollBar) && !shouldBeVisible) return;
+        if(!isHidden(horizontalScrollBar) && shouldBeVisible) return;
+        setHidden(horizontalScrollBar, !shouldBeVisible);
         relayout();
     }
     
     private void autosetVerticalScrollControlsVisibility(boolean shouldBeVisible){
-        if(verticalScrollBar.isHidden() && !shouldBeVisible) return;
-        if(!verticalScrollBar.isHidden() && shouldBeVisible) return;
-        verticalScrollBar.setHidden(!shouldBeVisible);
+        if(isHidden(verticalScrollBar) && !shouldBeVisible) return;
+        if(!isHidden(verticalScrollBar) && shouldBeVisible) return;
+        setHidden(verticalScrollBar, !shouldBeVisible);
         relayout();
     }
     

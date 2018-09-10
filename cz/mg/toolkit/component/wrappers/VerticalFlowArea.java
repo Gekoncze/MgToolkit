@@ -40,7 +40,7 @@ public class VerticalFlowArea extends ScrollArea {
         boolean first = true;
         
         for(Component component : getContentPanel().getChildren()){
-            if(component.isHidden()) continue;
+            if(isHidden(component)) continue;
             if(!first) currentWidth += horizontalSpacing;
             currentWidth += getMinWidth(component);
             if(currentWidth > availableWidth && !first){

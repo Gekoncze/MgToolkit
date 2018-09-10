@@ -4,6 +4,7 @@ import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.graphics.Background;
 import cz.mg.toolkit.graphics.Border;
 import cz.mg.toolkit.graphics.Color;
+import cz.mg.toolkit.graphics.Designer;
 import cz.mg.toolkit.graphics.Font;
 
 
@@ -53,6 +54,10 @@ public class PropertiesInterface {
     private static final int CONTEXT = Properties.generateId();
     private static final int FONT = Properties.generateId();
     private static final int CONTRAST_COLOR = Properties.generateId();
+    private static final int DESIGNER = Properties.generateId();
+    private static final int HIDDEN = Properties.generateId();
+    private static final int DISABLED = Properties.generateId();
+    private static final int HIGHLIGHTED = Properties.generateId();
     
     public static int getId(Component component){
         return (int) component.getProperties().get(ID, 0);
@@ -444,5 +449,37 @@ public class PropertiesInterface {
     
     public static final void setContrastColor(Component component, Color color){
         component.getProperties().set(CONTRAST_COLOR, color);
+    }
+    
+    public static final Designer getDesigner(Component component){
+        return (Designer) component.getProperties().get(DESIGNER, null);
+    }
+    
+    public static final void setDesigner(Component component, Designer designer){
+        component.getProperties().set(DESIGNER, designer);
+    }
+    
+    public static final boolean isHidden(Component component){
+        return (boolean) component.getProperties().get(HIDDEN, false);
+    }
+    
+    public static final void setHidden(Component component, boolean hidden){
+        component.getProperties().set(HIDDEN, hidden);
+    }
+    
+    public static final boolean isDisabled(Component component){
+        return (boolean) component.getProperties().get(DISABLED, false);
+    }
+    
+    public static final void setDisabled(Component component, boolean disabled){
+        component.getProperties().set(DISABLED, disabled);
+    }
+    
+    public static final boolean isHighlighted(Component component){
+        return (boolean) component.getProperties().get(HIGHLIGHTED, false);
+    }
+    
+    public static final void setHighlighted(Component component, boolean highlighted){
+        component.getProperties().set(HIGHLIGHTED, highlighted);
     }
 }

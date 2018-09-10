@@ -19,6 +19,7 @@ import cz.mg.toolkit.event.adapters.MouseAdapter;
 import cz.mg.toolkit.event.adapters.RedesignAdapter;
 import cz.mg.toolkit.event.adapters.RedrawAdapter;
 import cz.mg.toolkit.event.adapters.RelayoutAdapter;
+import cz.mg.toolkit.event.contexts.DesignerEventContext;
 import cz.mg.toolkit.event.events.AfterLayoutEvent;
 import cz.mg.toolkit.event.events.BeforeDrawEvent;
 import cz.mg.toolkit.event.events.DesignEvent;
@@ -28,10 +29,10 @@ import cz.mg.toolkit.event.events.MouseEvent;
 import cz.mg.toolkit.event.events.RedesignEvent;
 import cz.mg.toolkit.event.events.RedrawEvent;
 import cz.mg.toolkit.event.events.RelayoutEvent;
-import cz.mg.toolkit.graphics.Designer;
 import cz.mg.toolkit.graphics.designers.DefaultDesigner;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import cz.mg.toolkit.utilities.KeystrokeRepeater;
+import static cz.mg.toolkit.utilities.properties.PropertiesInterface.*;
 
 
 public class Window extends Wrapper {
@@ -49,13 +50,17 @@ public class Window extends Wrapper {
     private boolean decorated = true;
     private boolean cursorVisible = true;
     private final KeystrokeRepeater keystrokeRepeater = new KeystrokeRepeater();
-    private Designer designer = new DefaultDesigner();
     
     public Window() {
-        setLayout(new OverlayLayout());
+        initComponent();
         initComponents();
         addEventListeners();
         nativeWindow.setWindow(this);
+    }
+    
+    private void initComponent(){
+        setLayout(new OverlayLayout());
+        setDesigner(this, new DefaultDesigner());
     }
     
     private void initComponents(){
@@ -134,7 +139,9 @@ public class Window extends Wrapper {
         getEventListeners().addLast(new RedesignAdapter() {
             @Override
             public void onEventEnter(RedesignEvent e) {
-                sendEvent(new DesignEvent(designer));
+                DesignEvent event = new DesignEvent();
+                event.setEventContext(new DesignerEventContext());
+                sendEvent(event);
             }
         });
     }
@@ -254,14 +261,6 @@ public class Window extends Wrapper {
         nativeWindow.setDecorated(decoration instanceof SystemDecoration);
         decoration.setIcon(icon);
         decoration.setTitle(title);
-    }
-
-    public final Designer getDesigner() {
-        return designer;
-    }
-
-    public final void setDesigner(Designer designer) {
-        this.designer = designer;
     }
     
     public final void open(){

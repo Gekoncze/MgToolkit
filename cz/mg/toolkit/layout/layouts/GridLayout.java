@@ -73,17 +73,17 @@ public class GridLayout extends Layout {
     @Override
     public final void onBeforeLayoutLeave(Container parent) {
         for(Column column : columns){
-            column.setHidden(true);
+            setHidden(column, true);
             column.setContentWidth(0);
         }
         
         for(Row row : rows){
-            row.setHidden(true);
+            setHidden(row, true);
             row.setContentHeight(0);
         }
         
         for(Component component : parent.getChildren()) {
-            if(component.isHidden()) continue;
+            if(isHidden(component)) continue;
             int x = getColumn(component);
             int y = getRow(component);
             int xs = getColumnSpan(component);
@@ -94,8 +94,8 @@ public class GridLayout extends Layout {
                 for(int iy = y; iy < y+ys; iy++){
                     Column column = columns.get(ix);
                     Row row = rows.get(iy);
-                    if(!xo) column.setHidden(false);
-                    if(!yo) row.setHidden(false);
+                    if(!xo) setHidden(column, false);
+                    if(!yo) setHidden(row, false);
                     if(!xo) column.setContentWidth(Math.max(column.getContentWidth(), getMinWidth(component) / xs));
                     if(!yo) row.setContentHeight(Math.max(row.getContentHeight(), getMinHeight(component) / ys));
                 }
@@ -112,7 +112,7 @@ public class GridLayout extends Layout {
         VerticalLinearReshape.reshape(parent, rows);
         
         for(Component component : parent.getChildren()){
-            if(component.isHidden()) continue;
+            if(isHidden(component)) continue;
             
             int gx = getColumn(component);
             int gy = getRow(component);

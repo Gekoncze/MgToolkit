@@ -40,7 +40,7 @@ public class VerticalLinearReshape {
         double spacing = getVerticalSpacing(parent);
         for(Component component : components){
             component.setY(y);
-            if(!component.isHidden()) y += component.getHeight() + spacing;
+            if(!isHidden(component)) y += component.getHeight() + spacing;
         }
     }
     
@@ -62,7 +62,7 @@ public class VerticalLinearReshape {
     private static double computeTotalSpacing(Component parent, Collection<? extends Component> components){
         int visibleComponentCount = 0;
         for(Component component : components){
-            if(!component.isHidden()) visibleComponentCount++;
+            if(!isHidden(component)) visibleComponentCount++;
         }
         return getVerticalSpacing(parent) * (visibleComponentCount - 1);
     }

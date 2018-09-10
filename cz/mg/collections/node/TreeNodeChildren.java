@@ -15,11 +15,18 @@ public class TreeNodeChildren<T extends TreeNode> extends ChainList<T> {
         if(data.parent != null) data.parent.getChildren().remove(data);
         data.parent = parent;
         super.onItemAdded(data);
+        notifyParentChanged(data);
+    }
+    
+    private void notifyParentChanged(T data){
+        ChainList<TreeNode.TreeNodeParentChangeListener> listeners = data.parentChangeListeners;
+        for(TreeNode.TreeNodeParentChangeListener l : listeners) l.parentChanged();
     }
 
     @Override
     protected void onItemRemoved(T data) {
         data.parent = null;
         super.onItemRemoved(data);
+        notifyParentChanged(data);
     }
 }

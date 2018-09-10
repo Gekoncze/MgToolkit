@@ -138,7 +138,7 @@ public abstract class Container extends Component {
         if(getChildren().count() <= 0) return;
         
         for(Component component : getChildren()){
-            if(component.isHidden()) continue;
+            if(isHidden(component)) continue;
             double currentMinX = component.getX();
             double currentMaxX = component.getX() + component.getWidth();
             double currentMinY = component.getY();

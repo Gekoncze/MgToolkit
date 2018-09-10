@@ -40,7 +40,7 @@ public class HorizontalLinearReshape {
         double spacing = getHorizontalSpacing(parent);
         for(Component component : components){
             component.setX(x);
-            if(!component.isHidden()) x += component.getWidth() + spacing;
+            if(!isHidden(component)) x += component.getWidth() + spacing;
         }
     }
     
@@ -62,7 +62,7 @@ public class HorizontalLinearReshape {
     private static double computeTotalSpacing(Component parent, Collection<? extends Component> components){
         int visibleComponentCount = 0;
         for(Component component : components){
-            if(!component.isHidden()) visibleComponentCount++;
+            if(!isHidden(component)) visibleComponentCount++;
         }
         return getHorizontalSpacing(parent) * (visibleComponentCount - 1);
     }

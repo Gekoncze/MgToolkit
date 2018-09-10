@@ -75,7 +75,7 @@ public class ToolkitTest2 {
         tabs.getEventListeners().addLast(new TabCloseAdapter() {
             @Override
             public void onEventEnter(TabCloseEvent e) {
-                if(!e.getTab().getHeader().getIcon().isHidden()){
+                if(!isHidden(e.getTab().getHeader().getIcon())){
                     System.out.println("Cannot close Rainbow Dash!");
                     e.consume();
                 }

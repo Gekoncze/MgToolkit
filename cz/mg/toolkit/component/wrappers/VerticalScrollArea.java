@@ -69,9 +69,9 @@ public class VerticalScrollArea extends Wrapper {
     }
     
     private void autosetVerticalScrollControlsVisibility(boolean shouldBeVisible){
-        if(verticalScrollBar.isHidden() && !shouldBeVisible) return;
-        if(!verticalScrollBar.isHidden() && shouldBeVisible) return;
-        verticalScrollBar.setHidden(!shouldBeVisible);
+        if(isHidden(verticalScrollBar) && !shouldBeVisible) return;
+        if(!isHidden(verticalScrollBar) && shouldBeVisible) return;
+        setHidden(verticalScrollBar, !shouldBeVisible);
         relayout();
     }
     
