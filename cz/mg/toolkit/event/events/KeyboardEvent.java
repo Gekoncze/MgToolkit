@@ -2,7 +2,7 @@ package cz.mg.toolkit.event.events;
 
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.event.Event;
-import cz.mg.toolkit.device.devices.Keyboard;
+import cz.mg.toolkit.environment.device.devices.Keyboard;
 
 
 public class KeyboardEvent extends Event {

@@ -1,6 +1,6 @@
 package cz.mg.toolkit.event.events;
 
-import cz.mg.toolkit.device.devices.Keyboard;
+import cz.mg.toolkit.environment.device.devices.Keyboard;
 
 
 public class KeyboardButtonEvent extends KeyboardEvent {

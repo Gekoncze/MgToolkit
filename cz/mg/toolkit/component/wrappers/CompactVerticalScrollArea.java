@@ -1,8 +1,8 @@
 package cz.mg.toolkit.component.wrappers;
 
-import cz.mg.toolkit.component.Wrapper;
-import cz.mg.toolkit.component.buttons.special.VerticalScrollButtonDown;
-import cz.mg.toolkit.component.buttons.special.VerticalScrollButtonUp;
+import cz.mg.toolkit.component.containers.Wrapper;
+import cz.mg.toolkit.component.controls.buttons.special.VerticalScrollButtonDown;
+import cz.mg.toolkit.component.controls.buttons.special.VerticalScrollButtonUp;
 import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import cz.mg.toolkit.utilities.ScrollControlsVisibility;

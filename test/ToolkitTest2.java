@@ -1,7 +1,7 @@
 package test;
 
 import cz.mg.toolkit.component.Container;
-import cz.mg.toolkit.component.Panel;
+import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.contents.InteractiveTextContent;
 import cz.mg.toolkit.component.contents.TextContent;
 import cz.mg.toolkit.component.contents.VerticalSpacer;
@@ -15,8 +15,8 @@ import cz.mg.toolkit.component.wrappers.VerticalScrollArea;
 import cz.mg.toolkit.component.wrappers.decorations.SystemDecoration;
 import cz.mg.toolkit.component.wrappers.decorations.ToolkitDecoration;
 import cz.mg.toolkit.debug.Debug;
-import cz.mg.toolkit.device.devices.Display;
-import cz.mg.toolkit.device.devices.Keyboard;
+import cz.mg.toolkit.environment.device.devices.Display;
+import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.event.adapters.KeyboardButtonAdapter;
 import cz.mg.toolkit.event.adapters.TabCloseAdapter;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;

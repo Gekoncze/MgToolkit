@@ -1,7 +1,7 @@
 package cz.mg.toolkit.component.wrappers;
 
-import cz.mg.toolkit.component.Wrapper;
-import cz.mg.toolkit.component.components.HorizontalScrollBar;
+import cz.mg.toolkit.component.containers.Wrapper;
+import cz.mg.toolkit.component.controls.HorizontalScrollBar;
 import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
 import cz.mg.toolkit.utilities.ScrollControlsVisibility;
 import cz.mg.toolkit.event.adapters.LocalMouseWheelAdapter;

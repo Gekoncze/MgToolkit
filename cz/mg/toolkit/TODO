@@ -1,6 +1,6 @@
 #### IDEAS
     TIP: toolkit components / layouts for huge number of items - must be same size probably
-        row/column virtualization "scrolling" for same sized items
+         row/column virtualization "scrolling" for same sized items
     TIP: add timestamp for event and eventual expiration
     TIP: optimize events and listeners - now event has to go trough all components and all their listeners
     TIP: recycling events: event objects can be reused
@@ -44,13 +44,11 @@
 
 #### NOW
     move all design to the designer class
+    improve bridge interface
 
 #### DONE
-Designer improvements + minor changes
-    merged component and shape class
-    added designer event context - designer changes if not null on coponent
-    added designer property to components
-    added parent change listener to tree node
-    components now redesign automatically when their parent changes
-    moved hidden, disabled and highlighted to properties
-    adapted affected classes
+Small cleanup
+    created controls package and moved some components to it
+    created containers package and moved some components to it
+    moved devices package to environment package
+    changed separators to be content instead of panel

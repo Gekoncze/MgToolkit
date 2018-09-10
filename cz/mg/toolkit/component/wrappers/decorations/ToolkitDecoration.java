@@ -1,11 +1,11 @@
 package cz.mg.toolkit.component.wrappers.decorations;
 
 import cz.mg.toolkit.component.contents.HorizontalSpacer;
-import cz.mg.toolkit.component.buttons.special.MaximizeButton;
-import cz.mg.toolkit.component.buttons.special.MinimizeButton;
+import cz.mg.toolkit.component.controls.buttons.special.MaximizeButton;
+import cz.mg.toolkit.component.controls.buttons.special.MinimizeButton;
 import cz.mg.toolkit.component.wrappers.Decoration;
-import cz.mg.toolkit.component.Panel;
-import cz.mg.toolkit.component.buttons.CloseButton;
+import cz.mg.toolkit.component.containers.Panel;
+import cz.mg.toolkit.component.controls.buttons.CloseButton;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.component.contents.ImageContent;
 import cz.mg.toolkit.component.contents.TextContent;

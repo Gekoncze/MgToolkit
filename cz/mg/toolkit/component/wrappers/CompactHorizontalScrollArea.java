@@ -1,8 +1,8 @@
 package cz.mg.toolkit.component.wrappers;
 
-import cz.mg.toolkit.component.Wrapper;
-import cz.mg.toolkit.component.buttons.special.HorizontalScrollButtonLeft;
-import cz.mg.toolkit.component.buttons.special.HorizontalScrollButtonRight;
+import cz.mg.toolkit.component.containers.Wrapper;
+import cz.mg.toolkit.component.controls.buttons.special.HorizontalScrollButtonLeft;
+import cz.mg.toolkit.component.controls.buttons.special.HorizontalScrollButtonRight;
 import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
 import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import cz.mg.toolkit.utilities.ScrollControlsVisibility;

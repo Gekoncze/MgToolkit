@@ -1,6 +1,6 @@
 package cz.mg.toolkit.component.wrappers;
 
-import cz.mg.toolkit.component.Wrapper;
+import cz.mg.toolkit.component.containers.Wrapper;
 import cz.mg.toolkit.graphics.Image;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 

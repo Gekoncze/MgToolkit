@@ -2,7 +2,7 @@ package cz.mg.toolkit.event.events;
 
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.event.Event;
-import cz.mg.toolkit.device.devices.Mouse;
+import cz.mg.toolkit.environment.device.devices.Mouse;
 
 
 public class MouseEvent extends Event {

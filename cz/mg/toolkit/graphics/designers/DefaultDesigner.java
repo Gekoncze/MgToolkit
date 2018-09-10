@@ -2,9 +2,9 @@ package cz.mg.toolkit.graphics.designers;
 
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.Content;
-import cz.mg.toolkit.component.buttons.special.MinimizeButton;
-import cz.mg.toolkit.component.components.HorizontalSeparator;
-import cz.mg.toolkit.component.components.VerticalSeparator;
+import cz.mg.toolkit.component.controls.buttons.special.MinimizeButton;
+import cz.mg.toolkit.component.contents.HorizontalSeparator;
+import cz.mg.toolkit.component.contents.VerticalSeparator;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.graphics.Background;
 import cz.mg.toolkit.graphics.Border;

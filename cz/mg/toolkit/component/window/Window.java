@@ -4,7 +4,7 @@ import cz.mg.toolkit.environment.Cursor;
 import cz.mg.toolkit.environment.NativeWindow;
 import cz.mg.toolkit.component.wrappers.Decoration;
 import cz.mg.toolkit.component.Component;
-import cz.mg.toolkit.component.Wrapper;
+import cz.mg.toolkit.component.containers.Wrapper;
 import cz.mg.toolkit.component.wrappers.decorations.SystemDecoration;
 import cz.mg.toolkit.environment.cursors.ArrowCursor;
 import cz.mg.toolkit.environment.cursors.NoCursor;

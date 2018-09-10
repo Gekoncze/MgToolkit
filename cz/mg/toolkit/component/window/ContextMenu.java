@@ -1,6 +1,6 @@
 package cz.mg.toolkit.component.window;
 
-import cz.mg.toolkit.component.components.Menu;
+import cz.mg.toolkit.component.controls.Menu;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;

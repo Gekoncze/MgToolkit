@@ -1,6 +1,6 @@
 package cz.mg.toolkit.utilities.keyboardshortcuts;
 
-import cz.mg.toolkit.device.devices.Keyboard;
+import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 
 

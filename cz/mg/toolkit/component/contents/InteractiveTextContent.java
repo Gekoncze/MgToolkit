@@ -1,6 +1,6 @@
 package cz.mg.toolkit.component.contents;
 
-import cz.mg.toolkit.device.devices.Keyboard;
+import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.environment.Clipboard;
 import cz.mg.toolkit.event.adapters.BeforeDrawAdapter;
 import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;

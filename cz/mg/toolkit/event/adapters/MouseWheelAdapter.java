@@ -2,7 +2,7 @@ package cz.mg.toolkit.event.adapters;
 
 import cz.mg.toolkit.event.Event;
 import cz.mg.toolkit.event.EventListener;
-import cz.mg.toolkit.device.devices.Keyboard;
+import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.event.events.MouseWheelEvent;
 
 

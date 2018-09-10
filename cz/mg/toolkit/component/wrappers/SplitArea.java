@@ -2,8 +2,8 @@ package cz.mg.toolkit.component.wrappers;
 
 import cz.mg.collections.array.Array2D;
 import cz.mg.toolkit.component.Component;
-import cz.mg.toolkit.component.ContentPanel;
-import cz.mg.toolkit.component.Panel;
+import cz.mg.toolkit.component.containers.ContentPanel;
+import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.environment.cursors.ArrowCursor;
 import cz.mg.toolkit.environment.cursors.MoveCursor;
 import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;

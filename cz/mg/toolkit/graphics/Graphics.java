@@ -1,7 +1,7 @@
 package cz.mg.toolkit.graphics;
 
 import cz.mg.collections.list.chainlist.ChainList;
-import cz.mg.toolkit.device.devices.Display;
+import cz.mg.toolkit.environment.device.devices.Display;
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
