@@ -1,0 +1,53 @@
+#### IDEAS
+    TIP: toolkit components / layouts for huge number of items - must be same size probably
+        row/column virtualization "scrolling" for same sized items
+    TIP: add timestamp for event and eventual expiration
+    TIP: optimize events and listeners - now event has to go trough all components and all their listeners
+    TIP: recycling events: event objects can be reused
+    TIP: relative scroll control or scroll by components - only applicable to some layouts ...
+    TIP: add gravity to stacks
+    TIP: add create methods instead of constructors
+    TIP: raised / lowered borders
+    TIP: automatic font size calculation to fit required size
+    TIP: settings/parameter/attribute/style fetching for components - global vs class local vs object local vs group local settings
+
+    optimalizace relayoutu - u size control nastavit dva booleany
+        jeden říkající, zdali okolí komponenty ovlivní její velikost
+        druhý říkající, zdali vnitřek komponenty ovlivní její velikost
+        poté při relayoutu doskákat vždy jen do potřebného bodu
+        možná by bylo třeba upřesnit, jakého rozměru by se měl relayout týkat... a mohlo by být složitější
+            might take into account that component or content width might depend on height or similar
+        anebo naopak... zdali okolí/obsah určitě neovlivní její velikost!
+
+        změřit efektivitu
+            počet navštívených komponent při jednom projetí
+            počet provedených relayoutů při vybrané akci
+
+    renderer - gets colros, fonts and other properties from a components and takes care of the drawing
+        swing renderer
+        opengl renderer
+        other user defined renderers
+
+#### LATER:
+    create separate repository and change it to library
+    horizontal / vertical slider
+    cobmo box
+    spinner
+        extends text field
+        int / long
+        float / double
+
+#### SOON
+    multiline text input
+    multiline interactive text content
+    zalamování textu v multiline text contentu
+
+#### NOW
+    move all design to the designer class
+    decide of what is the best way to do design...
+        maybe leaving design at component creation is not that bad idea
+        at the same time need to think user might want powerful redesign capabilities
+        and at the same time user might want on demand colors, fonts etc or just work EASILY with the default design
+
+#### DONE
+    

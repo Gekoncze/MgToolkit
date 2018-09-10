@@ -1,0 +1,123 @@
+package cz.mg.toolkit.component.wrappers;
+
+import cz.mg.toolkit.component.Wrapper;
+import cz.mg.toolkit.component.components.HorizontalScrollBar;
+import cz.mg.toolkit.component.components.VerticalScrollBar;
+import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
+import cz.mg.toolkit.utilities.ScrollControlsVisibility;
+import cz.mg.toolkit.event.adapters.LocalMouseWheelAdapter;
+import cz.mg.toolkit.event.events.AfterLayoutEvent;
+import cz.mg.toolkit.event.events.MouseWheelEvent;
+import cz.mg.toolkit.layout.layouts.GridLayout;
+import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+
+
+public class ScrollArea extends Wrapper {
+    private final GridLayout grid = new GridLayout(2, 2);
+    private final VerticalScrollBar verticalScrollBar = new VerticalScrollBar();
+    private final HorizontalScrollBar horizontalScrollBar = new HorizontalScrollBar();
+    private ScrollControlsVisibility scrollControlsVisibility = ScrollControlsVisibility.WHEN_NEEDED;
+    
+    public ScrollArea() {
+        initComponent();
+        initComponents();
+        addEventListeners();
+    }
+    
+    private void initComponent() {
+        setLayout(grid);
+        setFillParent(this);
+    }
+    
+    private void initComponents() {
+        setBorder(getContentPanel(), null);
+        
+        setColumn(verticalScrollBar, 1);
+        setRow(horizontalScrollBar, 1);
+        
+        verticalScrollBar.setScrollablePanel(getContentPanel());
+        horizontalScrollBar.setScrollablePanel(getContentPanel());
+        
+        getChildren().addLast(verticalScrollBar);
+        getChildren().addLast(horizontalScrollBar);
+        
+        setWrapAndFillWidth(grid.getColumns().get(0));
+        setWrapAndFillHeight(grid.getRows().get(0));
+    }
+    
+    private void addEventListeners() {
+        getEventListeners().addLast(new LocalMouseWheelAdapter(){
+            @Override
+            public void onMouseWheelEventLeave(MouseWheelEvent e) {
+                e.consume();
+                if(isShiftPressed()){
+                    if(isDirectionUp(e)){
+                        horizontalScrollBar.getLeftButton().trigger();
+                    } else {
+                        horizontalScrollBar.getRightButton().trigger();
+                    }
+                } else if(!isCtrlPressed()) {
+                    if(isDirectionUp(e)){
+                        verticalScrollBar.getUpButton().trigger();
+                    } else {
+                        verticalScrollBar.getDownButton().trigger();
+                    }
+                }
+            }
+        });
+        getEventListeners().addLast(new AfterLayoutAdapter() {
+            @Override
+            public void onEventEnter(AfterLayoutEvent e) {
+                switch(scrollControlsVisibility){
+                    case ALWAYS:
+                        autosetHorizontalScrollControlsVisibility(true);
+                        autosetVerticalScrollControlsVisibility(true);
+                        break;
+                    case WHEN_NEEDED:
+                        autosetHorizontalScrollControlsVisibility(areHorizontalScrollControlsNeeded());
+                        autosetVerticalScrollControlsVisibility(areVerticalScrollControlsNeeded());
+                        break;
+                    case OPTIONAL:
+                        return;
+                    case NEVER:
+                        autosetHorizontalScrollControlsVisibility(false);
+                        autosetVerticalScrollControlsVisibility(false);
+                        break;
+                    default:
+                        throw new RuntimeException();
+                }
+            }
+        });
+    }
+    
+    private void autosetHorizontalScrollControlsVisibility(boolean shouldBeVisible){
+        if(horizontalScrollBar.isHidden() && !shouldBeVisible) return;
+        if(!horizontalScrollBar.isHidden() && shouldBeVisible) return;
+        horizontalScrollBar.setHidden(!shouldBeVisible);
+        relayout();
+    }
+    
+    private void autosetVerticalScrollControlsVisibility(boolean shouldBeVisible){
+        if(verticalScrollBar.isHidden() && !shouldBeVisible) return;
+        if(!verticalScrollBar.isHidden() && shouldBeVisible) return;
+        verticalScrollBar.setHidden(!shouldBeVisible);
+        relayout();
+    }
+    
+    private boolean areHorizontalScrollControlsNeeded(){
+        return getContentPanel().getContentWidth() > getAvailableWidth();
+    }
+    
+    private boolean areVerticalScrollControlsNeeded(){
+        return getContentPanel().getContentHeight() > getAvailableHeight();
+    }
+
+    public final ScrollControlsVisibility getScrollControlsVisibility() {
+        return scrollControlsVisibility;
+    }
+
+    public final void setScrollControlsVisibility(ScrollControlsVisibility scrollControlsVisibility) {
+        this.scrollControlsVisibility = scrollControlsVisibility;
+        relayout();
+    }
+}

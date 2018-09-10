@@ -1,0 +1,46 @@
+# switch from https to ssh
+    git remote -v
+    # origin  https://github.com/USERNAME/REPOSITORY.git (fetch)
+    # origin  https://github.com/USERNAME/REPOSITORY.git (push)
+
+    # git remote set-url origin git@github.com:USERNAME/REPOSITORY.git
+    git remote set-url origin git@github.com:Gekoncze/MgCompiler.git
+
+    git remote -v
+    # origin  git@github.com:USERNAME/REPOSITORY.git (fetch)
+    # origin  git@github.com:USERNAME/REPOSITORY.git (push)
+
+
+# generate ssh key
+    ls -al ~/.ssh
+
+    ssh-keygen -t rsa -b 4096 -C "Gekoncze"
+
+    eval "$(ssh-agent -s)"
+
+    ssh-add ~/.ssh/id_rsa
+
+    sudo apt-get install xclip
+
+    xclip -sel clip < ~/.ssh/id_rsa.pub
+
+    # then just add it in github settings
+
+    ssh -T git@github.com
+
+    # must print:
+    # Hi Gekoncze! You've successfully authenticated, but GitHub does not provide shell access.
+
+
+# create new branch
+    git checkout -b <branch>
+    git push -u origin <branch>
+
+
+# change ssh passphrase
+    ssh-keygen -p
+
+# fetch new version
+    git clone git@github.com:Gekoncze/MgCompiler.git
+    git checkout -b dev
+    git pull git@github.com:Gekoncze/MgCompiler.git dev
