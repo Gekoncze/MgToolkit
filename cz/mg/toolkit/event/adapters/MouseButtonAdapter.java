@@ -6,6 +6,7 @@ import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.environment.device.devices.Mouse;
 import cz.mg.toolkit.event.contexts.InputEventContext;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
+import cz.mg.toolkit.impl.Impl;
 
 
 public abstract class MouseButtonAdapter implements EventListener<MouseButtonEvent> {
@@ -54,15 +55,15 @@ public abstract class MouseButtonAdapter implements EventListener<MouseButtonEve
     }
     
     public final boolean isCtrlPressed(){
-        return Keyboard.getInstance().isCtrlPressed();
+        return Impl.getImplApi().getPrimaryKeyboard().isCtrlPressed();
     }
     
     public final boolean isAltPressed(){
-        return Keyboard.getInstance().isAltPressed();
+        return Impl.getImplApi().getPrimaryKeyboard().isAltPressed();
     }
     
     public final boolean isShiftPressed(){
-        return Keyboard.getInstance().isShiftPressed();
+        return Impl.getImplApi().getPrimaryKeyboard().isShiftPressed();
     }
     
     public final double getX(MouseButtonEvent e){

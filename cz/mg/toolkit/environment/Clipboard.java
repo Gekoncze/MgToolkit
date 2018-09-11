@@ -1,7 +1,7 @@
 package cz.mg.toolkit.environment;
 
+import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.impl.ImplClipboard;
-import cz.mg.toolkit.impl.swing.SwingImplClipboard;
 
 
 public class Clipboard {
@@ -9,7 +9,7 @@ public class Clipboard {
     private final ImplClipboard implClipboard;
 
     private Clipboard() {
-        this.implClipboard = new SwingImplClipboard();
+        this.implClipboard = Impl.getImplApi().createClipboard();
     }
     
     public static Clipboard getInstance() {

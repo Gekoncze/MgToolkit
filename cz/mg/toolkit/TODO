@@ -44,21 +44,13 @@
 
 #### NOW
     move all design to the designer class
-    improve bridge interface
-    add environment impl interface and some global container to set it globally
-    extract timer interface
 
 #### DONE
-Separation of swing implementation - part 1
-    renamed native window to impl window
-    separated impl window implementation to swing impl window
-    removed color model from image
-    created impl environment package and moved some classes in it
-    create swing impl environment package and moved some classes in it
-    separated implementation of image to swing impl image
-    separated implementation of font to swing impl font
-    separated implementation of graphics to swing impl graphics
-    separated implementation of color to swing impl color
-    separated implementation of cursor to swing impl cursor
-    separated implementation of clipboard to swing impl clipboard
-    TODO: extract more implementation classes, add global environment attribute
+Separation of swing implementation - part 2 (done)
+    extracted timer interface
+    fixed graphics interface and implementation
+    added impl api interface
+    added impl static class
+    adapted mg toolkit classes to use the impl class with impl api interface
+    extracted display interface
+    moved display, mouse and keyboard singletons to swing impl window

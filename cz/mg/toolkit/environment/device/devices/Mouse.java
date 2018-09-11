@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 public final class Mouse {
     private static final int DEFAULT_ESTIMATED_AVERAGE_BUTTON_COUNT = 5;
-    private static Mouse instance;
     
     public static int LEFT_BUTTON = -1;
     public static int MIDDLE_BUTTON = -1;
@@ -13,13 +12,8 @@ public final class Mouse {
     
     private HashMap<Integer,State> buttonStates;
     private double screenX, screenY;
-    
-    public static Mouse getInstance(){
-        if(instance == null) instance = new Mouse();
-        return instance;
-    }
 
-    private Mouse() {
+    public Mouse() {
         reset();
     }
     

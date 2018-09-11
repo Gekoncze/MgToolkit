@@ -1,7 +1,7 @@
 package cz.mg.toolkit.graphics;
 
+import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.impl.ImplColor;
-import cz.mg.toolkit.impl.swing.SwingImplColor;
 
 
 public class Color {
@@ -21,11 +21,11 @@ public class Color {
     private final ImplColor implColor;
     
     public Color(int r, int g, int b, int a){
-        this.implColor = new SwingImplColor(r, g, b, a);
+        this.implColor = Impl.getImplApi().createColor(r, g, b, a);
     }
     
     public Color(float r, float g, float b, float a){
-        this.implColor = new SwingImplColor(r, g, b, a);
+        this.implColor = Impl.getImplApi().createColor(r, g, b, a);
     }
 
     public ImplColor getImplColor() {

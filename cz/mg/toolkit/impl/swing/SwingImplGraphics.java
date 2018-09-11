@@ -14,12 +14,12 @@ import java.awt.geom.AffineTransform;
 public class SwingImplGraphics implements ImplGraphics {
     public static final java.awt.Graphics GRAPHICS = new java.awt.image.BufferedImage(1, 1, java.awt.image.BufferedImage.TYPE_INT_ARGB).getGraphics();
     
-    private final Display display;
     private final java.awt.Graphics2D g;
     private final ChainList<AffineTransform> transforms = new ChainList<>();
     private final ChainList<Shape> clips = new ChainList<>();
     private Color color;
     private Font font;
+    private final Display display;
 
     public SwingImplGraphics(Display display, java.awt.Graphics g) {
         this.display = display;
@@ -71,47 +71,47 @@ public class SwingImplGraphics implements ImplGraphics {
 
     @Override
     public final void clip(double x, double y, double width, double height){
-        g.clipRect(th(x), tv(y), th(width), tv(height));
+        g.clipRect(r(x), r(y), r(width), r(height));
     }
 
     @Override
     public final void drawLine(double x1, double y1, double x2, double y2){
-        g.drawLine(th(x1), tv(y1), th(x2), tv(y2));
+        g.drawLine(r(x1), r(y1), r(x2), r(y2));
     }
 
     @Override
     public final void fillRectangle(double x, double y, double width, double height){
-        g.fillRect(th(x), tv(y), th(width), tv(height));
+        g.fillRect(r(x), r(y), r(width), r(height));
     }
 
     @Override
     public final void drawRectangle(double x, double y, double width, double height) {
-        g.drawRect(th(x), tv(y), th(width), tv(height));
+        g.drawRect(r(x), r(y), r(width), r(height));
     }
 
     @Override
     public final void drawOval(double x, double y, double width, double height){
-        g.drawOval(th(x), tv(y), th(width), tv(height));
+        g.drawOval(r(x), r(y), r(width), r(height));
     }
 
     @Override
     public final void fillOval(double x, double y, double width, double height){
-        g.fillOval(th(x), tv(y), th(width), tv(height));
+        g.fillOval(r(x), r(y), r(width), r(height));
     }
 
     @Override
     public final void drawText(String text, double x, double y){
-        drawImage(render(font, text, color), x, y, font.getWidth(text)-1, font.getHeight()-1);
+        drawImage(renderFont(font, text, color), x, y, font.getDisplayWidth(display, text)-1, font.getDisplayHeight(display)-1);
     }
 
     @Override
     public final boolean drawImage(Image img, double x, double y){
-        return g.drawImage(((SwingImplImage)img.getImplImage()).swingImage, th(x), tv(y), null);
+        return g.drawImage(((SwingImplImage)img.getImplImage()).swingImage, r(x), r(y), null);
     }
 
     @Override
     public final boolean drawImage(Image img, double x, double y, double width, double height){
-        return g.drawImage(((SwingImplImage)img.getImplImage()).swingImage, th(x), tv(y), th(width), tv(height), null);
+        return g.drawImage(((SwingImplImage)img.getImplImage()).swingImage, r(x), r(y), r(width), r(height), null);
     }
 
     @Override
@@ -123,7 +123,7 @@ public class SwingImplGraphics implements ImplGraphics {
     
     @Override
     public final void translate(double x, double y){
-        g.translate(th(x), tv(y));
+        g.translate(x, y);
     }
 
     @Override
@@ -151,15 +151,7 @@ public class SwingImplGraphics implements ImplGraphics {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, value ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF);
     }
     
-    private int th(double value){
-        return display.millimetersToPixelsH(value);
-    }
-    
-    private int tv(double value){
-        return display.millimetersToPixelsV(value);
-    }
-    
-    private Image render(Font font, String text, Color color){
+    private Image renderFont(Font font, String text, Color color){
         SwingImplFont implFont = (SwingImplFont) font.getImplFont();
         implFont.updateResolution();
         int w = implFont.swingFontMetrics.stringWidth(text);
@@ -172,5 +164,9 @@ public class SwingImplGraphics implements ImplGraphics {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.drawString(text, 0, implFont.swingFontMetrics.getAscent());
         return image;
+    }
+    
+    private int r(double value){
+        return (int) Math.round(value);
     }
 }

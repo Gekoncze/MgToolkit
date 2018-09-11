@@ -1,6 +1,9 @@
 package cz.mg.toolkit.utilities;
 
+import cz.mg.toolkit.event.Event;
 import cz.mg.toolkit.event.EventObserver;
+import cz.mg.toolkit.impl.ImplTimer;
+import cz.mg.toolkit.impl.swing.SwingImplTimer;
 
 
 public abstract class Timer {
@@ -8,9 +11,9 @@ public abstract class Timer {
     protected long delay;
     private boolean stopped = true;
     
-    private javax.swing.Timer implTimer = new javax.swing.Timer(10, new java.awt.event.ActionListener() {
+    private ImplTimer implTimer = new SwingImplTimer(10, new EventObserver() {
         @Override
-        public void actionPerformed(java.awt.event.ActionEvent e) {
+        public void sendEvent(Event e) {
             if(eventObserver != null && !stopped) onCheck();
         }
     });
@@ -34,12 +37,8 @@ public abstract class Timer {
     public void setDelay(long delay) {
         this.delay = delay;
     }
-
-    public boolean isStopped() {
-        return stopped;
-    }
     
-    public boolean isStarted() {
+    public boolean isRunning() {
         return !stopped;
     }
     
@@ -62,9 +61,4 @@ public abstract class Timer {
     protected abstract void onCheck();
     protected abstract void onStart();
     protected abstract void onStop();
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-    }
 }

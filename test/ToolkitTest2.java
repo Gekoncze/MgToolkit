@@ -17,11 +17,15 @@ import cz.mg.toolkit.component.wrappers.decorations.ToolkitDecoration;
 import cz.mg.toolkit.debug.Debug;
 import cz.mg.toolkit.environment.device.devices.Display;
 import cz.mg.toolkit.environment.device.devices.Keyboard;
+import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.event.adapters.KeyboardButtonAdapter;
 import cz.mg.toolkit.event.adapters.TabCloseAdapter;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.event.events.TabCloseEvent;
+import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.graphics.Image;
+import cz.mg.toolkit.impl.Impl;
+import cz.mg.toolkit.impl.swing.SwingImplApi;
 import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import java.io.IOException;
@@ -32,14 +36,22 @@ public class ToolkitTest2 {
     private static boolean DEBUG = false;
     
     public static void main(String[] args) throws IOException {
-        Display.getInstance().setHorizontalZoom(0.25);
-        Display.getInstance().setVerticalZoom(0.25);
+        Impl.setImplApi(new SwingImplApi());
         
         Window window = new Window();
-        window.setContentSize(800, 600);
+        window.setContentSize(800/4, 600/4);
         window.setTitle("Yay!");
         window.setIcon(new Image(ToolkitTest2.class.getResourceAsStream("mg.png")));
         window.center();
+        
+        window.getEventListeners().addFirst(new GraphicsDrawAdapter() {
+            @Override
+            public void onDrawEventEnter(Graphics g) {
+                Display d = g.getDisplay();
+                d.setHorizontalZoom(0.25);
+                d.setVerticalZoom(0.25);
+            }
+        });
         
         window.getEventListeners().addLast(new KeyboardButtonAdapter() {
             @Override

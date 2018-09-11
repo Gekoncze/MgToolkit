@@ -6,7 +6,6 @@ import java.util.HashMap;
 public final class Keyboard {
     private static final int DEFAULT_ESTIMATED_AVERAGE_BUTTON_COUNT = 100;
     private static final int DEFAULT_ESTIMATED_AVERAGE_CHARACTER_COUNT = 100;
-    private static Keyboard instance;
     
     private HashMap<Integer,State> buttonStates;
     private HashMap<Character,State> characterStates;
@@ -75,13 +74,8 @@ public final class Keyboard {
     public static int NUM_MINUS_BUTTON = -1;
     public static int NUM_PLUS_BUTTON = -1;
     public static int NUM_COMMA_BUTTON = -1;
-    
-    public static Keyboard getInstance(){
-        if(instance == null) instance = new Keyboard();
-        return instance;
-    }
 
-    private Keyboard() {
+    public Keyboard() {
         reset();
     }
     

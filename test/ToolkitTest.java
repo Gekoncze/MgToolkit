@@ -25,13 +25,17 @@ import cz.mg.toolkit.debug.Debug;
 import cz.mg.toolkit.environment.device.devices.Display;
 import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
+import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.event.adapters.KeyboardButtonAdapter;
 import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
+import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.graphics.Image;
 import cz.mg.toolkit.graphics.designers.DefaultDesigner;
+import cz.mg.toolkit.impl.Impl;
+import cz.mg.toolkit.impl.swing.SwingImplApi;
 import cz.mg.toolkit.layout.layouts.GridLayout;
 import cz.mg.toolkit.layout.layouts.GridLayout.Column;
 import cz.mg.toolkit.utilities.SelectionGroup;
@@ -44,11 +48,10 @@ public class ToolkitTest {
     private static boolean DEBUG = false;
     
     public static void main(String[] args) throws IOException {
+        Impl.setImplApi(new SwingImplApi());
+        
         TextContent label;
         SelectionGroup selectionGroup = new SelectionGroup();
-        
-        Display.getInstance().setHorizontalZoom(0.25);
-        Display.getInstance().setVerticalZoom(0.25);
         
         MenuItem m1 = new StandardMenuItem(new Image(ToolkitTest2.class.getResourceAsStream("mg.png")), "yay", new StandardKeyboardCharacterShortcut(true, false, false, 's'), null, null);
         MenuItem m2 = new StandardMenuItem(null, "nayyyyyyyyyyyyyyyyyyyyyy", null, true, null);
@@ -69,11 +72,20 @@ public class ToolkitTest {
         contextMenu.wrap();
         
         Window window = new Window();
-        window.setContentSize(800, 600);
+        window.setContentSize(800/4, 600/4);
         window.setTitle("Yay!");
         window.setIcon(new Image(ToolkitTest2.class.getResourceAsStream("mg.png")));
         window.center();
         setDesigner(window, new TestDesigner());
+        
+        window.getEventListeners().addFirst(new GraphicsDrawAdapter() {
+            @Override
+            public void onDrawEventEnter(Graphics g) {
+                Display d = g.getDisplay();
+                d.setHorizontalZoom(0.25);
+                d.setVerticalZoom(0.25);
+            }
+        });
         
         window.getEventListeners().addLast(new KeyboardButtonAdapter() {
             @Override

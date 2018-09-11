@@ -31,6 +31,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import cz.mg.toolkit.impl.ImplWindow;
+import static cz.mg.toolkit.impl.swing.SwingImplApi.*;
 
 
 public class SwingImplWindow implements EventObserver, ImplWindow {
@@ -51,11 +52,11 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
         jframe = new JFrame(){
             @Override
             public void paint(java.awt.Graphics g) {
-                if(Display.getInstance().updateGraphicsBuffer()) sendEvent(new DisplayResolutionEvent());
+                if(SWING_DISPLAY_INSTANCE.updateGraphicsBuffer()) sendEvent(new DisplayResolutionEvent());
                 window.sendEvent(new BeforeDrawEvent(relayout));
                 relayout = false;
                 if(!window.isRelayoutNeeded()) sendEvent(addGraphicsContext(new DrawEvent()));
-                g.drawImage(Display.getInstance().getGraphicsBuffer(), -getX(), -getY(), jframe);
+                g.drawImage(SWING_DISPLAY_INSTANCE.getGraphicsBuffer(), -getX(), -getY(), jframe);
             }
         };
         
@@ -83,16 +84,16 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
 
             @Override
             public void mousePressed(java.awt.event.MouseEvent e) {
-                boolean change = Mouse.getInstance().isButtonPressed(e.getButton()) == false;
-                Mouse.getInstance().pressButton(e.getButton());
-                sendEvent(addInputContext(new MouseButtonEvent(Mouse.getInstance(), e.getButton(), change, false)));
+                boolean change = MOUSE_INSTANCE.isButtonPressed(e.getButton()) == false;
+                MOUSE_INSTANCE.pressButton(e.getButton());
+                sendEvent(addInputContext(new MouseButtonEvent(MOUSE_INSTANCE, e.getButton(), change, false)));
             }
 
             @Override
             public void mouseReleased(java.awt.event.MouseEvent e) {
-                boolean change = Mouse.getInstance().isButtonReleased(e.getButton()) == false;
-                Mouse.getInstance().releaseButton(e.getButton());
-                sendEvent(addInputContext(new MouseButtonEvent(Mouse.getInstance(), e.getButton(), false, change)));
+                boolean change = MOUSE_INSTANCE.isButtonReleased(e.getButton()) == false;
+                MOUSE_INSTANCE.releaseButton(e.getButton());
+                sendEvent(addInputContext(new MouseButtonEvent(MOUSE_INSTANCE, e.getButton(), false, change)));
             }
 
             @Override
@@ -109,22 +110,22 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
             public void mouseDragged(java.awt.event.MouseEvent e) {
                 double mx = th(e.getXOnScreen());
                 double my = tv(e.getYOnScreen());
-                double dx = mx - Mouse.getInstance().getScreenX();
-                double dy = my - Mouse.getInstance().getScreenY();
-                Mouse.getInstance().setScreenX(mx);
-                Mouse.getInstance().setScreenY(my);
-                sendEvent(addInputContext(new MouseMotionEvent(Mouse.getInstance(), dx, dy)));
+                double dx = mx - MOUSE_INSTANCE.getScreenX();
+                double dy = my - MOUSE_INSTANCE.getScreenY();
+                MOUSE_INSTANCE.setScreenX(mx);
+                MOUSE_INSTANCE.setScreenY(my);
+                sendEvent(addInputContext(new MouseMotionEvent(MOUSE_INSTANCE, dx, dy)));
             }
 
             @Override
             public void mouseMoved(java.awt.event.MouseEvent e) {
                 double mx = th(e.getXOnScreen());
                 double my = tv(e.getYOnScreen());
-                double dx = mx - Mouse.getInstance().getScreenX();
-                double dy = my - Mouse.getInstance().getScreenY();
-                Mouse.getInstance().setScreenX(mx);
-                Mouse.getInstance().setScreenY(my);
-                sendEvent(addInputContext(new MouseMotionEvent(Mouse.getInstance(), dx, dy)));
+                double dx = mx - MOUSE_INSTANCE.getScreenX();
+                double dy = my - MOUSE_INSTANCE.getScreenY();
+                MOUSE_INSTANCE.setScreenX(mx);
+                MOUSE_INSTANCE.setScreenY(my);
+                sendEvent(addInputContext(new MouseMotionEvent(MOUSE_INSTANCE, dx, dy)));
             }
         });
         
@@ -132,7 +133,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
             @Override
             public void mouseWheelMoved(java.awt.event.MouseWheelEvent e) {
                 MouseWheelEvent.Direction direction = e.getWheelRotation() > 0 ? MouseWheelEvent.Direction.DOWN : MouseWheelEvent.Direction.UP;
-                sendEvent(addInputContext(new MouseWheelEvent(Mouse.getInstance(), direction)));
+                sendEvent(addInputContext(new MouseWheelEvent(MOUSE_INSTANCE, direction)));
             }
         });
         
@@ -145,11 +146,11 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
             public void keyPressed(java.awt.event.KeyEvent e) {
                 int button = codeLocationToButton(e.getKeyCode(), e.getKeyLocation());
                 char ch = getAndSanitizeCharacter(e);
-                boolean repeated = Keyboard.getInstance().isButtonPressed(button);
-                boolean change = Keyboard.getInstance().isButtonPressed(button) == false;
-                Keyboard.getInstance().pressButton(button);
-                Keyboard.getInstance().pressCharacter(ch);
-                Event event = new KeyboardButtonEvent(Keyboard.getInstance(), button, ch, false, change, false);
+                boolean repeated = KEYBOARD_INSTANCE.isButtonPressed(button);
+                boolean change = KEYBOARD_INSTANCE.isButtonPressed(button) == false;
+                KEYBOARD_INSTANCE.pressButton(button);
+                KEYBOARD_INSTANCE.pressCharacter(ch);
+                Event event = new KeyboardButtonEvent(KEYBOARD_INSTANCE, button, ch, false, change, false);
                 if(!repeated) sendEvent(addInputContext(event));
             }
 
@@ -157,11 +158,11 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
             public void keyReleased(java.awt.event.KeyEvent e) {
                 int button = codeLocationToButton(e.getKeyCode(), e.getKeyLocation());
                 char ch = getAndSanitizeCharacter(e);
-                boolean repeated = Keyboard.getInstance().isButtonReleased(button);
-                boolean change = Keyboard.getInstance().isButtonReleased(button) == false;
-                Keyboard.getInstance().releaseButton(button);
-                Keyboard.getInstance().releaseCharacter(ch);
-                Event event = new KeyboardButtonEvent(Keyboard.getInstance(), button, ch, false, false, change);
+                boolean repeated = KEYBOARD_INSTANCE.isButtonReleased(button);
+                boolean change = KEYBOARD_INSTANCE.isButtonReleased(button) == false;
+                KEYBOARD_INSTANCE.releaseButton(button);
+                KEYBOARD_INSTANCE.releaseCharacter(ch);
+                Event event = new KeyboardButtonEvent(KEYBOARD_INSTANCE, button, ch, false, false, change);
                 if(!repeated) sendEvent(addInputContext(event));
             }
         });
@@ -174,8 +175,8 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
 
             @Override
             public void windowActivated(WindowEvent e) {
-                Keyboard.getInstance().reset();
-                Mouse.getInstance().reset();
+                KEYBOARD_INSTANCE.reset();
+                MOUSE_INSTANCE.reset();
                 sendEvent(new WindowStateEvent(window));
             }
 
@@ -216,48 +217,48 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     }
     
     private double th(int value){
-        return Display.getInstance().pixelsToMillimetersH(value);
+        return DISPLAY_INSTANCE.pixelsToMillimetersH(value);
     }
     
     private double tv(int value){
-        return Display.getInstance().pixelsToMillimetersV(value);
+        return DISPLAY_INSTANCE.pixelsToMillimetersV(value);
     }
     
     private int trh(double value){
-        return Display.getInstance().millimetersToPixelsH(value);
+        return (int) Math.round(DISPLAY_INSTANCE.millimetersToPixelsH(value));
     }
     
     private int trv(double value){
-        return Display.getInstance().millimetersToPixelsV(value);
+        return (int) Math.round(DISPLAY_INSTANCE.millimetersToPixelsV(value));
     }
     
     private char getAndSanitizeCharacter(java.awt.event.KeyEvent e){
-        if(e.getKeyChar() == 1 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'a';
-        if(e.getKeyChar() == 2 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'b';
-        if(e.getKeyChar() == 3 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'c';
-        if(e.getKeyChar() == 4 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'd';
-        if(e.getKeyChar() == 5 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'e';
-        if(e.getKeyChar() == 6 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'f';
-        if(e.getKeyChar() == 7 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'g';
-        if(e.getKeyChar() == 8 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'h';
-        if(e.getKeyChar() == 9 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'i';
-        if(e.getKeyChar() == 10 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'j';
-        if(e.getKeyChar() == 11 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'k';
-        if(e.getKeyChar() == 12 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'l';
-        if(e.getKeyChar() == 13 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'm';
-        if(e.getKeyChar() == 14 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'n';
-        if(e.getKeyChar() == 15 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'o';
-        if(e.getKeyChar() == 16 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'p';
-        if(e.getKeyChar() == 17 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'q';
-        if(e.getKeyChar() == 18 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'r';
-        if(e.getKeyChar() == 19 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 's';
-        if(e.getKeyChar() == 20 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 't';
-        if(e.getKeyChar() == 21 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'u';
-        if(e.getKeyChar() == 22 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'v';
-        if(e.getKeyChar() == 23 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'w';
-        if(e.getKeyChar() == 24 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'x';
-        if(e.getKeyChar() == 25 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'y';
-        if(e.getKeyChar() == 26 && Keyboard.getInstance().isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'z';
+        if(e.getKeyChar() == 1 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'a';
+        if(e.getKeyChar() == 2 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'b';
+        if(e.getKeyChar() == 3 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'c';
+        if(e.getKeyChar() == 4 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'd';
+        if(e.getKeyChar() == 5 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'e';
+        if(e.getKeyChar() == 6 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'f';
+        if(e.getKeyChar() == 7 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'g';
+        if(e.getKeyChar() == 8 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'h';
+        if(e.getKeyChar() == 9 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'i';
+        if(e.getKeyChar() == 10 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'j';
+        if(e.getKeyChar() == 11 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'k';
+        if(e.getKeyChar() == 12 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'l';
+        if(e.getKeyChar() == 13 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'm';
+        if(e.getKeyChar() == 14 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'n';
+        if(e.getKeyChar() == 15 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'o';
+        if(e.getKeyChar() == 16 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'p';
+        if(e.getKeyChar() == 17 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'q';
+        if(e.getKeyChar() == 18 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'r';
+        if(e.getKeyChar() == 19 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 's';
+        if(e.getKeyChar() == 20 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 't';
+        if(e.getKeyChar() == 21 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'u';
+        if(e.getKeyChar() == 22 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'v';
+        if(e.getKeyChar() == 23 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'w';
+        if(e.getKeyChar() == 24 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'x';
+        if(e.getKeyChar() == 25 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'y';
+        if(e.getKeyChar() == 26 && KEYBOARD_INSTANCE.isButtonPressed(Keyboard.CTRL_LEFT_BUTTON)) return 'z';
         return e.getKeyChar();
     }
 
@@ -267,12 +268,12 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     }
     
     private Event addGraphicsContext(Event event){
-        event.setEventContext(new GraphicsEventContext(Display.getInstance().getGraphics()));
+        event.setEventContext(new GraphicsEventContext(SWING_DISPLAY_INSTANCE.getGraphics(DISPLAY_INSTANCE)));
         return event;
     }
     
     private Event addInputContext(Event event){
-        event.setEventContext(new InputEventContext(Mouse.getInstance().getScreenX(), Mouse.getInstance().getScreenY()));
+        event.setEventContext(new InputEventContext(MOUSE_INSTANCE.getScreenX(), MOUSE_INSTANCE.getScreenY()));
         return event;
     }
 

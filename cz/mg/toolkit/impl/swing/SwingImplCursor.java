@@ -8,10 +8,6 @@ import java.awt.Toolkit;
 
 public class SwingImplCursor implements ImplCursor {
     final java.awt.Cursor swingCursor;
-
-    public SwingImplCursor(java.awt.Cursor implCursor) {
-        this.swingCursor = implCursor;
-    }
     
     public SwingImplCursor(NativeCursor nativeCursor) {
         switch(nativeCursor){

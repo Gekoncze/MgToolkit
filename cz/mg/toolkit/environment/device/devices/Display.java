@@ -1,44 +1,30 @@
 package cz.mg.toolkit.environment.device.devices;
 
 import cz.mg.toolkit.environment.device.Device;
-import cz.mg.toolkit.graphics.Graphics;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
+import cz.mg.toolkit.impl.ImplDisplay;
 
 
 public class Display extends Device {
-    private static int nextId = 0;
-    
-    private static synchronized int generateId(){
-        return nextId++;
-    }
-    
-    private static Display instance;
-    private final int id = generateId();
-    private BufferedImage graphicsBuffer = new BufferedImage(getHorizontalResolution(), getVerticalResolution(), BufferedImage.TYPE_INT_RGB);
     private double physicalWidth = 476.0;
     private double physicalHeight = 270.0;
     private double horizontalZoom = 1.0;
     private double verticalZoom = 1.0;
+    private final ImplDisplay implDisplay;
     
-    public static Display getInstance(){
-        if(instance == null) instance = new Display();
-        return instance;
-    }
-    
-    private Display() {
+    public Display(ImplDisplay implDisplay) {
+        this.implDisplay = implDisplay;
     }
 
-    public int getId() {
-        return id;
+    public ImplDisplay getImplDisplay() {
+        return implDisplay;
     }
     
     public final int getHorizontalResolution(){
-        return Toolkit.getDefaultToolkit().getScreenSize().width;
+        return implDisplay.getHorizontalResolution();
     }
     
     public final int getVerticalResolution(){
-        return Toolkit.getDefaultToolkit().getScreenSize().height;
+        return implDisplay.getVerticalResolution();
     }
 
     public final double getPhysicalWidth() {
@@ -77,39 +63,19 @@ public class Display extends Device {
         this.verticalZoom = verticalZoom;
     }
     
-    public final boolean updateGraphicsBuffer(){
-        int w = getHorizontalResolution();
-        int h = getVerticalResolution();
-        if(w < 1) w = 1;
-        if(h < 1) h = 1;
-        if(graphicsBuffer.getWidth() != w || graphicsBuffer.getHeight() != h){
-            graphicsBuffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-            return true;
-        }
-        return false;
+    public final double millimetersToPixelsH(double millimeters){
+        return (millimeters * getHorizontalResolution() * horizontalZoom) / (physicalWidth);
     }
     
-    public final Graphics getGraphics() {
-        return new Graphics(this, graphicsBuffer.getGraphics());
-    }
-
-    public final BufferedImage getGraphicsBuffer() {
-        return graphicsBuffer;
+    public final double millimetersToPixelsV(double millimeters){
+        return (millimeters * getVerticalResolution() * verticalZoom) / (physicalHeight);
     }
     
-    public final int millimetersToPixelsH(double millimeters){
-        return (int) Math.round((millimeters * getHorizontalResolution() * horizontalZoom) / (physicalWidth));
-    }
-    
-    public final int millimetersToPixelsV(double millimeters){
-        return (int) Math.round((millimeters * getVerticalResolution() * verticalZoom) / (physicalHeight));
-    }
-    
-    public final double pixelsToMillimetersH(int pixels){
+    public final double pixelsToMillimetersH(double pixels){
         return (pixels * physicalWidth) / (getHorizontalResolution() * horizontalZoom);
     }
     
-    public final double pixelsToMillimetersV(int pixels){
+    public final double pixelsToMillimetersV(double pixels){
         return (pixels * physicalHeight) / (getVerticalResolution() * verticalZoom);
     }
 }

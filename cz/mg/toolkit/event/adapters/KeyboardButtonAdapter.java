@@ -4,6 +4,7 @@ import cz.mg.toolkit.event.Event;
 import cz.mg.toolkit.event.EventListener;
 import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
+import cz.mg.toolkit.impl.Impl;
 
 
 public abstract class KeyboardButtonAdapter implements EventListener<KeyboardButtonEvent> {
@@ -40,15 +41,15 @@ public abstract class KeyboardButtonAdapter implements EventListener<KeyboardBut
     }
     
     public final boolean isCtrlPressed(){
-        return Keyboard.getInstance().isCtrlPressed();
+        return Impl.getImplApi().getPrimaryKeyboard().isCtrlPressed();
     }
     
     public final boolean isAltPressed(){
-        return Keyboard.getInstance().isAltPressed();
+        return Impl.getImplApi().getPrimaryKeyboard().isAltPressed();
     }
     
     public final boolean isShiftPressed(){
-        return Keyboard.getInstance().isShiftPressed();
+        return Impl.getImplApi().getPrimaryKeyboard().isShiftPressed();
     }
 
     @Override

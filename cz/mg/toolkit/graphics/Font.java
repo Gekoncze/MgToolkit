@@ -1,14 +1,15 @@
 package cz.mg.toolkit.graphics;
 
+import cz.mg.toolkit.environment.device.devices.Display;
+import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.impl.ImplFont;
-import cz.mg.toolkit.impl.swing.SwingImplFont;
 
 
 public class Font {
     private final ImplFont implFont;
     
     public Font(String name, double height, Style style) {
-        this.implFont = new SwingImplFont(name, height, style);
+        this.implFont = Impl.getImplApi().createFont(name, height, style);
     }
 
     public ImplFont getImplFont() {
@@ -45,6 +46,14 @@ public class Font {
 
     public final double getHeight() {
         return implFont.getHeight();
+    }
+    
+    public final double getDisplayWidth(Display display, String s) {
+        return display.millimetersToPixelsH(implFont.getWidth(s));
+    }
+
+    public final double getDisplayHeight(Display display) {
+        return display.millimetersToPixelsV(implFont.getHeight());
     }
     
     public final double getMaxAscent() {

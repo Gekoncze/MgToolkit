@@ -41,7 +41,7 @@ public class KeystrokeRepeater {
     }
     
     public final boolean isStarted(){
-        return waitTimer.isStarted() || repeatTimer.isStarted();
+        return waitTimer.isRunning() || repeatTimer.isRunning();
     }
     
     public final void onKeyboardButtonPressedEvent(KeyboardButtonEvent event, EventObserver eventObserver){
