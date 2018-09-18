@@ -51,7 +51,6 @@ public class PropertiesInterface {
     private static final int HIGHLIGHTED_FOREGROUND_COLOR = Properties.generateId();
     private static final int BORDER = Properties.generateId();
     private static final int BACKGROUND = Properties.generateId();
-    private static final int CONTEXT = Properties.generateId();
     private static final int FONT = Properties.generateId();
     private static final int CONTRAST_COLOR = Properties.generateId();
     private static final int DESIGNER = Properties.generateId();
@@ -425,14 +424,6 @@ public class PropertiesInterface {
     
     public static final void setBackground(Component component, Background background){
         component.getProperties().set(BACKGROUND, background);
-    }
-    
-    public static final String getContext(Component component){
-        return (String) component.getProperties().get(CONTEXT, null);
-    }
-    
-    public static final void setContext(Component component, String context){
-        component.getProperties().set(CONTEXT, context);
     }
     
     public static final Font getFont(Component component){

@@ -8,7 +8,6 @@ import cz.mg.toolkit.graphics.Designer;
 
 
 public abstract class DesignAdapter implements EventListener<DesignEvent> {
-
     @Override
     public void onEventEnter(DesignEvent e) {
     }

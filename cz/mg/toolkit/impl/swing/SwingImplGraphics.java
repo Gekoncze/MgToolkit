@@ -3,6 +3,7 @@ package cz.mg.toolkit.impl.swing;
 import cz.mg.toolkit.graphics.*;
 import cz.mg.collections.list.chainlist.ChainList;
 import cz.mg.toolkit.environment.device.devices.Display;
+import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.impl.ImplGraphics;
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
@@ -105,12 +106,7 @@ public class SwingImplGraphics implements ImplGraphics {
     }
 
     @Override
-    public final boolean drawImage(Image img, double x, double y){
-        return g.drawImage(((SwingImplImage)img.getImplImage()).swingImage, r(x), r(y), null);
-    }
-
-    @Override
-    public final boolean drawImage(Image img, double x, double y, double width, double height){
+    public final boolean drawImage(BitmapImage img, double x, double y, double width, double height){
         return g.drawImage(((SwingImplImage)img.getImplImage()).swingImage, r(x), r(y), r(width), r(height), null);
     }
 
@@ -151,12 +147,12 @@ public class SwingImplGraphics implements ImplGraphics {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, value ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF);
     }
     
-    private Image renderFont(Font font, String text, Color color){
+    private BitmapImage renderFont(Font font, String text, Color color){
         SwingImplFont implFont = (SwingImplFont) font.getImplFont();
         implFont.updateResolution();
         int w = implFont.swingFontMetrics.stringWidth(text);
         int h = implFont.swingFontMetrics.getHeight();
-        Image image = new Image(w, h);
+        BitmapImage image = new BitmapImage(w, h);
         java.awt.image.BufferedImage implImage = ((SwingImplImage)image.getImplImage()).swingImage;
         java.awt.Graphics2D g = (java.awt.Graphics2D) implImage.getGraphics();
         g.setFont(implFont.swingFont);

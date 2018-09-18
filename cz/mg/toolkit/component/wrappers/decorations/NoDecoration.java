@@ -1,7 +1,7 @@
 package cz.mg.toolkit.component.wrappers.decorations;
 
 import cz.mg.toolkit.component.wrappers.Decoration;
-import cz.mg.toolkit.graphics.Image;
+import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;
 
 
@@ -15,6 +15,6 @@ public class NoDecoration extends Decoration {
     }
 
     @Override
-    public void setIcon(Image icon) {
+    public void setIcon(BitmapImage icon) {
     }
 }

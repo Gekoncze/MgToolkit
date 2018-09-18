@@ -1,6 +1,6 @@
 package cz.mg.toolkit.impl.swing;
 
-import cz.mg.toolkit.graphics.Image;
+import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.impl.ImplCursor;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -20,7 +20,7 @@ public class SwingImplCursor implements ImplCursor {
         }
     }
     
-    public SwingImplCursor(Image image, int dx, int dy){
+    public SwingImplCursor(BitmapImage image, int dx, int dy){
         this.swingCursor = Toolkit.getDefaultToolkit().createCustomCursor(((SwingImplImage)image.getImplImage()).swingImage, new Point(dx, dy), "custom");
     }
 }

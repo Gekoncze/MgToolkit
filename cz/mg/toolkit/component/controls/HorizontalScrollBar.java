@@ -1,7 +1,7 @@
 package cz.mg.toolkit.component.controls;
 
-import cz.mg.toolkit.component.controls.buttons.special.HorizontalScrollButtonLeft;
-import cz.mg.toolkit.component.controls.buttons.special.HorizontalScrollButtonRight;
+import cz.mg.toolkit.component.controls.buttons.special.LeftScrollButton;
+import cz.mg.toolkit.component.controls.buttons.special.RightScrollButton;
 import cz.mg.toolkit.component.Container;
 import cz.mg.toolkit.component.DrawableContainer;
 import cz.mg.toolkit.component.DrawableContent;
@@ -18,8 +18,8 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 
 public class HorizontalScrollBar extends DrawableContainer {
     private Container scrollablePanel;
-    private final HorizontalScrollButtonLeft leftButton = new HorizontalScrollButtonLeft();
-    private final HorizontalScrollButtonRight rightButton = new HorizontalScrollButtonRight();
+    private final LeftScrollButton leftButton = new LeftScrollButton();
+    private final RightScrollButton rightButton = new RightScrollButton();
     private final DraggableBar draggableBar = new DraggableBar();
     private double dragX;
     private double dragBeginScroll;
@@ -41,11 +41,11 @@ public class HorizontalScrollBar extends DrawableContainer {
         rightButton.setParent(this);
     }
 
-    public HorizontalScrollButtonLeft getLeftButton() {
+    public LeftScrollButton getLeftButton() {
         return leftButton;
     }
 
-    public HorizontalScrollButtonRight getRightButton() {
+    public RightScrollButton getRightButton() {
         return rightButton;
     }
     

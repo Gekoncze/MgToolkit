@@ -4,5 +4,5 @@ import cz.mg.toolkit.component.Component;
 
 
 public interface Background {
-    public abstract void onDraw(Graphics g, Component component);
+    public void onDraw(Graphics g, Component component);
 }

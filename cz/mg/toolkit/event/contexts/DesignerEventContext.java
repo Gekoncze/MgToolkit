@@ -18,18 +18,22 @@ public class DesignerEventContext extends EventContext {
     }
     
     @Override
-    public void pushState(Component component) {
+    public final void pushState(Component component) {
         Designer designer = cz.mg.toolkit.utilities.properties.PropertiesInterface.getDesigner(component);
         if(designer != null) designers.addLast(designer);
+        designer = getDesigner();
+        if(designer != null) designer.pushState(component);
     }
 
     @Override
-    public void popState(Component component) {
+    public final void popState(Component component) {
         Designer designer = cz.mg.toolkit.utilities.properties.PropertiesInterface.getDesigner(component);
         if(designer != null) designers.removeLast();
+        designer = getDesigner();
+        if(designer != null) designer.popState(component);
     }
     
-    public Designer getDesigner(){
+    public final Designer getDesigner(){
         return designers.getLast();
     }
 }

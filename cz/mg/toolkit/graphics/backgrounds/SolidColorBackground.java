@@ -10,6 +10,6 @@ public class SolidColorBackground implements Background {
     @Override
     public void onDraw(Graphics g, Component component) {
         g.setColor(((Drawable)component).getCurrentBackgroundColor());
-        g.fillRectangle(0, 0, component.getWidth(), component.getHeight());
+        g.fillRectangle(0, 0, component.getWidth()-1, component.getHeight()-1);
     }
 }

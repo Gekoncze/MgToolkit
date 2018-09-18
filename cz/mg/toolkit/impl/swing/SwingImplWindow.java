@@ -4,7 +4,6 @@ import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.environment.Cursor;
 import cz.mg.toolkit.event.Event;
 import cz.mg.toolkit.graphics.Image;
-import cz.mg.toolkit.environment.device.devices.Display;
 import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.environment.device.devices.Mouse;
 import cz.mg.toolkit.event.contexts.GraphicsEventContext;
@@ -25,6 +24,7 @@ import cz.mg.toolkit.event.EventObserver;
 import cz.mg.toolkit.event.events.DisplayResolutionEvent;
 import cz.mg.toolkit.event.events.WindowCloseEvent;
 import cz.mg.toolkit.event.events.WindowStateEvent;
+import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.impl.ImplCursor;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -347,7 +347,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     }
     
     @Override
-    public final void setIcon(Image image){
+    public final void setIcon(BitmapImage image){
         this.icon = image;
         if(jframe != null && image != null) jframe.setIconImage(((SwingImplImage)image.getImplImage()).swingImage);
     }

@@ -6,7 +6,7 @@ import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.utilities.Drawable;
 
 
-public class SolidColorBorder extends Border {
+public class SolidColorBorder implements Border {
     @Override
     public void onDraw(Graphics g, Component component) {
         g.setColor(((Drawable)component).getCurrentForegroundColor());

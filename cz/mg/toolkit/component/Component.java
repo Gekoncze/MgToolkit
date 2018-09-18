@@ -1,5 +1,7 @@
 package cz.mg.toolkit.component;
 
+import cz.mg.collections.list.List;
+import cz.mg.collections.list.chainlist.ChainList;
 import cz.mg.collections.node.TreeNode;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.event.Event;
@@ -49,7 +51,8 @@ public abstract class Component extends TreeNode<Component, Component> implement
         getEventListeners().addLast(new DesignAdapter() {
             @Override
             public void onEventEnter(DesignEvent e) {
-                getDesigner(e).design(Component.this);
+                Designer designer = getDesigner(e);
+                if(designer != null) designer.design(Component.this);
             }
         });
         
@@ -211,7 +214,7 @@ public abstract class Component extends TreeNode<Component, Component> implement
         sendEvent(new AfterLayoutEvent());
     }
     
-    public final void design(){
+    private Designer getEffectiveDesigner(){
         Component current = this;
         Designer designer = null;
         while(current != null){
@@ -219,11 +222,35 @@ public abstract class Component extends TreeNode<Component, Component> implement
             if(designer != null) break;
             current = current.getParent();
         }
+        return designer;
+    }
+    
+    private void initDesignerContext(Designer designer){
+        designer.clearState();
+        List<Component> path = new ChainList<>();
+        Component current = this;
+        while(current != null){
+            path.addFirst(current);
+            current = current.getParent();
+        }
+        for(Component component : path) designer.pushState(component);
+    }
+    
+    private void clearDesignerContext(Designer designer){
+        designer.clearState();
+    }
+    
+    public final void design(){
+        Designer designer = getEffectiveDesigner();
         if(designer == null) return;
+        
+        initDesignerContext(designer);
         
         DesignEvent event = new DesignEvent();
         event.setEventContext(new DesignerEventContext(designer));
         sendEvent(event);
+        
+        clearDesignerContext(designer);
     }
     
     @Override

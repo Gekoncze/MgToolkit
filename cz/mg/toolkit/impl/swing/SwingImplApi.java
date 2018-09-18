@@ -5,7 +5,7 @@ import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.environment.device.devices.Mouse;
 import cz.mg.toolkit.event.EventObserver;
 import cz.mg.toolkit.graphics.Font;
-import cz.mg.toolkit.graphics.Image;
+import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.impl.ImplApi;
 import cz.mg.toolkit.impl.ImplClipboard;
 import cz.mg.toolkit.impl.ImplColor;
@@ -45,7 +45,7 @@ public class SwingImplApi implements ImplApi {
     }
 
     @Override
-    public ImplCursor createCursor(Image image, int dx, int dy) {
+    public ImplCursor createCursor(BitmapImage image, int dx, int dy) {
         return new SwingImplCursor(image, dx, dy);
     }
 

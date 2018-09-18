@@ -3,6 +3,7 @@ package cz.mg.toolkit.impl;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.environment.Cursor;
 import cz.mg.toolkit.graphics.Image;
+import cz.mg.toolkit.graphics.images.BitmapImage;
 
 
 public interface ImplWindow {
@@ -19,7 +20,7 @@ public interface ImplWindow {
     public void setContentWidth(double width);
     public void setContentHeight(double height);
     public Image getIcon();
-    public void setIcon(Image image);
+    public void setIcon(BitmapImage image);
     public String getTitle();
     public void setTitle(String title);
     public boolean isDecorated();

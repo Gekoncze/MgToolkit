@@ -16,7 +16,7 @@ public class ImageButton extends ContentButton {
         imageContent.setUsePrefferedSize(false);
     }
 
-    public ImageContent getImageContent() {
+    public final ImageContent getImageContent() {
         return imageContent;
     }
 

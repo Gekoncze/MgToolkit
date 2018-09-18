@@ -28,11 +28,11 @@ public class ImageContent extends Content {
         });
     }
     
-    public Image getImage() {
+    public final Image getImage() {
         return image;
     }
 
-    public void setImage(Image image) {
+    public final void setImage(Image image) {
         this.image = image;
     }
 }

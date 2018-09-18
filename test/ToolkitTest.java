@@ -32,8 +32,8 @@ import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.graphics.Graphics;
-import cz.mg.toolkit.graphics.Image;
 import cz.mg.toolkit.graphics.designers.DefaultDesigner;
+import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.impl.swing.SwingImplApi;
 import cz.mg.toolkit.layout.layouts.GridLayout;
@@ -53,7 +53,7 @@ public class ToolkitTest {
         TextContent label;
         SelectionGroup selectionGroup = new SelectionGroup();
         
-        MenuItem m1 = new StandardMenuItem(new Image(ToolkitTest2.class.getResourceAsStream("mg.png")), "yay", new StandardKeyboardCharacterShortcut(true, false, false, 's'), null, null);
+        MenuItem m1 = new StandardMenuItem(new BitmapImage(ToolkitTest2.class.getResourceAsStream("mg.png")), "yay", new StandardKeyboardCharacterShortcut(true, false, false, 's'), null, null);
         MenuItem m2 = new StandardMenuItem(null, "nayyyyyyyyyyyyyyyyyyyyyy", null, true, null);
         MenuItem m3 = new SeparatorItem();
         MenuItem m4 = new StandardMenuItem(null, "option 1", null, false, selectionGroup);
@@ -74,7 +74,7 @@ public class ToolkitTest {
         Window window = new Window();
         window.setContentSize(800/4, 600/4);
         window.setTitle("Yay!");
-        window.setIcon(new Image(ToolkitTest2.class.getResourceAsStream("mg.png")));
+        window.setIcon(new BitmapImage(ToolkitTest2.class.getResourceAsStream("mg.png")));
         window.center();
         setDesigner(window, new TestDesigner());
         
@@ -131,8 +131,7 @@ public class ToolkitTest {
         
         int n = 5;
         for(int i = 0; i <= n; i++){
-            label = new TextContent(i + "" + i + "" + i + "" + i + "" + i);
-            setContext(label, "my top label");
+            label = new BigTextContent(i + "" + i + "" + i + "" + i + "" + i);
             label.setParent(tabs);
             if(i < n){
                 tabs.getChildren().addLast(new HorizontalSeparator());
@@ -169,7 +168,7 @@ public class ToolkitTest {
         });
         
         ImageButton ib = new ImageButton();
-        ib.getImageContent().setImage(new Image(ToolkitTest2.class.getResourceAsStream("mg.png")));
+        ib.getImageContent().setImage(new BitmapImage(ToolkitTest2.class.getResourceAsStream("mg.png")));
         ib.setParent(h0);
         ib.setWrapSize(64, 24, 4);
         ib.getEventListeners().addLast(new ActionAdapter() {
@@ -278,6 +277,12 @@ public class ToolkitTest {
         window.relayout();
     }
     
+    private static class BigTextContent extends TextContent {
+        public BigTextContent(String text) {
+            super(text);
+        }
+    }
+    
 //    private static void printAllActiveThreads(){
 //        System.out.println("\n");
 //        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
@@ -305,9 +310,9 @@ public class ToolkitTest {
         private static final Font TOP_LABEL_FONT = new Font("default", 48, Font.Style.REGULAR);
         
         @Override
-        public void design(Component component) {
-            super.design(component);
-            if("my top label".equals(getContext(component))) setFont(component, TOP_LABEL_FONT);
+        public void onDesign(Component component) {
+            super.onDesign(component);
+            if(component instanceof BigTextContent) setFont(component, TOP_LABEL_FONT);
         }
     }
 }

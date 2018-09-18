@@ -5,6 +5,7 @@ import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.graphics.Image;
 import cz.mg.toolkit.event.adapters.BeforeLayoutAdapter;
 import cz.mg.toolkit.event.events.BeforeLayoutEvent;
+import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.impl.ImplWindow;
@@ -40,7 +41,7 @@ public class SystemDecoration extends Decoration {
     }
 
     @Override
-    public void setIcon(Image icon) {
+    public void setIcon(BitmapImage icon) {
         Window window = getWindow();
         if(window == null) return;
         ImplWindow nativeWindow = window.getImplWindow();

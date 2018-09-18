@@ -1,6 +1,8 @@
 package cz.mg.toolkit.graphics;
 
+import cz.mg.toolkit.graphics.images.VectorImage;
 import cz.mg.toolkit.environment.device.devices.Display;
+import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.impl.ImplGraphics;
 
 
@@ -76,13 +78,22 @@ public class Graphics {
     public final void drawText(String text, double x, double y){
         implGraphics.drawText(text, th(x), tv(y));
     }
-
-    public final void drawImage(Image img, double x, double y){
-        implGraphics.drawImage(img, th(x), tv(y));
+    
+    public final void drawImage(Image image, double x, double y, double width, double height){
+        if(image instanceof BitmapImage) drawImage((BitmapImage)image, x, y, width, height);
+        if(image instanceof VectorImage) drawImage((VectorImage)image, x, y, width, height);
     }
 
-    public final void drawImage(Image img, double x, double y, double width, double height){
-        implGraphics.drawImage(img, th(x), tv(y), th(width), tv(height));
+    public final void drawImage(BitmapImage image, double x, double y, double width, double height){
+        implGraphics.drawImage(image, th(x), tv(y), th(width), tv(height));
+    }
+    
+    public final void drawImage(VectorImage image, double x, double y, double width, double height){
+        pushTransform();
+        translate(x, y);
+        scale(width, height); // does not work - makes lines thicker!!!
+        image.onDraw(this);
+        popTransform();
     }
 
     public final void setTransparency(double value){

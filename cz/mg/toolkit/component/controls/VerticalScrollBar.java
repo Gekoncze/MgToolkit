@@ -1,7 +1,7 @@
 package cz.mg.toolkit.component.controls;
 
-import cz.mg.toolkit.component.controls.buttons.special.VerticalScrollButtonUp;
-import cz.mg.toolkit.component.controls.buttons.special.VerticalScrollButtonDown;
+import cz.mg.toolkit.component.controls.buttons.special.UpScrollButton;
+import cz.mg.toolkit.component.controls.buttons.special.DownScrollButton;
 import cz.mg.toolkit.component.Container;
 import cz.mg.toolkit.component.DrawableContainer;
 import cz.mg.toolkit.component.DrawableContent;
@@ -18,8 +18,8 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 
 public class VerticalScrollBar extends DrawableContainer {
     private Container scrollablePanel;
-    private final VerticalScrollButtonUp upButton = new VerticalScrollButtonUp();
-    private final VerticalScrollButtonDown downButton = new VerticalScrollButtonDown();
+    private final UpScrollButton upButton = new UpScrollButton();
+    private final DownScrollButton downButton = new DownScrollButton();
     private final DraggableBar draggableBar = new DraggableBar();
     private double dragY;
     private double dragBeginScroll;
@@ -41,11 +41,11 @@ public class VerticalScrollBar extends DrawableContainer {
         downButton.setParent(this);
     }
 
-    public VerticalScrollButtonUp getUpButton() {
+    public UpScrollButton getUpButton() {
         return upButton;
     }
 
-    public VerticalScrollButtonDown getDownButton() {
+    public DownScrollButton getDownButton() {
         return downButton;
     }
 

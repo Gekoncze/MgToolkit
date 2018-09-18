@@ -10,6 +10,7 @@
     TIP: raised / lowered borders
     TIP: automatic font size calculation to fit required size
     TIP: settings/parameter/attribute/style fetching for components - global vs class local vs object local vs group local settings
+    add possibility for any component to be the root component
 
     optimalizace relayoutu - u size control nastavit dva booleany
         jeden říkající, zdali okolí komponenty ovlivní její velikost
@@ -33,7 +34,7 @@
     horizontal / vertical slider
     cobmo box
     spinner
-        extends text field
+        extends or uses text field
         int / long
         float / double
 
@@ -42,15 +43,26 @@
     multiline interactive text content
     zalamování textu v multiline text contentu
 
+    add shape class - for mouse click or move-over detection - rectangle or oval as default
+
 #### NOW
-    move all design to the designer class
+    move all design to the designer class - paddings, spacings etc
+    add setter for title bar font
+    make designers store context somehow - but it should be their own context object of own class!!! and only the designer will change it
+        add option to find context for current component - used when design called on certain component; no design if none found until it finds some, or use default
+    graphics - double to int - fix computation of transformation
 
 #### DONE
-Separation of swing implementation - part 2 (done)
-    extracted timer interface
-    fixed graphics interface and implementation
-    added impl api interface
-    added impl static class
-    adapted mg toolkit classes to use the impl class with impl api interface
-    extracted display interface
-    moved display, mouse and keyboard singletons to swing impl window
+Toolkit decoration, Vector image, Vector image content, Designers
+    moved minimize and maximize buttons to toolkit decoration as static inner classes
+    fixed solid color background draw size
+    completely remade toolkit decoration
+    changed both background and border to be interfaces
+    changed image to be a general interface
+    added bitmap image class
+    added vector image class
+    adapted affected classes
+    deleted unnecessary canvas button - using image button with vector image instead
+    renamed scroll buttons
+    completely remade designers
+    TODO: java swing scale makes lines thicker - try fixing it somehow to display vector images correctly

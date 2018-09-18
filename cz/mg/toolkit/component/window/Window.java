@@ -30,6 +30,7 @@ import cz.mg.toolkit.event.events.RedesignEvent;
 import cz.mg.toolkit.event.events.RedrawEvent;
 import cz.mg.toolkit.event.events.RelayoutEvent;
 import cz.mg.toolkit.graphics.designers.DefaultDesigner;
+import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import cz.mg.toolkit.utilities.KeystrokeRepeater;
 import static cz.mg.toolkit.utilities.properties.PropertiesInterface.*;
@@ -44,7 +45,7 @@ public class Window extends Wrapper {
     private Component mouseFocus = null;
     private Decoration decoration;
     private String title;
-    private Image icon;
+    private BitmapImage icon;
     private boolean relayout = false;
     private boolean reshapeLock = false;
     private Cursor cursor = new ArrowCursor();
@@ -318,11 +319,11 @@ public class Window extends Wrapper {
         decoration.setTitle(title);
     }
 
-    public final Image getIcon() {
+    public final BitmapImage getIcon() {
         return icon;
     }
 
-    public final void setIcon(Image icon) {
+    public final void setIcon(BitmapImage icon) {
         this.icon = icon;
         decoration.setIcon(icon);
     }

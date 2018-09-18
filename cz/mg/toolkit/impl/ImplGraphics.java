@@ -2,7 +2,7 @@ package cz.mg.toolkit.impl;
 
 import cz.mg.toolkit.graphics.Color;
 import cz.mg.toolkit.graphics.Font;
-import cz.mg.toolkit.graphics.Image;
+import cz.mg.toolkit.graphics.images.BitmapImage;
 
 
 public interface ImplGraphics {
@@ -21,8 +21,7 @@ public interface ImplGraphics {
     public void drawOval(double x, double y, double width, double height);
     public void fillOval(double x, double y, double width, double height);
     public void drawText(String text, double x, double y);
-    public boolean drawImage(Image img, double x, double y);
-    public boolean drawImage(Image img, double x, double y, double width, double height);
+    public boolean drawImage(BitmapImage img, double x, double y, double width, double height);
     public void setTransparency(double value);
     public void translate(double x, double y);
     public void rotate(double theta);

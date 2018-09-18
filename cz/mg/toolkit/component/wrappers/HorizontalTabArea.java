@@ -6,7 +6,7 @@ import cz.mg.toolkit.component.controls.Button;
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.containers.ContentPanel;
 import cz.mg.toolkit.component.containers.Panel;
-import cz.mg.toolkit.component.controls.buttons.CloseButton;
+import cz.mg.toolkit.component.controls.buttons.special.CloseButton;
 import cz.mg.toolkit.component.contents.ImageContent;
 import cz.mg.toolkit.component.contents.TextContent;
 import cz.mg.toolkit.event.adapters.ActionAdapter;

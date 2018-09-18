@@ -1,8 +1,8 @@
 package cz.mg.toolkit.component.wrappers;
 
 import cz.mg.toolkit.component.containers.Wrapper;
-import cz.mg.toolkit.component.controls.buttons.special.VerticalScrollButtonDown;
-import cz.mg.toolkit.component.controls.buttons.special.VerticalScrollButtonUp;
+import cz.mg.toolkit.component.controls.buttons.special.DownScrollButton;
+import cz.mg.toolkit.component.controls.buttons.special.UpScrollButton;
 import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import cz.mg.toolkit.utilities.ScrollControlsVisibility;
@@ -13,8 +13,8 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 
 
 public class CompactVerticalScrollArea extends Wrapper {
-    private final VerticalScrollButtonUp upButton = new VerticalScrollButtonUp();
-    private final VerticalScrollButtonDown downButton = new VerticalScrollButtonDown();
+    private final UpScrollButton upButton = new UpScrollButton();
+    private final DownScrollButton downButton = new DownScrollButton();
     private ScrollControlsVisibility scrollControlsVisibility = ScrollControlsVisibility.WHEN_NEEDED;
 
     public CompactVerticalScrollArea() {

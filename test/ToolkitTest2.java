@@ -23,7 +23,7 @@ import cz.mg.toolkit.event.adapters.TabCloseAdapter;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.event.events.TabCloseEvent;
 import cz.mg.toolkit.graphics.Graphics;
-import cz.mg.toolkit.graphics.Image;
+import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.impl.swing.SwingImplApi;
 import cz.mg.toolkit.layout.layouts.HorizontalLayout;
@@ -41,7 +41,7 @@ public class ToolkitTest2 {
         Window window = new Window();
         window.setContentSize(800/4, 600/4);
         window.setTitle("Yay!");
-        window.setIcon(new Image(ToolkitTest2.class.getResourceAsStream("mg.png")));
+        window.setIcon(new BitmapImage(ToolkitTest2.class.getResourceAsStream("mg.png")));
         window.center();
         
         window.getEventListeners().addFirst(new GraphicsDrawAdapter() {
@@ -78,7 +78,7 @@ public class ToolkitTest2 {
         
         HorizontalTabArea tabs = new HorizontalTabArea();
         tabs.setParent(windowPanel);
-        tabs.openTab(new Image(ToolkitTest2.class.getResourceAsStream("rainbowdash.png")), "Rainbow dash");
+        tabs.openTab(new BitmapImage(ToolkitTest2.class.getResourceAsStream("rainbowdash.png")), "Rainbow dash");
         tabs.openTab(null, "Yay!");
         for(int i = 0; i < 5; i++) tabs.openTab(null, "tabbbbbbbbbbbbbbbbbb " + i);
         tabs.updateComponents();

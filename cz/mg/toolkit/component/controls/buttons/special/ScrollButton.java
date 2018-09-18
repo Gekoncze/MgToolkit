@@ -1,12 +1,14 @@
 package cz.mg.toolkit.component.controls.buttons.special;
 
 import cz.mg.toolkit.component.Container;
-import cz.mg.toolkit.component.controls.buttons.CanvasButton;
+import cz.mg.toolkit.component.controls.buttons.ImageButton;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
+import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
+import cz.mg.toolkit.graphics.Graphics;
 
 
-public abstract class ScrollButton extends CanvasButton {
+public abstract class ScrollButton extends ImageButton {
     private static final int DEFAULT_SCROLL_SPEED = 16;
     private static final int DEFAULT_WRAP_PADDING = 6;
     private static final int DEFAULT_WRAP_SIZE = 24;
@@ -23,6 +25,12 @@ public abstract class ScrollButton extends CanvasButton {
                 if(scrollPanel == null) return;
                 doScroll(scrollPanel);
                 relayout();
+            }
+        });
+        getImageContent().getEventListeners().addFirst(new GraphicsDrawAdapter() {
+            @Override
+            public void onDrawEventEnter(Graphics g) {
+                g.setColor(getCurrentForegroundColor());
             }
         });
     }

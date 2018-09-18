@@ -1,8 +1,8 @@
 package cz.mg.toolkit.component.wrappers;
 
 import cz.mg.toolkit.component.containers.Wrapper;
-import cz.mg.toolkit.component.controls.buttons.special.HorizontalScrollButtonLeft;
-import cz.mg.toolkit.component.controls.buttons.special.HorizontalScrollButtonRight;
+import cz.mg.toolkit.component.controls.buttons.special.LeftScrollButton;
+import cz.mg.toolkit.component.controls.buttons.special.RightScrollButton;
 import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
 import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import cz.mg.toolkit.utilities.ScrollControlsVisibility;
@@ -13,8 +13,8 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 
 
 public class CompactHorizontalScrollArea extends Wrapper {
-    private final HorizontalScrollButtonLeft leftButton = new HorizontalScrollButtonLeft();
-    private final HorizontalScrollButtonRight rightButton = new HorizontalScrollButtonRight();
+    private final LeftScrollButton leftButton = new LeftScrollButton();
+    private final RightScrollButton rightButton = new RightScrollButton();
     private ScrollControlsVisibility scrollControlsVisibility = ScrollControlsVisibility.WHEN_NEEDED;
 
     public CompactHorizontalScrollArea() {

@@ -19,15 +19,15 @@ public class StandardMenuItem extends ActionMenuItem {
     private final ImageContent imageContent = new ImageContent();
     private final RadioButton radioButton = new RadioButton();
     private final CheckBox checkBox = new CheckBox();
-    private final TextContent textContent = new TextContent();
-    private final TextContent keyTextContent = new TextContent();
+    private final Description description = new Description();
+    private final Shortcut shortcut = new Shortcut();
     
     private final Component[] components = new Component[]{
         imageContent,
         radioButton,
         checkBox,
-        textContent,
-        keyTextContent
+        description,
+        shortcut
     };
     
     private final KeyboardShortcut keyboardShortcut;
@@ -56,15 +56,13 @@ public class StandardMenuItem extends ActionMenuItem {
         if(checked != null) checkBox.setSelected(checked);
         if(selectionGroup != null) radioButton.setSelectionGroup(selectionGroup);
         
-        if(text == null) setHidden(textContent, true);
-        setColumn(textContent, 2);
-        textContent.setText(text);
-        setContext(textContent, "menu item");
+        if(text == null) setHidden(description, true);
+        setColumn(description, 2);
+        description.setText(text);
         
-        if(keyboardShortcut == null) setHidden(keyTextContent, true);
-        setColumn(keyTextContent, 3);
-        if(keyboardShortcut != null) keyTextContent.setText(keyboardShortcut.toString());
-        setContext(keyTextContent, "menu item shortcut");
+        if(keyboardShortcut == null) setHidden(shortcut, true);
+        setColumn(shortcut, 3);
+        if(keyboardShortcut != null) shortcut.setText(keyboardShortcut.toString());
     }
     
     private void addEventListeners() {
@@ -89,5 +87,11 @@ public class StandardMenuItem extends ActionMenuItem {
         if(!isHidden(radioButton)) radioButton.trigger();
         else if(!isHidden(checkBox)) checkBox.trigger();
         else super.trigger();
+    }
+    
+    public static class Description extends TextContent {
+    }
+    
+    public static class Shortcut extends TextContent {
     }
 }
