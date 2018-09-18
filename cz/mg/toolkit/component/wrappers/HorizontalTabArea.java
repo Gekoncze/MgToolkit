@@ -6,7 +6,6 @@ import cz.mg.toolkit.component.controls.Button;
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.containers.ContentPanel;
 import cz.mg.toolkit.component.containers.Panel;
-import cz.mg.toolkit.component.controls.buttons.special.CloseButton;
 import cz.mg.toolkit.component.contents.ImageContent;
 import cz.mg.toolkit.component.contents.TextContent;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
@@ -151,10 +150,8 @@ public class HorizontalTabArea extends Panel {
 
             private void initComponent(){
                 setLayout(new HorizontalLayout());
-                setPadding(this, 4);
                 setActionInvocation(Button.ActionInvocation.EVENT_LEAVE);
                 setVerticalAlignment(this, 1.0);
-                setHorizontalSpacing(this, 4);
             }
 
             private void initComponents(){
@@ -162,7 +159,6 @@ public class HorizontalTabArea extends Panel {
                 text.setParent(this);
                 closeButton.setParent(this);
                 setFixedSize(closeButton, 16, 16);
-                setPadding(closeButton, 4);
                 icon.setContentSize(16, 16);
                 icon.setUsePrefferedSize(false);
             }
@@ -197,5 +193,8 @@ public class HorizontalTabArea extends Panel {
                 return text;
             }
         }
+    }
+    
+    public static class CloseButton extends cz.mg.toolkit.component.controls.buttons.special.CloseButton {
     }
 }

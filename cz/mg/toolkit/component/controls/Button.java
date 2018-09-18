@@ -6,16 +6,13 @@ import cz.mg.toolkit.event.events.ActionEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import cz.mg.toolkit.utilities.Triggerable;
-import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
 public abstract class Button extends DrawableContainer implements Triggerable {
-    public static final int DEFAULT_PADDING = 8;
     private ActionInvocation actionInvocation = ActionInvocation.EVENT_ENTER;
     
     public Button() {
         setLayout(new OverlayLayout());
-        setPadding(this, DEFAULT_PADDING);
         addEventListeners();
     }
     

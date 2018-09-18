@@ -9,16 +9,12 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 
 public class Menu extends Panel {
     public static final int COLUMN_COUNT = 4;
-    public static final int DEFAULT_SPACING = 6;
-    public static final int DEFAULT_PADDING = 6;
     
     private final GridLayout grid = new GridLayout(COLUMN_COUNT, 1);
     private final ChainList<MenuItem> items = new ChainList<>();
     
     public Menu() {
         setLayout(grid);
-        setSpacing(this, DEFAULT_SPACING);
-        setPadding(this, DEFAULT_PADDING);
     }
 
     public ChainList<MenuItem> getItems() {

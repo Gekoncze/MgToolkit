@@ -18,7 +18,6 @@ public class SeparatorItem extends MenuItem {
         setColumn(separator, 0);
         setColumnSpan(separator, 4);
         setHorizontallyOptional(separator, true);
-        setPadding(separator, 0);
     }
     
     @Override

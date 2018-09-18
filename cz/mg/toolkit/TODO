@@ -44,12 +44,16 @@
     zalamování textu v multiline text contentu
 
     add shape class - for mouse click or move-over detection - rectangle or oval as default
+    fix popup menu on heavy GPU load
 
 #### NOW
-    move all design to the designer class - paddings, spacings etc
+    designer fine tunning
+        add something like a designer id property - might be better than 
+        how about: check box and radio button size, scroll buttons size, etc.
+        set also 0 paddings and spacings - components might have those already set by previous designers to other value
+        check carefully for background and border setters
 
 #### DONE
-Graphical fixes and improvements
-    fixed displaying vector images
-    removed set wrap size from buttons - using set padding and fixed size instead
-    quick fixed swing width and height computation
+Minor modifications, yet unfinished
+    moved paddings and spacings to designers (excluding test files)
+    TODO: designer needs some more fine tunning

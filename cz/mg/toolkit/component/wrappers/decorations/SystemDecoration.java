@@ -2,7 +2,6 @@ package cz.mg.toolkit.component.wrappers.decorations;
 
 import cz.mg.toolkit.component.wrappers.Decoration;
 import cz.mg.toolkit.component.window.Window;
-import cz.mg.toolkit.graphics.Image;
 import cz.mg.toolkit.event.adapters.BeforeLayoutAdapter;
 import cz.mg.toolkit.event.events.BeforeLayoutEvent;
 import cz.mg.toolkit.graphics.images.BitmapImage;

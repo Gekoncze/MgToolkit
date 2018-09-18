@@ -11,7 +11,6 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 
 public abstract class ScrollButton extends ImageButton {
     private static final int DEFAULT_SCROLL_SPEED = 16;
-    private static final int DEFAULT_PADDING = 6;
     private static final int DEFAULT_SIZE = 24;
     
     private Container scrollPanel;
@@ -24,7 +23,6 @@ public abstract class ScrollButton extends ImageButton {
     
     private void initComponent(){
         setFixedSize(this, DEFAULT_SIZE, DEFAULT_SIZE);
-        setPadding(this, DEFAULT_PADDING);
     }
     
     private void addEventListeners(){

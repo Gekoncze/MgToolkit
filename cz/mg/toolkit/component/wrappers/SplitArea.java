@@ -21,7 +21,6 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 
 
 public class SplitArea extends Panel {
-    private static final int DEFAULT_SPACING = 4;
     private final GridLayout grid = new GridLayout(1, 1, new ColumnFactory(), new RowFactory());
     private Array2D<Panel> contentPanels = new Array2D<>(1, 1);
     private final ContentPanelFactory contentPanelFactory;
@@ -43,7 +42,6 @@ public class SplitArea extends Panel {
     private void initComponent() {
         setLayout(grid);
         setFillParent(this);
-        setSpacing(this, DEFAULT_SPACING);
         updateContentPanelArray();
     }
 

@@ -14,7 +14,7 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 
 
 public class TextInput extends Panel {
-    private static final double DEFAULT_PADDING = 4;
+    
     
     private final InteractiveTextContent textContent = new InteractiveTextContent();
     private String placeholderText;
@@ -33,7 +33,6 @@ public class TextInput extends Panel {
 
     private void initComponents() {
         textContent.setParent(this);
-        setPadding(textContent, DEFAULT_PADDING);
         setWrapAndFillWidth(textContent);
         textContent.setEditable(true);
     }
@@ -105,5 +104,8 @@ public class TextInput extends Panel {
     
     private static void scrollHorizontally(Component component, double value){
         setHorizontalScroll(component, getHorizontalScroll(component) + value);
+    }
+    
+    public static class Text extends InteractiveTextContent {
     }
 }

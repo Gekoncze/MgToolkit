@@ -2,7 +2,6 @@ package cz.mg.toolkit.component.controls;
 
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.Content;
-import cz.mg.toolkit.component.controls.Menu;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 

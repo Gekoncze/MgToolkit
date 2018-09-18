@@ -4,12 +4,18 @@ import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.Content;
 import cz.mg.toolkit.component.contents.HorizontalSeparator;
 import cz.mg.toolkit.component.contents.VerticalSeparator;
+import cz.mg.toolkit.component.controls.Button;
+import cz.mg.toolkit.component.controls.Menu;
+import cz.mg.toolkit.component.controls.TextInput;
 import cz.mg.toolkit.component.controls.buttons.special.CloseButton;
 import cz.mg.toolkit.component.controls.buttons.special.DownScrollButton;
 import cz.mg.toolkit.component.controls.buttons.special.LeftScrollButton;
 import cz.mg.toolkit.component.controls.buttons.special.RightScrollButton;
+import cz.mg.toolkit.component.controls.buttons.special.ScrollButton;
 import cz.mg.toolkit.component.controls.buttons.special.UpScrollButton;
 import cz.mg.toolkit.component.controls.menuitems.StandardMenuItem;
+import cz.mg.toolkit.component.wrappers.HorizontalTabArea;
+import cz.mg.toolkit.component.wrappers.SplitArea;
 import cz.mg.toolkit.component.wrappers.decorations.ToolkitDecoration;
 import cz.mg.toolkit.graphics.Background;
 import cz.mg.toolkit.graphics.Border;
@@ -20,7 +26,7 @@ import cz.mg.toolkit.graphics.backgrounds.SolidColorBackground;
 import cz.mg.toolkit.graphics.borders.SolidColorBorder;
 import cz.mg.toolkit.graphics.images.VectorImage;
 import cz.mg.toolkit.utilities.Drawable;
-import static cz.mg.toolkit.utilities.properties.PropertiesInterface.*;
+import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
 public class DefaultDesigner extends ContextDesigner {
@@ -50,6 +56,19 @@ public class DefaultDesigner extends ContextDesigner {
     private static final Font TITLE_FONT = new Font("default", 18, Font.Style.BOLD);
     private static final Font MENU_ITEM_DESCRIPTION_FONT = new Font("default", 18, Font.Style.REGULAR);
     private static final Font MENU_ITEM_SHORTCUT_FONT = new Font("default", 18, Font.Style.ITALIC);
+    
+    private static final double BUTTON_PADDING = 8;
+    private static final double SCROLL_BUTTON_PADDING = 6;
+    private static final double MENU_SPACING = 6;
+    private static final double MENU_PADDING = 6;
+    private static final double TEXT_INPUT_PADDING = 4;
+    private static final double TAB_CLOSE_BUTTON_PADDING = 4;
+    private static final double TAB_AREA_HEADER_PADDING = 4;
+    private static final double TAB_AREA_HEADER_SPACING = 4;
+    private static final double SPLIT_AREA_SPACING = 4;
+    private static final double TITLE_BAR_BUTTON_PADDING = 4;
+    private static final double TITLE_BAR_SPACING = 2;
+    private static final double TITLE_BAR_PADDING = 2;
     
     private static final VectorImage LEFT_SCROLL_BUTTON_IMAGE = new VectorImage() {
         @Override
@@ -147,6 +166,18 @@ public class DefaultDesigner extends ContextDesigner {
         if(component instanceof DownScrollButton) ((DownScrollButton)component).getImageContent().setImage(DOWN_SCROLL_BUTTON_IMAGE);
         if(component instanceof CloseButton) ((CloseButton)component).getImageContent().setImage(CLOSE_BUTTON_IMAGE);
         if(component instanceof ToolkitDecoration.CloseButton) ((ToolkitDecoration.CloseButton)component).getImageContent().setImage(CLOSE_BUTTON_IMAGE);
+        if(component instanceof Button) setPadding(component, BUTTON_PADDING);
+        if(component instanceof ScrollButton) setPadding(component, SCROLL_BUTTON_PADDING);
+        if(component instanceof Menu) setSpacing(component, MENU_SPACING);
+        if(component instanceof Menu) setPadding(component, MENU_PADDING);
+        if(component instanceof TextInput.Text) setPadding(component, TEXT_INPUT_PADDING);
+        if(component instanceof HorizontalTabArea.CloseButton) setPadding(component, TAB_CLOSE_BUTTON_PADDING);
+        if(component instanceof HorizontalTabArea) setPadding(component, TAB_AREA_HEADER_PADDING);
+        if(component instanceof HorizontalTabArea.Tab.HorizontalTabHeader) setHorizontalSpacing(component, TAB_AREA_HEADER_SPACING);
+        if(component instanceof SplitArea) setSpacing(component, SPLIT_AREA_SPACING);
+        if(component instanceof ToolkitDecoration.TitlebarButton) setPadding(component, TITLE_BAR_BUTTON_PADDING); 
+        if(component instanceof ToolkitDecoration.TitleBar) setPadding(component, TITLE_BAR_PADDING); 
+        if(component instanceof ToolkitDecoration.TitleBar) setHorizontalSpacing(component, TITLE_BAR_SPACING); 
     }
     
     protected void onDefaultDesign(Component component){

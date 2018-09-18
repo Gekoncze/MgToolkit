@@ -50,10 +50,9 @@ public class ToolkitDecoration extends Decoration {
         titleBar.title.setText(title);
     }
     
-    private static final double DEFAULT_BUTTON_PADDING = 4;
+    
     public static class TitleBar extends Panel {
         private static final double DEFAULT_HEIGHT = 24;
-        private static final double DEFAULT_SPACING = 2;
         
         private final Icon icon = new Icon();
         private final Title title = new Title();
@@ -75,8 +74,6 @@ public class ToolkitDecoration extends Decoration {
             setLayout(new HorizontalLayout());
             setFillParentWidth(this);
             setFixedHeight(this, DEFAULT_HEIGHT);
-            setPadding(this, DEFAULT_SPACING);
-            setHorizontalSpacing(this, DEFAULT_SPACING);
             setVerticalContentAlignment(this, 0.5);
             
             getChildren().addLast(icon);
@@ -171,7 +168,6 @@ public class ToolkitDecoration extends Decoration {
         }
         
         private void initComponent(){
-            setPadding(this, DEFAULT_BUTTON_PADDING);
             setFixedWidth(this, 0);
             setFillParentHeight(this);
         }
