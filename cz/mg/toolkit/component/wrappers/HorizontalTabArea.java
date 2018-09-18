@@ -161,7 +161,8 @@ public class HorizontalTabArea extends Panel {
                 icon.setParent(this);
                 text.setParent(this);
                 closeButton.setParent(this);
-                closeButton.setWrapSize(16, 16, 4);
+                setFixedSize(closeButton, 16, 16);
+                setPadding(closeButton, 4);
                 icon.setContentSize(16, 16);
                 icon.setUsePrefferedSize(false);
             }

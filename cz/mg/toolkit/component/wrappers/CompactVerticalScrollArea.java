@@ -13,6 +13,8 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 
 
 public class CompactVerticalScrollArea extends Wrapper {
+    private static final double BUTTON_HEIGHT = 24;
+    
     private final UpScrollButton upButton = new UpScrollButton();
     private final DownScrollButton downButton = new DownScrollButton();
     private ScrollControlsVisibility scrollControlsVisibility = ScrollControlsVisibility.WHEN_NEEDED;
@@ -35,6 +37,8 @@ public class CompactVerticalScrollArea extends Wrapper {
         
         setWrapAndFillWidth(upButton);
         setWrapAndFillWidth(downButton);
+        setFixedHeight(upButton, BUTTON_HEIGHT);
+        setFixedHeight(downButton, BUTTON_HEIGHT);
                 
         upButton.setScrollPanel(getContentPanel());
         downButton.setScrollPanel(getContentPanel());

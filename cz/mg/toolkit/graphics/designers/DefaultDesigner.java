@@ -53,55 +53,55 @@ public class DefaultDesigner extends ContextDesigner {
     
     private static final VectorImage LEFT_SCROLL_BUTTON_IMAGE = new VectorImage() {
         @Override
-        public void onDraw(Graphics g) {
-            g.drawLine(1.0, 0, 0, 0.5);
-            g.drawLine(0, 0.5, 1.0, 1.0);
+        public void onDraw(Graphics g, double w, double h) {
+            g.drawLine(1.0*w, 0.0*h, 0.0*w, 0.5*h);
+            g.drawLine(0.0*w, 0.5*h, 1.0*w, 1.0*h);
         }
     };
     
     private static final VectorImage RIGHT_SCROLL_BUTTON_IMAGE = new VectorImage() {
         @Override
-        public void onDraw(Graphics g) {
-            g.drawLine(0, 0, 1.0, 0.5);
-            g.drawLine(1.0, 0.5, 0, 1.0);
+        public void onDraw(Graphics g, double w, double h) {
+            g.drawLine(0.0*w, 0.0*h, 1.0*w, 0.5*h);
+            g.drawLine(1.0*w, 0.5*h, 0.0*w, 1.0*h);
         }
     };
     
     private static final VectorImage UP_SCROLL_BUTTON_IMAGE = new VectorImage() {
         @Override
-        public void onDraw(Graphics g) {
-            g.drawLine(0, 1.0, 0.5, 0);
-            g.drawLine(0.5, 0, 1.0, 1.0);
+        public void onDraw(Graphics g, double w, double h) {
+            g.drawLine(0.0*w, 1.0*h, 0.5*w, 0.0*h);
+            g.drawLine(0.5*w, 0.0*h, 1.0*w, 1.0*h);
         }
     };
     
     private static final VectorImage DOWN_SCROLL_BUTTON_IMAGE = new VectorImage() {
         @Override
-        public void onDraw(Graphics g) {
-            g.drawLine(0, 0, 0.5, 1.0);
-            g.drawLine(0.5, 1.0, 1.0, 0);
+        public void onDraw(Graphics g, double w, double h) {
+            g.drawLine(0.0*w, 0.0*h, 0.5*w, 1.0*h);
+            g.drawLine(0.5*w, 1.0*h, 1.0*w, 0.0*h);
         }
     };
     
     private static final VectorImage MINIMIZE_BUTTON_IMAGE = new VectorImage() {
         @Override
-        public void onDraw(Graphics g) {
-            g.drawLine(0, 1.0, 1.0, 1.0);
+        public void onDraw(Graphics g, double w, double h) {
+            g.drawLine(0.0*w, 1.0*h, 1.0*w, 1.0*h);
         }
     };
     
     private static final VectorImage MAXIMIZE_BUTTON_IMAGE = new VectorImage() {
         @Override
-        public void onDraw(Graphics g) {
-            g.drawRectangle(0, 0, 1.0, 1.0);
+        public void onDraw(Graphics g, double w, double h) {
+            g.drawRectangle(0.0*w, 0.0*h, 1.0*w, 1.0*h);
         }
     };
     
     private static final VectorImage CLOSE_BUTTON_IMAGE = new VectorImage() {
         @Override
-        public void onDraw(Graphics g) {
-            g.drawLine(0, 0, 1.0, 1.0);
-            g.drawLine(0, 1.0, 1.0, 0);
+        public void onDraw(Graphics g, double w, double h) {
+            g.drawLine(0.0*w, 0.0*h, 1.0*w, 1.0*h);
+            g.drawLine(0.0*w, 1.0*h, 1.0*w, 0.0*h);
         }
     };
         

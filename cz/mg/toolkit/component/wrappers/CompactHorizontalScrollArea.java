@@ -13,6 +13,8 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 
 
 public class CompactHorizontalScrollArea extends Wrapper {
+    private static final double BUTTON_WIDTH = 24;
+    
     private final LeftScrollButton leftButton = new LeftScrollButton();
     private final RightScrollButton rightButton = new RightScrollButton();
     private ScrollControlsVisibility scrollControlsVisibility = ScrollControlsVisibility.WHEN_NEEDED;
@@ -35,6 +37,8 @@ public class CompactHorizontalScrollArea extends Wrapper {
         
         setWrapAndFillHeight(leftButton);
         setWrapAndFillHeight(rightButton);
+        setFixedWidth(leftButton, BUTTON_WIDTH);
+        setFixedWidth(rightButton, BUTTON_WIDTH);
         
         leftButton.setScrollPanel(getContentPanel());
         rightButton.setScrollPanel(getContentPanel());

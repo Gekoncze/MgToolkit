@@ -91,8 +91,7 @@ public class Graphics {
     public final void drawImage(VectorImage image, double x, double y, double width, double height){
         pushTransform();
         translate(x, y);
-        scale(width, height); // does not work - makes lines thicker!!!
-        image.onDraw(this);
+        image.onDraw(this, width, height);
         popTransform();
     }
 
@@ -102,22 +101,6 @@ public class Graphics {
     
     public final void translate(double x, double y){
         implGraphics.translate(th(x), tv(y));
-    }
-
-    public final void rotate(double theta){
-        implGraphics.rotate(theta);
-    }
-
-    public final void rotate(double theta, double x, double y){
-        implGraphics.rotate(theta, th(x), tv(y));
-    }
-
-    public final void scale(double sx, double sy){
-        implGraphics.scale(sx, sy);
-    }
-
-    public final void shear(double shx, double shy){
-        implGraphics.shear(shx, shy);
     }
 
     public final void setAntialiasing(boolean value){

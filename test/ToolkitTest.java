@@ -91,9 +91,9 @@ public class ToolkitTest {
             @Override
             public void onKeyboardButtonEventEnter(KeyboardButtonEvent e) {
                 if(!wasButtonPressed(e)) return;
-                if(e.getButton() == Keyboard.F1_BUTTON) {window.setDecorated(!window.isDecorated());}
+                if(e.getButton() == Keyboard.F1_BUTTON) window.setDecorated(!window.isDecorated());
                 if(e.getButton() == Keyboard.F2_BUTTON) window.setDecoration(new SystemDecoration());
-                if(e.getButton() == Keyboard.F3_BUTTON) {window.setDecoration(new ToolkitDecoration());}
+                if(e.getButton() == Keyboard.F3_BUTTON) window.setDecoration(new ToolkitDecoration());
                 if(e.getButton() == Keyboard.F4_BUTTON) ;
                 if(e.getButton() == Keyboard.F5_BUTTON) ;
                 if(e.getButton() == Keyboard.F6_BUTTON) ;
@@ -158,7 +158,8 @@ public class ToolkitTest {
         TextButton tb = new TextButton();
         tb.getTextContent().setText("TB");
         tb.setParent(h0);
-        tb.setWrapSize(64, 24, 4);
+        setFixedSize(tb, 64, 24);
+        setPadding(tb, 4);
         tb.getEventListeners().addLast(new ActionAdapter() {
             @Override
             public void onEventEnter(ActionEvent e) {
@@ -170,7 +171,8 @@ public class ToolkitTest {
         ImageButton ib = new ImageButton();
         ib.getImageContent().setImage(new BitmapImage(ToolkitTest2.class.getResourceAsStream("mg.png")));
         ib.setParent(h0);
-        ib.setWrapSize(64, 24, 4);
+        setFixedSize(ib, 64, 24);
+        setPadding(ib, 4);
         ib.getEventListeners().addLast(new ActionAdapter() {
             @Override
             public void onEventEnter(ActionEvent e) {

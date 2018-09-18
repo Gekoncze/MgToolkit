@@ -47,22 +47,9 @@
 
 #### NOW
     move all design to the designer class - paddings, spacings etc
-    add setter for title bar font
-    make designers store context somehow - but it should be their own context object of own class!!! and only the designer will change it
-        add option to find context for current component - used when design called on certain component; no design if none found until it finds some, or use default
-    graphics - double to int - fix computation of transformation
 
 #### DONE
-Toolkit decoration, Vector image, Vector image content, Designers
-    moved minimize and maximize buttons to toolkit decoration as static inner classes
-    fixed solid color background draw size
-    completely remade toolkit decoration
-    changed both background and border to be interfaces
-    changed image to be a general interface
-    added bitmap image class
-    added vector image class
-    adapted affected classes
-    deleted unnecessary canvas button - using image button with vector image instead
-    renamed scroll buttons
-    completely remade designers
-    TODO: java swing scale makes lines thicker - try fixing it somehow to display vector images correctly
+Graphical fixes and improvements
+    fixed displaying vector images
+    removed set wrap size from buttons - using set padding and fixed size instead
+    quick fixed swing width and height computation

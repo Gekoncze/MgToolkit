@@ -24,9 +24,5 @@ public interface ImplGraphics {
     public boolean drawImage(BitmapImage img, double x, double y, double width, double height);
     public void setTransparency(double value);
     public void translate(double x, double y);
-    public void rotate(double theta);
-    public void rotate(double theta, double x, double y);
-    public void scale(double sx, double sy);
-    public void shear(double shx, double shy);
     public void setAntialiasing(boolean value);
 }

@@ -10,6 +10,6 @@ public class SolidColorBorder implements Border {
     @Override
     public void onDraw(Graphics g, Component component) {
         g.setColor(((Drawable)component).getCurrentForegroundColor());
-        g.drawRectangle(0, 0, component.getWidth()-1, component.getHeight()-1);
+        g.drawRectangle(0, 0, component.getWidth(), component.getHeight());
     }
 }

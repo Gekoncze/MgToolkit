@@ -82,32 +82,32 @@ public class SwingImplGraphics implements ImplGraphics {
 
     @Override
     public final void fillRectangle(double x, double y, double width, double height){
-        g.fillRect(r(x), r(y), r(width), r(height));
+        g.fillRect(r(x), r(y), r(width)-1, r(height)-1);
     }
 
     @Override
     public final void drawRectangle(double x, double y, double width, double height) {
-        g.drawRect(r(x), r(y), r(width), r(height));
+        g.drawRect(r(x), r(y), r(width)-1, r(height)-1);
     }
 
     @Override
     public final void drawOval(double x, double y, double width, double height){
-        g.drawOval(r(x), r(y), r(width), r(height));
+        g.drawOval(r(x), r(y), r(width)-1, r(height)-1);
     }
 
     @Override
     public final void fillOval(double x, double y, double width, double height){
-        g.fillOval(r(x), r(y), r(width), r(height));
+        g.fillOval(r(x), r(y), r(width)-1, r(height)-1);
     }
 
     @Override
     public final void drawText(String text, double x, double y){
-        drawImage(renderFont(font, text, color), x, y, font.getDisplayWidth(display, text)-1, font.getDisplayHeight(display)-1);
+        drawImage(renderFont(font, text, color), x, y, font.getDisplayWidth(display, text), font.getDisplayHeight(display));
     }
 
     @Override
     public final boolean drawImage(BitmapImage img, double x, double y, double width, double height){
-        return g.drawImage(((SwingImplImage)img.getImplImage()).swingImage, r(x), r(y), r(width), r(height), null);
+        return g.drawImage(((SwingImplImage)img.getImplImage()).swingImage, r(x), r(y), r(width)-1, r(height)-1, null);
     }
 
     @Override
@@ -120,26 +120,6 @@ public class SwingImplGraphics implements ImplGraphics {
     @Override
     public final void translate(double x, double y){
         g.translate(x, y);
-    }
-
-    @Override
-    public final void rotate(double theta){
-        g.rotate(theta);
-    }
-
-    @Override
-    public final void rotate(double theta, double x, double y){
-        g.rotate(theta, x, y);
-    }
-
-    @Override
-    public final void scale(double sx, double sy){
-        g.scale(sx, sy);
-    }
-
-    @Override
-    public final void shear(double shx, double shy){
-        g.shear(shx, shy);
     }
 
     @Override

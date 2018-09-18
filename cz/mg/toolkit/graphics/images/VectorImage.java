@@ -5,5 +5,5 @@ import cz.mg.toolkit.graphics.Image;
 
 
 public abstract class VectorImage implements Image {
-    public abstract void onDraw(Graphics g);
+    public abstract void onDraw(Graphics g, double w, double h);
 }

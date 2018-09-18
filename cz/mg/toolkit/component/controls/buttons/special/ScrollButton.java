@@ -6,18 +6,28 @@ import cz.mg.toolkit.event.adapters.ActionAdapter;
 import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
 import cz.mg.toolkit.graphics.Graphics;
+import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
 public abstract class ScrollButton extends ImageButton {
     private static final int DEFAULT_SCROLL_SPEED = 16;
-    private static final int DEFAULT_WRAP_PADDING = 6;
-    private static final int DEFAULT_WRAP_SIZE = 24;
+    private static final int DEFAULT_PADDING = 6;
+    private static final int DEFAULT_SIZE = 24;
     
     private Container scrollPanel;
     private int scrollSpeed = DEFAULT_SCROLL_SPEED;
 
     public ScrollButton() {
-        setWrapSize(DEFAULT_WRAP_SIZE, DEFAULT_WRAP_SIZE, DEFAULT_WRAP_PADDING);
+        initComponent();
+        addEventListeners();
+    }
+    
+    private void initComponent(){
+        setFixedSize(this, DEFAULT_SIZE, DEFAULT_SIZE);
+        setPadding(this, DEFAULT_PADDING);
+    }
+    
+    private void addEventListeners(){
         getEventListeners().addLast(new ActionAdapter() {
             @Override
             public void onEventEnter(ActionEvent e) {
