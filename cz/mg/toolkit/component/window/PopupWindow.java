@@ -6,10 +6,15 @@ import cz.mg.toolkit.event.events.WindowStateEvent;
 
 public class PopupWindow extends Window {
     public PopupWindow() {
-        setDecorated(false);
+        initComponent();
         addEventListeners();
     }
 
+    private void initComponent(){
+        setDecorated(false);
+        setAutoWrap(true);
+    }
+    
     private void addEventListeners() {
         getEventListeners().addLast(new WindowStateAdapter() {
             @Override

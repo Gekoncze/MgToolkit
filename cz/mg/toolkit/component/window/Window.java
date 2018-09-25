@@ -45,11 +45,12 @@ public class Window extends Wrapper {
     private Decoration decoration;
     private String title;
     private BitmapImage icon;
-    private boolean relayout = false;
+    private boolean relayout = true;
     private Cursor cursor = new ArrowCursor();
     private boolean decorated = true;
     private boolean cursorVisible = true;
     private final KeystrokeRepeater keystrokeRepeater = new KeystrokeRepeater();
+    private boolean autoWrap = false;
     
     public Window() {
         initComponent();
@@ -160,7 +161,8 @@ public class Window extends Wrapper {
     private void updateLayout(){
         if(relayout){
             relayout = false;
-            layout();
+            if(autoWrap) wrap();
+            else layout();
         }
     }
     
@@ -290,5 +292,13 @@ public class Window extends Wrapper {
 
     public final KeystrokeRepeater getKeystrokeRepeater() {
         return keystrokeRepeater;
+    }
+
+    public final boolean isAutoWrap() {
+        return autoWrap;
+    }
+
+    public final void setAutoWrap(boolean autoWrap) {
+        this.autoWrap = autoWrap;
     }
 }

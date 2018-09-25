@@ -67,7 +67,6 @@ public class ToolkitTest {
         contextMenu.getMenu().getItems().addLast(m5);
         contextMenu.getMenu().getItems().addLast(m6);
         contextMenu.getMenu().updateComponents();
-        contextMenu.wrap();
         
         Window window = new Window();
         window.setSize(200*4, 150*4);
@@ -265,7 +264,6 @@ public class ToolkitTest {
         }
         
         window.open();
-        window.relayout();
     }
     
     private static class BigTextContent extends TextContent {
@@ -280,6 +278,7 @@ public class ToolkitTest {
         Debug.sendRandomColors(window);
         window.redraw();
         DEBUG = true;
+        //Debug.printComponentInfo(window);
     }
     
     private static class TestDesigner extends DefaultDesigner {
