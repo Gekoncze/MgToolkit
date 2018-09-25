@@ -150,6 +150,8 @@ public class DefaultDesigner extends ContextDesigner {
     }
     
     protected void onDesign(Component component){
+        setPadding(component, 0);
+        setSpacing(component, 0);
         setContrastColor(component, CONTRAST_COLOR);
         if(component instanceof Drawable) setBackground(component, BACKGROUND);
         if(component instanceof Drawable) setBorder(component, BORDER);

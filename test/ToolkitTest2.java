@@ -15,14 +15,11 @@ import cz.mg.toolkit.component.wrappers.VerticalScrollArea;
 import cz.mg.toolkit.component.wrappers.decorations.SystemDecoration;
 import cz.mg.toolkit.component.wrappers.decorations.ToolkitDecoration;
 import cz.mg.toolkit.debug.Debug;
-import cz.mg.toolkit.environment.device.devices.Display;
 import cz.mg.toolkit.environment.device.devices.Keyboard;
-import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.event.adapters.KeyboardButtonAdapter;
 import cz.mg.toolkit.event.adapters.TabCloseAdapter;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.event.events.TabCloseEvent;
-import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.impl.swing.SwingImplApi;
@@ -37,21 +34,14 @@ public class ToolkitTest2 {
     
     public static void main(String[] args) throws IOException {
         Impl.setImplApi(new SwingImplApi());
+        Impl.getImplApi().getPrimaryDisplay().setHorizontalZoom(0.25);
+        Impl.getImplApi().getPrimaryDisplay().setVerticalZoom(0.25);
         
         Window window = new Window();
-        window.setContentSize(800/4, 600/4);
+        window.setSize(200*4, 150*4);
         window.setTitle("Yay!");
         window.setIcon(new BitmapImage(ToolkitTest2.class.getResourceAsStream("mg.png")));
         window.center();
-        
-        window.getEventListeners().addFirst(new GraphicsDrawAdapter() {
-            @Override
-            public void onDrawEventEnter(Graphics g) {
-                Display d = g.getDisplay();
-                d.setHorizontalZoom(0.25);
-                d.setVerticalZoom(0.25);
-            }
-        });
         
         window.getEventListeners().addLast(new KeyboardButtonAdapter() {
             @Override
@@ -74,7 +64,7 @@ public class ToolkitTest2 {
         Container windowPanel = window.getContentPanel();
 //        windowPanel.setLayout(new VerticalLayout());
 //        windowPanel.getHints().set(SPACING, Dimension.Y, 4);
-        setPadding(windowPanel, 4);
+//        setPadding(windowPanel, 4);
         
         HorizontalTabArea tabs = new HorizontalTabArea();
         tabs.setParent(windowPanel);
@@ -103,10 +93,10 @@ public class ToolkitTest2 {
         HorizontalFlowArea hfa = new HorizontalFlowArea();
         VerticalFlowArea vfa = new VerticalFlowArea();
         
-        setSpacing(hfa.getContentPanel(), 8);
-        setPadding(hfa.getContentPanel(), 4);
-        setSpacing(vfa.getContentPanel(), 8);
-        setPadding(vfa.getContentPanel(), 4);
+//        setSpacing(hfa.getContentPanel(), 8);
+//        setPadding(hfa.getContentPanel(), 4);
+//        setSpacing(vfa.getContentPanel(), 8);
+//        setPadding(vfa.getContentPanel(), 4);
         
         for(int i = 0; i < 100; i++){
             hfa.getContentPanel().getChildren().addLast(new TextContent("Yay " + i));
@@ -123,11 +113,11 @@ public class ToolkitTest2 {
         VerticalScrollArea vs = new VerticalScrollArea();
         
         hs.getContentPanel().setLayout(new HorizontalLayout());
-        setHorizontalSpacing(hs.getContentPanel(), 4);
-        setPadding(hs.getContentPanel(), 4);
+//        setHorizontalSpacing(hs.getContentPanel(), 4);
+//        setPadding(hs.getContentPanel(), 4);
         vs.getContentPanel().setLayout(new VerticalLayout());
-        setVerticalSpacing(vs.getContentPanel(), 4);
-        setPadding(vs.getContentPanel(), 4);
+//        setVerticalSpacing(vs.getContentPanel(), 4);
+//        setPadding(vs.getContentPanel(), 4);
         
         for(int i = 0; i < 20; i++){
             hs.getContentPanel().getChildren().addLast(new TextContent("Yay " + i));

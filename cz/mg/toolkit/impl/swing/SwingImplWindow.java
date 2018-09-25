@@ -14,12 +14,8 @@ import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
 import cz.mg.toolkit.event.events.MouseWheelEvent;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Frame;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import cz.mg.toolkit.event.EventObserver;
 import cz.mg.toolkit.event.events.DisplayResolutionEvent;
 import cz.mg.toolkit.event.events.WindowCloseEvent;
@@ -32,15 +28,37 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import cz.mg.toolkit.impl.ImplWindow;
 import static cz.mg.toolkit.impl.swing.SwingImplApi.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import javax.swing.Timer;
 
 
 public class SwingImplWindow implements EventObserver, ImplWindow {
     private JFrame jframe;
-    private JPanel jpanel;
     private Image icon;
     private Window window;
     private Cursor cursor;
     private boolean relayout = true;
+    
+    private int lastX = Integer.MIN_VALUE;
+    private int lastY = Integer.MIN_VALUE;
+    private int lastWidth = Integer.MIN_VALUE;
+    private int lastHeight = Integer.MIN_VALUE;
+    
+    private double lastWindowX = Double.MIN_VALUE;
+    private double lastWindowY = Double.MIN_VALUE;
+    private double lastWindowWidth = Double.MIN_VALUE;
+    private double lastWindowHeight = Double.MIN_VALUE;
+    
+    private boolean ignoreExternalChange = true;
+    
+    private final Timer synchronizationTimer = new Timer(200, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            synchronizeWindow();
+        }
+    });
 
     public SwingImplWindow() {
         initKeyboardButtons();
@@ -52,6 +70,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
         jframe = new JFrame(){
             @Override
             public void paint(java.awt.Graphics g) {
+                synchronizeWindow();
                 if(SWING_DISPLAY_INSTANCE.updateGraphicsBuffer()) sendEvent(new DisplayResolutionEvent());
                 window.sendEvent(new BeforeDrawEvent(relayout));
                 relayout = false;
@@ -66,14 +85,22 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
         jframe.addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
             public void componentResized(java.awt.event.ComponentEvent e) {
-                super.componentResized(e);
                 relayout();
             }
 
             @Override
             public void componentMoved(java.awt.event.ComponentEvent e) {
-                super.componentMoved(e);
                 relayout();
+            }
+
+            @Override
+            public void componentShown(ComponentEvent e) {
+                onWindowShown();
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+                onWindowHidden();
             }
         });
         
@@ -119,6 +146,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
 
             @Override
             public void mouseMoved(java.awt.event.MouseEvent e) {
+                ignoreExternalChange = false;
                 double mx = th(e.getXOnScreen());
                 double my = tv(e.getYOnScreen());
                 double dx = mx - MOUSE_INSTANCE.getScreenX();
@@ -184,6 +212,16 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
             public void windowDeactivated(WindowEvent e) {
                 sendEvent(new WindowStateEvent(window));
             }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                onWindowHidden();
+            }
+
+            @Override
+            public void windowOpened(WindowEvent e) {
+                onWindowShown();
+            }
         });
         
         jframe.addWindowStateListener(new WindowStateListener() {
@@ -194,26 +232,15 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
         });
         
         jframe.setFocusTraversalKeysEnabled(false);
-        
-        jpanel = new JPanel();
-        jpanel.setBackground(new Color(0,0,0,0));
-        
-        jpanel.addComponentListener(new java.awt.event.ComponentAdapter() {
-            @Override
-            public void componentResized(java.awt.event.ComponentEvent e) {
-                super.componentResized(e);
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        relayout();
-                    }
-                });
-            }
-        });
-        
-        jframe.getContentPane().add(jpanel);
-        
         cursor = new Cursor(ImplCursor.NativeCursor.ARROW);
+    }
+    
+    private void onWindowShown(){
+        synchronizationTimer.start();
+    }
+    
+    private void onWindowHidden(){
+        synchronizationTimer.stop();
     }
     
     private double th(int value){
@@ -285,60 +312,6 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     @Override
     public final void setWindow(Window window) {
         this.window = window;
-    }
-    
-    @Override
-    public final double getX(){
-        if((jframe.getExtendedState() & JFrame.MAXIMIZED_HORIZ) != 0) return 0;
-        return th(jframe.getX());
-    }
-    
-    @Override
-    public final double getY(){
-        if((jframe.getExtendedState() & JFrame.MAXIMIZED_VERT) != 0) return 0;
-        return tv(jframe.getY());
-    }
-    
-    @Override
-    public final void setLocation(double x, double y){
-        jframe.setLocation(trh(x), trv(y));
-    }
-    
-    @Override
-    public final double getWidth(){
-        return th(jframe.getWidth());
-    }
-    
-    @Override
-    public final double getHeight(){
-        return tv(jframe.getHeight());
-    }
-    
-    @Override
-    public final double getContentWidth(){
-        return th(jpanel.getWidth());
-    }
-    
-    @Override
-    public final double getContentHeight(){
-        return tv(jpanel.getHeight());
-    }
-    
-    @Override
-    public final void setSize(double width, double height){
-        jframe.setSize(trh(width), trv(height));
-    }
-    
-    @Override
-    public final void setContentWidth(double width){
-        jpanel.setPreferredSize(new Dimension(trh(width), jpanel.getHeight()));
-        jframe.pack();
-    }
-    
-    @Override
-    public final void setContentHeight(double height){
-        jpanel.setPreferredSize(new Dimension(jpanel.getWidth(), trv(height)));
-        jframe.pack();
     }
     
     @Override
@@ -466,18 +439,97 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     }
     
     @Override
-    public final void center(){
-        jframe.setLocationRelativeTo(null);
-    }
-    
-    @Override
     public final void redraw(){
         jframe.repaint();
     }
     
-    private final void relayout(){
+    private void relayout(){
         relayout = true;
         jframe.repaint();
+    }
+    
+    private void repaint(){
+        jframe.repaint();
+    }
+    
+    private void synchronizeWindow(){
+        synchronizeWindowPosition();
+        synchronizeWindowSize();
+    }
+    
+    private void synchronizeWindowPosition(){
+        boolean minimizedOrMaximized = isMinimized() || isMaximized();
+        
+        double currentWindowX = window.getX();
+        double currentWindowY = window.getY();
+        boolean internalChange = currentWindowX != lastWindowX || currentWindowY != lastWindowY;
+        
+        int currentX = jframe.getX();
+        int currentY = jframe.getY();
+        boolean externalChange = currentX != lastX || currentY != lastY;
+        if(ignoreExternalChange) externalChange = false;
+        
+        int expectedX = trh(window.getX());
+        int expectedY = trv(window.getY());
+        boolean mismatch = expectedX != currentX || expectedY != currentY;
+        
+        if(externalChange && minimizedOrMaximized){
+            window.setX(th(currentX));
+            window.setY(tv(currentY));
+            repaint();
+        } else if(internalChange){
+            jframe.setLocation(expectedX, expectedY);
+            repaint();
+        } else if(externalChange){
+            window.setX(th(currentX));
+            window.setY(tv(currentY));
+            repaint();
+        } else if(mismatch){
+            jframe.setLocation(expectedX, expectedY);
+            repaint();
+        }
+        
+        lastWindowX = window.getX();
+        lastWindowY = window.getY();
+        lastX = jframe.getX();
+        lastY = jframe.getY();
+    }
+    
+    private void synchronizeWindowSize(){
+        boolean minimizedOrMaximized = isMinimized() || isMaximized();
+        
+        double currentWindowWidth = window.getWidth();
+        double currentWindowHeight = window.getHeight();
+        boolean internalChange = currentWindowWidth != lastWindowWidth || currentWindowHeight != lastWindowHeight;
+        
+        int currentWidth = jframe.getWidth();
+        int currentHeight = jframe.getHeight();
+        boolean externalChange = currentWidth != lastWidth || currentHeight != lastHeight;
+        if(ignoreExternalChange) externalChange = false;
+        
+        int expectedWidth = trh(window.getWidth());
+        int expectedHeight = trv(window.getHeight());
+        boolean mismatch = expectedWidth != currentWidth || expectedHeight != currentHeight;
+        
+        if(externalChange && minimizedOrMaximized){
+            window.setWidth(th(currentWidth));
+            window.setHeight(tv(currentHeight));
+            relayout();
+        } else if(internalChange){
+            jframe.setSize(expectedWidth, expectedHeight);
+            relayout();
+        } else if(externalChange){
+            window.setWidth(th(currentWidth));
+            window.setHeight(tv(currentHeight));
+            relayout();
+        } else if(mismatch){
+            jframe.setSize(expectedWidth, expectedHeight);
+            relayout();
+        }
+        lastWindowWidth = window.getWidth();
+        lastWindowHeight = window.getHeight();
+        lastWidth = jframe.getWidth();
+        lastHeight = jframe.getHeight();
     }
     
     private static int codeLocationToButton(int code, int location){
@@ -638,4 +690,19 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
         Mouse.MIDDLE_BUTTON = java.awt.event.MouseEvent.BUTTON2;
         Mouse.RIGHT_BUTTON = java.awt.event.MouseEvent.BUTTON3;
     }
+    
+//    private void printAllActiveThreads(){
+//        System.out.println("\n");
+//        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+//        for(Thread t : threadSet) System.out.println("T: " + t);
+//        System.out.println("\n");
+//    }
+//
+//    private void printAllWindowState(){
+//        System.out.println("\n");
+//        for(java.awt.Window window : java.awt.Window.getWindows()){
+//            System.out.println("" + window.isDisplayable());
+//        }
+//        System.out.println("\n");
+//    }
 }

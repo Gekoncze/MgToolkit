@@ -22,16 +22,13 @@ import cz.mg.toolkit.component.wrappers.decorations.SystemDecoration;
 import cz.mg.toolkit.component.wrappers.decorations.ToolkitDecoration;
 import cz.mg.toolkit.component.window.ContextMenu;
 import cz.mg.toolkit.debug.Debug;
-import cz.mg.toolkit.environment.device.devices.Display;
 import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
-import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.event.adapters.KeyboardButtonAdapter;
 import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
-import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.graphics.designers.DefaultDesigner;
 import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.impl.Impl;
@@ -49,6 +46,8 @@ public class ToolkitTest {
     
     public static void main(String[] args) throws IOException {
         Impl.setImplApi(new SwingImplApi());
+        Impl.getImplApi().getPrimaryDisplay().setHorizontalZoom(0.25);
+        Impl.getImplApi().getPrimaryDisplay().setVerticalZoom(0.25);
         
         TextContent label;
         SelectionGroup selectionGroup = new SelectionGroup();
@@ -68,24 +67,14 @@ public class ToolkitTest {
         contextMenu.getMenu().getItems().addLast(m5);
         contextMenu.getMenu().getItems().addLast(m6);
         contextMenu.getMenu().updateComponents();
-        
         contextMenu.wrap();
         
         Window window = new Window();
-        window.setContentSize(800/4, 600/4);
+        window.setSize(200*4, 150*4);
         window.setTitle("Yay!");
         window.setIcon(new BitmapImage(ToolkitTest2.class.getResourceAsStream("mg.png")));
         window.center();
         setDesigner(window, new TestDesigner());
-        
-        window.getEventListeners().addFirst(new GraphicsDrawAdapter() {
-            @Override
-            public void onDrawEventEnter(Graphics g) {
-                Display d = g.getDisplay();
-                d.setHorizontalZoom(0.25);
-                d.setVerticalZoom(0.25);
-            }
-        });
         
         window.getEventListeners().addLast(new KeyboardButtonAdapter() {
             @Override
@@ -118,16 +107,16 @@ public class ToolkitTest {
         
         Container windowPanel = window.getContentPanel();
         windowPanel.setLayout(new VerticalLayout());
-        setVerticalSpacing(windowPanel, 4);
-        setPadding(windowPanel, 4);
+//        setVerticalSpacing(windowPanel, 4);
+//        setPadding(windowPanel, 4);
         
         CompactHorizontalScrollArea tabsArea = new CompactHorizontalScrollArea();
         tabsArea.setParent(windowPanel);
         
         Container tabs = tabsArea.getContentPanel();
         tabs.setLayout(new HorizontalLayout());
-        setPadding(tabs, 8);
-        setHorizontalSpacing(tabs, 8);
+//        setPadding(tabs, 8);
+//        setHorizontalSpacing(tabs, 8);
         
         int n = 5;
         for(int i = 0; i <= n; i++){
@@ -143,23 +132,23 @@ public class ToolkitTest {
         setHorizontalContentAlignment(scrollArea.getContentPanel(), 0.5);
         
         Panel v1 = new Panel();
-        setPadding(v1, 4);
+//        setPadding(v1, 4);
         v1.setLayout(new VerticalLayout());
         v1.setParent(scrollArea.getContentPanel());
-        setVerticalSpacing(v1, 4);
+//        setVerticalSpacing(v1, 4);
         
         Panel h0 = new Panel();
-        setPadding(h0, 8);
+//        setPadding(h0, 8);
         h0.setLayout(new HorizontalLayout());
         h0.setParent(v1);
-        setHorizontalSpacing(h0, 4);
+//        setHorizontalSpacing(h0, 4);
         setWrapAndFillWidth(h0);
         
         TextButton tb = new TextButton();
         tb.getTextContent().setText("TB");
         tb.setParent(h0);
         setFixedSize(tb, 64, 24);
-        setPadding(tb, 4);
+//        setPadding(tb, 4);
         tb.getEventListeners().addLast(new ActionAdapter() {
             @Override
             public void onEventEnter(ActionEvent e) {
@@ -172,7 +161,7 @@ public class ToolkitTest {
         ib.getImageContent().setImage(new BitmapImage(ToolkitTest2.class.getResourceAsStream("mg.png")));
         ib.setParent(h0);
         setFixedSize(ib, 64, 24);
-        setPadding(ib, 4);
+//        setPadding(ib, 4);
         ib.getEventListeners().addLast(new ActionAdapter() {
             @Override
             public void onEventEnter(ActionEvent e) {
@@ -193,10 +182,10 @@ public class ToolkitTest {
         setContentAlignment(alignmentTest, 0.5);
         
         Panel h1 = new Panel();
-        setPadding(h1, 8);
+//        setPadding(h1, 8);
         h1.setLayout(new HorizontalLayout());
         h1.setParent(v1);
-        setHorizontalSpacing(h1, 8);
+//        setHorizontalSpacing(h1, 8);
         setWrapAndFillWidth(h1);
         
         label = new TextContent("Lorem ipsum 1");
@@ -209,8 +198,8 @@ public class ToolkitTest {
         label.setParent(h1);
         
         Panel h2 = new Panel();
-        setHorizontalSpacing(h2, 8);
-        setPadding(h2, 8);
+//        setHorizontalSpacing(h2, 8);
+//        setPadding(h2, 8);
         h2.setLayout(new HorizontalLayout());
         h2.setParent(v1);
         setHorizontalAlignment(h2, 1.0);
@@ -236,8 +225,8 @@ public class ToolkitTest {
         label.setParent(h2);
         
         Panel h4 = new Panel();
-        setPadding(h1, 8);
-        setHorizontalSpacing(h4, 8);
+//        setPadding(h1, 8);
+//        setHorizontalSpacing(h4, 8);
         h4.setLayout(new HorizontalLayout());
         h4.setParent(v1);
         
@@ -252,11 +241,11 @@ public class ToolkitTest {
         setHorizontalContentAlignment(mtc, 0.5);
         
         Panel grid = new Panel();
-        setPadding(grid, 8);
+//        setPadding(grid, 8);
         GridLayout gridLayout = new GridLayout(3, 35);
         grid.setLayout(gridLayout);
         grid.setParent(v1);
-        setVerticalSpacing(grid, 8);
+//        setVerticalSpacing(grid, 8);
         setWrapAndFillWidth(grid);
         
         for(Column column : gridLayout.getColumns()){
@@ -284,21 +273,6 @@ public class ToolkitTest {
             super(text);
         }
     }
-    
-//    private static void printAllActiveThreads(){
-//        System.out.println("\n");
-//        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
-//        for(Thread t : threadSet) System.out.println("T: " + t);
-//        System.out.println("\n");
-//    }
-//    
-//    private static void printAllWindowState(){
-//        System.out.println("\n");
-//        for(java.awt.Window window : java.awt.Window.getWindows()){
-//            System.out.println("" + window.isDisplayable());
-//        }
-//        System.out.println("\n");
-//    }
     
     public static void setDebug(Window window){
         if(!DEBUG) Debug.setIds(window);

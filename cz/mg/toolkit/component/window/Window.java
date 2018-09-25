@@ -8,11 +8,10 @@ import cz.mg.toolkit.component.wrappers.decorations.SystemDecoration;
 import cz.mg.toolkit.impl.swing.SwingImplWindow;
 import cz.mg.toolkit.environment.cursors.ArrowCursor;
 import cz.mg.toolkit.environment.cursors.NoCursor;
-import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
+import cz.mg.toolkit.environment.device.devices.Display;
 import cz.mg.toolkit.event.adapters.BeforeDrawAdapter;
 import cz.mg.toolkit.event.adapters.WindowCloseAdapter;
 import cz.mg.toolkit.graphics.Graphics;
-import cz.mg.toolkit.graphics.Image;
 import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.event.adapters.KeyboardAdapter;
 import cz.mg.toolkit.event.adapters.MouseAdapter;
@@ -20,7 +19,6 @@ import cz.mg.toolkit.event.adapters.RedesignAdapter;
 import cz.mg.toolkit.event.adapters.RedrawAdapter;
 import cz.mg.toolkit.event.adapters.RelayoutAdapter;
 import cz.mg.toolkit.event.contexts.DesignerEventContext;
-import cz.mg.toolkit.event.events.AfterLayoutEvent;
 import cz.mg.toolkit.event.events.BeforeDrawEvent;
 import cz.mg.toolkit.event.events.DesignEvent;
 import cz.mg.toolkit.event.events.WindowCloseEvent;
@@ -31,6 +29,7 @@ import cz.mg.toolkit.event.events.RedrawEvent;
 import cz.mg.toolkit.event.events.RelayoutEvent;
 import cz.mg.toolkit.graphics.designers.DefaultDesigner;
 import cz.mg.toolkit.graphics.images.BitmapImage;
+import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import cz.mg.toolkit.utilities.KeystrokeRepeater;
 import static cz.mg.toolkit.utilities.properties.PropertiesInterface.*;
@@ -47,7 +46,6 @@ public class Window extends Wrapper {
     private String title;
     private BitmapImage icon;
     private boolean relayout = false;
-    private boolean reshapeLock = false;
     private Cursor cursor = new ArrowCursor();
     private boolean decorated = true;
     private boolean cursorVisible = true;
@@ -74,8 +72,6 @@ public class Window extends Wrapper {
             @Override
             public void onEventEnter(BeforeDrawEvent e) {
                 if(e.isRelayout()) relayout = true;
-                updatePosition();
-                updateSize();
                 updateLayout();
             }
         });
@@ -129,15 +125,6 @@ public class Window extends Wrapper {
             }
         });
         
-        getEventListeners().addLast(new AfterLayoutAdapter() {
-            @Override
-            public void onEventLeave(AfterLayoutEvent e) {
-                if(!equalsD(getWidth(), implWindow.getWidth()) || !equalsD(getHeight(), implWindow.getHeight())){
-                    implWindow.setSize(getWidth(), getHeight());
-                }
-            }
-        });
-        
         getEventListeners().addLast(new RedesignAdapter() {
             @Override
             public void onEventEnter(RedesignEvent e) {
@@ -168,20 +155,6 @@ public class Window extends Wrapper {
     public void setMouseFocus(Component component) {
         if(component == this) mouseFocus = null;
         else mouseFocus = component;
-    }
-    
-    private void updatePosition(){
-        reshapeLock = true;
-        if(getX() != implWindow.getX()) { setX(implWindow.getX()); relayout = true; };
-        if(getY() != implWindow.getY()) { setY(implWindow.getY()); relayout = true; };
-        reshapeLock = false;
-    }
-    
-    private void updateSize(){
-        reshapeLock = true;
-        if(getWidth() != implWindow.getWidth()){ setWidth(implWindow.getWidth()); relayout = true; };
-        if(getHeight() != implWindow.getHeight()){ setHeight(implWindow.getHeight()); relayout = true; };
-        reshapeLock = false;
     }
     
     private void updateLayout(){
@@ -270,44 +243,9 @@ public class Window extends Wrapper {
     }
     
     public final void center(){
-        implWindow.center();
-    }
-
-    @Override
-    public final void setX(double x) {
-        super.setX(x);
-        if(!reshapeLock) implWindow.setLocation((int) Math.round(x), (int) Math.round(getY()));
-    }
-
-    @Override
-    public final void setY(double y) {
-        super.setY(y);
-        if(!reshapeLock) implWindow.setLocation((int) Math.round(getX()), (int) Math.round(y));
-    }
-
-    @Override
-    public final void setWidth(double width) {
-        super.setWidth(width);
-        if(!reshapeLock) implWindow.setSize((int) Math.round(width), (int) Math.round(getHeight()));
-    }
-
-    @Override
-    public final void setHeight(double height) {
-        super.setHeight(height);
-        if(!reshapeLock) implWindow.setSize((int) Math.round(getWidth()), (int) Math.round(height));
-    }
-    
-    public final void setContentWidth(double width){
-        implWindow.setContentWidth((int) Math.round(width));
-    }
-    
-    public final void setContentHeight(double height){
-        implWindow.setContentHeight((int) Math.round(height));
-    }
-    
-    public final void setContentSize(double width, double height){
-        setContentWidth(width);
-        setContentHeight(height);
+        Display display = Impl.getImplApi().getPrimaryDisplay();
+        setX(display.getWidth() / 2 - getWidth() / 2);
+        setY(display.getHeight() / 2 - getHeight() / 2);
     }
 
     public final String getTitle() {
@@ -352,9 +290,5 @@ public class Window extends Wrapper {
 
     public final KeystrokeRepeater getKeystrokeRepeater() {
         return keystrokeRepeater;
-    }
-    
-    private static boolean equalsD(double a, double b){
-        return Math.abs(a - b) < 0.0001;
     }
 }

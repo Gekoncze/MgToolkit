@@ -44,6 +44,14 @@ public class Display extends Device {
         if(physicalHeight <= 0) physicalHeight = 1.0;
         this.physicalHeight = physicalHeight;
     }
+    
+    public final double getWidth(){
+        return pixelsToMillimetersH(getHorizontalResolution());
+    }
+    
+    public final double getHeight(){
+        return pixelsToMillimetersV(getVerticalResolution());
+    }
 
     public final double getHorizontalZoom() {
         return horizontalZoom;
@@ -55,11 +63,11 @@ public class Display extends Device {
     }
 
     public final double getVerticalZoom() {
-        if(verticalZoom < 0.0000001) verticalZoom = 0.0000001;
         return verticalZoom;
     }
 
     public final void setVerticalZoom(double verticalZoom) {
+        if(verticalZoom < 0.0000001) verticalZoom = 0.0000001;
         this.verticalZoom = verticalZoom;
     }
     

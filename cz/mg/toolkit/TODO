@@ -11,6 +11,7 @@
     TIP: automatic font size calculation to fit required size
     TIP: settings/parameter/attribute/style fetching for components - global vs class local vs object local vs group local settings
     add possibility for any component to be the root component
+        find all usages of getWindow() to prevent errors and null pointers or cast errors
 
     optimalizace relayoutu - u size control nastavit dva booleany
         jeden říkající, zdali okolí komponenty ovlivní její velikost
@@ -30,7 +31,12 @@
         other user defined renderers
 
 #### LATER:
-    add insets to window too, not only impl window, might not need impl window getter then... MIGHT!
+    add shape class - for mouse click or move-over detection - rectangle or oval as default
+    designer fine tunning
+        add something like a designer id property - might be better than 
+        how about: check box and radio button size, scroll buttons size, etc.
+
+    add insets getters to window too, not only impl window, might not need impl window getter then... MIGHT!
     horizontal / vertical slider
     cobmo box
     spinner
@@ -42,18 +48,19 @@
     multiline text input
     multiline interactive text content
     zalamování textu v multiline text contentu
-
-    add shape class - for mouse click or move-over detection - rectangle or oval as default
-    fix popup menu on heavy GPU load
+    
 
 #### NOW
-    designer fine tunning
-        add something like a designer id property - might be better than 
-        how about: check box and radio button size, scroll buttons size, etc.
-        set also 0 paddings and spacings - components might have those already set by previous designers to other value
-        check carefully for background and border setters
+    fix popup menu size
+    fix test paddings and spacings
+    fix close button and other vector images not being drawn
+    check box and radio button vector images
 
 #### DONE
-Minor modifications, yet unfinished
-    moved paddings and spacings to designers (excluding test files)
-    TODO: designer needs some more fine tunning
+Window and designer imrpovements
+    made default designer set default 0 padding and spacing
+    moved synchronization of size and position from window to swing impl window
+    simplified impl window interface
+    fixed window center method
+    fixed tests
+    partially fixed popup window size
