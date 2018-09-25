@@ -21,12 +21,23 @@ public class SwingImplGraphics implements ImplGraphics {
     private Color color;
     private Font font;
     private final Display display;
+    private boolean debug = false;
 
     public SwingImplGraphics(Display display, java.awt.Graphics g) {
         this.display = display;
         this.g = (Graphics2D)g;
         setColor(Color.BLACK);
         setFont(new Font("default", 8, Font.Style.REGULAR));
+    }
+
+    @Override
+    public boolean isDebug() {
+        return debug;
+    }
+
+    @Override
+    public void setDebug(boolean debug) {
+        this.debug = debug;
     }
     
     @Override
@@ -69,44 +80,64 @@ public class SwingImplGraphics implements ImplGraphics {
     public final void setFont(Font font){
         this.font = font;
     }
+    
+    private void debugDetails(){
+        System.out.println(" t[" + g.getTransform().getTranslateX() + ", " + g.getTransform().getTranslateY() + "]" + " c[" + g.getClip().getBounds().getX() + ", " + g.getClip().getBounds().getY() + ", " + g.getClip().getBounds().getWidth() + ", " + g.getClip().getBounds().getHeight() + "]");
+    }
 
     @Override
     public final void clip(double x, double y, double width, double height){
+        if(debug) System.out.print("SwingImplGraphics.clip(" + r(x) + ", " + r(y) + ", " + r(width) + ", " + r(height) + ")");
+        if(debug) debugDetails();
         g.clipRect(r(x), r(y), r(width), r(height));
     }
 
     @Override
     public final void drawLine(double x1, double y1, double x2, double y2){
+        if(debug) System.out.print("SwingImplGraphics.(" + r(x1) + ", " + r(y1) + ", " + r(x2) + ", " + r(y2) + ")");
+        if(debug) debugDetails();
         g.drawLine(r(x1), r(y1), r(x2), r(y2));
     }
 
     @Override
     public final void fillRectangle(double x, double y, double width, double height){
+        if(debug) System.out.print("SwingImplGraphics.fillRectangle(" + r(x) + ", " + r(y) + ", " + (r(width)-1) + ", " + (r(height)-1) + ")");
+        if(debug) debugDetails();
         g.fillRect(r(x), r(y), r(width)-1, r(height)-1);
     }
 
     @Override
     public final void drawRectangle(double x, double y, double width, double height) {
+        if(debug) System.out.print("SwingImplGraphics.drawRectangle(" + r(x) + ", " + r(y) + ", " + (r(width)-1) + ", " + (r(height)-1) + ")");
+        if(debug) debugDetails();
         g.drawRect(r(x), r(y), r(width)-1, r(height)-1);
     }
 
     @Override
     public final void drawOval(double x, double y, double width, double height){
+        if(debug) System.out.print("SwingImplGraphics.drawOval(" + r(x) + ", " + r(y) + ", " + (r(width)-1) + ", " + (r(height)-1) + ")");
+        if(debug) debugDetails();
         g.drawOval(r(x), r(y), r(width)-1, r(height)-1);
     }
 
     @Override
     public final void fillOval(double x, double y, double width, double height){
+        if(debug) System.out.print("SwingImplGraphics.fillOval(" + r(x) + ", " + r(y) + ", " + (r(width)-1) + ", " + (r(height)-1) + ")");
+        if(debug) debugDetails();
         g.fillOval(r(x), r(y), r(width)-1, r(height)-1);
     }
 
     @Override
     public final void drawText(String text, double x, double y){
+        if(debug) System.out.print("SwingImplGraphics.drawString(" + r(x) + ", " + r(y) + ")");
+        if(debug) debugDetails();
         drawImage(renderFont(font, text, color), x, y, font.getDisplayWidth(display, text), font.getDisplayHeight(display));
     }
 
     @Override
     public final boolean drawImage(BitmapImage img, double x, double y, double width, double height){
+        if(debug) System.out.print("SwingImplGraphics.drawImage(" + r(x) + ", " + r(y) + ", " + (r(width)-1) + ", " + (r(height)-1) + ")");
+        if(debug) debugDetails();
         return g.drawImage(((SwingImplImage)img.getImplImage()).swingImage, r(x), r(y), r(width)-1, r(height)-1, null);
     }
 

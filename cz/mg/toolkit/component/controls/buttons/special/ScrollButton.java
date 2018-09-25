@@ -3,9 +3,7 @@ package cz.mg.toolkit.component.controls.buttons.special;
 import cz.mg.toolkit.component.Container;
 import cz.mg.toolkit.component.controls.buttons.ImageButton;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
-import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
-import cz.mg.toolkit.graphics.Graphics;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
@@ -33,12 +31,6 @@ public abstract class ScrollButton extends ImageButton {
                 if(scrollPanel == null) return;
                 doScroll(scrollPanel);
                 relayout();
-            }
-        });
-        getImageContent().getEventListeners().addFirst(new GraphicsDrawAdapter() {
-            @Override
-            public void onDrawEventEnter(Graphics g) {
-                g.setColor(getCurrentForegroundColor());
             }
         });
     }

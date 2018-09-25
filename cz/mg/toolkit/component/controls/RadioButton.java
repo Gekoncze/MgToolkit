@@ -1,37 +1,26 @@
 package cz.mg.toolkit.component.controls;
 
-import cz.mg.toolkit.component.containers.Panel;
-import cz.mg.toolkit.component.contents.Canvas;
-import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
+import cz.mg.toolkit.component.controls.buttons.ImageButton;
+import cz.mg.toolkit.event.adapters.ActionAdapter;
+import cz.mg.toolkit.event.adapters.BeforeDrawAdapter;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
+import cz.mg.toolkit.event.events.BeforeDrawEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
-import cz.mg.toolkit.graphics.Graphics;
-import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import cz.mg.toolkit.utilities.SelectionGroup;
 import cz.mg.toolkit.utilities.Selectable;
 import cz.mg.toolkit.utilities.Triggerable;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
-public class RadioButton extends Panel implements Selectable, Triggerable {
+public class RadioButton extends ImageButton implements Selectable, Triggerable {
+    private static final int DEFAULT_SIZE = 16;
     private boolean selected = false;
     private SelectionGroup selectionGroup;
-    private final Canvas canvas = new Canvas(16, 16);
 
     public RadioButton() {
-        initComponent();
-        initComponents();
+        setFixedSize(this, DEFAULT_SIZE, DEFAULT_SIZE);
         addEventListeners();
-    }
-    
-    private void initComponent() {
-        setLayout(new OverlayLayout());
-        setBorder(this, null);
-    }
-    
-    private void initComponents(){
-        canvas.setParent(this);
     }
     
     private void addEventListeners() {
@@ -44,12 +33,18 @@ public class RadioButton extends Panel implements Selectable, Triggerable {
                 }
             }
         });
-        canvas.getEventListeners().addLast(new GraphicsDrawAdapter() {
+        getEventListeners().addFirst(new BeforeDrawAdapter() {
             @Override
-            public void onDrawEventLeave(Graphics g) {
-                g.setColor(getCurrentForegroundColor());
-                g.drawOval(0, 0, canvas.getWidth()-1, canvas.getHeight()-1);
-                if(isSelected()) g.fillOval(4, 4, 8-1, 8-1);
+            public void onEventEnter(BeforeDrawEvent e) {
+                setHidden(getImageContent(), !selected);
+            }
+        });
+        getEventListeners().addFirst(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                if(selectionGroup != null) selectionGroup.clearSelection();
+                setSelected(true);
+                redraw();
             }
         });
     }
@@ -72,13 +67,5 @@ public class RadioButton extends Panel implements Selectable, Triggerable {
     @Override
     public final void setSelected(boolean value) {
         this.selected = value;
-    }
-    
-    @Override
-    public void trigger() {
-        if(selectionGroup != null) selectionGroup.clearSelection();
-        setSelected(true);
-        raiseEvent(new ActionEvent(this));
-        relayout();
     }
 }

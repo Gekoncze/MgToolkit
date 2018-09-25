@@ -52,11 +52,16 @@
 
 #### NOW
     fix test paddings and spacings
-    fix close button and other vector images not being drawn
-    check box and radio button vector images
+        přidat možnost přidávání značek ke komponentě - podle značek se pak bude provádět design
+
+    fix window decoration hiding buttons and icons after multiple f3 or f4 presses
+    fix vector image width and height with clip area mismatch
+    fix popup window having 0,0 size sometimes
 
 #### DONE
-Fixed popup window wrong size
-    added auto wrap property to window
-    popup menu now uses this property set to true
-    windows are now automatically relayouted on first paint
+Fixed some invisible vector images + check box and radio button improvements
+    added optional debug output for graphics and impl graphics
+    made image content etend drawable content instead of just content
+    made image content set current color before drawing (might need better workaround in the future)
+    changed check box and radio button to be instances of image button
+    adapted designer to deal with check box and radio button

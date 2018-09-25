@@ -6,6 +6,8 @@ import cz.mg.toolkit.graphics.images.BitmapImage;
 
 
 public interface ImplGraphics {
+    public boolean isDebug();
+    public void setDebug(boolean debug);
     public void pushTransform();
     public void popTransform();
     public void pushClip();

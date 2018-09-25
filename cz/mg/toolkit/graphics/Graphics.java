@@ -9,13 +9,23 @@ import cz.mg.toolkit.impl.ImplGraphics;
 public class Graphics {
     private final Display display;
     private final ImplGraphics implGraphics;
+    private boolean debug = false;
 
     public Graphics(Display display, ImplGraphics implGraphics) {
         this.display = display;
         this.implGraphics = implGraphics;
     }
 
-    public Display getDisplay() {
+    public final boolean isDebug() {
+        return debug;
+    }
+
+    public final void setDebug(boolean debug) {
+        this.debug = debug;
+        implGraphics.setDebug(debug);
+    }
+
+    public final Display getDisplay() {
         return display;
     }
     
@@ -52,34 +62,42 @@ public class Graphics {
     }
 
     public final void clip(double x, double y, double width, double height){
+        if(debug) System.out.println("Graphics.clip(" + x + ", " + y + ", " + width + ", " + height + ")");
         implGraphics.clip(th(x), tv(y), th(width), tv(height));
     }
 
     public final void drawLine(double x1, double y1, double x2, double y2){
+        if(debug) System.out.println("Graphics.drawLine(" + x1 + ", " + y1 + ", " + x2 + ", " + y2 + ")");
         implGraphics.drawLine(th(x1), tv(y1), th(x2), tv(y2));
     }
 
     public final void fillRectangle(double x, double y, double width, double height){
+        if(debug) System.out.println("Graphics.fillRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
         implGraphics.fillRectangle(th(x), tv(y), th(width), tv(height));
     }
 
     public final void drawRectangle(double x, double y, double width, double height) {
+        if(debug) System.out.println("Graphics.drawRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
         implGraphics.drawRectangle(th(x), tv(y), th(width), tv(height));
     }
 
     public final void drawOval(double x, double y, double width, double height){
+        if(debug) System.out.println("Graphics.drawOval(" + x + ", " + y + ", " + width + ", " + height + ")");
         implGraphics.drawOval(th(x), tv(y), th(width), tv(height));
     }
 
     public final void fillOval(double x, double y, double width, double height){
+        if(debug) System.out.println("Graphics.fillOval(" + x + ", " + y + ", " + width + ", " + height + ")");
         implGraphics.fillOval(th(x), tv(y), th(width), tv(height));
     }
 
     public final void drawText(String text, double x, double y){
+        if(debug) System.out.println("Graphics.drawText(" + x + ", " + y + ")");
         implGraphics.drawText(text, th(x), tv(y));
     }
     
     public final void drawImage(Image image, double x, double y, double width, double height){
+        if(debug) System.out.println("Graphics.drawImage(" + x + ", " + y + ", " + width + ", " + height + ")");
         if(image instanceof BitmapImage) drawImage((BitmapImage)image, x, y, width, height);
         if(image instanceof VectorImage) drawImage((VectorImage)image, x, y, width, height);
     }

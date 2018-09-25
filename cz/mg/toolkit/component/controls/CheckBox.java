@@ -1,33 +1,24 @@
 package cz.mg.toolkit.component.controls;
 
-import cz.mg.toolkit.component.containers.Panel;
-import cz.mg.toolkit.component.contents.Canvas;
-import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
+import cz.mg.toolkit.component.controls.buttons.ImageButton;
+import cz.mg.toolkit.event.adapters.ActionAdapter;
+import cz.mg.toolkit.event.adapters.BeforeDrawAdapter;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
+import cz.mg.toolkit.event.events.BeforeDrawEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
-import cz.mg.toolkit.graphics.Graphics;
-import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import cz.mg.toolkit.utilities.Selectable;
 import cz.mg.toolkit.utilities.Triggerable;
+import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
-public class CheckBox extends Panel implements Selectable, Triggerable {
+public class CheckBox extends ImageButton implements Selectable, Triggerable {
+    private static final int DEFAULT_SIZE = 16;
     private boolean selected = false;
-    private final Canvas canvas = new Canvas(16, 16);
     
     public CheckBox() {
-        initComponent();
-        initComponents();
+        setFixedSize(this, DEFAULT_SIZE, DEFAULT_SIZE);
         addEventListeners();
-    }
-    
-    private void initComponent() {
-        setLayout(new OverlayLayout());
-    }
-    
-    private void initComponents() {
-        canvas.setParent(this);
     }
 
     private void addEventListeners() {
@@ -40,14 +31,17 @@ public class CheckBox extends Panel implements Selectable, Triggerable {
                 }
             }
         });
-        canvas.getEventListeners().addLast(new GraphicsDrawAdapter() {
+        getEventListeners().addFirst(new BeforeDrawAdapter() {
             @Override
-            public void onDrawEventLeave(Graphics g) {
-                g.setColor(getCurrentForegroundColor());
-                if(isSelected()){
-                    g.drawLine(4, 4, 12, 12);
-                    g.drawLine(4, 12, 12, 4);
-                }
+            public void onEventEnter(BeforeDrawEvent e) {
+                setHidden(getImageContent(), !selected);
+            }
+        });
+        getEventListeners().addFirst(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                setSelected(!isSelected());
+                redraw();
             }
         });
     }
@@ -61,11 +55,4 @@ public class CheckBox extends Panel implements Selectable, Triggerable {
     public final void setSelected(boolean value) {
         this.selected = value;
     }
-
-    @Override
-    public void trigger() {
-        setSelected(!selected);
-        raiseEvent(new ActionEvent(this));
-        relayout();
-    }    
 }

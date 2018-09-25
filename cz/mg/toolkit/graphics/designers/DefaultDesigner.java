@@ -5,7 +5,9 @@ import cz.mg.toolkit.component.Content;
 import cz.mg.toolkit.component.contents.HorizontalSeparator;
 import cz.mg.toolkit.component.contents.VerticalSeparator;
 import cz.mg.toolkit.component.controls.Button;
+import cz.mg.toolkit.component.controls.CheckBox;
 import cz.mg.toolkit.component.controls.Menu;
+import cz.mg.toolkit.component.controls.RadioButton;
 import cz.mg.toolkit.component.controls.TextInput;
 import cz.mg.toolkit.component.controls.buttons.special.CloseButton;
 import cz.mg.toolkit.component.controls.buttons.special.DownScrollButton;
@@ -24,6 +26,7 @@ import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.graphics.backgrounds.SolidColorBackground;
 import cz.mg.toolkit.graphics.borders.SolidColorBorder;
+import cz.mg.toolkit.graphics.borders.SolidColorOvalBorder;
 import cz.mg.toolkit.graphics.images.VectorImage;
 import cz.mg.toolkit.utilities.Drawable;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
@@ -51,7 +54,8 @@ public class DefaultDesigner extends ContextDesigner {
     private static final Color CONTRAST_COLOR = new Color(255, 0, 0, 255);
     
     private static final Background BACKGROUND = new SolidColorBackground();
-    private static final Border BORDER = new SolidColorBorder();
+    private static final Border RECTANGLE_BORDER = new SolidColorBorder();
+    private static final Border OVAL_BORDER = new SolidColorOvalBorder();
     
     private static final Font TITLE_FONT = new Font("default", 18, Font.Style.BOLD);
     private static final Font MENU_ITEM_DESCRIPTION_FONT = new Font("default", 18, Font.Style.REGULAR);
@@ -59,6 +63,7 @@ public class DefaultDesigner extends ContextDesigner {
     
     private static final double BUTTON_PADDING = 8;
     private static final double SCROLL_BUTTON_PADDING = 6;
+    private static final double CLOSE_BUTTON_PADDING = 0;
     private static final double MENU_SPACING = 6;
     private static final double MENU_PADDING = 6;
     private static final double TEXT_INPUT_PADDING = 4;
@@ -69,6 +74,8 @@ public class DefaultDesigner extends ContextDesigner {
     private static final double TITLE_BAR_BUTTON_PADDING = 4;
     private static final double TITLE_BAR_SPACING = 2;
     private static final double TITLE_BAR_PADDING = 2;
+    private static final double CHECK_BOX_PADDING = 4;
+    private static final double RADIO_BUTTON_PADDING = 4;
     
     private static final VectorImage LEFT_SCROLL_BUTTON_IMAGE = new VectorImage() {
         @Override
@@ -105,7 +112,7 @@ public class DefaultDesigner extends ContextDesigner {
     private static final VectorImage MINIMIZE_BUTTON_IMAGE = new VectorImage() {
         @Override
         public void onDraw(Graphics g, double w, double h) {
-            g.drawLine(0.0*w, 1.0*h, 1.0*w, 1.0*h);
+            g.drawLine(0.0*w, 0.9*h, 1.0*w, 0.9*h);
         }
     };
     
@@ -121,6 +128,21 @@ public class DefaultDesigner extends ContextDesigner {
         public void onDraw(Graphics g, double w, double h) {
             g.drawLine(0.0*w, 0.0*h, 1.0*w, 1.0*h);
             g.drawLine(0.0*w, 1.0*h, 1.0*w, 0.0*h);
+        }
+    };
+    
+    private static final VectorImage CHECK_BOX_IMAGE = new VectorImage() {
+        @Override
+        public void onDraw(Graphics g, double w, double h) {
+            g.drawLine(0.0*w, 0.5*h, 0.4*w, 0.9*h);
+            g.drawLine(0.4*w, 0.9*h, 1.0*w, 0.0*h);
+        }
+    };
+    
+    private static final VectorImage RADIO_BUTTON_IMAGE = new VectorImage() {
+        @Override
+        public void onDraw(Graphics g, double w, double h) {
+            g.fillOval(0.0*w, 0.0*h, 1.0*w, 1.0*h);
         }
     };
         
@@ -154,7 +176,7 @@ public class DefaultDesigner extends ContextDesigner {
         setSpacing(component, 0);
         setContrastColor(component, CONTRAST_COLOR);
         if(component instanceof Drawable) setBackground(component, BACKGROUND);
-        if(component instanceof Drawable) setBorder(component, BORDER);
+        if(component instanceof Drawable) setBorder(component, RECTANGLE_BORDER);
         if(component instanceof StandardMenuItem.Description) setFont(component, MENU_ITEM_DESCRIPTION_FONT);
         if(component instanceof StandardMenuItem.Shortcut) setFont(component, MENU_ITEM_SHORTCUT_FONT);
         if(component instanceof ToolkitDecoration.TitleBar) setBorder(component, null);
@@ -167,9 +189,18 @@ public class DefaultDesigner extends ContextDesigner {
         if(component instanceof UpScrollButton) ((UpScrollButton)component).getImageContent().setImage(UP_SCROLL_BUTTON_IMAGE);
         if(component instanceof DownScrollButton) ((DownScrollButton)component).getImageContent().setImage(DOWN_SCROLL_BUTTON_IMAGE);
         if(component instanceof CloseButton) ((CloseButton)component).getImageContent().setImage(CLOSE_BUTTON_IMAGE);
+        if(component instanceof ToolkitDecoration.MinimizeButton) ((ToolkitDecoration.MinimizeButton)component).getImageContent().setImage(MINIMIZE_BUTTON_IMAGE);
+        if(component instanceof ToolkitDecoration.MaximizeButton) ((ToolkitDecoration.MaximizeButton)component).getImageContent().setImage(MAXIMIZE_BUTTON_IMAGE);
         if(component instanceof ToolkitDecoration.CloseButton) ((ToolkitDecoration.CloseButton)component).getImageContent().setImage(CLOSE_BUTTON_IMAGE);
         if(component instanceof Button) setPadding(component, BUTTON_PADDING);
         if(component instanceof ScrollButton) setPadding(component, SCROLL_BUTTON_PADDING);
+        if(component instanceof CloseButton) setPadding(component, CLOSE_BUTTON_PADDING);
+        if(component instanceof CheckBox) setPadding(component, CHECK_BOX_PADDING);
+        if(component instanceof CheckBox) setBorder(component, RECTANGLE_BORDER);
+        if(component instanceof CheckBox) ((CheckBox)component).getImageContent().setImage(CHECK_BOX_IMAGE);
+        if(component instanceof RadioButton) setPadding(component, RADIO_BUTTON_PADDING);
+        if(component instanceof RadioButton) setBorder(component, OVAL_BORDER);
+        if(component instanceof RadioButton) ((RadioButton)component).getImageContent().setImage(RADIO_BUTTON_IMAGE);
         if(component instanceof Menu) setSpacing(component, MENU_SPACING);
         if(component instanceof Menu) setPadding(component, MENU_PADDING);
         if(component instanceof TextInput.Text) setPadding(component, TEXT_INPUT_PADDING);
