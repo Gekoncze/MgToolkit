@@ -117,7 +117,7 @@ public class PropertiesInterface {
     }
     
     public static double getMaxWidth(Component component){
-        return (double) component.getProperties().get(MAX_WIDTH, Integer.MAX_VALUE);
+        return (double) component.getProperties().get(MAX_WIDTH, Double.MAX_VALUE);
     }
     
     public static void setMaxWidth(Component component, double maxWidth){
@@ -126,7 +126,7 @@ public class PropertiesInterface {
     }
     
     public static double getMaxHeight(Component component){
-        return (double) component.getProperties().get(MAX_HEIGHT, Integer.MAX_VALUE);
+        return (double) component.getProperties().get(MAX_HEIGHT, Double.MAX_VALUE);
     }
     
     public static void setMaxHeight(Component component, double maxHeight){

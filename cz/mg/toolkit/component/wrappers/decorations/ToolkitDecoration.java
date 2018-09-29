@@ -145,6 +145,7 @@ public class ToolkitDecoration extends Decoration {
                 public void onEventEnter(AfterLayoutEvent e) {
                     if(getWidth() != getHeight()){
                         setFixedWidth(Icon.this, getHeight());
+                        relayout();
                     }
                 }
             });

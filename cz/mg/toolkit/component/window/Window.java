@@ -73,6 +73,7 @@ public class Window extends Wrapper {
             @Override
             public void onEventEnter(BeforeDrawEvent e) {
                 if(e.isRelayout()) relayout = true;
+                if(Window.this instanceof PopupWindow) System.out.println("BEFORE DRAW");
                 updateLayout();
             }
         });
@@ -228,6 +229,7 @@ public class Window extends Wrapper {
     }
 
     public final void setDecoration(Decoration decoration) {
+        if(this.decoration != null) this.decoration.setParent(null);
         this.decoration = decoration;
         decoration.setParent(this);
         getContentPanel().setParent(decoration.getContentPanel());

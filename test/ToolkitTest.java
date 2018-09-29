@@ -81,7 +81,7 @@ public class ToolkitTest {
                 if(!wasButtonPressed(e)) return;
                 if(e.getButton() == Keyboard.F1_BUTTON) window.setDecorated(!window.isDecorated());
                 if(e.getButton() == Keyboard.F2_BUTTON) window.setDecoration(new SystemDecoration());
-                if(e.getButton() == Keyboard.F3_BUTTON) window.setDecoration(new ToolkitDecoration());
+                if(e.getButton() == Keyboard.F3_BUTTON) { window.setDecoration(new ToolkitDecoration()); }
                 if(e.getButton() == Keyboard.F4_BUTTON) ;
                 if(e.getButton() == Keyboard.F5_BUTTON) ;
                 if(e.getButton() == Keyboard.F6_BUTTON) ;
@@ -278,7 +278,7 @@ public class ToolkitTest {
         Debug.sendRandomColors(window);
         window.redraw();
         DEBUG = true;
-        //Debug.printComponentInfo(window);
+        Debug.printComponentInfo(window);
     }
     
     private static class TestDesigner extends DefaultDesigner {

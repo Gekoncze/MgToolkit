@@ -1,5 +1,6 @@
 package cz.mg.toolkit.impl.swing;
 
+import cz.mg.toolkit.component.window.PopupWindow;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.environment.Cursor;
 import cz.mg.toolkit.event.Event;
@@ -39,6 +40,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     private Image icon;
     private Window window;
     private Cursor cursor;
+    
     private boolean relayout = true;
     
     private int lastX = Integer.MIN_VALUE;
@@ -80,7 +82,6 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
         };
         
         jframe.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        jframe.getContentPane().setLayout(new java.awt.GridLayout());
         
         jframe.addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
@@ -231,12 +232,16 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
             }
         });
         
+        jframe.setSize(1, 1); // bug fix
+        
         jframe.setFocusTraversalKeysEnabled(false);
         cursor = new Cursor(ImplCursor.NativeCursor.ARROW);
     }
     
     private void onWindowShown(){
         synchronizationTimer.start();
+        relayout();
+        if(window instanceof PopupWindow) System.out.println("SHOWN");
     }
     
     private void onWindowHidden(){
@@ -441,15 +446,13 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     @Override
     public final void redraw(){
         jframe.repaint();
+        if(window instanceof PopupWindow) System.out.println("REDRAW");
     }
     
     private void relayout(){
         relayout = true;
         jframe.repaint();
-    }
-    
-    private void repaint(){
-        jframe.repaint();
+        if(window instanceof PopupWindow) System.out.println("RELAYOUT");
     }
     
     private void synchronizeWindow(){
@@ -476,17 +479,17 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
         if(externalChange && minimizedOrMaximized){
             window.setX(th(currentX));
             window.setY(tv(currentY));
-            repaint();
+            redraw();
         } else if(internalChange){
             jframe.setLocation(expectedX, expectedY);
-            repaint();
+            redraw();
         } else if(externalChange){
             window.setX(th(currentX));
             window.setY(tv(currentY));
-            repaint();
+            redraw();
         } else if(mismatch){
             jframe.setLocation(expectedX, expectedY);
-            repaint();
+            redraw();
         }
         
         lastWindowX = window.getX();
@@ -496,36 +499,40 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     }
     
     private void synchronizeWindowSize(){
-        boolean minimizedOrMaximized = isMinimized() || isMaximized();
-        
         double currentWindowWidth = window.getWidth();
         double currentWindowHeight = window.getHeight();
-        boolean internalChange = currentWindowWidth != lastWindowWidth || currentWindowHeight != lastWindowHeight;
         
         int currentWidth = jframe.getWidth();
         int currentHeight = jframe.getHeight();
-        boolean externalChange = currentWidth != lastWidth || currentHeight != lastHeight;
-        if(ignoreExternalChange) externalChange = false;
         
         int expectedWidth = trh(window.getWidth());
         int expectedHeight = trv(window.getHeight());
-        boolean mismatch = expectedWidth != currentWidth || expectedHeight != currentHeight;
         
-        if(externalChange && minimizedOrMaximized){
-            window.setWidth(th(currentWidth));
-            window.setHeight(tv(currentHeight));
-            relayout();
-        } else if(internalChange){
-            jframe.setSize(expectedWidth, expectedHeight);
-            relayout();
-        } else if(externalChange){
-            window.setWidth(th(currentWidth));
-            window.setHeight(tv(currentHeight));
-            relayout();
-        } else if(mismatch){
-            jframe.setSize(expectedWidth, expectedHeight);
-            relayout();
+        boolean mismatch = expectedWidth != currentWidth || expectedHeight != currentHeight;
+        if(mismatch) {
+            boolean minimizedOrMaximized = isMinimized() || isMaximized();
+            if(minimizedOrMaximized){
+                window.setWidth(th(currentWidth));
+                window.setHeight(tv(currentHeight));
+                relayout();
+            } else {
+                boolean internalChange = currentWindowWidth != lastWindowWidth || currentWindowHeight != lastWindowHeight;
+                boolean externalChange = currentWidth != lastWidth || currentHeight != lastHeight;
+                if(ignoreExternalChange) externalChange = false;
+                if(internalChange){
+                    jframe.setSize(expectedWidth, expectedHeight);
+                    relayout();
+                } else if(externalChange){
+                    window.setWidth(th(currentWidth));
+                    window.setHeight(tv(currentHeight));
+                    relayout();
+                } else {
+                    jframe.setSize(expectedWidth, expectedHeight);
+                    relayout();
+                }
+            }
         }
+        
         lastWindowWidth = window.getWidth();
         lastWindowHeight = window.getHeight();
         lastWidth = jframe.getWidth();

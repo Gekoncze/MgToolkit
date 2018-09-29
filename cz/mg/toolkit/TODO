@@ -51,17 +51,13 @@
     
 
 #### NOW
-    fix test paddings and spacings
+    fix test paddings and spacings (especially in tests)
         přidat možnost přidávání značek ke komponentě - podle značek se pak bude provádět design
 
-    fix window decoration hiding buttons and icons after multiple f3 or f4 presses
     fix vector image width and height with clip area mismatch
-    fix popup window having 0,0 size sometimes
 
 #### DONE
-Fixed some invisible vector images + check box and radio button improvements
-    added optional debug output for graphics and impl graphics
-    made image content etend drawable content instead of just content
-    made image content set current color before drawing (might need better workaround in the future)
-    changed check box and radio button to be instances of image button
-    adapted designer to deal with check box and radio button
+Bug fixes
+    fixed bug where popup window would not repaint, thus not even relayout, due to jframe 0,0 size
+    fixed bug where title bar buttons and icons were disappearing due to missing relayout call
+    
