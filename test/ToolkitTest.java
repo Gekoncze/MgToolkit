@@ -174,7 +174,7 @@ public class ToolkitTest {
         ti.setParent(h0);
         ti.setPlaceholderText("Try typing here!");
         
-        TextContent alignmentTest = new TextContent("Yay!", new Font("default", 18, Font.Style.ITALIC));
+        TextContent alignmentTest = new TextContent("Yay!");
         alignmentTest.setParent(h0);
         setFillParentWidth(alignmentTest);
         setFillParentHeight(alignmentTest);

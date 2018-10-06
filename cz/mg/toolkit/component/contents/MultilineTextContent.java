@@ -2,32 +2,26 @@ package cz.mg.toolkit.component.contents;
 
 import cz.mg.collections.Collection;
 import cz.mg.collections.list.List;
+import cz.mg.collections.list.chainlist.ChainList;
 import cz.mg.collections.list.quicklist.QuickList;
 import cz.mg.toolkit.component.DrawableContent;
-import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
+import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.layout.reshapes.Reshape;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
 public class MultilineTextContent extends DrawableContent {
-    private static final Font DEFAULT_FONT = new Font("Serif", 18, Font.Style.REGULAR);
-    
     private final List<String> lines = new QuickList<>();
-    private Font font;
 
     public MultilineTextContent() {
-        this(null, DEFAULT_FONT);
+        setText("");
+        addEventListeners();
     }
 
     public MultilineTextContent(String text) {
-        this(text, DEFAULT_FONT);
-    }
-    
-    public MultilineTextContent(String text, Font font) {
         setText(text);
-        this.font = font;
         addEventListeners();
     }
     
@@ -35,6 +29,7 @@ public class MultilineTextContent extends DrawableContent {
         getEventListeners().addLast(new GraphicsDrawAdapter() {
             @Override
             public void onDrawEventLeave(Graphics g) {
+                Font font = getFont(MultilineTextContent.this);
                 g.setColor(getCurrentForegroundColor());
                 g.setFont(font);
                 double y = getVerticalTextPosition();
@@ -48,7 +43,7 @@ public class MultilineTextContent extends DrawableContent {
     }
     
     protected double getHorizontalLinePosition(String line){
-        return Reshape.align(getWidth(), getFont().getWidth(line), getHorizontalContentAlignment(this));
+        return Reshape.align(getWidth(), getFont(this).getWidth(line), getHorizontalContentAlignment(this));
     }
     
     protected double getHorizontalTextPosition(){
@@ -61,17 +56,18 @@ public class MultilineTextContent extends DrawableContent {
     
     private double getTextWidth(){
         double maxWidth = 0;
-        for(String line : lines) maxWidth = Math.max(maxWidth, getFont().getWidth(line));
+        for(String line : lines) maxWidth = Math.max(maxWidth, getFont(this).getWidth(line));
         return maxWidth;
     }
     
     private double getTextHeight(){
-        return getFont().getHeight() * lines.count();
+        return getFont(this).getHeight() * lines.count();
     }
     
     @Override
     public final double getPrefferedWidth() {
         double maxWidth = 0;
+        Font font = getFont(this);
         for(String line : lines){
             maxWidth = Math.max(maxWidth, font.getWidth(line));
         }
@@ -80,7 +76,7 @@ public class MultilineTextContent extends DrawableContent {
 
     @Override
     public final double getPrefferedHeight() {
-        return font.getHeight() * lines.count();
+        return getFont(this).getHeight() * lines.count();
     }
 
     public final List<String> getLines() {
@@ -114,16 +110,8 @@ public class MultilineTextContent extends DrawableContent {
             else lines.addLast("");
         }
     }
-
-    public final Font getFont() {
-        return font;
-    }
-
-    public final void setFont(Font font) {
-        this.font = font;
-    }
     
-    public final void setFontSize(int size) {
-        font = new Font(font.getName(), size, font.getStyle());
+    private static class Line {
+        private List<String> parts = new ChainList<>();
     }
 }

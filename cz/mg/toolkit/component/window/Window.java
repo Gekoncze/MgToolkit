@@ -5,7 +5,6 @@ import cz.mg.toolkit.component.wrappers.Decoration;
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.containers.Wrapper;
 import cz.mg.toolkit.component.wrappers.decorations.SystemDecoration;
-import cz.mg.toolkit.impl.swing.SwingImplWindow;
 import cz.mg.toolkit.environment.cursors.ArrowCursor;
 import cz.mg.toolkit.environment.cursors.NoCursor;
 import cz.mg.toolkit.environment.device.devices.Display;
@@ -39,7 +38,7 @@ import cz.mg.toolkit.impl.ImplWindow;
 public class Window extends Wrapper {
     private static final Cursor BLANK_CURSOR = new NoCursor();
     
-    private final ImplWindow implWindow = new SwingImplWindow();
+    private final ImplWindow implWindow = Impl.getImplApi().createWindow();
     private Component keyboardFocus = null;
     private Component mouseFocus = null;
     private Decoration decoration;

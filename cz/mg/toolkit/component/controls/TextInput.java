@@ -14,8 +14,6 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 
 
 public class TextInput extends Panel {
-    
-    
     private final InteractiveTextContent textContent = new InteractiveTextContent();
     private String placeholderText;
 

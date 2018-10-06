@@ -3,6 +3,7 @@ package test;
 import cz.mg.toolkit.component.Container;
 import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.contents.InteractiveTextContent;
+import cz.mg.toolkit.component.contents.MultilineTextContent;
 import cz.mg.toolkit.component.contents.TextContent;
 import cz.mg.toolkit.component.contents.VerticalSpacer;
 import cz.mg.toolkit.component.window.Window;
@@ -70,6 +71,7 @@ public class ToolkitTest2 {
         tabs.setParent(windowPanel);
         tabs.openTab(new BitmapImage(ToolkitTest2.class.getResourceAsStream("rainbowdash.png")), "Rainbow dash");
         tabs.openTab(null, "Yay!");
+        tabs.openTab(null, "Multiline text content test!");
         for(int i = 0; i < 5; i++) tabs.openTab(null, "tabbbbbbbbbbbbbbbbbb " + i);
         tabs.updateComponents();
         tabs.getTabs().getFirst().activate();
@@ -143,6 +145,10 @@ public class ToolkitTest2 {
         
         VerticalSpacer space = new VerticalSpacer();
         space.setParent(secondTab);
+        
+//        Panel mtct = tabs.getTabs().get(2).getContentPanel();
+//        mtct.setLayout(new VerticalLayout());
+//        mtct.getChildren().addLast(new MultilineTextContent(""));
         
         window.open();
         window.relayout();

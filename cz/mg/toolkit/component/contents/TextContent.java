@@ -16,15 +16,7 @@ public class TextContent extends DrawableContent {
     }
 
     public TextContent(String text) {
-        if(text == null) text = "";
-        this.text = text;
-        addEventListeners();
-    }
-    
-    public TextContent(String text, Font font) {
-        if(text == null) text = "";
-        this.text = text;
-        setFont(this, font);
+        setText(text);
         addEventListeners();
     }
     
@@ -39,11 +31,11 @@ public class TextContent extends DrawableContent {
         });
     }
     
-    public double getHorizontalTextPosition(){
+    public final double getHorizontalTextPosition(){
         return Reshape.align(getWidth(), getFont(this).getWidth(text), getHorizontalContentAlignment(this), getLeftPadding(this), getRightPadding(this));
     }
     
-    public double getVerticalTextPosition(){
+    public final double getVerticalTextPosition(){
         return Reshape.align(getHeight(), getFont(this).getHeight(), getVerticalContentAlignment(this), getTopPadding(this), getBottomPadding(this));
     }
     
@@ -63,7 +55,7 @@ public class TextContent extends DrawableContent {
 
     public final void setText(String text) {
         if(text == null) text = "";
-        else this.text = text;
+        this.text = text;
     }
     
     public final void setFontSize(int size) {

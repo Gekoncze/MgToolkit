@@ -10,6 +10,13 @@
     TIP: raised / lowered borders
     TIP: automatic font size calculation to fit required size
     TIP: settings/parameter/attribute/style fetching for components - global vs class local vs object local vs group local settings
+
+    renderer - gets colros, fonts and other properties from a components and takes care of the drawing
+        swing renderer
+        opengl renderer
+        other user defined renderers
+
+#### MUCH LATER:
     add possibility for any component to be the root component
         find all usages of getWindow() to prevent errors and null pointers or cast errors
 
@@ -25,18 +32,14 @@
             počet navštívených komponent při jednom projetí
             počet provedených relayoutů při vybrané akci
 
-    renderer - gets colros, fonts and other properties from a components and takes care of the drawing
-        swing renderer
-        opengl renderer
-        other user defined renderers
-
-#### LATER:
     add shape class - for mouse click or move-over detection - rectangle or oval as default
+    fix vector image width and height with clip area mismatch
+
     designer fine tunning
-        add something like a designer id property - might be better than 
+        add something like a designer id property - might be better than instanceof
         how about: check box and radio button size, scroll buttons size, etc.
 
-    add insets getters to window too, not only impl window, might not need impl window getter then... MIGHT!
+#### LATER:
     horizontal / vertical slider
     cobmo box
     spinner
@@ -44,20 +47,16 @@
         int / long
         float / double
 
+    fix test paddings and spacings (especially in tests)
+    přidat možnost přidávání značek ke komponentě - podle značek se pak bude provádět design - mohlo by být jen číslo + generátor
+
 #### SOON
     multiline text input
     multiline interactive text content
     zalamování textu v multiline text contentu
-    
 
 #### NOW
-    fix test paddings and spacings (especially in tests)
-        přidat možnost přidávání značek ke komponentě - podle značek se pak bude provádět design
-
-    fix vector image width and height with clip area mismatch
+    
 
 #### DONE
-Bug fixes
-    fixed bug where popup window would not repaint, thus not even relayout, due to jframe 0,0 size
-    fixed bug where title bar buttons and icons were disappearing due to missing relayout call
-    
+removed swing impl window dependency from window

@@ -12,7 +12,6 @@ import cz.mg.toolkit.event.events.BeforeDrawEvent;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
-import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.utilities.KeyboardShortcut;
 import cz.mg.toolkit.utilities.keyboardshortcuts.StandardKeyboardCharacterShortcut;
@@ -35,11 +34,6 @@ public class InteractiveTextContent extends TextContent {
 
     public InteractiveTextContent(String text) {
         super(text);
-        addEventListeners();
-    }
-
-    public InteractiveTextContent(String text, Font font) {
-        super(text, font);
         addEventListeners();
     }
 
