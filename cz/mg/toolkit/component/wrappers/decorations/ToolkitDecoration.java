@@ -5,7 +5,7 @@ import cz.mg.toolkit.component.wrappers.Decoration;
 import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.component.contents.ImageContent;
-import cz.mg.toolkit.component.contents.TextContent;
+import cz.mg.toolkit.component.contents.SinglelineTextContent;
 import cz.mg.toolkit.component.controls.buttons.ImageButton;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
 import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
@@ -152,7 +152,7 @@ public class ToolkitDecoration extends Decoration {
         }
     }
     
-    public static class Title extends TextContent {
+    public static class Title extends SinglelineTextContent {
         public Title() {
             initComponent();
         }

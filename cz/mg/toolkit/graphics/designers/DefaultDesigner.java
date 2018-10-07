@@ -8,7 +8,7 @@ import cz.mg.toolkit.component.controls.Button;
 import cz.mg.toolkit.component.controls.CheckBox;
 import cz.mg.toolkit.component.controls.Menu;
 import cz.mg.toolkit.component.controls.RadioButton;
-import cz.mg.toolkit.component.controls.TextInput;
+import cz.mg.toolkit.component.controls.SinglelineTextInput;
 import cz.mg.toolkit.component.controls.buttons.special.CloseButton;
 import cz.mg.toolkit.component.controls.buttons.special.DownScrollButton;
 import cz.mg.toolkit.component.controls.buttons.special.LeftScrollButton;
@@ -203,7 +203,7 @@ public class DefaultDesigner extends ContextDesigner {
         if(component instanceof RadioButton) ((RadioButton)component).getImageContent().setImage(RADIO_BUTTON_IMAGE);
         if(component instanceof Menu) setSpacing(component, MENU_SPACING);
         if(component instanceof Menu) setPadding(component, MENU_PADDING);
-        if(component instanceof TextInput.Text) setPadding(component, TEXT_INPUT_PADDING);
+        if(component instanceof SinglelineTextInput.Text) setPadding(component, TEXT_INPUT_PADDING);
         if(component instanceof HorizontalTabArea.CloseButton) setPadding(component, TAB_CLOSE_BUTTON_PADDING);
         if(component instanceof HorizontalTabArea) setPadding(component, TAB_AREA_HEADER_PADDING);
         if(component instanceof HorizontalTabArea.Tab.HorizontalTabHeader) setHorizontalSpacing(component, TAB_AREA_HEADER_SPACING);

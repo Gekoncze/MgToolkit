@@ -13,27 +13,25 @@ import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
 import cz.mg.toolkit.graphics.Graphics;
-import cz.mg.toolkit.utilities.KeyboardShortcut;
-import cz.mg.toolkit.utilities.keyboardshortcuts.StandardKeyboardCharacterShortcut;
+import cz.mg.toolkit.utilities.keyboardshortcuts.CommonKeyboardShortcuts;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.text.textmodels.StringBuilderSingleLineTextModel;
 
 
-public class InteractiveTextContent extends TextContent {
+public class InteractiveSinglelineTextContent extends SinglelineTextContent {
     private int caret = 0;
     private int selectionCaret = 0;
     private boolean editable = false;
-    private boolean partialFocus = false;
+    private boolean partialFocus = false; // for read only selection and copy support
     
-    private static final KeyboardShortcut copyShortcut = new StandardKeyboardCharacterShortcut(true, false, false, 'c');
-    private static final KeyboardShortcut pasteShortcut = new StandardKeyboardCharacterShortcut(true, false, false, 'v');
-    private static final KeyboardShortcut cutShortcut = new StandardKeyboardCharacterShortcut(true, false, false, 'x');
-    
-    public InteractiveTextContent() {
+    public InteractiveSinglelineTextContent() {
+        setTextModel(new StringBuilderSingleLineTextModel());
         addEventListeners();
     }
 
-    public InteractiveTextContent(String text) {
-        super(text);
+    public InteractiveSinglelineTextContent(String text) {
+        setTextModel(new StringBuilderSingleLineTextModel());
+        setText(text);
         addEventListeners();
     }
 
@@ -41,7 +39,7 @@ public class InteractiveTextContent extends TextContent {
         getEventListeners().addLast(new BeforeDrawAdapter() {
             @Override
             public void onEventEnter(BeforeDrawEvent e) {
-                setHighlighted(InteractiveTextContent.this, hasKeyboardFocus());
+                setHighlighted(InteractiveSinglelineTextContent.this, hasKeyboardFocus());
             }
         });
         
@@ -54,7 +52,7 @@ public class InteractiveTextContent extends TextContent {
                     double x = caretToPosition(min);
                     double y = getVerticalTextPosition();
                     double w = caretToPosition(max) - x;
-                    double h = getFont(InteractiveTextContent.this).getHeight();
+                    double h = getFont(InteractiveSinglelineTextContent.this).getHeight();
                     g.setColor(getCurrentForegroundColor());
                     g.fillRectangle(x, y, w, h);
                 }
@@ -73,8 +71,8 @@ public class InteractiveTextContent extends TextContent {
                 if(hasKeyboardFocus() && editable){
                     double x = caretToPosition(caret);
                     double y = getVerticalTextPosition();
-                    g.setColor(getContrastColor(InteractiveTextContent.this));
-                    g.drawLine(x, y, x, y + getFont(InteractiveTextContent.this).getHeight());
+                    g.setColor(getContrastColor(InteractiveSinglelineTextContent.this));
+                    g.drawLine(x, y, x, y + getFont(InteractiveSinglelineTextContent.this).getHeight());
                 }
             }
         });
@@ -82,11 +80,12 @@ public class InteractiveTextContent extends TextContent {
         getEventListeners().addLast(new MouseButtonAdapter() {
             @Override
             public void onMouseButtonEventEnter(MouseButtonEvent e) {
-                if(wasLeftButton(e) && wasReleased(e) && hasMouseFocus()){
+                if(!wasLeftButton(e)) return;
+                if(wasReleased(e) && hasMouseFocus()){
                     releaseMouseFocus();
                     redraw();
                 }
-                if(wasLeftButton(e) && wasPressed(e) && hasKeyboardFocus()){
+                if(wasPressed(e) && hasKeyboardFocus()){
                     releaseKeyboardFocus();
                     partialFocus = false;
                     redraw();
@@ -98,7 +97,6 @@ public class InteractiveTextContent extends TextContent {
             @Override
             public void onMouseButtonEventEnter(MouseButtonEvent e) {
                 if(!wasLeftButton(e) || !wasPressed(e)) return;
-                
                 if(editable && !hasKeyboardFocus()) requestKeyboardFocus();
                 requestMouseFocus();
                 int c = positionToCaret(getX(e));
@@ -126,37 +124,54 @@ public class InteractiveTextContent extends TextContent {
             public void onKeyboardButtonEventEnter(KeyboardButtonEvent e) {
                 if(!e.isRepeated()){
                     if(e.wasPressed()){
-                        getWindow().getKeystrokeRepeater().onKeyboardButtonPressedEvent(e, InteractiveTextContent.this);
+                        getWindow().getKeystrokeRepeater().onKeyboardButtonPressedEvent(e, InteractiveSinglelineTextContent.this);
                     } else if(e.wasReleased()){
-                        getWindow().getKeystrokeRepeater().onKeyboardButtonReleasedEvent(e, InteractiveTextContent.this);
+                        getWindow().getKeystrokeRepeater().onKeyboardButtonReleasedEvent(e, InteractiveSinglelineTextContent.this);
                     }
                 }
-                
+            }
+        });
+        
+        getEventListeners().addLast(new KeyboardButtonAdapter() {
+            @Override
+            public void onKeyboardButtonEventEnter(KeyboardButtonEvent e) {
                 if(!e.isRepeated() && partialFocus && wasButtonPressed(e)){
-                    if(caret != selectionCaret && copyShortcut.matches(e)){
-                        Clipboard.getInstance().setText(copy());
+                    if(CommonKeyboardShortcuts.SELECT_ALL.matches(e)){
+                        selectionCaret = 0;
+                        caret = getTextModel().count();
+                        e.consume();
+                        redraw();
+                        return;
+                    }
+                    
+                    if(CommonKeyboardShortcuts.COPY.matches(e)){
+                        if(caret != selectionCaret) Clipboard.getInstance().setText(copy());
                         e.consume();
                         relayout();
                         return;
                     }
                     
-                    if(pasteShortcut.matches(e)){
+                    if(CommonKeyboardShortcuts.PASTE.matches(e)){
                         paste(Clipboard.getInstance().getText());
                         e.consume();
                         relayout();
                         return;
                     }
                     
-                    if(caret != selectionCaret && cutShortcut.matches(e)){
-                        Clipboard.getInstance().setText(cut());
+                    if(CommonKeyboardShortcuts.CUT.matches(e)){
+                        if(caret != selectionCaret) Clipboard.getInstance().setText(cut());
                         e.consume();
                         relayout();
                         return;
                     }
                 }
-                
+            }
+        });
+        
+        getEventListeners().addLast(new KeyboardButtonAdapter() {
+            @Override
+            public void onKeyboardButtonEventEnter(KeyboardButtonEvent e) {
                 if(!hasKeyboardFocus() || !editable || !wasButtonPressed(e)) return;
-                
                 if(isPrintable(e.getCh())){
                     paste("" + e.getCh());
                     relayout();
@@ -177,6 +192,8 @@ public class InteractiveTextContent extends TextContent {
                         if(selectionCaret == caret) setSelectionCaret(caret + 1);
                         delete();
                         relayout();
+                    } else if(e.getButton() == Keyboard.ESC_BUTTON){
+                        done();
                     }
                 }
                 
@@ -189,6 +206,7 @@ public class InteractiveTextContent extends TextContent {
         if(ch == '\b') return false;
         if(!getFont(this).canDisplay(ch)) return false;
         if(Character.isWhitespace(ch) && ch != ' ') return false;
+        if(ch < 32) return false;
         return true;
     }
     
@@ -196,9 +214,9 @@ public class InteractiveTextContent extends TextContent {
         px -= getHorizontalTextPosition();
         int caret = 0;
         double minDistance = Math.abs(px - 0);
-        for(int i = 0; i < getText().length(); i++){
+        for(int i = 0; i < getTextModel().count(); i++){
             int currentCaret = i+1;
-            double currentCaretPosition = getFont(this).getWidth(getText().substring(0, currentCaret));
+            double currentCaretPosition = getFont(this).getWidth(getTextModel().getText(0, currentCaret));
             double dx = Math.abs(px - currentCaretPosition);
             if(dx < minDistance){
                 minDistance = dx;
@@ -210,8 +228,8 @@ public class InteractiveTextContent extends TextContent {
     
     private double caretToPosition(int cx){
         if(cx <= 0) return getHorizontalTextPosition();
-        if(cx > getText().length()) cx = getText().length();
-        return getFont(this).getWidth(getText().substring(0, cx)) + getHorizontalTextPosition();
+        if(cx > getTextModel().count()) cx = getTextModel().count();
+        return getFont(this).getWidth(getTextModel().getText(0, cx)) + getHorizontalTextPosition();
     }
 
     public final int getCaret() {
@@ -224,13 +242,13 @@ public class InteractiveTextContent extends TextContent {
 
     public final void setCaret(int caret) {
         if(caret < 0) caret = 0;
-        if(caret > getText().length()) caret = getText().length();
+        if(caret > getTextModel().count()) caret = getTextModel().count();
         this.caret = caret;
     }
     
     public final void setSelectionCaret(int selectionCaret) {
         if(selectionCaret < 0) selectionCaret = 0;
-        if(selectionCaret > getText().length()) selectionCaret = getText().length();
+        if(selectionCaret > getTextModel().count()) selectionCaret = getTextModel().count();
         this.selectionCaret = selectionCaret;
     }
     
@@ -246,26 +264,33 @@ public class InteractiveTextContent extends TextContent {
         this.editable = editable;
     }
     
+    private int getMinCatet(){
+        int min = Math.min(caret, selectionCaret);
+        if(min < 0) min = 0;
+        if(min > getTextModel().count()) min = getTextModel().count();
+        return min;
+    }
+    
+    private int getMaxCatet(){
+        int max = Math.max(caret, selectionCaret);
+        if(max < 0) max = 0;
+        if(max > getTextModel().count()) max = getTextModel().count();
+        return max;
+    }
+    
     public final String getSelectedText(){
         if(caret == selectionCaret) return "";
-        int min = Math.min(caret, selectionCaret);
-        int max = Math.max(caret, selectionCaret);
-        if(min < 0) min = 0;
-        if(max > getText().length()) max = getText().length();
-        return getText().substring(min, max);
+        int min = getMinCatet();
+        int max = getMaxCatet();
+        return getTextModel().getText(min, max);
     }
     
     public final void delete(){
         if(!editable) return;
         if(caret == selectionCaret) return;
-        int min = Math.min(caret, selectionCaret);
-        int max = Math.max(caret, selectionCaret);
-        if(min < 0) min = 0;
-        if(max > getText().length()) max = getText().length();
-        
-        StringBuilder sb = new StringBuilder(getText());
-        sb.delete(min, max);
-        setText(sb.toString());
+        int min = getMinCatet();
+        int max = getMaxCatet();
+        getTextModel().remove(min, max);
         setCaret(min);
         setSelectionCaret(caret);
     }
@@ -279,9 +304,7 @@ public class InteractiveTextContent extends TextContent {
         if(s.length() <= 0) return;
         if(!editable) return;
         if(selectionCaret != caret) delete();
-        StringBuilder sb = new StringBuilder(getText());
-        sb.insert(caret, s);
-        setText(sb.toString());
+        getTextModel().insert(caret, s);
         setCaret(caret + s.length());
         setSelectionCaret(caret);
     }
@@ -290,5 +313,13 @@ public class InteractiveTextContent extends TextContent {
         String s = copy();
         delete();
         return s;
+    }
+    
+    public final void done(){
+        releaseMouseFocus();
+        releaseKeyboardFocus();
+        partialFocus = false;
+        setSelectionCaret(caret);
+        redraw();
     }
 }

@@ -6,16 +6,18 @@ import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.layout.reshapes.Reshape;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.text.textmodels.StringSingleLineTextModel;
+import cz.mg.toolkit.utilities.text.SinglelineTextModel;
 
 
-public class TextContent extends DrawableContent {
-    private String text = "";
+public class SinglelineTextContent extends DrawableContent {
+    private SinglelineTextModel textModel = new StringSingleLineTextModel();
 
-    public TextContent() {
+    public SinglelineTextContent() {
         this(null);
     }
 
-    public TextContent(String text) {
+    public SinglelineTextContent(String text) {
         setText(text);
         addEventListeners();
     }
@@ -25,14 +27,14 @@ public class TextContent extends DrawableContent {
             @Override
             public void onDrawEventLeave(Graphics g) {
                 g.setColor(getCurrentForegroundColor());
-                g.setFont(getFont(TextContent.this));
-                g.drawText(text, getHorizontalTextPosition(), getVerticalTextPosition());
+                g.setFont(getFont(SinglelineTextContent.this));
+                g.drawText(textModel.getText(), getHorizontalTextPosition(), getVerticalTextPosition());
             }
         });
     }
     
     public final double getHorizontalTextPosition(){
-        return Reshape.align(getWidth(), getFont(this).getWidth(text), getHorizontalContentAlignment(this), getLeftPadding(this), getRightPadding(this));
+        return Reshape.align(getWidth(), getFont(this).getWidth(textModel.getText()), getHorizontalContentAlignment(this), getLeftPadding(this), getRightPadding(this));
     }
     
     public final double getVerticalTextPosition(){
@@ -41,7 +43,7 @@ public class TextContent extends DrawableContent {
     
     @Override
     public final double getPrefferedWidth() {
-        return getFont(this).getWidth(text) + getLeftPadding(this) + getRightPadding(this);
+        return getFont(this).getWidth(textModel.getText()) + getLeftPadding(this) + getRightPadding(this);
     }
 
     @Override
@@ -49,13 +51,20 @@ public class TextContent extends DrawableContent {
         return getFont(this).getHeight() + getTopPadding(this) + getBottomPadding(this);
     }
 
+    public final SinglelineTextModel getTextModel() {
+        return textModel;
+    }
+
+    public final void setTextModel(SinglelineTextModel textModel) {
+        this.textModel = textModel;
+    }
+
     public final String getText() {
-        return text;
+        return textModel.getText();
     }
 
     public final void setText(String text) {
-        if(text == null) text = "";
-        this.text = text;
+        textModel.setText(text);
     }
     
     public final void setFontSize(int size) {

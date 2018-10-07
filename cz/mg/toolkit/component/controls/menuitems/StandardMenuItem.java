@@ -4,7 +4,7 @@ import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.controls.CheckBox;
 import cz.mg.toolkit.component.controls.RadioButton;
 import cz.mg.toolkit.component.contents.ImageContent;
-import cz.mg.toolkit.component.contents.TextContent;
+import cz.mg.toolkit.component.contents.SinglelineTextContent;
 import cz.mg.toolkit.event.adapters.KeyboardButtonAdapter;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.graphics.Image;
@@ -89,9 +89,9 @@ public class StandardMenuItem extends ActionMenuItem {
         else super.trigger();
     }
     
-    public static class Description extends TextContent {
+    public static class Description extends SinglelineTextContent {
     }
     
-    public static class Shortcut extends TextContent {
+    public static class Shortcut extends SinglelineTextContent {
     }
 }

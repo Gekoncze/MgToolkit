@@ -2,7 +2,7 @@ package cz.mg.toolkit.component.controls;
 
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.containers.Panel;
-import cz.mg.toolkit.component.contents.InteractiveTextContent;
+import cz.mg.toolkit.component.contents.InteractiveSinglelineTextContent;
 import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
 import cz.mg.toolkit.event.adapters.BeforeDrawAdapter;
 import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
@@ -13,11 +13,11 @@ import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
-public class TextInput extends Panel {
-    private final InteractiveTextContent textContent = new InteractiveTextContent();
+public class SinglelineTextInput extends Panel {
+    private final Text textContent = new Text();
     private String placeholderText;
 
-    public TextInput() {
+    public SinglelineTextInput() {
         initComponent();
         initComponents();
         addEventListeners();
@@ -39,7 +39,7 @@ public class TextInput extends Panel {
         getEventListeners().addLast(new BeforeDrawAdapter() {
             @Override
             public void onEventEnter(BeforeDrawEvent e) {
-                setHighlighted(TextInput.this, textContent.hasKeyboardFocus());
+                setHighlighted(SinglelineTextInput.this, textContent.hasKeyboardFocus());
             }
         });
         
@@ -96,7 +96,7 @@ public class TextInput extends Panel {
         this.placeholderText = placeholderText;
     }
 
-    public final InteractiveTextContent getTextContent() {
+    public final InteractiveSinglelineTextContent getTextContent() {
         return textContent;
     }
     
@@ -104,6 +104,6 @@ public class TextInput extends Panel {
         setHorizontalScroll(component, getHorizontalScroll(component) + value);
     }
     
-    public static class Text extends InteractiveTextContent {
+    public static class Text extends InteractiveSinglelineTextContent {
     }
 }

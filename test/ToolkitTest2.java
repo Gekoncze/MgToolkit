@@ -2,9 +2,9 @@ package test;
 
 import cz.mg.toolkit.component.Container;
 import cz.mg.toolkit.component.containers.Panel;
-import cz.mg.toolkit.component.contents.InteractiveTextContent;
+import cz.mg.toolkit.component.contents.InteractiveSinglelineTextContent;
 import cz.mg.toolkit.component.contents.MultilineTextContent;
-import cz.mg.toolkit.component.contents.TextContent;
+import cz.mg.toolkit.component.contents.SinglelineTextContent;
 import cz.mg.toolkit.component.contents.VerticalSpacer;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.component.wrappers.HorizontalFlowArea;
@@ -101,11 +101,11 @@ public class ToolkitTest2 {
 //        setPadding(vfa.getContentPanel(), 4);
         
         for(int i = 0; i < 100; i++){
-            hfa.getContentPanel().getChildren().addLast(new TextContent("Yay " + i));
+            hfa.getContentPanel().getChildren().addLast(new SinglelineTextContent("Yay " + i));
         }
         
         for(int i = 0; i < 100; i++){
-            vfa.getContentPanel().getChildren().addLast(new TextContent("Yay " + i));
+            vfa.getContentPanel().getChildren().addLast(new SinglelineTextContent("Yay " + i));
         }
         
         splitArea.getContentPanels().get(0, 0).getChildren().addLast(hfa);
@@ -122,11 +122,11 @@ public class ToolkitTest2 {
 //        setPadding(vs.getContentPanel(), 4);
         
         for(int i = 0; i < 20; i++){
-            hs.getContentPanel().getChildren().addLast(new TextContent("Yay " + i));
+            hs.getContentPanel().getChildren().addLast(new SinglelineTextContent("Yay " + i));
         }
         
         for(int i = 0; i < 20; i++){
-            vs.getContentPanel().getChildren().addLast(new TextContent("Yay " + i));
+            vs.getContentPanel().getChildren().addLast(new SinglelineTextContent("Yay " + i));
         }
         
         splitArea.getContentPanels().get(0, 1).getChildren().addLast(hs);
@@ -136,7 +136,7 @@ public class ToolkitTest2 {
         secondTab.setLayout(new VerticalLayout());
         tabs.getTabs().get(1).activate();
         
-        InteractiveTextContent eyyup = new InteractiveTextContent("Eyyyuuup! VA");
+        InteractiveSinglelineTextContent eyyup = new InteractiveSinglelineTextContent("Eyyyuuup! VA");
         setContentAlignment(eyyup, 0.5);
         setFillParentWidth(eyyup);
         setFillParentHeight(eyyup);

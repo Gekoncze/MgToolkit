@@ -5,7 +5,7 @@ import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import cz.mg.toolkit.component.wrappers.ScrollArea;
-import cz.mg.toolkit.component.contents.TextContent;
+import cz.mg.toolkit.component.contents.SinglelineTextContent;
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.Container;
 import cz.mg.toolkit.component.controls.MenuItem;
@@ -14,7 +14,7 @@ import cz.mg.toolkit.component.controls.buttons.ImageButton;
 import cz.mg.toolkit.component.controls.buttons.TextButton;
 import cz.mg.toolkit.component.wrappers.CompactHorizontalScrollArea;
 import cz.mg.toolkit.component.contents.HorizontalSeparator;
-import cz.mg.toolkit.component.controls.TextInput;
+import cz.mg.toolkit.component.controls.SinglelineTextInput;
 import cz.mg.toolkit.component.contents.MultilineTextContent;
 import cz.mg.toolkit.component.controls.menuitems.SeparatorItem;
 import cz.mg.toolkit.component.controls.menuitems.StandardMenuItem;
@@ -49,7 +49,7 @@ public class ToolkitTest {
         Impl.getImplApi().getPrimaryDisplay().setHorizontalZoom(0.25);
         Impl.getImplApi().getPrimaryDisplay().setVerticalZoom(0.25);
         
-        TextContent label;
+        SinglelineTextContent label;
         SelectionGroup selectionGroup = new SelectionGroup();
         
         MenuItem m1 = new StandardMenuItem(new BitmapImage(ToolkitTest2.class.getResourceAsStream("mg.png")), "yay", new StandardKeyboardCharacterShortcut(true, false, false, 's'), null, null);
@@ -169,12 +169,12 @@ public class ToolkitTest {
             }
         });
         
-        TextInput ti = new TextInput();
+        SinglelineTextInput ti = new SinglelineTextInput();
         setLimitedWidth(ti, 0, 160);
         ti.setParent(h0);
         ti.setPlaceholderText("Try typing here!");
         
-        TextContent alignmentTest = new TextContent("Yay!");
+        SinglelineTextContent alignmentTest = new SinglelineTextContent("Yay!");
         alignmentTest.setParent(h0);
         setFillParentWidth(alignmentTest);
         setFillParentHeight(alignmentTest);
@@ -187,13 +187,13 @@ public class ToolkitTest {
 //        setHorizontalSpacing(h1, 8);
         setWrapAndFillWidth(h1);
         
-        label = new TextContent("Lorem ipsum 1");
+        label = new SinglelineTextContent("Lorem ipsum 1");
         label.setParent(h1);
         
-        label = new TextContent("Lorem ipsum 2");
+        label = new SinglelineTextContent("Lorem ipsum 2");
         label.setParent(h1);
         
-        label = new TextContent("Lorem ipsum 3");
+        label = new SinglelineTextContent("Lorem ipsum 3");
         label.setParent(h1);
         
         Panel h2 = new Panel();
@@ -203,16 +203,16 @@ public class ToolkitTest {
         h2.setParent(v1);
         setHorizontalAlignment(h2, 1.0);
         
-        label = new TextContent("Lorem ipsum 4");
+        label = new SinglelineTextContent("Lorem ipsum 4");
         label.setParent(h2);
         
-        label = new TextContent("Lorem ipsum 5");
+        label = new SinglelineTextContent("Lorem ipsum 5");
         label.setParent(h2);
         
-        label = new TextContent("Lorem ipsum 6");
+        label = new SinglelineTextContent("Lorem ipsum 6");
         label.setParent(h2);
         
-        label = new TextContent("Lorem ipsum 7");
+        label = new SinglelineTextContent("Lorem ipsum 7");
         label.getEventListeners().addLast(new LocalMouseButtonAdapter() {
             @Override
             public void onMouseButtonEventLeave(MouseButtonEvent e) {
@@ -229,10 +229,10 @@ public class ToolkitTest {
         h4.setLayout(new HorizontalLayout());
         h4.setParent(v1);
         
-        label = new TextContent("Lorem ipsum 8");
+        label = new SinglelineTextContent("Lorem ipsum 8");
         label.setParent(h4);
         
-        label = new TextContent("Lorem ipsum 9999999999999999999999999999999999999999999999999999");
+        label = new SinglelineTextContent("Lorem ipsum 9999999999999999999999999999999999999999999999999999");
         label.setParent(h4);
         
         MultilineTextContent mtc = new MultilineTextContent("Twilight Sparkle\nRarity\nFluttershy\nRainbow Dash\nApplejack\nPinkie Pie");
@@ -254,7 +254,7 @@ public class ToolkitTest {
         for(int i = 0; i < 80; i++){
             int x = i % 3;
             int y = i / 3;
-            label = new TextContent("Lorem ipsum i " + i);
+            label = new SinglelineTextContent("Lorem ipsum i " + i);
             label.setParent(grid);
             setHorizontalAlignment(label, 0.5);
             setCell(label, x, y);
@@ -266,7 +266,7 @@ public class ToolkitTest {
         window.open();
     }
     
-    private static class BigTextContent extends TextContent {
+    private static class BigTextContent extends SinglelineTextContent {
         public BigTextContent(String text) {
             super(text);
         }

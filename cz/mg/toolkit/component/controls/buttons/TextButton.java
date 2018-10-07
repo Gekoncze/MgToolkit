@@ -1,12 +1,12 @@
 package cz.mg.toolkit.component.controls.buttons;
 
 import cz.mg.toolkit.component.Content;
-import cz.mg.toolkit.component.contents.TextContent;
+import cz.mg.toolkit.component.contents.SinglelineTextContent;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
 public class TextButton extends ContentButton {
-    private final TextContent textContent = new TextContent();
+    private final SinglelineTextContent textContent = new SinglelineTextContent();
 
     public TextButton() {
         initComponents();
@@ -18,7 +18,7 @@ public class TextButton extends ContentButton {
         setContentAlignment(textContent, 0.5);
     }
 
-    public TextContent getTextContent() {
+    public SinglelineTextContent getTextContent() {
         return textContent;
     }
     

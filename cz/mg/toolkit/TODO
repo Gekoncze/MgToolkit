@@ -59,4 +59,16 @@
     
 
 #### DONE
-removed swing impl window dependency from window
+text models and text content improvements
+    added text model, single line text model and multi line text model interfaces
+    implementations of those interfaces can optimize text operations as they want
+    added some implementation for those interfaces
+    renamed text content to singleline text content
+    fixed event consumption
+    added select all keyboard shortcut method to text input
+    fixed text input padding
+    added escape keyboard shortcut to text input
+    renamed text input to single line text input
+    moved keyboard shortcut instances to new common keyboard shortcuts class
+    extracted keyboard shortcut matching to separate event listener to be able to disable them easily
+    

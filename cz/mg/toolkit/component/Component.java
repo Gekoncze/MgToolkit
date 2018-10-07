@@ -304,11 +304,17 @@ public abstract class Component extends TreeNode<Component, Component> implement
     }
     
     public final void onEventEnter(Event e){
-        for(EventListener listener : eventListeners) if(listener.acceptsEvent(e)) listener.onEventEnter(e);
+        for(EventListener listener : eventListeners) {
+            if(listener.acceptsEvent(e)) listener.onEventEnter(e);
+            if(e.isConsumed()) return;
+        }
     }
     
     public final void onEventLeave(Event e){
-        for(EventListener listener : eventListeners) if(listener.acceptsEvent(e)) listener.onEventLeave(e);
+        for(EventListener listener : eventListeners){
+            if(listener.acceptsEvent(e)) listener.onEventLeave(e);
+            if(e.isConsumed()) return;
+        }
     }
     
     public abstract double getContentWidth();
