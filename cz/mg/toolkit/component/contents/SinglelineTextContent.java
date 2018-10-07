@@ -6,12 +6,12 @@ import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.layout.reshapes.Reshape;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
-import cz.mg.toolkit.utilities.text.textmodels.StringSingleLineTextModel;
+import cz.mg.toolkit.utilities.text.textmodels.StringSinglelineTextModel;
 import cz.mg.toolkit.utilities.text.SinglelineTextModel;
 
 
 public class SinglelineTextContent extends DrawableContent {
-    private SinglelineTextModel textModel = new StringSingleLineTextModel();
+    private SinglelineTextModel textModel = new StringSinglelineTextModel();
 
     public SinglelineTextContent() {
         this(null);

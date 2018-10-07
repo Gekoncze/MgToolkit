@@ -3,7 +3,7 @@ package cz.mg.toolkit.utilities.text.textmodels;
 import cz.mg.toolkit.utilities.text.SinglelineTextModel;
 
 
-public class StringSingleLineTextModel implements SinglelineTextModel {
+public class StringSinglelineTextModel implements SinglelineTextModel {
     private String text = "";
     
     @Override
@@ -18,7 +18,7 @@ public class StringSingleLineTextModel implements SinglelineTextModel {
     }
 
     @Override
-    public int count() {
+    public int characterCount() {
         return text.length();
     }
     

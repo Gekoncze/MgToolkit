@@ -15,7 +15,7 @@ import cz.mg.toolkit.event.events.MouseMotionEvent;
 import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.utilities.keyboardshortcuts.CommonKeyboardShortcuts;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
-import cz.mg.toolkit.utilities.text.textmodels.StringBuilderSingleLineTextModel;
+import cz.mg.toolkit.utilities.text.textmodels.StringBuilderSinglelineTextModel;
 
 
 public class InteractiveSinglelineTextContent extends SinglelineTextContent {
@@ -25,12 +25,12 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
     private boolean partialFocus = false; // for read only selection and copy support
     
     public InteractiveSinglelineTextContent() {
-        setTextModel(new StringBuilderSingleLineTextModel());
+        setTextModel(new StringBuilderSinglelineTextModel());
         addEventListeners();
     }
 
     public InteractiveSinglelineTextContent(String text) {
-        setTextModel(new StringBuilderSingleLineTextModel());
+        setTextModel(new StringBuilderSinglelineTextModel());
         setText(text);
         addEventListeners();
     }
@@ -138,7 +138,7 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
                 if(!e.isRepeated() && partialFocus && wasButtonPressed(e)){
                     if(CommonKeyboardShortcuts.SELECT_ALL.matches(e)){
                         selectionCaret = 0;
-                        caret = getTextModel().count();
+                        caret = getTextModel().characterCount();
                         e.consume();
                         redraw();
                         return;
@@ -214,7 +214,7 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
         px -= getHorizontalTextPosition();
         int caret = 0;
         double minDistance = Math.abs(px - 0);
-        for(int i = 0; i < getTextModel().count(); i++){
+        for(int i = 0; i < getTextModel().characterCount(); i++){
             int currentCaret = i+1;
             double currentCaretPosition = getFont(this).getWidth(getTextModel().getText(0, currentCaret));
             double dx = Math.abs(px - currentCaretPosition);
@@ -228,7 +228,7 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
     
     private double caretToPosition(int cx){
         if(cx <= 0) return getHorizontalTextPosition();
-        if(cx > getTextModel().count()) cx = getTextModel().count();
+        if(cx > getTextModel().characterCount()) cx = getTextModel().characterCount();
         return getFont(this).getWidth(getTextModel().getText(0, cx)) + getHorizontalTextPosition();
     }
 
@@ -242,13 +242,13 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
 
     public final void setCaret(int caret) {
         if(caret < 0) caret = 0;
-        if(caret > getTextModel().count()) caret = getTextModel().count();
+        if(caret > getTextModel().characterCount()) caret = getTextModel().characterCount();
         this.caret = caret;
     }
     
     public final void setSelectionCaret(int selectionCaret) {
         if(selectionCaret < 0) selectionCaret = 0;
-        if(selectionCaret > getTextModel().count()) selectionCaret = getTextModel().count();
+        if(selectionCaret > getTextModel().characterCount()) selectionCaret = getTextModel().characterCount();
         this.selectionCaret = selectionCaret;
     }
     
@@ -267,14 +267,14 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
     private int getMinCatet(){
         int min = Math.min(caret, selectionCaret);
         if(min < 0) min = 0;
-        if(min > getTextModel().count()) min = getTextModel().count();
+        if(min > getTextModel().characterCount()) min = getTextModel().characterCount();
         return min;
     }
     
     private int getMaxCatet(){
         int max = Math.max(caret, selectionCaret);
         if(max < 0) max = 0;
-        if(max > getTextModel().count()) max = getTextModel().count();
+        if(max > getTextModel().characterCount()) max = getTextModel().characterCount();
         return max;
     }
     
