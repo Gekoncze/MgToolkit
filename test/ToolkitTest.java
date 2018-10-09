@@ -14,6 +14,7 @@ import cz.mg.toolkit.component.controls.buttons.ImageButton;
 import cz.mg.toolkit.component.controls.buttons.TextButton;
 import cz.mg.toolkit.component.wrappers.CompactHorizontalScrollArea;
 import cz.mg.toolkit.component.contents.HorizontalSeparator;
+import cz.mg.toolkit.component.contents.InteractiveMultilineTextContent;
 import cz.mg.toolkit.component.controls.SinglelineTextInput;
 import cz.mg.toolkit.component.contents.MultilineTextContent;
 import cz.mg.toolkit.component.controls.menuitems.SeparatorItem;
@@ -235,8 +236,9 @@ public class ToolkitTest {
         label = new SinglelineTextContent("Lorem ipsum 9999999999999999999999999999999999999999999999999999");
         label.setParent(h4);
         
-        MultilineTextContent mtc = new MultilineTextContent("Twilight Sparkle\nRarity\nFluttershy\nRainbow Dash\nApplejack\nPinkie Pie");
+        InteractiveMultilineTextContent mtc = new InteractiveMultilineTextContent("Twilight Sparkle\nRarity\nFluttershy\nRainbow Dash\nApplejack\nPinkie Pie");
         mtc.setParent(v1);
+        mtc.setEditable(true);
         setHorizontalContentAlignment(mtc, 0.5);
         
         Panel grid = new Panel();

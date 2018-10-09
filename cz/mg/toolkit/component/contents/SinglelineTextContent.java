@@ -41,6 +41,10 @@ public class SinglelineTextContent extends DrawableContent {
         return Reshape.align(getHeight(), getFont(this).getHeight(), getVerticalContentAlignment(this), getTopPadding(this), getBottomPadding(this));
     }
     
+    public final double getLineHeight(){
+        return getFont(this).getHeight();
+    }
+    
     @Override
     public final double getPrefferedWidth() {
         return getFont(this).getWidth(textModel.getText()) + getLeftPadding(this) + getRightPadding(this);

@@ -30,37 +30,64 @@ public class MultilineTextContent extends DrawableContent {
                 Font font = getFont(MultilineTextContent.this);
                 g.setColor(getCurrentForegroundColor());
                 g.setFont(font);
-                double y = getVerticalTextPosition();
                 for(int iy = 0; iy < textModel.lineCount(); iy++){
                     String line = textModel.getLine(iy);
-                    double x = getHorizontalLinePosition(line);
+                    double x = getHorizontalLinePosition(iy);
+                    double y = getVerticalLinePosition(iy);
                     g.drawText(line, x, y);
-                    y += font.getHeight();
                 }
             }
         });
     }
     
-    protected double getHorizontalLinePosition(String line){
-        return Reshape.align(getWidth(), getFont(this).getWidth(line), getHorizontalContentAlignment(this));
+    public final MultilineTextModel getTextModel() {
+        return textModel;
+    }
+
+    public final void setTextModel(MultilineTextModel textModel) {
+        this.textModel = textModel;
+    }
+
+    public final String getText() {
+        return textModel.getText();
+    }
+
+    public final void setText(String text) {
+        textModel.setText(text);
     }
     
-    protected double getHorizontalTextPosition(){
+    public final double getHorizontalLinePosition(int line){
+        return Reshape.align(getWidth(), getFont(this).getWidth(textModel.getLine(line)), getHorizontalContentAlignment(this));
+    }
+    
+    public final double getVerticalLinePosition(int line){
+        return getVerticalTextPosition() + line*getLineHeight();
+    }
+    
+    public final double getHorizontalTextPosition(){
         return Reshape.align(getWidth(), getTextWidth(), getHorizontalContentAlignment(this));
     }
     
-    protected double getVerticalTextPosition(){
+    public final double getVerticalTextPosition(){
         return Reshape.align(getHeight(), getTextHeight(), getVerticalContentAlignment(this));
     }
     
-    private double getTextWidth(){
+    public final double getLineWidth(int line){
+        return getFont(this).getWidth(textModel.getLine(line));
+    }
+    
+    public final double getLineHeight(){
+        return getFont(this).getHeight();
+    }
+    
+    public double getTextWidth(){
         double maxWidth = 0;
-        for(int iy = 0; iy < textModel.lineCount(); iy++) maxWidth = Math.max(maxWidth, getFont(this).getWidth(textModel.getLine(iy)));
+        for(int iy = 0; iy < textModel.lineCount(); iy++) maxWidth = Math.max(maxWidth, getLineWidth(iy));
         return maxWidth;
     }
     
-    private double getTextHeight(){
-        return getFont(this).getHeight() * textModel.lineCount();
+    public double getTextHeight(){
+        return getLineHeight() * textModel.lineCount();
     }
     
     @Override
@@ -77,21 +104,5 @@ public class MultilineTextContent extends DrawableContent {
     @Override
     public final double getPrefferedHeight() {
         return getFont(this).getHeight() * textModel.lineCount();
-    }
-
-    public final MultilineTextModel getTextModel() {
-        return textModel;
-    }
-
-    public final void setTextModel(MultilineTextModel textModel) {
-        this.textModel = textModel;
-    }
-
-    public final String getText() {
-        return textModel.getText();
-    }
-
-    public final void setText(String text) {
-        textModel.setText(text);
     }
 }

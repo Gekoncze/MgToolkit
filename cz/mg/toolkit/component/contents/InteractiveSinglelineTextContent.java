@@ -12,6 +12,7 @@ import cz.mg.toolkit.event.events.BeforeDrawEvent;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
+import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.utilities.keyboardshortcuts.CommonKeyboardShortcuts;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
@@ -52,7 +53,7 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
                     double x = caretToPosition(min);
                     double y = getVerticalTextPosition();
                     double w = caretToPosition(max) - x;
-                    double h = getFont(InteractiveSinglelineTextContent.this).getHeight();
+                    double h = getLineHeight();
                     g.setColor(getCurrentForegroundColor());
                     g.fillRectangle(x, y, w, h);
                 }
@@ -68,11 +69,11 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
                     g.drawText(getSelectedText(), x, y);
                 }
                 
-                if(hasKeyboardFocus() && editable){
+                if(hasKeyboardFocus()){
                     double x = caretToPosition(caret);
                     double y = getVerticalTextPosition();
                     g.setColor(getContrastColor(InteractiveSinglelineTextContent.this));
-                    g.drawLine(x, y, x, y + getFont(InteractiveSinglelineTextContent.this).getHeight());
+                    g.drawLine(x, y, x, y + getLineHeight());
                 }
             }
         });
@@ -212,24 +213,28 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
     
     private int positionToCaret(double px){
         px -= getHorizontalTextPosition();
-        int caret = 0;
-        double minDistance = Math.abs(px - 0);
-        for(int i = 0; i < getTextModel().characterCount(); i++){
-            int currentCaret = i+1;
-            double currentCaretPosition = getFont(this).getWidth(getTextModel().getText(0, currentCaret));
-            double dx = Math.abs(px - currentCaretPosition);
-            if(dx < minDistance){
-                minDistance = dx;
-                caret = currentCaret;
-            }
-        }
-        return caret;
+        return getClosestCharacter(getFont(this), getTextModel().getText(), px);
     }
     
     private double caretToPosition(int cx){
         if(cx <= 0) return getHorizontalTextPosition();
         if(cx > getTextModel().characterCount()) cx = getTextModel().characterCount();
         return getFont(this).getWidth(getTextModel().getText(0, cx)) + getHorizontalTextPosition();
+    }
+    
+    private static int getClosestCharacter(Font font, String string, double px){
+        int id = 0;
+        double minDistance = Math.abs(px - 0);
+        for(int i = 0; i < string.length(); i++){
+            int currentCaret = i+1;
+            double currentCaretPosition = font.getWidth(string.substring(0, currentCaret));
+            double dx = Math.abs(px - currentCaretPosition);
+            if(dx < minDistance){
+                minDistance = dx;
+                id = currentCaret;
+            }
+        }
+        return id;
     }
 
     public final int getCaret() {

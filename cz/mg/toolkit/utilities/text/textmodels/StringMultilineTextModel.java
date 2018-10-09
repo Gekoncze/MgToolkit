@@ -40,20 +40,20 @@ public class StringMultilineTextModel implements MultilineTextModel {
         throw new UnsupportedOperationException();
     }
     
-    @Override
-    public String getText(int ixBegin, int iyBegin, int ixEnd, int iyEnd) {
-        return getText(xy2i(ixBegin, iyBegin), xy2i(ixEnd, iyEnd));
-    }
-
-    @Override
-    public void insert(int x, int y, String s) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void remove(int ixBegin, int iyBegin, int ixEnd, int iyEnd) {
-        throw new UnsupportedOperationException();
-    }
+//    @Override
+//    public String getText(int ixBegin, int iyBegin, int ixEnd, int iyEnd) {
+//        return getText(xy2i(ixBegin, iyBegin), xy2i(ixEnd, iyEnd));
+//    }
+//
+//    @Override
+//    public void insert(int x, int y, String s) {
+//        throw new UnsupportedOperationException();
+//    }
+//
+//    @Override
+//    public void remove(int ixBegin, int iyBegin, int ixEnd, int iyEnd) {
+//        throw new UnsupportedOperationException();
+//    }
 
     @Override
     public String getLine(int y) {

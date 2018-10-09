@@ -41,6 +41,8 @@
 
     fix test paddings and spacings (especially in tests)
     přidat možnost přidávání značek ke komponentě - podle značek se pak bude provádět design - mohlo by být jen číslo + generátor
+    zalamování textu v multiline text contentu
+
 
 #### LATER:
     horizontal / vertical slider
@@ -51,17 +53,15 @@
         extends or uses text field
         int / long
         float / double
-
+    make scroll bar area into a parametrized image
+        parameters passed via >>> optional <<< scroll bar image interface
+    
 #### NOW
     multiline text input
-    multiline interactive text content
-    zalamování textu v multiline text contentu
 
 #### DONE
-multiline text - part 1
-    minor changes
-    implemented string multiline text model
-    adapted multiline text content to use it
-    added simple skeleton for string builder multiline text model
-    added simple skeleton for interactive multitline text content
-    todo - finish implementation of skeletons
+Multiline interactive text content + TODO
+    impelented multiline interactive text content
+    minor modifications for other text components
+    implemented string builder multiline text model
+    TODO: fix errors
