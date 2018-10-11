@@ -239,7 +239,7 @@ public class ToolkitTest {
         
         MultilineTextInput mti = new MultilineTextInput();
         setFixedSize(mti, 128, 64);
-        mti.setPlaceholderText("Yay!");
+        mti.setPlaceholderText("Yay!\nYaay!\nYaaay!");
         mti.setParent(v1);
         mti.getTextContent().setText("Twilight Sparkle\nRarity\nFluttershy\nRainbow Dash\nApplejack\nPinkie Pie");
         

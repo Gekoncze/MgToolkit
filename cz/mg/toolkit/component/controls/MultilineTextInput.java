@@ -1,5 +1,6 @@
 package cz.mg.toolkit.component.controls;
 
+import cz.mg.collections.list.List;
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.contents.InteractiveMultilineTextContent;
@@ -10,12 +11,14 @@ import cz.mg.toolkit.event.events.AfterLayoutEvent;
 import cz.mg.toolkit.event.events.BeforeDrawEvent;
 import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;
+import cz.mg.toolkit.utilities.StringUtilities;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
 public class MultilineTextInput extends Panel {
     private final TextContent textContent = new TextContent();
     private String placeholderText;
+    private List<String> placeholderLines = null;
 
     public MultilineTextInput() {
         initComponent();
@@ -54,10 +57,19 @@ public class MultilineTextInput extends Panel {
             @Override
             public void onDrawEventLeave(Graphics g) {
                 if(!textContent.hasKeyboardFocus() && textContent.getText().length() <= 0){
+                    if(placeholderLines == null) return;
                     g.setTransparency(0.5);
                     g.setColor(getCurrentForegroundColor());
                     g.setFont(getFont(textContent));
-                    g.drawText(placeholderText, textContent.getHorizontalTextPosition(), textContent.getVerticalTextPosition());
+                    int i = 0;
+                    for(String placeholderLine : placeholderLines){
+                        g.drawText(
+                                placeholderLine,
+                                textContent.getHorizontalLinePosition(i, placeholderLine),
+                                textContent.getVerticalLinePosition(i, placeholderLine)
+                        );
+                        i++;
+                    }
                     g.setTransparency(1.0);
                 }
             }
@@ -118,6 +130,7 @@ public class MultilineTextInput extends Panel {
 
     public final void setPlaceholderText(String placeholderText) {
         this.placeholderText = placeholderText;
+        this.placeholderLines = StringUtilities.splitLines(placeholderText);
     }
 
     public final InteractiveMultilineTextContent getTextContent() {

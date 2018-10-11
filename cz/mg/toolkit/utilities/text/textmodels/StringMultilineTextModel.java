@@ -1,12 +1,13 @@
 package cz.mg.toolkit.utilities.text.textmodels;
 
-import cz.mg.collections.list.chainlist.ChainList;
+import cz.mg.collections.list.List;
+import cz.mg.toolkit.utilities.StringUtilities;
 import cz.mg.toolkit.utilities.text.MultilineTextModel;
 
 
 public class StringMultilineTextModel implements MultilineTextModel {
     private String text = "";
-    private ChainList<String> lines = null;
+    private List<String> lines = null;
     
     @Override
     public String getText() {
@@ -54,18 +55,7 @@ public class StringMultilineTextModel implements MultilineTextModel {
     
     private void updateLines(){
         if(lines != null) return;
-        lines = new ChainList<>();
-        int begin = 0;
-        for(int i = 0; i < text.length(); i++){
-            char ch = text.charAt(i);
-            if(ch == '\n'){
-                int end = i;
-                lines.addLast(text.substring(begin, end));
-                begin = end + 1;
-            }
-        }
-        if(begin < text.length()) lines.addLast(text.substring(begin));
-        else lines.addLast("");
+        lines = StringUtilities.splitLines(text);
     }
     
     private int xy2i(int ix, int iy){

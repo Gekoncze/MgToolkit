@@ -57,7 +57,7 @@ public class SinglelineTextInput extends Panel {
                     g.setTransparency(0.5);
                     g.setColor(getCurrentForegroundColor());
                     g.setFont(getFont(textContent));
-                    g.drawText(placeholderText, textContent.getHorizontalTextPosition(), textContent.getVerticalTextPosition());
+                    g.drawText(placeholderText, textContent.getHorizontalTextPosition(placeholderText), textContent.getVerticalTextPosition(placeholderText));
                     g.setTransparency(1.0);
                 }
             }
