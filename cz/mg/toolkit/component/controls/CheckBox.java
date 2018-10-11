@@ -1,18 +1,15 @@
 package cz.mg.toolkit.component.controls;
 
-import cz.mg.toolkit.component.controls.buttons.ImageButton;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
-import cz.mg.toolkit.event.adapters.BeforeDrawAdapter;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
-import cz.mg.toolkit.event.events.BeforeDrawEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.utilities.Selectable;
 import cz.mg.toolkit.utilities.Triggerable;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
-public class CheckBox extends ImageButton implements Selectable, Triggerable {
+public class CheckBox extends Button implements Selectable, Triggerable {
     private static final int DEFAULT_SIZE = 16;
     private boolean selected = false;
     
@@ -29,12 +26,6 @@ public class CheckBox extends ImageButton implements Selectable, Triggerable {
                     e.consume();
                     trigger();
                 }
-            }
-        });
-        getEventListeners().addFirst(new BeforeDrawAdapter() {
-            @Override
-            public void onEventEnter(BeforeDrawEvent e) {
-                setHidden(getImageContent(), !selected);
             }
         });
         getEventListeners().addFirst(new ActionAdapter() {

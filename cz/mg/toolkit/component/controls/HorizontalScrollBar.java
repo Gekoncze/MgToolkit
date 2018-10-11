@@ -2,22 +2,20 @@ package cz.mg.toolkit.component.controls;
 
 import cz.mg.toolkit.component.controls.buttons.special.LeftScrollButton;
 import cz.mg.toolkit.component.controls.buttons.special.RightScrollButton;
-import cz.mg.toolkit.component.Container;
 import cz.mg.toolkit.component.DrawableContainer;
 import cz.mg.toolkit.component.DrawableContent;
-import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
+import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.adapters.MouseButtonAdapter;
 import cz.mg.toolkit.event.adapters.MouseMotionAdapter;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
-import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
 public class HorizontalScrollBar extends DrawableContainer {
-    private Container scrollablePanel;
+    private Panel scrollablePanel;
     private final LeftScrollButton leftButton = new LeftScrollButton();
     private final RightScrollButton rightButton = new RightScrollButton();
     private final DraggableBar draggableBar = new DraggableBar();
@@ -49,73 +47,32 @@ public class HorizontalScrollBar extends DrawableContainer {
         return rightButton;
     }
     
-    public Container getScrollablePanel() {
+    public Panel getScrollablePanel() {
         return scrollablePanel;
     }
 
-    public void setScrollablePanel(Container scrollablePanel) {
+    public void setScrollablePanel(Panel scrollablePanel) {
         this.scrollablePanel = scrollablePanel;
         leftButton.setScrollPanel(scrollablePanel);
         rightButton.setScrollPanel(scrollablePanel);
     }
     
-    private final class DraggableBar extends DrawableContent {
+    public final class DraggableBar extends DrawableContent {
         public DraggableBar() {
             initComponent();
             addEventListeners();
         }
         
+        public Panel getScrollablePanel() {
+            return scrollablePanel;
+        }
+        
         private void initComponent(){
             setFillParentWidth(this);
             setFillParentHeight(this);
-            setBorder(this, null);
         }
         
         private void addEventListeners(){
-            getEventListeners().addLast(new GraphicsDrawAdapter() {
-                @Override
-                public void onDrawEventLeave(Graphics g) {
-                    if(scrollablePanel.getContentWidth() <= 0) return;
-                    
-                    g.setColor(getCurrentForegroundColor());
-                    
-                    double hp = 3; // horizontal padding
-                    double vp = 2; // vertical padding
-                    double s = 2; // spacing (for |||)
-                    double aw = getWidth() - 2*hp; // available width
-
-                    
-                    double scroll = getHorizontalScroll(scrollablePanel);
-                    double minScroll = scrollablePanel.getMinHorizontalScroll();
-                    double maxScroll = scrollablePanel.getMaxHorizontalScroll();
-                    double ds = maxScroll - minScroll;
-                    
-                    if(ds <= 0) return;
-                    
-                    double k = scrollablePanel.getWidth() / scrollablePanel.getContentWidth();
-                    double p = (scroll - minScroll) / (ds);
-                    
-                    double w =  (aw * k);
-                    double h = getHeight() - 2*vp;
-                    
-                    double fw = aw - w;
-                    
-                    double x = hp + (fw*p);
-                    double y = vp;
-                    
-                    double rx = x + w/2;
-                    
-                    if(w > 4*s){
-                        double vpp = vp+4;
-                        g.drawLine(rx-s, vpp, rx-s, getHeight()-vpp);
-                        g.drawLine(rx  , vpp, rx  , getHeight()-vpp);
-                        g.drawLine(rx+s, vpp, rx+s, getHeight()-vpp);
-                    }
-                    
-                    g.drawRectangle(x, y, w-1, h-1);
-                }
-            });
-            
             getEventListeners().addLast(new LocalMouseButtonAdapter() {
                 @Override
                 public void onMouseButtonEventLeave(MouseButtonEvent e) {

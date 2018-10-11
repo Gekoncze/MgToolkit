@@ -1,11 +1,13 @@
 package cz.mg.toolkit.component.wrappers.decorations;
 
+import cz.mg.toolkit.component.DrawableContent;
 import cz.mg.toolkit.component.contents.HorizontalSpacer;
 import cz.mg.toolkit.component.wrappers.Decoration;
 import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.component.contents.ImageContent;
 import cz.mg.toolkit.component.contents.SinglelineTextContent;
+import cz.mg.toolkit.component.controls.buttons.ExtendedContentButton;
 import cz.mg.toolkit.component.controls.buttons.ImageButton;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
 import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
@@ -83,8 +85,6 @@ public class ToolkitDecoration extends Decoration {
             getChildren().addLast(minimizeButton);
             getChildren().addLast(maximizeButton);
             getChildren().addLast(closeButton);
-
-            setBorder(this, null);
         }
         
         private void addEventListeners(){
@@ -162,7 +162,7 @@ public class ToolkitDecoration extends Decoration {
         }
     }
     
-    public static abstract class TitlebarButton extends ImageButton {
+    public static abstract class TitlebarButton extends ExtendedContentButton {
         public TitlebarButton() {
             initComponent();
             addEventListeners();
@@ -180,12 +180,6 @@ public class ToolkitDecoration extends Decoration {
                     if(getWidth() != getHeight()){
                         setFixedWidth(TitlebarButton.this, getHeight());
                     }
-                }
-            });
-            getImageContent().getEventListeners().addFirst(new GraphicsDrawAdapter() {
-                @Override
-                public void onDrawEventLeave(Graphics g) {
-                    g.setColor(getCurrentForegroundColor());
                 }
             });
             getEventListeners().addLast(new ActionAdapter() {
@@ -206,6 +200,14 @@ public class ToolkitDecoration extends Decoration {
         protected void windowAction(Window window) {
             window.setMinimized(!window.isMinimized());
         }
+        
+        @Override
+        protected Content createContent() {
+            return new Content();
+        }
+
+        public static class Content extends DrawableContent {
+        }
     }
     
     public static class MaximizeButton extends TitlebarButton {
@@ -213,12 +215,28 @@ public class ToolkitDecoration extends Decoration {
         protected void windowAction(Window window) {
             window.setMaximized(!window.isMaximized());
         }
+        
+        @Override
+        protected Content createContent() {
+            return new Content();
+        }
+
+        public static class Content extends DrawableContent {
+        }
     }
     
     public static class CloseButton extends TitlebarButton {
         @Override
         protected void windowAction(Window window) {
             window.close();
+        }
+        
+        @Override
+        protected Content createContent() {
+            return new Content();
+        }
+
+        public static class Content extends DrawableContent {
         }
     }
 }

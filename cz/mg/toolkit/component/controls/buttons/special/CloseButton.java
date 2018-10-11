@@ -1,17 +1,18 @@
 package cz.mg.toolkit.component.controls.buttons.special;
 
-import cz.mg.toolkit.component.controls.buttons.ImageButton;
-import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
-import cz.mg.toolkit.graphics.Graphics;
+import cz.mg.toolkit.component.DrawableContent;
+import cz.mg.toolkit.component.controls.buttons.ExtendedContentButton;
 
 
-public class CloseButton extends ImageButton {
+public class CloseButton extends ExtendedContentButton {
     public CloseButton() {
-        getImageContent().getEventListeners().addFirst(new GraphicsDrawAdapter() {
-            @Override
-            public void onDrawEventLeave(Graphics g) {
-                g.setColor(getCurrentForegroundColor());
-            }
-        });
+    }
+    
+    @Override
+    protected Content createContent() {
+        return new Content();
+    }
+    
+    public static class Content extends DrawableContent {
     }
 }

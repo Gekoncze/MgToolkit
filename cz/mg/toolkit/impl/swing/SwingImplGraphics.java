@@ -100,28 +100,28 @@ public class SwingImplGraphics implements ImplGraphics {
     }
 
     @Override
-    public final void fillRectangle(double x, double y, double width, double height){
+    public final void drawRectangle(double x, double y, double width, double height){
         if(debug) System.out.print("SwingImplGraphics.fillRectangle(" + r(x) + ", " + r(y) + ", " + (r(width)-1) + ", " + (r(height)-1) + ")");
         if(debug) debugDetails();
         g.fillRect(r(x), r(y), r(width)-1, r(height)-1);
     }
 
     @Override
-    public final void drawRectangle(double x, double y, double width, double height) {
+    public final void drawRectangleBorder(double x, double y, double width, double height) {
         if(debug) System.out.print("SwingImplGraphics.drawRectangle(" + r(x) + ", " + r(y) + ", " + (r(width)-1) + ", " + (r(height)-1) + ")");
         if(debug) debugDetails();
         g.drawRect(r(x), r(y), r(width)-1, r(height)-1);
     }
 
     @Override
-    public final void drawOval(double x, double y, double width, double height){
+    public final void drawOvalBorder(double x, double y, double width, double height){
         if(debug) System.out.print("SwingImplGraphics.drawOval(" + r(x) + ", " + r(y) + ", " + (r(width)-1) + ", " + (r(height)-1) + ")");
         if(debug) debugDetails();
         g.drawOval(r(x), r(y), r(width)-1, r(height)-1);
     }
 
     @Override
-    public final void fillOval(double x, double y, double width, double height){
+    public final void drawOval(double x, double y, double width, double height){
         if(debug) System.out.print("SwingImplGraphics.fillOval(" + r(x) + ", " + r(y) + ", " + (r(width)-1) + ", " + (r(height)-1) + ")");
         if(debug) debugDetails();
         g.fillOval(r(x), r(y), r(width)-1, r(height)-1);

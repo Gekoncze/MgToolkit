@@ -53,14 +53,18 @@
         extends or uses text field
         int / long
         float / double
-    make scroll bar area into a parametrized image
-        parameters passed via >>> optional <<< scroll bar image interface
+    split collections as separate library + repository
     
 #### NOW
-
-
+    
+    
 #### DONE
-text input polishment
-    fixed paddings for placeholder text (both)
-    fixed multiline placeholder text
-    fixed placeholder text alignment (both)
+Drawables remake
+    changed current interfaces Background and Border into Decoration abstract class
+    Decoration can wrap other decorations, adding some stuff to draw/set before the inner one
+    added some common Decoration impelmentations into new decorations package
+    adapted default designer to use decorations
+    replaced default designer images with foreground decorations
+    adapted affected components
+    extracted H/V scroll bar drawing into designer
+    renamed Graphics draw and fill operations

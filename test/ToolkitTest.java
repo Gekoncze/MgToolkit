@@ -16,7 +16,6 @@ import cz.mg.toolkit.component.wrappers.CompactHorizontalScrollArea;
 import cz.mg.toolkit.component.contents.HorizontalSeparator;
 import cz.mg.toolkit.component.contents.InteractiveMultilineTextContent;
 import cz.mg.toolkit.component.controls.SinglelineTextInput;
-import cz.mg.toolkit.component.contents.MultilineTextContent;
 import cz.mg.toolkit.component.controls.MultilineTextInput;
 import cz.mg.toolkit.component.controls.menuitems.SeparatorItem;
 import cz.mg.toolkit.component.controls.menuitems.StandardMenuItem;

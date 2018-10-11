@@ -1,16 +1,14 @@
 package cz.mg.toolkit.component;
 
 import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
-import cz.mg.toolkit.graphics.Background;
-import cz.mg.toolkit.graphics.Border;
 import cz.mg.toolkit.graphics.Color;
 import cz.mg.toolkit.graphics.Graphics;
-import cz.mg.toolkit.utilities.Drawable;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.DrawableComponent;
+import cz.mg.toolkit.graphics.Decoration;
 
 
-public abstract class DrawableContainer extends Container implements Drawable {
-    
+public abstract class DrawableContainer extends Container implements DrawableComponent {
     public DrawableContainer() {
         addEventListeners();
     }
@@ -19,14 +17,14 @@ public abstract class DrawableContainer extends Container implements Drawable {
         getEventListeners().addLast(new GraphicsDrawAdapter() {
             @Override
             public void onDrawEventEnter(Graphics g) {
-                Background background = getBackground(DrawableContainer.this);
-                if(background != null) background.onDraw(g, DrawableContainer.this);
+                Decoration background = getBackground(DrawableContainer.this);
+                if(background != null) background.draw(g, DrawableContainer.this);
             }
 
             @Override
             public void onDrawEventLeave(Graphics g) {
-                Border border = getBorder(DrawableContainer.this);
-                if(border != null) border.onDraw(g, DrawableContainer.this);
+                Decoration foreground = getForeground(DrawableContainer.this);
+                if(foreground != null) foreground.draw(g, DrawableContainer.this);
             }
         });
     }

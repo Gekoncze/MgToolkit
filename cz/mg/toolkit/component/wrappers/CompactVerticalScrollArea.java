@@ -33,7 +33,6 @@ public class CompactVerticalScrollArea extends Wrapper {
 
     private void initComponents() {
         setWrapAndFillWidth(getContentPanel());
-        setBorder(getContentPanel(), null);
         
         setWrapAndFillWidth(upButton);
         setWrapAndFillWidth(downButton);

@@ -18,10 +18,10 @@ public interface ImplGraphics {
     public void setFont(Font font);
     public void clip(double x, double y, double width, double height);
     public void drawLine(double x1, double y1, double x2, double y2);
-    public void fillRectangle(double x, double y, double width, double height);
     public void drawRectangle(double x, double y, double width, double height);
+    public void drawRectangleBorder(double x, double y, double width, double height);
     public void drawOval(double x, double y, double width, double height);
-    public void fillOval(double x, double y, double width, double height);
+    public void drawOvalBorder(double x, double y, double width, double height);
     public void drawText(String text, double x, double y);
     public boolean drawImage(BitmapImage img, double x, double y, double width, double height);
     public void setTransparency(double value);

@@ -2,14 +2,17 @@ package cz.mg.toolkit.graphics.designers;
 
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.Content;
+import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.contents.HorizontalSeparator;
 import cz.mg.toolkit.component.contents.VerticalSeparator;
 import cz.mg.toolkit.component.controls.Button;
 import cz.mg.toolkit.component.controls.CheckBox;
+import cz.mg.toolkit.component.controls.HorizontalScrollBar;
 import cz.mg.toolkit.component.controls.Menu;
 import cz.mg.toolkit.component.controls.MultilineTextInput;
 import cz.mg.toolkit.component.controls.RadioButton;
 import cz.mg.toolkit.component.controls.SinglelineTextInput;
+import cz.mg.toolkit.component.controls.VerticalScrollBar;
 import cz.mg.toolkit.component.controls.buttons.special.CloseButton;
 import cz.mg.toolkit.component.controls.buttons.special.DownScrollButton;
 import cz.mg.toolkit.component.controls.buttons.special.LeftScrollButton;
@@ -20,17 +23,16 @@ import cz.mg.toolkit.component.controls.menuitems.StandardMenuItem;
 import cz.mg.toolkit.component.wrappers.HorizontalTabArea;
 import cz.mg.toolkit.component.wrappers.SplitArea;
 import cz.mg.toolkit.component.wrappers.decorations.ToolkitDecoration;
-import cz.mg.toolkit.graphics.Background;
-import cz.mg.toolkit.graphics.Border;
 import cz.mg.toolkit.graphics.Color;
+import cz.mg.toolkit.graphics.Decoration;
 import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.graphics.Graphics;
-import cz.mg.toolkit.graphics.backgrounds.SolidColorBackground;
-import cz.mg.toolkit.graphics.borders.SolidColorBorder;
-import cz.mg.toolkit.graphics.borders.SolidColorOvalBorder;
-import cz.mg.toolkit.graphics.images.VectorImage;
-import cz.mg.toolkit.utilities.Drawable;
+import cz.mg.toolkit.graphics.decorations.BackgroundColorDecoration;
+import cz.mg.toolkit.graphics.decorations.ForegroundColorDecoration;
+import cz.mg.toolkit.graphics.decorations.RectangleBorderDecoration;
+import cz.mg.toolkit.graphics.decorations.RectangleDecoration;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.DrawableComponent;
 
 
 public class DefaultDesigner extends ContextDesigner {
@@ -54,9 +56,8 @@ public class DefaultDesigner extends ContextDesigner {
     
     private static final Color CONTRAST_COLOR = new Color(255, 0, 0, 255);
     
-    private static final Background BACKGROUND = new SolidColorBackground();
-    private static final Border RECTANGLE_BORDER = new SolidColorBorder();
-    private static final Border OVAL_BORDER = new SolidColorOvalBorder();
+    private static final Decoration COMMON_BACKGROUND = new BackgroundColorDecoration(new RectangleDecoration());
+    private static final Decoration COMMON_FOREGROUND = new ForegroundColorDecoration(new RectangleBorderDecoration());
     
     private static final Font TITLE_FONT = new Font("default", 18, Font.Style.BOLD);
     private static final Font MENU_ITEM_DESCRIPTION_FONT = new Font("default", 18, Font.Style.REGULAR);
@@ -78,74 +79,192 @@ public class DefaultDesigner extends ContextDesigner {
     private static final double CHECK_BOX_PADDING = 4;
     private static final double RADIO_BUTTON_PADDING = 4;
     
-    private static final VectorImage LEFT_SCROLL_BUTTON_IMAGE = new VectorImage() {
+    private static final Decoration LEFT_SCROLL_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
-        public void onDraw(Graphics g, double w, double h) {
+        protected void onDraw(Graphics g, Component component) {
+            double w = component.getWidth();
+            double h = component.getHeight();
             g.drawLine(1.0*w, 0.0*h, 0.0*w, 0.5*h);
             g.drawLine(0.0*w, 0.5*h, 1.0*w, 1.0*h);
         }
-    };
+    });
     
-    private static final VectorImage RIGHT_SCROLL_BUTTON_IMAGE = new VectorImage() {
+    private static final Decoration RIGHT_SCROLL_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
-        public void onDraw(Graphics g, double w, double h) {
+        protected void onDraw(Graphics g, Component component) {
+            double w = component.getWidth();
+            double h = component.getHeight();
             g.drawLine(0.0*w, 0.0*h, 1.0*w, 0.5*h);
             g.drawLine(1.0*w, 0.5*h, 0.0*w, 1.0*h);
         }
-    };
+    });
     
-    private static final VectorImage UP_SCROLL_BUTTON_IMAGE = new VectorImage() {
+    private static final Decoration UP_SCROLL_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
-        public void onDraw(Graphics g, double w, double h) {
+        protected void onDraw(Graphics g, Component component) {
+            double w = component.getWidth();
+            double h = component.getHeight();
             g.drawLine(0.0*w, 1.0*h, 0.5*w, 0.0*h);
             g.drawLine(0.5*w, 0.0*h, 1.0*w, 1.0*h);
         }
-    };
+    });
     
-    private static final VectorImage DOWN_SCROLL_BUTTON_IMAGE = new VectorImage() {
+    private static final Decoration DOWN_SCROLL_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
-        public void onDraw(Graphics g, double w, double h) {
+        protected void onDraw(Graphics g, Component component) {
+            double w = component.getWidth();
+            double h = component.getHeight();
             g.drawLine(0.0*w, 0.0*h, 0.5*w, 1.0*h);
             g.drawLine(0.5*w, 1.0*h, 1.0*w, 0.0*h);
         }
-    };
+    });
     
-    private static final VectorImage MINIMIZE_BUTTON_IMAGE = new VectorImage() {
+    private static final Decoration MINIMIZE_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
-        public void onDraw(Graphics g, double w, double h) {
+        protected void onDraw(Graphics g, Component component) {
+            double w = component.getWidth();
+            double h = component.getHeight();
             g.drawLine(0.0*w, 0.9*h, 1.0*w, 0.9*h);
         }
-    };
+    });
     
-    private static final VectorImage MAXIMIZE_BUTTON_IMAGE = new VectorImage() {
+    private static final Decoration MAXIMIZE_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
-        public void onDraw(Graphics g, double w, double h) {
-            g.drawRectangle(0.0*w, 0.0*h, 1.0*w, 1.0*h);
+        protected void onDraw(Graphics g, Component component) {
+            double w = component.getWidth();
+            double h = component.getHeight();
+            g.drawRectangleBorder(0.0*w, 0.0*h, 1.0*w, 1.0*h);
         }
-    };
+    });
     
-    private static final VectorImage CLOSE_BUTTON_IMAGE = new VectorImage() {
+    private static final Decoration CLOSE_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
-        public void onDraw(Graphics g, double w, double h) {
+        protected void onDraw(Graphics g, Component component) {
+            double w = component.getWidth();
+            double h = component.getHeight();
             g.drawLine(0.0*w, 0.0*h, 1.0*w, 1.0*h);
             g.drawLine(0.0*w, 1.0*h, 1.0*w, 0.0*h);
         }
-    };
+    });
     
-    private static final VectorImage CHECK_BOX_IMAGE = new VectorImage() {
+    private static final Decoration CHECK_BOX_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
-        public void onDraw(Graphics g, double w, double h) {
-            g.drawLine(0.0*w, 0.5*h, 0.4*w, 0.9*h);
-            g.drawLine(0.4*w, 0.9*h, 1.0*w, 0.0*h);
+        protected void onDraw(Graphics g, Component component) {
+            double w = component.getWidth();
+            double h = component.getHeight();
+            boolean s = ((CheckBox)component).isSelected();
+            g.drawRectangle(0, 0, w, h);
+            if(s) g.drawLine(0.0*w, 0.5*h, 0.4*w, 0.9*h);
+            if(s) g.drawLine(0.4*w, 0.9*h, 1.0*w, 0.0*h);
         }
-    };
+    });
     
-    private static final VectorImage RADIO_BUTTON_IMAGE = new VectorImage() {
+    private static final Decoration RADIO_BUTTON_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
-        public void onDraw(Graphics g, double w, double h) {
-            g.fillOval(0.0*w, 0.0*h, 1.0*w, 1.0*h);
+        protected void onDraw(Graphics g, Component component) {
+            double w = component.getWidth();
+            double h = component.getHeight();
+            boolean s = ((RadioButton)component).isSelected();
+            g.drawOval(0, 0, w, h);
+            if(s) g.drawOval(0.2*w, 0.2*h, 0.6*w, 0.6*h);
         }
-    };
+    });
+    
+    private static final Decoration HORIZONTAL_SCROLL_BAR_FOREGROUND = new ForegroundColorDecoration(new Decoration(){
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            HorizontalScrollBar.DraggableBar bar = (HorizontalScrollBar.DraggableBar) component;
+            Panel scrollablePanel = bar.getScrollablePanel();
+            
+            if(scrollablePanel.getContentWidth() <= 0) return;
+            
+            double ww = component.getWidth();
+            double hh = component.getHeight();
+
+            double hp = 3; // horizontal padding
+            double vp = 2; // vertical padding
+            double s = 2; // spacing (for |||)
+            double aw = ww - 2*hp; // available width
+
+
+            double scroll = getHorizontalScroll(scrollablePanel);
+            double minScroll = scrollablePanel.getMinHorizontalScroll();
+            double maxScroll = scrollablePanel.getMaxHorizontalScroll();
+            double ds = maxScroll - minScroll;
+
+            if(ds <= 0) return;
+
+            double k = scrollablePanel.getWidth() / scrollablePanel.getContentWidth();
+            double p = (scroll - minScroll) / (ds);
+
+            double w =  (aw * k);
+            double h = hh - 2*vp;
+
+            double fw = aw - w;
+
+            double x = hp + (fw*p);
+            double y = vp;
+
+            double rx = x + w/2;
+
+            if(w > 4*s){
+                double vpp = vp+4;
+                g.drawLine(rx-s, vpp, rx-s, hh-vpp);
+                g.drawLine(rx  , vpp, rx  , hh-vpp);
+                g.drawLine(rx+s, vpp, rx+s, hh-vpp);
+            }
+
+            g.drawRectangleBorder(x, y, w-1, h-1);
+        }
+    });
+    
+    private static final Decoration VERTICAL_SCROLL_BAR_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            VerticalScrollBar.DraggableBar bar = (VerticalScrollBar.DraggableBar) component;
+            Panel scrollablePanel = bar.getScrollablePanel();
+            
+            if(scrollablePanel.getContentHeight() <= 0) return;
+            
+            double ww = component.getWidth();
+            double hh = component.getHeight();
+
+            double hp = 3; // horizontal padding
+            double vp = 2; // vertical padding
+            double s = 2; // spacing (for |||)
+            double ah = hh - 2*vp; // available height
+
+
+            double scroll = getVerticalScroll(scrollablePanel);
+            double minScroll = scrollablePanel.getMinVerticalScroll();
+            double maxScroll = scrollablePanel.getMaxVerticalScroll();
+            double ds = maxScroll - minScroll;
+
+            if(ds <= 0) return;
+
+            double k = scrollablePanel.getHeight() / scrollablePanel.getContentHeight();
+            double p = (scroll - minScroll) / (ds);
+
+            double w = ww - 2*hp;
+            double h =  (ah * k);
+
+            double fh = ah - h;
+
+            double x = hp;
+            double y = vp + (fh*p);
+
+            double ry = y + h/2;
+
+            if(h > 4*s){
+                double hpp = hp+4;
+                g.drawLine(hpp, ry-s, ww-hpp, ry-s);
+                g.drawLine(hpp, ry,   ww-hpp, ry);
+                g.drawLine(hpp, ry+s, ww-hpp, ry+s);
+            }
+
+            g.drawRectangleBorder(x, y, w-1, h-1);
+        }
+    });
         
     private final Context defaultContext = new Context() {
         @Override
@@ -176,32 +295,30 @@ public class DefaultDesigner extends ContextDesigner {
         setPadding(component, 0);
         setSpacing(component, 0);
         setContrastColor(component, CONTRAST_COLOR);
-        if(component instanceof Drawable) setBackground(component, BACKGROUND);
-        if(component instanceof Drawable) setBorder(component, RECTANGLE_BORDER);
+        if(component instanceof DrawableComponent) setBackground(component, COMMON_BACKGROUND);
+        if(component instanceof DrawableComponent) setForeground(component, COMMON_FOREGROUND);
         if(component instanceof StandardMenuItem.Description) setFont(component, MENU_ITEM_DESCRIPTION_FONT);
         if(component instanceof StandardMenuItem.Shortcut) setFont(component, MENU_ITEM_SHORTCUT_FONT);
-        if(component instanceof ToolkitDecoration.TitleBar) setBorder(component, null);
+        if(component instanceof ToolkitDecoration.TitleBar) setForeground(component, null);
         if(component instanceof ToolkitDecoration.Title) setFont(component, TITLE_FONT);
-        if(component instanceof HorizontalSeparator) setBorder(component, null);
-        if(component instanceof VerticalSeparator) setBorder(component, null);
-        if(component instanceof Content) setBorder(component, null);
-        if(component instanceof LeftScrollButton) ((LeftScrollButton)component).getImageContent().setImage(LEFT_SCROLL_BUTTON_IMAGE);
-        if(component instanceof RightScrollButton) ((RightScrollButton)component).getImageContent().setImage(RIGHT_SCROLL_BUTTON_IMAGE);
-        if(component instanceof UpScrollButton) ((UpScrollButton)component).getImageContent().setImage(UP_SCROLL_BUTTON_IMAGE);
-        if(component instanceof DownScrollButton) ((DownScrollButton)component).getImageContent().setImage(DOWN_SCROLL_BUTTON_IMAGE);
-        if(component instanceof CloseButton) ((CloseButton)component).getImageContent().setImage(CLOSE_BUTTON_IMAGE);
-        if(component instanceof ToolkitDecoration.MinimizeButton) ((ToolkitDecoration.MinimizeButton)component).getImageContent().setImage(MINIMIZE_BUTTON_IMAGE);
-        if(component instanceof ToolkitDecoration.MaximizeButton) ((ToolkitDecoration.MaximizeButton)component).getImageContent().setImage(MAXIMIZE_BUTTON_IMAGE);
-        if(component instanceof ToolkitDecoration.CloseButton) ((ToolkitDecoration.CloseButton)component).getImageContent().setImage(CLOSE_BUTTON_IMAGE);
+        if(component instanceof HorizontalSeparator) setForeground(component, null);
+        if(component instanceof VerticalSeparator) setForeground(component, null);
+        if(component instanceof Content) setForeground(component, null);
+        if(component instanceof LeftScrollButton.Content) setForeground(component, LEFT_SCROLL_BUTTON_CONTENT_FOREGROUND);
+        if(component instanceof RightScrollButton.Content) setForeground(component, RIGHT_SCROLL_BUTTON_CONTENT_FOREGROUND);
+        if(component instanceof UpScrollButton.Content) setForeground(component, UP_SCROLL_BUTTON_CONTENT_FOREGROUND);
+        if(component instanceof DownScrollButton.Content) setForeground(component, DOWN_SCROLL_BUTTON_CONTENT_FOREGROUND);
+        if(component instanceof CloseButton.Content) setForeground(component, CLOSE_BUTTON_CONTENT_FOREGROUND);
+        if(component instanceof ToolkitDecoration.MinimizeButton.Content) setForeground(component, MINIMIZE_BUTTON_CONTENT_FOREGROUND);
+        if(component instanceof ToolkitDecoration.MaximizeButton.Content) setForeground(component, MAXIMIZE_BUTTON_CONTENT_FOREGROUND);
+        if(component instanceof ToolkitDecoration.CloseButton.Content) setForeground(component, CLOSE_BUTTON_CONTENT_FOREGROUND);
         if(component instanceof Button) setPadding(component, BUTTON_PADDING);
         if(component instanceof ScrollButton) setPadding(component, SCROLL_BUTTON_PADDING);
         if(component instanceof CloseButton) setPadding(component, CLOSE_BUTTON_PADDING);
         if(component instanceof CheckBox) setPadding(component, CHECK_BOX_PADDING);
-        if(component instanceof CheckBox) setBorder(component, RECTANGLE_BORDER);
-        if(component instanceof CheckBox) ((CheckBox)component).getImageContent().setImage(CHECK_BOX_IMAGE);
+        if(component instanceof CheckBox) setForeground(component, CHECK_BOX_FOREGROUND);
         if(component instanceof RadioButton) setPadding(component, RADIO_BUTTON_PADDING);
-        if(component instanceof RadioButton) setBorder(component, OVAL_BORDER);
-        if(component instanceof RadioButton) ((RadioButton)component).getImageContent().setImage(RADIO_BUTTON_IMAGE);
+        if(component instanceof RadioButton) setForeground(component, RADIO_BUTTON_FOREGROUND);
         if(component instanceof Menu) setSpacing(component, MENU_SPACING);
         if(component instanceof Menu) setPadding(component, MENU_PADDING);
         if(component instanceof SinglelineTextInput.TextContent) setPadding(component, TEXT_INPUT_PADDING);
@@ -212,7 +329,9 @@ public class DefaultDesigner extends ContextDesigner {
         if(component instanceof SplitArea) setSpacing(component, SPLIT_AREA_SPACING);
         if(component instanceof ToolkitDecoration.TitlebarButton) setPadding(component, TITLE_BAR_BUTTON_PADDING); 
         if(component instanceof ToolkitDecoration.TitleBar) setPadding(component, TITLE_BAR_PADDING); 
-        if(component instanceof ToolkitDecoration.TitleBar) setHorizontalSpacing(component, TITLE_BAR_SPACING); 
+        if(component instanceof ToolkitDecoration.TitleBar) setHorizontalSpacing(component, TITLE_BAR_SPACING);
+        if(component instanceof HorizontalScrollBar.DraggableBar) setForeground(component, HORIZONTAL_SCROLL_BAR_FOREGROUND);
+        if(component instanceof VerticalScrollBar.DraggableBar) setForeground(component, VERTICAL_SCROLL_BAR_FOREGROUND);
     }
     
     protected void onDefaultDesign(Component component){

@@ -1,11 +1,10 @@
 package cz.mg.toolkit.utilities.properties;
 
 import cz.mg.toolkit.component.Component;
-import cz.mg.toolkit.graphics.Background;
-import cz.mg.toolkit.graphics.Border;
 import cz.mg.toolkit.graphics.Color;
 import cz.mg.toolkit.graphics.Designer;
 import cz.mg.toolkit.graphics.Font;
+import cz.mg.toolkit.graphics.Decoration;
 
 
 public class PropertiesInterface {
@@ -49,7 +48,7 @@ public class PropertiesInterface {
     private static final int DISABLED_FOREGROUND_COLOR = Properties.generateId();
     private static final int HIGHLIGHTED_BACKGROUND_COLOR = Properties.generateId();
     private static final int HIGHLIGHTED_FOREGROUND_COLOR = Properties.generateId();
-    private static final int BORDER = Properties.generateId();
+    private static final int FOREGROUND = Properties.generateId();
     private static final int BACKGROUND = Properties.generateId();
     private static final int FONT = Properties.generateId();
     private static final int CONTRAST_COLOR = Properties.generateId();
@@ -410,19 +409,19 @@ public class PropertiesInterface {
         component.getProperties().set(HIGHLIGHTED_FOREGROUND_COLOR, color);
     }
     
-    public static final Border getBorder(Component component){
-        return (Border) component.getProperties().get(BORDER, null);
+    public static final Decoration getForeground(Component component){
+        return (Decoration) component.getProperties().get(FOREGROUND, null);
     }
     
-    public static final void setBorder(Component component, Border border){
-        component.getProperties().set(BORDER, border);
+    public static final void setForeground(Component component, Decoration border){
+        component.getProperties().set(FOREGROUND, border);
     }
     
-    public static final Background getBackground(Component component){
-        return (Background) component.getProperties().get(BACKGROUND, null);
+    public static final Decoration getBackground(Component component){
+        return (Decoration) component.getProperties().get(BACKGROUND, null);
     }
     
-    public static final void setBackground(Component component, Background background){
+    public static final void setBackground(Component component, Decoration background){
         component.getProperties().set(BACKGROUND, background);
     }
     

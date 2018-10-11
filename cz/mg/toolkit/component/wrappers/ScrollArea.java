@@ -30,8 +30,6 @@ public class ScrollArea extends Wrapper {
     }
     
     private void initComponents() {
-        setBorder(getContentPanel(), null);
-        
         setColumn(verticalScrollBar, 1);
         setRow(horizontalScrollBar, 1);
         

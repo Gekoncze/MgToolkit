@@ -71,24 +71,24 @@ public class Graphics {
         implGraphics.drawLine(th(x1), tv(y1), th(x2), tv(y2));
     }
 
-    public final void fillRectangle(double x, double y, double width, double height){
+    public final void drawRectangle(double x, double y, double width, double height){
         if(debug) System.out.println("Graphics.fillRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
-        implGraphics.fillRectangle(th(x), tv(y), th(width), tv(height));
-    }
-
-    public final void drawRectangle(double x, double y, double width, double height) {
-        if(debug) System.out.println("Graphics.drawRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
         implGraphics.drawRectangle(th(x), tv(y), th(width), tv(height));
     }
 
-    public final void drawOval(double x, double y, double width, double height){
-        if(debug) System.out.println("Graphics.drawOval(" + x + ", " + y + ", " + width + ", " + height + ")");
-        implGraphics.drawOval(th(x), tv(y), th(width), tv(height));
+    public final void drawRectangleBorder(double x, double y, double width, double height) {
+        if(debug) System.out.println("Graphics.drawRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
+        implGraphics.drawRectangleBorder(th(x), tv(y), th(width), tv(height));
     }
 
-    public final void fillOval(double x, double y, double width, double height){
+    public final void drawOval(double x, double y, double width, double height){
         if(debug) System.out.println("Graphics.fillOval(" + x + ", " + y + ", " + width + ", " + height + ")");
-        implGraphics.fillOval(th(x), tv(y), th(width), tv(height));
+        implGraphics.drawOval(th(x), tv(y), th(width), tv(height));
+    }
+    
+    public final void drawOvalBorder(double x, double y, double width, double height){
+        if(debug) System.out.println("Graphics.drawOval(" + x + ", " + y + ", " + width + ", " + height + ")");
+        implGraphics.drawOvalBorder(th(x), tv(y), th(width), tv(height));
     }
 
     public final void drawText(String text, double x, double y){

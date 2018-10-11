@@ -3,7 +3,6 @@ package test;
 import cz.mg.toolkit.component.Container;
 import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.contents.InteractiveSinglelineTextContent;
-import cz.mg.toolkit.component.contents.MultilineTextContent;
 import cz.mg.toolkit.component.contents.SinglelineTextContent;
 import cz.mg.toolkit.component.contents.VerticalSpacer;
 import cz.mg.toolkit.component.window.Window;

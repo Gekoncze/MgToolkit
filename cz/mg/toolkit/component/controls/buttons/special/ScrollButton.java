@@ -1,13 +1,13 @@
 package cz.mg.toolkit.component.controls.buttons.special;
 
 import cz.mg.toolkit.component.Container;
-import cz.mg.toolkit.component.controls.buttons.ImageButton;
+import cz.mg.toolkit.component.controls.buttons.ExtendedContentButton;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
-public abstract class ScrollButton extends ImageButton {
+public abstract class ScrollButton extends ExtendedContentButton {
     private static final int DEFAULT_SCROLL_SPEED = 16;
     private static final int DEFAULT_SIZE = 24;
     

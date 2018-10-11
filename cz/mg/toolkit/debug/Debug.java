@@ -8,8 +8,8 @@ import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
 import cz.mg.toolkit.event.events.VisitEvent;
 import cz.mg.toolkit.graphics.Color;
-import cz.mg.toolkit.utilities.Drawable;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.DrawableComponent;
 
 
 public class Debug {
@@ -19,7 +19,7 @@ public class Debug {
         component.sendEvent(new VisitEvent() {
             @Override
             public void onComponentEnter(Component component) {
-                if(component instanceof Drawable){
+                if(component instanceof DrawableComponent){
                     setRandomColors(component);
                 }
             }
@@ -136,7 +136,7 @@ public class Debug {
         component.raiseEvent(new VisitEvent() {
             @Override
             public void onComponentEnter(Component component) {
-                if(component instanceof Drawable){
+                if(component instanceof DrawableComponent){
                     setRandomColors(component);
                 }
             }

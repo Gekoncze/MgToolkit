@@ -55,7 +55,7 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
                     double w = caretToPosition(max) - x;
                     double h = getLineHeight();
                     g.setColor(getCurrentForegroundColor());
-                    g.fillRectangle(x, y, w, h);
+                    g.drawRectangle(x, y, w, h);
                 }
             }
             

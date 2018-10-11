@@ -27,7 +27,6 @@ public class HorizontalScrollArea extends Wrapper {
     }
     
     private void initComponents() {
-        setBorder(getContentPanel(), null);
         getChildren().addLast(horizontalScrollBar);        
         horizontalScrollBar.setScrollablePanel(getContentPanel());
     }

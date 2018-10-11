@@ -33,7 +33,6 @@ public class CompactHorizontalScrollArea extends Wrapper {
 
     private void initComponents() {
         setWrapAndFillHeight(getContentPanel());
-        setBorder(getContentPanel(), null);
         
         setWrapAndFillHeight(leftButton);
         setWrapAndFillHeight(rightButton);

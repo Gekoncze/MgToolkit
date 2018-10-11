@@ -59,7 +59,7 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
                         double[] p = caretToPosition(min);
                         double w = caretToPosition(max)[0] - p[0];
                         double h = getLineHeight();
-                        g.fillRectangle(p[0], p[1], w, h);
+                        g.drawRectangle(p[0], p[1], w, h);
                     } else {
                         Font font = getFont(InteractiveMultilineTextContent.this);
                         
@@ -69,7 +69,7 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
                         double lly = getVerticalLinePosition(minS[1]);
                         double llw = font.getWidth(leadingLine.substring(minS[0]));
                         double llh = getLineHeight();
-                        g.fillRectangle(llx, lly, llw, llh);
+                        g.drawRectangle(llx, lly, llw, llh);
                         
                         // draw in-between lines
                         for(int i = minS[1] + 1; i <= maxS[1] - 1; i++){
@@ -78,7 +78,7 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
                             double ily = getVerticalLinePosition(i);
                             double ilw = getLineWidth(i);
                             double ilh = getLineHeight();
-                            g.fillRectangle(ilx, ily, ilw, ilh);
+                            g.drawRectangle(ilx, ily, ilw, ilh);
                         }
                         
                         // draw trailing line
@@ -87,7 +87,7 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
                         double tly = getVerticalLinePosition(maxS[1]);
                         double tlw = font.getWidth(trailingLine.substring(0, maxS[0]));
                         double tlh = getLineHeight();
-                        g.fillRectangle(tlx, tly, tlw, tlh);
+                        g.drawRectangle(tlx, tly, tlw, tlh);
                     }
                 }
             }
