@@ -57,11 +57,15 @@
         parameters passed via >>> optional <<< scroll bar image interface
     
 #### NOW
-    multiline text input
+    text input polishment
+        check paddings for placeholder text (both)
+        make multiline text content support multiline placeholder text
+            one possible and simple solution would be to move placeholder text to text content itself
 
 #### DONE
-Multiline interactive text content + TODO
-    impelented multiline interactive text content
-    minor modifications for other text components
-    implemented string builder multiline text model
-    TODO: fix errors
+Multiline text input
+    fixed interactive multiline text content errors
+    renamed text input control Text class to TextContent
+    added multiline text input compoonent
+    fixed padding for multiline text content
+    

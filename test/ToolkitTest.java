@@ -17,6 +17,7 @@ import cz.mg.toolkit.component.contents.HorizontalSeparator;
 import cz.mg.toolkit.component.contents.InteractiveMultilineTextContent;
 import cz.mg.toolkit.component.controls.SinglelineTextInput;
 import cz.mg.toolkit.component.contents.MultilineTextContent;
+import cz.mg.toolkit.component.controls.MultilineTextInput;
 import cz.mg.toolkit.component.controls.menuitems.SeparatorItem;
 import cz.mg.toolkit.component.controls.menuitems.StandardMenuItem;
 import cz.mg.toolkit.component.wrappers.decorations.SystemDecoration;
@@ -235,6 +236,12 @@ public class ToolkitTest {
         
         label = new SinglelineTextContent("Lorem ipsum 9999999999999999999999999999999999999999999999999999");
         label.setParent(h4);
+        
+        MultilineTextInput mti = new MultilineTextInput();
+        setFixedSize(mti, 128, 64);
+        mti.setPlaceholderText("Yay!");
+        mti.setParent(v1);
+        mti.getTextContent().setText("Twilight Sparkle\nRarity\nFluttershy\nRainbow Dash\nApplejack\nPinkie Pie");
         
         InteractiveMultilineTextContent mtc = new InteractiveMultilineTextContent("Twilight Sparkle\nRarity\nFluttershy\nRainbow Dash\nApplejack\nPinkie Pie");
         mtc.setParent(v1);

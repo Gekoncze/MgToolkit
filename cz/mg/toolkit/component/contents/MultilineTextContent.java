@@ -57,7 +57,7 @@ public class MultilineTextContent extends DrawableContent {
     }
     
     public final double getHorizontalLinePosition(int line){
-        return Reshape.align(getWidth(), getFont(this).getWidth(textModel.getLine(line)), getHorizontalContentAlignment(this));
+        return Reshape.align(getWidth(), getFont(this).getWidth(textModel.getLine(line)), getHorizontalContentAlignment(this), getLeftPadding(this), getRightPadding(this));
     }
     
     public final double getVerticalLinePosition(int line){
@@ -65,11 +65,11 @@ public class MultilineTextContent extends DrawableContent {
     }
     
     public final double getHorizontalTextPosition(){
-        return Reshape.align(getWidth(), getTextWidth(), getHorizontalContentAlignment(this));
+        return Reshape.align(getWidth(), getTextWidth(), getHorizontalContentAlignment(this), getLeftPadding(this), getRightPadding(this));
     }
     
     public final double getVerticalTextPosition(){
-        return Reshape.align(getHeight(), getTextHeight(), getVerticalContentAlignment(this));
+        return Reshape.align(getHeight(), getTextHeight(), getVerticalContentAlignment(this), getTopPadding(this), getBottomPadding(this));
     }
     
     public final double getLineWidth(int line){

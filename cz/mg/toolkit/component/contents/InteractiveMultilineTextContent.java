@@ -244,6 +244,18 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
                         setCaret(caret + 1);
                         if(!isShiftPressed()) setSelectionCaret(caret);
                         relayout();
+                    } else if(e.getButton() == Keyboard.UP_BUTTON){
+                        double[] p = caretToPosition(caret);
+                        p[1] -= getLineHeight() * 0.5;
+                        setCaret(positionToCaret(p[0], p[1]));
+                        if(!isShiftPressed()) setSelectionCaret(caret);
+                        relayout();
+                    } else if(e.getButton() == Keyboard.DOWN_BUTTON){
+                        double[] p = caretToPosition(caret);
+                        p[1] += getLineHeight() * 1.5;
+                        setCaret(positionToCaret(p[0], p[1]));
+                        if(!isShiftPressed()) setSelectionCaret(caret);
+                        relayout();
                     } else if(e.getButton() == Keyboard.BACKSPACE_BUTTON){
                         if(selectionCaret == caret) setSelectionCaret(caret - 1);
                         delete();
@@ -254,6 +266,9 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
                         relayout();
                     } else if(e.getButton() == Keyboard.ESC_BUTTON){
                         done();
+                    } else if(e.getButton() == Keyboard.ENTER_BUTTON || e.getButton() == Keyboard.NUM_ENTER_BUTTON){
+                        paste("\n");
+                        relayout();
                     }
                 }
                 
@@ -290,8 +305,10 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
         };
     }
     
-    private static int getClosestLine(Font font, double py){
+    private int getClosestLine(Font font, double py){
         int line = (int) (py / font.getHeight());
+        if(line >= getTextModel().lineCount()) line = getTextModel().lineCount() - 1;
+        if(line < 0) line = 0;
         return line;
     }
     
@@ -319,7 +336,7 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
         for(int l = 0; l < getTextModel().lineCount(); l++){
             String textLine = getTextModel().getLine(l);
             if((c - textLine.length()) > 0){
-                c -= textLine.length();
+                c -= textLine.length() + 1;
                 cy++;
             } else {
                 cx = c;

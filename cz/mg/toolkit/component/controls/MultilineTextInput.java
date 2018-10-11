@@ -2,7 +2,7 @@ package cz.mg.toolkit.component.controls;
 
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.containers.Panel;
-import cz.mg.toolkit.component.contents.InteractiveSinglelineTextContent;
+import cz.mg.toolkit.component.contents.InteractiveMultilineTextContent;
 import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
 import cz.mg.toolkit.event.adapters.BeforeDrawAdapter;
 import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
@@ -13,11 +13,11 @@ import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
-public class SinglelineTextInput extends Panel {
+public class MultilineTextInput extends Panel {
     private final TextContent textContent = new TextContent();
     private String placeholderText;
 
-    public SinglelineTextInput() {
+    public MultilineTextInput() {
         initComponent();
         initComponents();
         addEventListeners();
@@ -25,13 +25,13 @@ public class SinglelineTextInput extends Panel {
 
     private void initComponent() {
         setLayout(new OverlayLayout());
-        setFillParentWidth(this);
-        setUnlimitedHorizontalScroll(this, true);
+        setFillParent(this);
+        setUnlimitedScroll(this, true);
     }
 
     private void initComponents() {
         textContent.setParent(this);
-        setWrapAndFillWidth(textContent);
+        setWrapAndFill(textContent);
         textContent.setEditable(true);
     }
 
@@ -39,7 +39,7 @@ public class SinglelineTextInput extends Panel {
         getEventListeners().addLast(new BeforeDrawAdapter() {
             @Override
             public void onEventEnter(BeforeDrawEvent e) {
-                setHighlighted(SinglelineTextInput.this, textContent.hasKeyboardFocus());
+                setHighlighted(MultilineTextInput.this, textContent.hasKeyboardFocus());
             }
         });
         
@@ -65,25 +65,49 @@ public class SinglelineTextInput extends Panel {
     }
     
     private void fixScroll(){
-        double cp = textContent.getCaretPosition() + textContent.getX();
+        double[] cp = textContent.getCaretPosition();
+        cp[0] += textContent.getX();
+        cp[1] += textContent.getY();
         
         double leftPadding = getLeftPadding(this);
         double rightPadding = getRightPadding(this);
+        double topPadding = getTopPadding(this);
+        double bottomPadding = getBottomPadding(this);
         
         double leftBoundary = leftPadding;
         double rightBoundary = getWidth() - rightPadding;
+        double topBoundary = topPadding;
+        double bottomBoundary = getHeight() - bottomPadding;
+        
+        double leftPoint = cp[0];
+        double rightPoint = cp[0];
+        double topPoint = cp[1];
+        double bottomPoint = cp[1] + textContent.getLineHeight();
         
         if((rightBoundary - leftBoundary) <= textContent.getLineHeight()) return; // not enough space
+        if((bottomBoundary - topBoundary) <= textContent.getLineHeight()) return; // not enough space
         
-        if(cp < leftBoundary) {
-            double delta = Math.abs(cp - leftBoundary);
+        if(leftPoint < leftBoundary) {
+            double delta = Math.abs(leftPoint - leftBoundary);
             scrollHorizontally(this, -delta);
             relayout();
         }
         
-        if(cp > rightBoundary){
-            double delta = Math.abs(cp - rightBoundary);
+        if(rightPoint > rightBoundary) {
+            double delta = Math.abs(rightPoint - rightBoundary);
             scrollHorizontally(this, delta);
+            relayout();
+        }
+        
+        if(topPoint < topBoundary) {
+            double delta = Math.abs(topPoint - topBoundary);
+            scrollVertically(this, -delta);
+            relayout();
+        }
+        
+        if(bottomPoint > bottomBoundary) {
+            double delta = Math.abs(bottomPoint - bottomBoundary);
+            scrollVertically(this, delta);
             relayout();
         }
     }
@@ -96,7 +120,7 @@ public class SinglelineTextInput extends Panel {
         this.placeholderText = placeholderText;
     }
 
-    public final InteractiveSinglelineTextContent getTextContent() {
+    public final InteractiveMultilineTextContent getTextContent() {
         return textContent;
     }
     
@@ -104,6 +128,10 @@ public class SinglelineTextInput extends Panel {
         setHorizontalScroll(component, getHorizontalScroll(component) + value);
     }
     
-    public static class TextContent extends InteractiveSinglelineTextContent {
+    private static void scrollVertically(Component component, double value){
+        setVerticalScroll(component, getVerticalScroll(component) + value);
+    }
+    
+    public static class TextContent extends InteractiveMultilineTextContent {
     }
 }

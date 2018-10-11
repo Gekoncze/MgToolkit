@@ -24,16 +24,30 @@ public class StringBuilderSinglelineTextModel implements SinglelineTextModel {
     
     @Override
     public String getText(int iBegin, int iEnd) {
+        if(text.length() <= 0) return "";
+        if(iBegin < 0) iBegin = 0;
+        if(iBegin >= text.length()) iBegin = text.length() - 1;
+        if(iEnd < 0) iEnd = 0;
+        if(iEnd >= text.length()) iEnd = text.length() - 1;
+        if(iBegin >= iEnd) return "";
         return text.substring(iBegin, iEnd);
     }
     
     @Override
     public void insert(int i, String text) {
+        if(i < 0) return;
+        if(i > text.length()) return;
         this.text.insert(i, text);
     }
 
     @Override
     public void remove(int iBegin, int iEnd) {
+        if(text.length() <= 0) return;
+        if(iBegin < 0) iBegin = 0;
+        if(iBegin >= text.length()) iBegin = text.length() - 1;
+        if(iEnd < 0) iEnd = 0;
+        if(iEnd >= text.length()) iEnd = text.length() - 1;
+        if(iBegin >= iEnd) return;
         this.text.delete(iBegin, iEnd);
     }
 }

@@ -6,7 +6,7 @@ import cz.mg.toolkit.utilities.text.MultilineTextModel;
 
 public class StringMultilineTextModel implements MultilineTextModel {
     private String text = "";
-    private ChainList<String> linesCache = null;
+    private ChainList<String> lines = null;
     
     @Override
     public String getText() {
@@ -17,7 +17,7 @@ public class StringMultilineTextModel implements MultilineTextModel {
     public void setText(String text) {
         if(text == null) this.text = "";
         else this.text = text;
-        linesCache = null;
+        lines = null;
     }
 
     @Override
@@ -27,60 +27,45 @@ public class StringMultilineTextModel implements MultilineTextModel {
     
     @Override
     public String getText(int iBegin, int iEnd) {
-        return text.substring(iBegin, iEnd);
+        return FailsafeString.substring(text, iBegin, iEnd);
     }
 
     @Override
     public void insert(int i, String text) {
-        throw new UnsupportedOperationException();
     }
 
     @Override
     public void remove(int iBegin, int iEnd) {
-        throw new UnsupportedOperationException();
     }
-    
-//    @Override
-//    public String getText(int ixBegin, int iyBegin, int ixEnd, int iyEnd) {
-//        return getText(xy2i(ixBegin, iyBegin), xy2i(ixEnd, iyEnd));
-//    }
-//
-//    @Override
-//    public void insert(int x, int y, String s) {
-//        throw new UnsupportedOperationException();
-//    }
-//
-//    @Override
-//    public void remove(int ixBegin, int iyBegin, int ixEnd, int iyEnd) {
-//        throw new UnsupportedOperationException();
-//    }
 
     @Override
     public String getLine(int y) {
-        updateLinesCache();
-        return linesCache.get(y);
+        updateLines();
+        if(y < 0) y = 0;
+        if(y >= lines.count()) y = lines.count() - 1;
+        return lines.get(y);
     }
 
     @Override
     public int lineCount() {
-        updateLinesCache();
-        return linesCache.count();
+        updateLines();
+        return lines.count();
     }
     
-    private void updateLinesCache(){
-        if(linesCache != null) return;
-        linesCache = new ChainList<>();
+    private void updateLines(){
+        if(lines != null) return;
+        lines = new ChainList<>();
         int begin = 0;
         for(int i = 0; i < text.length(); i++){
             char ch = text.charAt(i);
             if(ch == '\n'){
                 int end = i;
-                linesCache.addLast(text.substring(begin, end));
+                lines.addLast(text.substring(begin, end));
                 begin = end + 1;
             }
         }
-        if(begin < text.length()) linesCache.addLast(text.substring(begin));
-        else linesCache.addLast("");
+        if(begin < text.length()) lines.addLast(text.substring(begin));
+        else lines.addLast("");
     }
     
     private int xy2i(int ix, int iy){

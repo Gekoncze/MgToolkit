@@ -24,16 +24,14 @@ public class StringSinglelineTextModel implements SinglelineTextModel {
     
     @Override
     public String getText(int iBegin, int iEnd) {
-        return text.substring(iBegin, iEnd);
+        return FailsafeString.substring(text, iBegin, iEnd);
     }
     
     @Override
     public void insert(int i, String text) {
-        throw new UnsupportedOperationException();
     }
 
     @Override
     public void remove(int iBegin, int iEnd) {
-        throw new UnsupportedOperationException();
     }
 }
