@@ -42,11 +42,19 @@ public abstract class Slider<T> extends Panel {
     }
     
     private void fixValue(){
-        if(smaller(value, minValue)){
-            value = minValue;
+        T realMin = minValue;
+        T realMax = maxValue;
+        
+        if(smaller(maxValue, minValue)){
+            realMin = maxValue;
+            realMax = minValue;
         }
-        if(greater(value, maxValue)){
-            value = maxValue;
+        
+        if(smaller(value, realMin)){
+            value = realMin;
+        }
+        if(greater(value, realMax)){
+            value = realMax;
         }
     }
     

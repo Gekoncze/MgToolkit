@@ -19,6 +19,7 @@ public class IntegerHorizontalSlider extends HorizontalSlider<Integer> {
 
     @Override
     protected double computeNorm(Integer value, Integer minValue, Integer maxValue) {
+        if((maxValue - minValue) == 0) return 0.5;
         return (double)(value - minValue)/(double)(maxValue - minValue);
     }
 

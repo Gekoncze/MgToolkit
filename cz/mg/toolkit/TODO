@@ -33,7 +33,7 @@
             počet navštívených komponent při jednom projetí
             počet provedených relayoutů při vybrané akci
 
-    optimalizace eventů
+    optimalizace eventů (hlavně mouse motion eventy)
 
 #### LATER:
     add possibility for any component to be the root component
@@ -49,17 +49,11 @@
 #### SOON
     add shape class - for mouse click or move-over detection - rectangle or oval as default
     cobmo box
-    make horizontal and vertical sliders support both ways of min and max, ie -10;10 and 10;-10
-        maybe invert min and max in vertical slider
     
 #### NOW
     
 
 #### DONE
-Sliders + fixes
-    removed forgotten debug output
-    added forgotten spinner graphics to designer
-    added abstract slider, horizontal slider and vertical slider classes
-    added some common implementations of those classes in new sliders package
-    fixed checkbox and radiobutton graphics
-    
+Slider improvements
+    made horizontal and vertical sliders support both ways of min and max, ie -10;10 and 10;-10
+    added check for zero interval, ie 5;5

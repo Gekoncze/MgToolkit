@@ -19,6 +19,7 @@ public class FloatHorizontalSlider extends HorizontalSlider<Float> {
 
     @Override
     protected double computeNorm(Float value, Float minValue, Float maxValue) {
+        if((maxValue - minValue) == 0) return 0.5;
         return (double)(value - minValue)/(double)(maxValue - minValue);
     }
 

@@ -284,7 +284,7 @@ public class ToolkitTest {
             }
         });
         
-        IntegerHorizontalSlider ihs = new IntegerHorizontalSlider(0, -10, 10);
+        IntegerHorizontalSlider ihs = new IntegerHorizontalSlider(0, 10, -10);
         ihs.setParent(v1);
         ihs.getEventListeners().addLast(new ActionAdapter() {
             @Override
@@ -293,7 +293,7 @@ public class ToolkitTest {
             }
         });
         
-        LongHorizontalSlider lhs = new LongHorizontalSlider(0L, -10L, 10L);
+        LongHorizontalSlider lhs = new LongHorizontalSlider(0L, 10L, -10L);
         lhs.setParent(v1);
         lhs.getEventListeners().addLast(new ActionAdapter() {
             @Override
@@ -343,7 +343,7 @@ public class ToolkitTest {
             }
         });
         
-        FloatVerticalSlider fvs = new FloatVerticalSlider(0.0f, -10.0f, 10.0f);
+        FloatVerticalSlider fvs = new FloatVerticalSlider(0.0f, 10.0f, -10.0f);
         fvs.setParent(vvp);
         fvs.getEventListeners().addLast(new ActionAdapter() {
             @Override
@@ -352,7 +352,7 @@ public class ToolkitTest {
             }
         });
         
-        DoubleVerticalSlider dvs = new DoubleVerticalSlider(0.0, -10.0, 10.0);
+        DoubleVerticalSlider dvs = new DoubleVerticalSlider(0.0, 10.0, -10.0);
         dvs.setParent(vvp);
         dvs.getEventListeners().addLast(new ActionAdapter() {
             @Override
