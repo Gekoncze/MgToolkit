@@ -17,9 +17,16 @@ import cz.mg.toolkit.component.contents.HorizontalSeparator;
 import cz.mg.toolkit.component.contents.InteractiveMultilineTextContent;
 import cz.mg.toolkit.component.controls.SinglelineTextInput;
 import cz.mg.toolkit.component.controls.MultilineTextInput;
-import cz.mg.toolkit.component.controls.Spinner;
 import cz.mg.toolkit.component.controls.menuitems.SeparatorItem;
 import cz.mg.toolkit.component.controls.menuitems.StandardMenuItem;
+import cz.mg.toolkit.component.controls.sliders.horizontal.DoubleHorizontalSlider;
+import cz.mg.toolkit.component.controls.sliders.horizontal.FloatHorizontalSlider;
+import cz.mg.toolkit.component.controls.sliders.horizontal.IntegerHorizontalSlider;
+import cz.mg.toolkit.component.controls.sliders.horizontal.LongHorizontalSlider;
+import cz.mg.toolkit.component.controls.sliders.vertical.DoubleVerticalSlider;
+import cz.mg.toolkit.component.controls.sliders.vertical.FloatVerticalSlider;
+import cz.mg.toolkit.component.controls.sliders.vertical.IntegerVerticalSlider;
+import cz.mg.toolkit.component.controls.sliders.vertical.LongVerticalSlider;
 import cz.mg.toolkit.component.controls.spinners.DoubleSpinner;
 import cz.mg.toolkit.component.controls.spinners.FloatSpinner;
 import cz.mg.toolkit.component.controls.spinners.IntegerSpinner;
@@ -274,6 +281,83 @@ public class ToolkitTest {
             @Override
             public void onEventEnter(ActionEvent e) {
                 System.out.println("Double: " + doubleSpinner.getValue());
+            }
+        });
+        
+        IntegerHorizontalSlider ihs = new IntegerHorizontalSlider(0, -10, 10);
+        ihs.setParent(v1);
+        ihs.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                System.out.println("Sl-Integer: " + ihs.getValue());
+            }
+        });
+        
+        LongHorizontalSlider lhs = new LongHorizontalSlider(0L, -10L, 10L);
+        lhs.setParent(v1);
+        lhs.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                System.out.println("Sl-Long: " + lhs.getValue());
+            }
+        });
+        
+        FloatHorizontalSlider fhs = new FloatHorizontalSlider(0.0f, -10.0f, 10.0f);
+        fhs.setParent(v1);
+        fhs.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                System.out.println("Sl-Float: " + fhs.getValue());
+            }
+        });
+        
+        DoubleHorizontalSlider dhs = new DoubleHorizontalSlider(0.0, -10.0, 10.0);
+        dhs.setParent(v1);
+        dhs.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                System.out.println("Sl-Double: " + dhs.getValue());
+            }
+        });
+        
+        Panel vvp = new Panel();
+        setWrapContent(vvp);
+        vvp.setLayout(new HorizontalLayout());
+        vvp.setParent(v1);
+        
+        IntegerVerticalSlider ivs = new IntegerVerticalSlider(0, -10, 10);
+        ivs.setParent(vvp);
+        ivs.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                System.out.println("Slv-Integer: " + ivs.getValue());
+            }
+        });
+        
+        LongVerticalSlider lvs = new LongVerticalSlider(0L, -10L, 10L);
+        lvs.setParent(vvp);
+        lvs.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                System.out.println("Slv-Long: " + lvs.getValue());
+            }
+        });
+        
+        FloatVerticalSlider fvs = new FloatVerticalSlider(0.0f, -10.0f, 10.0f);
+        fvs.setParent(vvp);
+        fvs.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                System.out.println("Slv-Float: " + fvs.getValue());
+            }
+        });
+        
+        DoubleVerticalSlider dvs = new DoubleVerticalSlider(0.0, -10.0, 10.0);
+        dvs.setParent(vvp);
+        dvs.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                System.out.println("Slv-Double: " + dvs.getValue());
             }
         });
         

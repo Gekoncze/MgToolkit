@@ -18,8 +18,8 @@
         other user defined renderers
 
 #### MUCH LATER:
-    add possibility for any component to be the root component
-        find all usages of getWindow() to prevent errors and null pointers or cast errors
+    fix vector image width and height with clip area mismatch
+    zalamování textu v multiline text contentu
 
     optimalizace relayoutu - u size control nastavit dva booleany
         jeden říkající, zdali okolí komponenty ovlivní její velikost
@@ -33,30 +33,33 @@
             počet navštívených komponent při jednom projetí
             počet provedených relayoutů při vybrané akci
 
-    add shape class - for mouse click or move-over detection - rectangle or oval as default
-    fix vector image width and height with clip area mismatch
+    optimalizace eventů
 
 #### LATER:
+    add possibility for any component to be the root component
+        find all usages of getWindow() to prevent errors and null pointers or cast errors
+
     designer fine tunning
         add something like a designer id property - might be better than instanceof
+            přidat možnost přidávání značek ke komponentě - podle značek se pak bude provádět design - mohlo by být jen číslo + generátor
         how about: check box and radio button size, scroll buttons size, etc.
-
-    fix test paddings and spacings (especially in tests)
-    přidat možnost přidávání značek ke komponentě - podle značek se pak bude provádět design - mohlo by být jen číslo + generátor
-    zalamování textu v multiline text contentu
+            udělat i pro ostatní komponenty - velikost bude podle designeru
+                ale musí mít dobře vymezené hranice co a kdy měnit, kdy ne apod.
 
 #### SOON
-    horizontal / vertical slider
+    add shape class - for mouse click or move-over detection - rectangle or oval as default
     cobmo box
+    make horizontal and vertical sliders support both ways of min and max, ie -10;10 and 10;-10
+        maybe invert min and max in vertical slider
     
 #### NOW
     
 
 #### DONE
-Spinner + fixes
-    fixed single line string builder text model
-    added abstract Spinner component
-    added some common spinner implementations in new spinners package
-    added wasInside method to some mouse and keyboard adapters
-    made interactive text content send action event on editation done
+Sliders + fixes
+    removed forgotten debug output
+    added forgotten spinner graphics to designer
+    added abstract slider, horizontal slider and vertical slider classes
+    added some common implementations of those classes in new sliders package
+    fixed checkbox and radiobutton graphics
     

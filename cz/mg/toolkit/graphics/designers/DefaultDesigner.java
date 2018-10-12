@@ -8,11 +8,14 @@ import cz.mg.toolkit.component.contents.VerticalSeparator;
 import cz.mg.toolkit.component.controls.Button;
 import cz.mg.toolkit.component.controls.CheckBox;
 import cz.mg.toolkit.component.controls.HorizontalScrollBar;
+import cz.mg.toolkit.component.controls.HorizontalSlider;
 import cz.mg.toolkit.component.controls.Menu;
 import cz.mg.toolkit.component.controls.MultilineTextInput;
 import cz.mg.toolkit.component.controls.RadioButton;
 import cz.mg.toolkit.component.controls.SinglelineTextInput;
+import cz.mg.toolkit.component.controls.Spinner;
 import cz.mg.toolkit.component.controls.VerticalScrollBar;
+import cz.mg.toolkit.component.controls.VerticalSlider;
 import cz.mg.toolkit.component.controls.buttons.special.CloseButton;
 import cz.mg.toolkit.component.controls.buttons.special.DownScrollButton;
 import cz.mg.toolkit.component.controls.buttons.special.LeftScrollButton;
@@ -78,6 +81,8 @@ public class DefaultDesigner extends ContextDesigner {
     private static final double TITLE_BAR_PADDING = 2;
     private static final double CHECK_BOX_PADDING = 4;
     private static final double RADIO_BUTTON_PADDING = 4;
+    private static final double SPINNER_BUTTON_PADDING = 4;
+    private static final double SLIDER_PADDING = 8;
     
     private static final Decoration LEFT_SCROLL_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
@@ -147,15 +152,37 @@ public class DefaultDesigner extends ContextDesigner {
         }
     });
     
+    private static final Decoration UP_SPINNER_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            double w = component.getWidth();
+            double h = component.getHeight();
+            g.drawLine(0.0*w, 1.0*h, 0.5*w, 0.0*h);
+            g.drawLine(0.5*w, 0.0*h, 1.0*w, 1.0*h);
+            g.drawLine(0.0*w, 0.8*h, 1.0*w, 0.8*h);
+        }
+    });
+    
+    private static final Decoration DOWN_SPINNER_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            double w = component.getWidth();
+            double h = component.getHeight();
+            g.drawLine(0.0*w, 0.0*h, 0.5*w, 1.0*h);
+            g.drawLine(0.5*w, 1.0*h, 1.0*w, 0.0*h);
+            g.drawLine(0.0*w, 0.0*h, 1.0*w, 0.0*h);
+        }
+    });
+    
     private static final Decoration CHECK_BOX_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
             double w = component.getWidth();
             double h = component.getHeight();
             boolean s = ((CheckBox)component).isSelected();
-            g.drawRectangle(0, 0, w, h);
-            if(s) g.drawLine(0.0*w, 0.5*h, 0.4*w, 0.9*h);
-            if(s) g.drawLine(0.4*w, 0.9*h, 1.0*w, 0.0*h);
+            g.drawRectangleBorder(0, 0, w, h);
+            if(s) g.drawLine(0.1*w, 0.5*h, 0.4*w, 0.9*h);
+            if(s) g.drawLine(0.4*w, 0.8*h, 0.8*w, 0.1*h);
         }
     });
     
@@ -165,7 +192,7 @@ public class DefaultDesigner extends ContextDesigner {
             double w = component.getWidth();
             double h = component.getHeight();
             boolean s = ((RadioButton)component).isSelected();
-            g.drawOval(0, 0, w, h);
+            g.drawOvalBorder(0, 0, w, h);
             if(s) g.drawOval(0.2*w, 0.2*h, 0.6*w, 0.6*h);
         }
     });
@@ -265,6 +292,34 @@ public class DefaultDesigner extends ContextDesigner {
             g.drawRectangleBorder(x, y, w-1, h-1);
         }
     });
+    
+    private static final Decoration HORIZONTAL_SLIDER_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            double w = component.getWidth();
+            double h = component.getHeight();
+            double lp = getLeftPadding(component);
+            double rp = getRightPadding(component);
+            g.drawLine(lp, h/2, w-rp, h/2);
+            
+            double pos = ((HorizontalSlider)component).getSliderPosition();
+            g.drawOval(pos-lp, h/2-lp, lp*2, lp*2);
+        }
+    });
+    
+    private static final Decoration VERTICAL_SLIDER_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            double w = component.getWidth();
+            double h = component.getHeight();
+            double tp = getTopPadding(component);
+            double bp = getBottomPadding(component);
+            g.drawLine(w/2, tp, w/2, h-bp);
+            
+            double pos = ((VerticalSlider)component).getSliderPosition();
+            g.drawOval(w/2-tp, pos-tp, tp*2, tp*2);
+        }
+    });
         
     private final Context defaultContext = new Context() {
         @Override
@@ -319,6 +374,10 @@ public class DefaultDesigner extends ContextDesigner {
         if(component instanceof CheckBox) setForeground(component, CHECK_BOX_FOREGROUND);
         if(component instanceof RadioButton) setPadding(component, RADIO_BUTTON_PADDING);
         if(component instanceof RadioButton) setForeground(component, RADIO_BUTTON_FOREGROUND);
+        if(component instanceof Spinner.UpButton.Content) setForeground(component, UP_SPINNER_BUTTON_CONTENT_FOREGROUND);
+        if(component instanceof Spinner.UpButton) setPadding(component, SPINNER_BUTTON_PADDING);
+        if(component instanceof Spinner.DownButton.Content) setForeground(component, DOWN_SPINNER_BUTTON_CONTENT_FOREGROUND);
+        if(component instanceof Spinner.DownButton) setPadding(component, SPINNER_BUTTON_PADDING);
         if(component instanceof Menu) setSpacing(component, MENU_SPACING);
         if(component instanceof Menu) setPadding(component, MENU_PADDING);
         if(component instanceof SinglelineTextInput.TextContent) setPadding(component, TEXT_INPUT_PADDING);
@@ -332,6 +391,10 @@ public class DefaultDesigner extends ContextDesigner {
         if(component instanceof ToolkitDecoration.TitleBar) setHorizontalSpacing(component, TITLE_BAR_SPACING);
         if(component instanceof HorizontalScrollBar.DraggableBar) setForeground(component, HORIZONTAL_SCROLL_BAR_FOREGROUND);
         if(component instanceof VerticalScrollBar.DraggableBar) setForeground(component, VERTICAL_SCROLL_BAR_FOREGROUND);
+        if(component instanceof HorizontalSlider) setForeground(component, HORIZONTAL_SLIDER_FOREGROUND);
+        if(component instanceof HorizontalSlider) setPadding(component, SLIDER_PADDING);
+        if(component instanceof VerticalSlider) setForeground(component, VERTICAL_SLIDER_FOREGROUND);
+        if(component instanceof VerticalSlider) setPadding(component, SLIDER_PADDING);
     }
     
     protected void onDefaultDesign(Component component){

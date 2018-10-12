@@ -3,7 +3,6 @@ package cz.mg.toolkit.component;
 import cz.mg.collections.list.List;
 import cz.mg.collections.list.chainlist.ChainList;
 import cz.mg.collections.node.TreeNode;
-import cz.mg.toolkit.component.window.PopupWindow;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.event.Event;
 import cz.mg.toolkit.event.EventListener;
@@ -211,7 +210,6 @@ public abstract class Component extends TreeNode<Component, Component> implement
         sendEvent(new BeforeLayoutEvent());
         setWidth(getMinWidth(this));
         setHeight(getMinHeight(this));
-        if(this instanceof PopupWindow) System.out.println("w: " + getWidth() + ", h: " + getHeight());
         sendEvent(new LayoutEvent());
         sendEvent(new AfterLayoutEvent());
     }

@@ -113,16 +113,12 @@ public abstract class Spinner<T> extends Panel {
         return minValue;
     }
 
-    public void setMinValue(T minValue) {
-        this.minValue = minValue;
-        fixValue();
-    }
-
     public T getMaxValue() {
         return maxValue;
     }
 
-    public void setMaxValue(T maxValue) {
+    public void setMinMaxValue(T minValue, T maxValue) {
+        this.minValue = minValue;
         this.maxValue = maxValue;
         fixValue();
     }

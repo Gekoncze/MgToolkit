@@ -241,7 +241,6 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     private void onWindowShown(){
         synchronizationTimer.start();
         relayout();
-        if(window instanceof PopupWindow) System.out.println("SHOWN");
     }
     
     private void onWindowHidden(){
@@ -446,13 +445,11 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     @Override
     public final void redraw(){
         jframe.repaint();
-        if(window instanceof PopupWindow) System.out.println("REDRAW");
     }
     
     private void relayout(){
         relayout = true;
         jframe.repaint();
-        if(window instanceof PopupWindow) System.out.println("RELAYOUT");
     }
     
     private void synchronizeWindow(){
