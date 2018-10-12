@@ -2,7 +2,7 @@ package cz.mg.toolkit.event.adapters;
 
 import cz.mg.toolkit.event.Event;
 import cz.mg.toolkit.event.EventListener;
-import cz.mg.toolkit.environment.device.devices.Keyboard;
+import cz.mg.toolkit.event.contexts.InputEventContext;
 import cz.mg.toolkit.event.events.MouseWheelEvent;
 import cz.mg.toolkit.impl.Impl;
 
@@ -42,6 +42,10 @@ public abstract class MouseWheelAdapter implements EventListener<MouseWheelEvent
     
     public final boolean isShiftPressed(){
         return Impl.getImplApi().getPrimaryKeyboard().isShiftPressed();
+    }
+    
+    public final boolean wasInside(MouseWheelEvent e){
+        return ((InputEventContext)e.getEventContext()).getMouseLocation() == InputEventContext.MouseLocation.INSIDE;
     }
 
     @Override

@@ -54,6 +54,7 @@ public class SinglelineTextInput extends Panel {
             @Override
             public void onDrawEventLeave(Graphics g) {
                 if(!textContent.hasKeyboardFocus() && textContent.getText().length() <= 0){
+                    if(placeholderText == null) return;
                     g.setTransparency(0.5);
                     g.setColor(getCurrentForegroundColor());
                     g.setFont(getFont(textContent));

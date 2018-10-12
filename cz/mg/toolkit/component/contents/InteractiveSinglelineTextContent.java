@@ -8,6 +8,7 @@ import cz.mg.toolkit.event.adapters.KeyboardButtonAdapter;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.adapters.MouseButtonAdapter;
 import cz.mg.toolkit.event.adapters.MouseMotionAdapter;
+import cz.mg.toolkit.event.events.ActionEvent;
 import cz.mg.toolkit.event.events.BeforeDrawEvent;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
@@ -86,11 +87,7 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
                     releaseMouseFocus();
                     redraw();
                 }
-                if(wasPressed(e) && hasKeyboardFocus()){
-                    releaseKeyboardFocus();
-                    partialFocus = false;
-                    redraw();
-                }
+                if(wasPressed(e) && hasKeyboardFocus() && !wasInside(e)) done();
             }
         });
         
@@ -193,7 +190,7 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
                         if(selectionCaret == caret) setSelectionCaret(caret + 1);
                         delete();
                         relayout();
-                    } else if(e.getButton() == Keyboard.ESC_BUTTON){
+                    } else if(e.getButton() == Keyboard.ESC_BUTTON || e.getButton() == Keyboard.ENTER_BUTTON || e.getButton() == Keyboard.NUM_ENTER_BUTTON){
                         done();
                     }
                 }
@@ -326,5 +323,10 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
         partialFocus = false;
         setSelectionCaret(caret);
         redraw();
+        raiseOrSendActionEvent();
+    }
+    
+    private void raiseOrSendActionEvent(){
+        raiseEvent(new ActionEvent(this));
     }
 }

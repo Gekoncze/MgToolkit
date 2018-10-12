@@ -17,8 +17,13 @@ import cz.mg.toolkit.component.contents.HorizontalSeparator;
 import cz.mg.toolkit.component.contents.InteractiveMultilineTextContent;
 import cz.mg.toolkit.component.controls.SinglelineTextInput;
 import cz.mg.toolkit.component.controls.MultilineTextInput;
+import cz.mg.toolkit.component.controls.Spinner;
 import cz.mg.toolkit.component.controls.menuitems.SeparatorItem;
 import cz.mg.toolkit.component.controls.menuitems.StandardMenuItem;
+import cz.mg.toolkit.component.controls.spinners.DoubleSpinner;
+import cz.mg.toolkit.component.controls.spinners.FloatSpinner;
+import cz.mg.toolkit.component.controls.spinners.IntegerSpinner;
+import cz.mg.toolkit.component.controls.spinners.LongSpinner;
 import cz.mg.toolkit.component.wrappers.decorations.SystemDecoration;
 import cz.mg.toolkit.component.wrappers.decorations.ToolkitDecoration;
 import cz.mg.toolkit.component.window.ContextMenu;
@@ -235,6 +240,42 @@ public class ToolkitTest {
         
         label = new SinglelineTextContent("Lorem ipsum 9999999999999999999999999999999999999999999999999999");
         label.setParent(h4);
+        
+        IntegerSpinner integerSpinner = new IntegerSpinner();
+        integerSpinner.setParent(v1);
+        integerSpinner.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                System.out.println("Integer: " + integerSpinner.getValue() + " ;; " + e.getSource().getClass().getSimpleName());
+            }
+        });
+        
+        LongSpinner longSpinner = new LongSpinner();
+        longSpinner.setParent(v1);
+        longSpinner.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                System.out.println("Long: " + longSpinner.getValue());
+            }
+        });
+        
+        FloatSpinner floatSpinner = new FloatSpinner();
+        floatSpinner.setParent(v1);
+        floatSpinner.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                System.out.println("Float: " + floatSpinner.getValue());
+            }
+        });
+        
+        DoubleSpinner doubleSpinner = new DoubleSpinner();
+        doubleSpinner.setParent(v1);
+        doubleSpinner.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                System.out.println("Double: " + doubleSpinner.getValue());
+            }
+        });
         
         MultilineTextInput mti = new MultilineTextInput();
         setFixedSize(mti, 128, 64);

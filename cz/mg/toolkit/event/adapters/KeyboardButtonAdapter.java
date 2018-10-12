@@ -2,7 +2,7 @@ package cz.mg.toolkit.event.adapters;
 
 import cz.mg.toolkit.event.Event;
 import cz.mg.toolkit.event.EventListener;
-import cz.mg.toolkit.environment.device.devices.Keyboard;
+import cz.mg.toolkit.event.contexts.InputEventContext;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.impl.Impl;
 
@@ -50,6 +50,10 @@ public abstract class KeyboardButtonAdapter implements EventListener<KeyboardBut
     
     public final boolean isShiftPressed(){
         return Impl.getImplApi().getPrimaryKeyboard().isShiftPressed();
+    }
+    
+    public final boolean wasInside(KeyboardButtonEvent e){
+        return ((InputEventContext)e.getEventContext()).getMouseLocation() == InputEventContext.MouseLocation.INSIDE;
     }
 
     @Override

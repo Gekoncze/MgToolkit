@@ -8,6 +8,7 @@ import cz.mg.toolkit.event.adapters.KeyboardButtonAdapter;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.adapters.MouseButtonAdapter;
 import cz.mg.toolkit.event.adapters.MouseMotionAdapter;
+import cz.mg.toolkit.event.events.ActionEvent;
 import cz.mg.toolkit.event.events.BeforeDrawEvent;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
@@ -145,11 +146,7 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
                     releaseMouseFocus();
                     redraw();
                 }
-                if(wasPressed(e) && hasKeyboardFocus()){
-                    releaseKeyboardFocus();
-                    partialFocus = false;
-                    redraw();
-                }
+                if(wasPressed(e) && hasKeyboardFocus() && !wasInside(e)) done();
             }
         });
         
@@ -444,5 +441,11 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
         partialFocus = false;
         setSelectionCaret(caret);
         redraw();
+        raiseOrSendActionEvent();
     }
+    
+    private void raiseOrSendActionEvent(){
+        raiseEvent(new ActionEvent(this));
+    }
+    
 }

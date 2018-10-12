@@ -2,7 +2,6 @@ package cz.mg.toolkit.event.adapters;
 
 import cz.mg.toolkit.event.Event;
 import cz.mg.toolkit.event.EventListener;
-import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.environment.device.devices.Mouse;
 import cz.mg.toolkit.event.contexts.InputEventContext;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
@@ -72,6 +71,10 @@ public abstract class MouseButtonAdapter implements EventListener<MouseButtonEve
     
     public final double getY(MouseButtonEvent e){
         return ((InputEventContext)e.getEventContext()).getY();
+    }
+    
+    public final boolean wasInside(MouseButtonEvent e){
+        return ((InputEventContext)e.getEventContext()).getMouseLocation() == InputEventContext.MouseLocation.INSIDE;
     }
     
     @Override
