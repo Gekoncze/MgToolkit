@@ -9,14 +9,12 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.geom.AffineTransform;
 
 
 public class SwingImplGraphics implements ImplGraphics {
     public static final java.awt.Graphics GRAPHICS = new java.awt.image.BufferedImage(1, 1, java.awt.image.BufferedImage.TYPE_INT_ARGB).getGraphics();
     
     private final java.awt.Graphics2D g;
-    private final ChainList<AffineTransform> transforms = new ChainList<>();
     private final ChainList<Shape> clips = new ChainList<>();
     private Color color;
     private Font font;
@@ -38,16 +36,6 @@ public class SwingImplGraphics implements ImplGraphics {
     @Override
     public void setDebug(boolean debug) {
         this.debug = debug;
-    }
-    
-    @Override
-    public final void pushTransform(){
-        transforms.addLast(g.getTransform());
-    }
-    
-    @Override
-    public final void popTransform(){
-        g.setTransform(transforms.removeLast());
     }
     
     @Override
@@ -146,11 +134,6 @@ public class SwingImplGraphics implements ImplGraphics {
         if(value < 0.0) value = 0.0;
         if(value > 1.0) value = 1.0;
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) value));
-    }
-    
-    @Override
-    public final void translate(double x, double y){
-        g.translate(x, y);
     }
 
     @Override

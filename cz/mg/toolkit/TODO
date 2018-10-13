@@ -55,16 +55,15 @@
 
 #### SOON
     add shape class - for mouse click or move-over detection - rectangle or oval as default
-    
-#### NOW
     selectable item list
         single selection
         multiple selection
+    
+#### NOW
+    graphics fine tunning
+        fix draw line mismatch
 
 #### DONE
-ComboBox + fixes and improvements
-    added LayoutPanel
-    changed design of Content Panel to null
-    changed design of Window Decoration to null
-    fixed and partialy broke design for windows
-    added new ComboBox template component
+Graphics pixel misalign fix #1
+    moved coordinate translation to toolkit graphics
+    simplified impl graphics interface

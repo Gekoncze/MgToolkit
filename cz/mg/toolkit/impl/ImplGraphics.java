@@ -8,8 +8,6 @@ import cz.mg.toolkit.graphics.images.BitmapImage;
 public interface ImplGraphics {
     public boolean isDebug();
     public void setDebug(boolean debug);
-    public void pushTransform();
-    public void popTransform();
     public void pushClip();
     public void popClip();
     public Color getColor();
@@ -25,6 +23,5 @@ public interface ImplGraphics {
     public void drawText(String text, double x, double y);
     public boolean drawImage(BitmapImage img, double x, double y, double width, double height);
     public void setTransparency(double value);
-    public void translate(double x, double y);
     public void setAntialiasing(boolean value);
 }
