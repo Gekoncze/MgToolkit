@@ -55,15 +55,13 @@
 
 #### SOON
     add shape class - for mouse click or move-over detection - rectangle or oval as default
+    
+#### NOW
     selectable item list
         single selection
         multiple selection
-    
-#### NOW
-    graphics fine tunning
-        fix draw line mismatch
 
 #### DONE
-Pixel correction #2
-    added new drawLine function to Graphics with 4 more optional parameters to pass required pixel correction
-    adapted impl and swing impl
+Fixes
+    fixed split area content panel design
+    moved drawing from separators to designer

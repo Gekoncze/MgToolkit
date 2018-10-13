@@ -335,6 +335,30 @@ public class DefaultDesigner extends ContextDesigner {
             g.drawOval(w/2-tp, pos-tp, tp*2, tp*2);
         }
     });
+    
+    private static final Decoration HORIZONTAL_SEPARATOR_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            g.setColor(((DrawableComponent)component).getCurrentForegroundColor());
+            double space = component.getHeight() * 0.2;
+            double x = component.getWidth()/2;
+            double y0 = space;
+            double y1 = component.getHeight() - space;
+            g.drawLine(x, y0, x, y1, 0, 0, 0, 1);
+        }
+    });
+    
+    private static final Decoration VERTICAL_SEPARATOR_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            g.setColor(((DrawableComponent)component).getCurrentForegroundColor());
+            double space = component.getWidth() * 0.2;
+            double y = component.getHeight()/2;
+            double x0 = space;
+            double x1 = component.getWidth() - space;
+            g.drawLine(x0, y, x1, y, 0, 0, -1, 0);
+        }
+    });
         
     private final Context defaultContext = new Context() {
         @Override
@@ -369,15 +393,17 @@ public class DefaultDesigner extends ContextDesigner {
         if(component instanceof DrawableComponent) setForeground(component, COMMON_FOREGROUND);
         if(component instanceof ContentPanel) setBackground(component, null);
         if(component instanceof ContentPanel) setForeground(component, null);
+        if(component instanceof Content) setForeground(component, null);
         if(component instanceof cz.mg.toolkit.component.wrappers.Decoration) setBackground(component, null);
         if(component instanceof cz.mg.toolkit.component.wrappers.Decoration) setForeground(component, null);
         if(component instanceof StandardMenuItem.Description) setFont(component, MENU_ITEM_DESCRIPTION_FONT);
         if(component instanceof StandardMenuItem.Shortcut) setFont(component, MENU_ITEM_SHORTCUT_FONT);
         if(component instanceof ToolkitDecoration.TitleBar) setForeground(component, null);
         if(component instanceof ToolkitDecoration.Title) setFont(component, TITLE_FONT);
-        if(component instanceof HorizontalSeparator) setForeground(component, null);
-        if(component instanceof VerticalSeparator) setForeground(component, null);
-        if(component instanceof Content) setForeground(component, null);
+        if(component instanceof HorizontalSeparator) setForeground(component, HORIZONTAL_SEPARATOR_FOREGROUND);
+        if(component instanceof HorizontalSeparator) setBackground(component, null);
+        if(component instanceof VerticalSeparator) setForeground(component, VERTICAL_SEPARATOR_FOREGROUND);
+        if(component instanceof VerticalSeparator) setBackground(component, null);
         if(component instanceof LeftScrollButton.Content) setForeground(component, LEFT_SCROLL_BUTTON_CONTENT_FOREGROUND);
         if(component instanceof RightScrollButton.Content) setForeground(component, RIGHT_SCROLL_BUTTON_CONTENT_FOREGROUND);
         if(component instanceof UpScrollButton.Content) setForeground(component, UP_SCROLL_BUTTON_CONTENT_FOREGROUND);
@@ -417,6 +443,7 @@ public class DefaultDesigner extends ContextDesigner {
         if(component instanceof ComboBox.Text) setPadding(component, COMBO_BOX_TEXT_PADDING);
         if(component instanceof ComboBox.Menu) setPadding(component, COMBO_BOX_MENU_PADDING);
         if(component instanceof ComboBox.OpenButton.Content) setForeground(component, COMBO_BOX_BUTTON_CONTENT_FOREGROUND);
+        if(component instanceof ContentPanel && component.getParent() instanceof SplitArea) setForeground(component, COMMON_FOREGROUND);
     }
     
     protected void onDefaultDesign(Component component){
