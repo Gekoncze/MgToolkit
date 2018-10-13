@@ -86,6 +86,13 @@ public class SwingImplGraphics implements ImplGraphics {
         if(debug) debugDetails();
         g.drawLine(r(x1), r(y1), r(x2), r(y2));
     }
+    
+    @Override
+    public final void drawLine(double x1, double y1, double x2, double y2, int x1c, int y1c, int x2c, int y2c){
+        if(debug) System.out.print("SwingImplGraphics.(" + r(x1) + ", " + r(y1) + ", " + r(x2) + ", " + r(y2) + ", " + x1c + ", " + y1c + ", " + x2c + ", " + y2c + ")");
+        if(debug) debugDetails();
+        g.drawLine(r(x1) + x1c, r(y1) + y1c, r(x2) + x2c, r(y2) + y2c);
+    }
 
     @Override
     public final void drawRectangle(double x, double y, double width, double height){

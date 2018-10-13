@@ -93,8 +93,8 @@ public class DefaultDesigner extends ContextDesigner {
         protected void onDraw(Graphics g, Component component) {
             double w = component.getWidth();
             double h = component.getHeight();
-            g.drawLine(1.0*w, 0.0*h, 0.0*w, 0.5*h);
-            g.drawLine(0.0*w, 0.5*h, 1.0*w, 1.0*h);
+            g.drawLine(1.0*w, 0.0*h, 0.0*w, 0.5*h, -1, 0, 0, 0);
+            g.drawLine(0.0*w, 0.5*h, 1.0*w, 1.0*h, 0, 0, -1, -1);
         }
     });
     
@@ -103,8 +103,8 @@ public class DefaultDesigner extends ContextDesigner {
         protected void onDraw(Graphics g, Component component) {
             double w = component.getWidth();
             double h = component.getHeight();
-            g.drawLine(0.0*w, 0.0*h, 1.0*w, 0.5*h);
-            g.drawLine(1.0*w, 0.5*h, 0.0*w, 1.0*h);
+            g.drawLine(0.0*w, 0.0*h, 1.0*w, 0.5*h, 0, 0, -1, 0);
+            g.drawLine(1.0*w, 0.5*h, 0.0*w, 1.0*h, -1, 0, 0, -1);
         }
     });
     
@@ -113,8 +113,8 @@ public class DefaultDesigner extends ContextDesigner {
         protected void onDraw(Graphics g, Component component) {
             double w = component.getWidth();
             double h = component.getHeight();
-            g.drawLine(0.0*w, 1.0*h, 0.5*w, 0.0*h);
-            g.drawLine(0.5*w, 0.0*h, 1.0*w, 1.0*h);
+            g.drawLine(0.0*w, 1.0*h, 0.5*w, 0.0*h, 0, -1, 0, 0);
+            g.drawLine(0.5*w, 0.0*h, 1.0*w, 1.0*h, 0, 0, -1, -1);
         }
     });
     
@@ -123,8 +123,8 @@ public class DefaultDesigner extends ContextDesigner {
         protected void onDraw(Graphics g, Component component) {
             double w = component.getWidth();
             double h = component.getHeight();
-            g.drawLine(0.0*w, 0.0*h, 0.5*w, 1.0*h);
-            g.drawLine(0.5*w, 1.0*h, 1.0*w, 0.0*h);
+            g.drawLine(0.0*w, 0.0*h, 0.5*w, 1.0*h, 0, 0, 0, -1);
+            g.drawLine(0.5*w, 1.0*h, 1.0*w, 0.0*h, 0, -1, -1, 0);
         }
     });
     
@@ -133,7 +133,7 @@ public class DefaultDesigner extends ContextDesigner {
         protected void onDraw(Graphics g, Component component) {
             double w = component.getWidth();
             double h = component.getHeight();
-            g.drawLine(0.0*w, 0.9*h, 1.0*w, 0.9*h);
+            g.drawLine(0.0*w, 1.0*h, 1.0*w, 1.0*h, 0, -1, -1, -1);
         }
     });
     
@@ -151,8 +151,8 @@ public class DefaultDesigner extends ContextDesigner {
         protected void onDraw(Graphics g, Component component) {
             double w = component.getWidth();
             double h = component.getHeight();
-            g.drawLine(0.0*w, 0.0*h, 1.0*w, 1.0*h);
-            g.drawLine(0.0*w, 1.0*h, 1.0*w, 0.0*h);
+            g.drawLine(0.0*w, 0.0*h, 1.0*w, 1.0*h, 0, 0, -1, -1);
+            g.drawLine(0.0*w, 1.0*h, 1.0*w, 0.0*h, 0, -1, -1, 0);
         }
     });
     
@@ -161,9 +161,9 @@ public class DefaultDesigner extends ContextDesigner {
         protected void onDraw(Graphics g, Component component) {
             double w = component.getWidth();
             double h = component.getHeight();
-            g.drawLine(0.0*w, 1.0*h, 0.5*w, 0.0*h);
-            g.drawLine(0.5*w, 0.0*h, 1.0*w, 1.0*h);
-            g.drawLine(0.0*w, 0.8*h, 1.0*w, 0.8*h);
+            g.drawLine(0.0*w, 1.0*h, 0.5*w, 0.0*h, 0, -1, 0, 0);
+            g.drawLine(0.5*w, 0.0*h, 1.0*w, 1.0*h, 0, 0, -1, -1);
+            g.drawLine(0.0*w, 1.0*h, 1.0*w, 1.0*h, 0, -1, -1, -1);
         }
     });
     
@@ -172,9 +172,9 @@ public class DefaultDesigner extends ContextDesigner {
         protected void onDraw(Graphics g, Component component) {
             double w = component.getWidth();
             double h = component.getHeight();
-            g.drawLine(0.0*w, 0.0*h, 0.5*w, 1.0*h);
-            g.drawLine(0.5*w, 1.0*h, 1.0*w, 0.0*h);
-            g.drawLine(0.0*w, 0.0*h, 1.0*w, 0.0*h);
+            g.drawLine(0.0*w, 0.0*h, 0.5*w, 1.0*h, 0, 0, 0, -1);
+            g.drawLine(0.5*w, 1.0*h, 1.0*w, 0.0*h, 0, -1, -1, 0);
+            g.drawLine(0.0*w, 0.0*h, 1.0*w, 0.0*h, 0, 0, -1, 0);
         }
     });
     
@@ -183,9 +183,9 @@ public class DefaultDesigner extends ContextDesigner {
         protected void onDraw(Graphics g, Component component) {
             double w = component.getWidth();
             double h = component.getHeight();
-            g.drawLine(0.0*w, 0.0*h, 0.5*w, 1.0*h);
-            g.drawLine(0.5*w, 1.0*h, 1.0*w, 0.0*h);
-            g.drawLine(0.0*w, 0.0*h, 1.0*w, 0.0*h);
+            g.drawLine(0.0*w, 0.0*h, 0.5*w, 1.0*h, 0, 0, 0, -1);
+            g.drawLine(0.5*w, 1.0*h, 1.0*w, 0.0*h, 0, -1, -1, 0);
+            g.drawLine(0.0*w, 0.0*h, 1.0*w, 0.0*h, 0, 0, -1, 0);
         }
     });
     
@@ -251,9 +251,9 @@ public class DefaultDesigner extends ContextDesigner {
 
             if(w > 4*s){
                 double vpp = vp+4;
-                g.drawLine(rx-s, vpp, rx-s, hh-vpp);
-                g.drawLine(rx  , vpp, rx  , hh-vpp);
-                g.drawLine(rx+s, vpp, rx+s, hh-vpp);
+                g.drawLine(rx-s, vpp, rx-s, hh-vpp, 0, 0, 0, -2);
+                g.drawLine(rx  , vpp, rx  , hh-vpp, 0, 0, 0, -2);
+                g.drawLine(rx+s, vpp, rx+s, hh-vpp, 0, 0, 0, -2);
             }
 
             g.drawRectangleBorder(x, y, w-1, h-1);
@@ -299,9 +299,9 @@ public class DefaultDesigner extends ContextDesigner {
 
             if(h > 4*s){
                 double hpp = hp+4;
-                g.drawLine(hpp, ry-s, ww-hpp, ry-s);
-                g.drawLine(hpp, ry,   ww-hpp, ry);
-                g.drawLine(hpp, ry+s, ww-hpp, ry+s);
+                g.drawLine(hpp, ry-s, ww-hpp, ry-s, 0, 0, -2, 0);
+                g.drawLine(hpp, ry,   ww-hpp, ry  , 0, 0, -2, 0);
+                g.drawLine(hpp, ry+s, ww-hpp, ry+s, 0, 0, -2, 0);
             }
 
             g.drawRectangleBorder(x, y, w-1, h-1);

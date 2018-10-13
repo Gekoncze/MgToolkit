@@ -16,6 +16,7 @@ public interface ImplGraphics {
     public void setFont(Font font);
     public void clip(double x, double y, double width, double height);
     public void drawLine(double x1, double y1, double x2, double y2);
+    public void drawLine(double x1, double y1, double x2, double y2, int x1c, int y1c, int x2c, int y2c);
     public void drawRectangle(double x, double y, double width, double height);
     public void drawRectangleBorder(double x, double y, double width, double height);
     public void drawOval(double x, double y, double width, double height);

@@ -73,6 +73,11 @@ public class Graphics {
         if(debug) System.out.println("Graphics.drawLine(" + x1 + ", " + y1 + ", " + x2 + ", " + y2 + ")");
         implGraphics.drawLine(thp(x1), tvp(y1), thp(x2), tvp(y2));
     }
+    
+    public final void drawLine(double x1, double y1, double x2, double y2, int x1c, int y1c, int x2c, int y2c){
+        if(debug) System.out.println("Graphics.drawLine(" + x1 + ", " + y1 + ", " + x2 + ", " + y2 + ", " + x1c + ", " + y1c + ", " + x2c + ", " + y2c + ")");
+        implGraphics.drawLine(thp(x1), tvp(y1), thp(x2), tvp(y2), x1c, y1c, x2c, y2c);
+    }
 
     public final void drawRectangle(double x, double y, double width, double height){
         if(debug) System.out.println("Graphics.fillRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
