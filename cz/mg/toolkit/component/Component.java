@@ -126,6 +126,26 @@ public abstract class Component extends TreeNode<Component, Component> implement
         if(isWrapMaxHeight(this)) setMaxHeight(this, computeWrapHeight());
     }
     
+    public double getScreenX(){
+        double currentX = 0;
+        Component currentComponent = this;
+        while(currentComponent != null){
+            currentX += currentComponent.getX();
+            currentComponent = currentComponent.getParent();
+        }
+        return currentX;
+    }
+    
+    public double getScreenY(){
+        double currentY = 0;
+        Component currentComponent = this;
+        while(currentComponent != null){
+            currentY += currentComponent.getY();
+            currentComponent = currentComponent.getParent();
+        }
+        return currentY;
+    }
+    
     public final boolean isEffectivelyDisabled(){
         boolean value = isDisabled(this);
         if(!value) if(getParent() != null) value |= getParent().isEffectivelyDisabled();

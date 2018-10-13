@@ -2,7 +2,6 @@
     TIP: toolkit components / layouts for huge number of items - must be same size probably
          row/column virtualization "scrolling" for same sized items
     TIP: add timestamp for event and eventual expiration
-    TIP: optimize events and listeners - now event has to go trough all components and all their listeners
     TIP: recycling events: event objects can be reused
     TIP: relative scroll control or scroll by components - only applicable to some layouts ...
     TIP: add gravity to stacks
@@ -11,13 +10,21 @@
     TIP: automatic font size calculation to fit required size
     TIP: settings/parameter/attribute/style fetching for components - global vs class local vs object local vs group local settings
     TIP: možnost zadávat vzorce do spinerů
+    TIP: optimalizace pro mobilní zařízení + gesta
 
-    renderer - gets colros, fonts and other properties from a components and takes care of the drawing
+    IDEA: renderer - gets colros, fonts and other properties from a components and takes care of the drawing
         swing renderer
         opengl renderer
         other user defined renderers
 
 #### MUCH LATER:
+    common dialogs
+        color chooser dialog
+        file chooser dialog (load/save)
+        message dialog (none/info/warning/error)
+
+    tooltip
+
     fix vector image width and height with clip area mismatch
     zalamování textu v multiline text contentu
 
@@ -48,12 +55,16 @@
 
 #### SOON
     add shape class - for mouse click or move-over detection - rectangle or oval as default
-    cobmo box
     
 #### NOW
-    
+    selectable item list
+        single selection
+        multiple selection
 
 #### DONE
-Slider improvements
-    made horizontal and vertical sliders support both ways of min and max, ie -10;10 and 10;-10
-    added check for zero interval, ie 5;5
+ComboBox + fixes and improvements
+    added LayoutPanel
+    changed design of Content Panel to null
+    changed design of Window Decoration to null
+    fixed and partialy broke design for windows
+    added new ComboBox template component

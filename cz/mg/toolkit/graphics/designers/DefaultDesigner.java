@@ -2,11 +2,13 @@ package cz.mg.toolkit.graphics.designers;
 
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.Content;
+import cz.mg.toolkit.component.containers.ContentPanel;
 import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.contents.HorizontalSeparator;
 import cz.mg.toolkit.component.contents.VerticalSeparator;
 import cz.mg.toolkit.component.controls.Button;
 import cz.mg.toolkit.component.controls.CheckBox;
+import cz.mg.toolkit.component.controls.ComboBox;
 import cz.mg.toolkit.component.controls.HorizontalScrollBar;
 import cz.mg.toolkit.component.controls.HorizontalSlider;
 import cz.mg.toolkit.component.controls.Menu;
@@ -83,6 +85,8 @@ public class DefaultDesigner extends ContextDesigner {
     private static final double RADIO_BUTTON_PADDING = 4;
     private static final double SPINNER_BUTTON_PADDING = 4;
     private static final double SLIDER_PADDING = 8;
+    private static final double COMBO_BOX_TEXT_PADDING = 4;
+    private static final double COMBO_BOX_MENU_PADDING = 4;
     
     private static final Decoration LEFT_SCROLL_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
@@ -164,6 +168,17 @@ public class DefaultDesigner extends ContextDesigner {
     });
     
     private static final Decoration DOWN_SPINNER_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            double w = component.getWidth();
+            double h = component.getHeight();
+            g.drawLine(0.0*w, 0.0*h, 0.5*w, 1.0*h);
+            g.drawLine(0.5*w, 1.0*h, 1.0*w, 0.0*h);
+            g.drawLine(0.0*w, 0.0*h, 1.0*w, 0.0*h);
+        }
+    });
+    
+    private static final Decoration COMBO_BOX_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
             double w = component.getWidth();
@@ -352,6 +367,10 @@ public class DefaultDesigner extends ContextDesigner {
         setContrastColor(component, CONTRAST_COLOR);
         if(component instanceof DrawableComponent) setBackground(component, COMMON_BACKGROUND);
         if(component instanceof DrawableComponent) setForeground(component, COMMON_FOREGROUND);
+        if(component instanceof ContentPanel) setBackground(component, null);
+        if(component instanceof ContentPanel) setForeground(component, null);
+        if(component instanceof cz.mg.toolkit.component.wrappers.Decoration) setBackground(component, null);
+        if(component instanceof cz.mg.toolkit.component.wrappers.Decoration) setForeground(component, null);
         if(component instanceof StandardMenuItem.Description) setFont(component, MENU_ITEM_DESCRIPTION_FONT);
         if(component instanceof StandardMenuItem.Shortcut) setFont(component, MENU_ITEM_SHORTCUT_FONT);
         if(component instanceof ToolkitDecoration.TitleBar) setForeground(component, null);
@@ -395,6 +414,9 @@ public class DefaultDesigner extends ContextDesigner {
         if(component instanceof HorizontalSlider) setPadding(component, SLIDER_PADDING);
         if(component instanceof VerticalSlider) setForeground(component, VERTICAL_SLIDER_FOREGROUND);
         if(component instanceof VerticalSlider) setPadding(component, SLIDER_PADDING);
+        if(component instanceof ComboBox.Text) setPadding(component, COMBO_BOX_TEXT_PADDING);
+        if(component instanceof ComboBox.Menu) setPadding(component, COMBO_BOX_MENU_PADDING);
+        if(component instanceof ComboBox.OpenButton.Content) setForeground(component, COMBO_BOX_BUTTON_CONTENT_FOREGROUND);
     }
     
     protected void onDefaultDesign(Component component){

@@ -61,6 +61,7 @@ public class Window extends Wrapper {
     private void initComponent(){
         setLayout(new OverlayLayout());
         setDesigner(this, new DefaultDesigner());
+        design();
     }
     
     private void initComponents(){

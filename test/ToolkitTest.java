@@ -1,5 +1,7 @@
 package test;
 
+import cz.mg.collections.Collection;
+import cz.mg.collections.array.Array;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.layout.layouts.HorizontalLayout;
@@ -8,6 +10,7 @@ import cz.mg.toolkit.component.wrappers.ScrollArea;
 import cz.mg.toolkit.component.contents.SinglelineTextContent;
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.Container;
+import cz.mg.toolkit.component.containers.LayoutPanel;
 import cz.mg.toolkit.component.controls.MenuItem;
 import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.controls.buttons.ImageButton;
@@ -15,6 +18,7 @@ import cz.mg.toolkit.component.controls.buttons.TextButton;
 import cz.mg.toolkit.component.wrappers.CompactHorizontalScrollArea;
 import cz.mg.toolkit.component.contents.HorizontalSeparator;
 import cz.mg.toolkit.component.contents.InteractiveMultilineTextContent;
+import cz.mg.toolkit.component.controls.ComboBox;
 import cz.mg.toolkit.component.controls.SinglelineTextInput;
 import cz.mg.toolkit.component.controls.MultilineTextInput;
 import cz.mg.toolkit.component.controls.menuitems.SeparatorItem;
@@ -143,13 +147,13 @@ public class ToolkitTest {
         scrollArea.setParent(windowPanel);
         setHorizontalContentAlignment(scrollArea.getContentPanel(), 0.5);
         
-        Panel v1 = new Panel();
+        PagePanel v1 = new PagePanel();
 //        setPadding(v1, 4);
         v1.setLayout(new VerticalLayout());
         v1.setParent(scrollArea.getContentPanel());
 //        setVerticalSpacing(v1, 4);
         
-        Panel h0 = new Panel();
+        LayoutPanel h0 = new LayoutPanel();
 //        setPadding(h0, 8);
         h0.setLayout(new HorizontalLayout());
         h0.setParent(v1);
@@ -193,7 +197,7 @@ public class ToolkitTest {
         setFillParentHeight(alignmentTest);
         setContentAlignment(alignmentTest, 0.5);
         
-        Panel h1 = new Panel();
+        LayoutPanel h1 = new LayoutPanel();
 //        setPadding(h1, 8);
         h1.setLayout(new HorizontalLayout());
         h1.setParent(v1);
@@ -209,7 +213,7 @@ public class ToolkitTest {
         label = new SinglelineTextContent("Lorem ipsum 3");
         label.setParent(h1);
         
-        Panel h2 = new Panel();
+        LayoutPanel h2 = new LayoutPanel();
 //        setHorizontalSpacing(h2, 8);
 //        setPadding(h2, 8);
         h2.setLayout(new HorizontalLayout());
@@ -236,7 +240,7 @@ public class ToolkitTest {
         });
         label.setParent(h2);
         
-        Panel h4 = new Panel();
+        LayoutPanel h4 = new LayoutPanel();
 //        setPadding(h1, 8);
 //        setHorizontalSpacing(h4, 8);
         h4.setLayout(new HorizontalLayout());
@@ -247,6 +251,16 @@ public class ToolkitTest {
         
         label = new SinglelineTextContent("Lorem ipsum 9999999999999999999999999999999999999999999999999999");
         label.setParent(h4);
+        
+        ComboBox<Pony> boxOfPonies = new ComboBox<>();
+        boxOfPonies.setItems(PONIES);
+        boxOfPonies.setParent(v1);
+        boxOfPonies.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                System.out.println("Your favourite pony is " + boxOfPonies.getSelectedItem());
+            }
+        });
         
         IntegerSpinner integerSpinner = new IntegerSpinner();
         integerSpinner.setParent(v1);
@@ -320,7 +334,7 @@ public class ToolkitTest {
             }
         });
         
-        Panel vvp = new Panel();
+        LayoutPanel vvp = new LayoutPanel();
         setWrapContent(vvp);
         vvp.setLayout(new HorizontalLayout());
         vvp.setParent(v1);
@@ -372,7 +386,7 @@ public class ToolkitTest {
         mtc.setEditable(true);
         setHorizontalContentAlignment(mtc, 0.5);
         
-        Panel grid = new Panel();
+        LayoutPanel grid = new LayoutPanel();
 //        setPadding(grid, 8);
         GridLayout gridLayout = new GridLayout(3, 35);
         grid.setLayout(gridLayout);
@@ -405,6 +419,8 @@ public class ToolkitTest {
         }
     }
     
+    private static class PagePanel extends Panel {}
+    
     public static void setDebug(Window window){
         if(!DEBUG) Debug.setIds(window);
         if(!DEBUG) Debug.setMouseButtonPrintInfo(window);
@@ -421,6 +437,30 @@ public class ToolkitTest {
         public void onDesign(Component component) {
             super.onDesign(component);
             if(component instanceof BigTextContent) setFont(component, TOP_LABEL_FONT);
+            if(component instanceof PagePanel) setPadding(component, 4);
+            if(component instanceof PagePanel) setSpacing(component, 4);
         }
     }
+    
+    private static class Pony {
+        private final String name;
+
+        public Pony(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
+    
+    private static Collection<Pony> PONIES = new Array<>(new Pony[]{
+        new Pony("Twilight Sparkle"),
+        new Pony("Rainbow Dash"),
+        new Pony("Pinkie Pie"),
+        new Pony("Rarity"),
+        new Pony("Applejack"),
+        new Pony("Fluttershy")
+    });
 }
