@@ -3,7 +3,6 @@ package cz.mg.toolkit.component.contents;
 import cz.mg.toolkit.environment.Clipboard;
 import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.event.adapters.BeforeDrawAdapter;
-import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.event.adapters.KeyboardButtonAdapter;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.adapters.MouseButtonAdapter;
@@ -14,9 +13,7 @@ import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
 import cz.mg.toolkit.graphics.Font;
-import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.utilities.keyboardshortcuts.CommonKeyboardShortcuts;
-import static cz.mg.toolkit.utilities.properties.PropertiesInterface.getContrastColor;
 import static cz.mg.toolkit.utilities.properties.PropertiesInterface.getFont;
 import static cz.mg.toolkit.utilities.properties.PropertiesInterface.setHighlighted;
 import cz.mg.toolkit.utilities.text.textmodels.StringBuilderMultilineTextModel;
@@ -44,97 +41,6 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
             @Override
             public void onEventEnter(BeforeDrawEvent e) {
                 setHighlighted(InteractiveMultilineTextContent.this, hasKeyboardFocus());
-            }
-        });
-        
-        getEventListeners().addLast(new GraphicsDrawAdapter() {
-            @Override
-            public void onDrawEventEnter(Graphics g) {
-                if(caret != selectionCaret) {
-                    int min = Math.min(caret, selectionCaret);
-                    int max = Math.max(caret, selectionCaret);
-                    int[] minS = caretToCarets(min);
-                    int[] maxS = caretToCarets(max);
-                    g.setColor(getCurrentForegroundColor());
-                    if(minS[1] == maxS[1]){
-                        double[] p = caretToPosition(min);
-                        double w = caretToPosition(max)[0] - p[0];
-                        double h = getLineHeight();
-                        g.drawRectangle(p[0], p[1], w, h);
-                    } else {
-                        Font font = getFont(InteractiveMultilineTextContent.this);
-                        
-                        // draw leading line
-                        String leadingLine = getTextModel().getLine(minS[1]);
-                        double llx = getHorizontalLinePosition(minS[1]) + font.getWidth(leadingLine.substring(0, minS[0]));
-                        double lly = getVerticalLinePosition(minS[1]);
-                        double llw = font.getWidth(leadingLine.substring(minS[0]));
-                        double llh = getLineHeight();
-                        g.drawRectangle(llx, lly, llw, llh);
-                        
-                        // draw in-between lines
-                        for(int i = minS[1] + 1; i <= maxS[1] - 1; i++){
-                            String inbetweenLine = getTextModel().getLine(i);
-                            double ilx = getHorizontalLinePosition(i);
-                            double ily = getVerticalLinePosition(i);
-                            double ilw = getLineWidth(i);
-                            double ilh = getLineHeight();
-                            g.drawRectangle(ilx, ily, ilw, ilh);
-                        }
-                        
-                        // draw trailing line
-                        String trailingLine = getTextModel().getLine(maxS[1]);
-                        double tlx = getHorizontalLinePosition(maxS[1]);
-                        double tly = getVerticalLinePosition(maxS[1]);
-                        double tlw = font.getWidth(trailingLine.substring(0, maxS[0]));
-                        double tlh = getLineHeight();
-                        g.drawRectangle(tlx, tly, tlw, tlh);
-                    }
-                }
-            }
-            
-            @Override
-            public void onDrawEventLeave(Graphics g) {
-                if(caret != selectionCaret){
-                    int min = Math.min(caret, selectionCaret);
-                    int max = Math.max(caret, selectionCaret);
-                    int[] minS = caretToCarets(min);
-                    int[] maxS = caretToCarets(max);
-                    g.setColor(getCurrentBackgroundColor());
-                    Font font = getFont(InteractiveMultilineTextContent.this);
-                    if(minS[1] == maxS[1]){
-                        String textLine = getTextModel().getLine(minS[1]);
-                        double x = getHorizontalLinePosition(minS[1]) + font.getWidth(textLine.substring(0, minS[0]));
-                        double y = getVerticalLinePosition(minS[1]);
-                        g.drawText(textLine.substring(minS[0], maxS[0]), x, y);
-                    } else {
-                        // draw leading line
-                        String leadingLine = getTextModel().getLine(minS[1]);
-                        double llx = getHorizontalLinePosition(minS[1]) + font.getWidth(leadingLine.substring(0, minS[0]));
-                        double lly = getVerticalLinePosition(minS[1]);
-                        g.drawText(leadingLine.substring(minS[0]), llx, lly);
-                        
-                        // draw in-between lines
-                        for(int i = minS[1] + 1; i <= maxS[1] - 1; i++){
-                            String inbetweenLine = getTextModel().getLine(i);
-                            double ilx = getHorizontalLinePosition(i);
-                            double ily = getVerticalLinePosition(i);
-                            g.drawText(inbetweenLine, ilx, ily);
-                        }
-                        
-                        // draw trailing line
-                        String trailingLine = getTextModel().getLine(maxS[1]);
-                        double tlx = getHorizontalLinePosition(maxS[1]);
-                        double tly = getVerticalLinePosition(maxS[1]);
-                        g.drawText(trailingLine.substring(0, maxS[0]), tlx, tly);
-                    }
-                }
-                
-                if(hasKeyboardFocus()){
-                    double[] p = caretToPosition(caret);
-                    g.setColor(getContrastColor(InteractiveMultilineTextContent.this));
-                    g.drawLine(p[0], p[1], p[0], p[1] + getLineHeight());
-                }
             }
         });
         
@@ -292,7 +198,7 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
         return caretsToCaret(character, line);
     }
     
-    private double[] caretToPosition(int c){
+    public double[] caretToPosition(int c){
         int[] cs = caretToCarets(c);
         Font font = getFont(this);
         String textLine = getTextModel().getLine(cs[1]);
@@ -324,7 +230,7 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
         return id;
     }
     
-    private int[] caretToCarets(int c){
+    public int[] caretToCarets(int c){
         if(c <= 0) return new int[]{0, 0};
         if(c > getTextModel().characterCount()) c = getTextModel().characterCount();
         
@@ -447,5 +353,4 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
     private void raiseOrSendActionEvent(){
         raiseEvent(new ActionEvent(this));
     }
-    
 }

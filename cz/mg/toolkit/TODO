@@ -55,13 +55,15 @@
 
 #### SOON
     add shape class - for mouse click or move-over detection - rectangle or oval as default
+    shift and caps lock for interactive text content + maybe ctrl to delete words
     
 #### NOW
-    selectable item list
-        single selection
-        multiple selection
+    
 
 #### DONE
-Fixes
-    fixed split area content panel design
-    moved drawing from separators to designer
+selectable list
+    moved text content drawing to designer
+    added selection list component
+    added single selection list
+    added multiple selection list
+    

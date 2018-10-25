@@ -3,7 +3,6 @@ package cz.mg.toolkit.component.contents;
 import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.environment.Clipboard;
 import cz.mg.toolkit.event.adapters.BeforeDrawAdapter;
-import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.event.adapters.KeyboardButtonAdapter;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.adapters.MouseButtonAdapter;
@@ -14,7 +13,6 @@ import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
 import cz.mg.toolkit.graphics.Font;
-import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.utilities.keyboardshortcuts.CommonKeyboardShortcuts;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.text.textmodels.StringBuilderSinglelineTextModel;
@@ -42,40 +40,6 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
             @Override
             public void onEventEnter(BeforeDrawEvent e) {
                 setHighlighted(InteractiveSinglelineTextContent.this, hasKeyboardFocus());
-            }
-        });
-        
-        getEventListeners().addLast(new GraphicsDrawAdapter() {
-            @Override
-            public void onDrawEventEnter(Graphics g) {
-                if(caret != selectionCaret) {
-                    int min = Math.min(caret, selectionCaret);
-                    int max = Math.max(caret, selectionCaret);
-                    double x = caretToPosition(min);
-                    double y = getVerticalTextPosition();
-                    double w = caretToPosition(max) - x;
-                    double h = getLineHeight();
-                    g.setColor(getCurrentForegroundColor());
-                    g.drawRectangle(x, y, w, h);
-                }
-            }
-            
-            @Override
-            public void onDrawEventLeave(Graphics g) {
-                if(caret != selectionCaret){
-                    int min = Math.min(caret, selectionCaret);
-                    double x = caretToPosition(min);
-                    double y = getVerticalTextPosition();
-                    g.setColor(getCurrentBackgroundColor());
-                    g.drawText(getSelectedText(), x, y);
-                }
-                
-                if(hasKeyboardFocus()){
-                    double x = caretToPosition(caret);
-                    double y = getVerticalTextPosition();
-                    g.setColor(getContrastColor(InteractiveSinglelineTextContent.this));
-                    g.drawLine(x, y, x, y + getLineHeight());
-                }
             }
         });
         
@@ -213,7 +177,7 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
         return getClosestCharacter(getFont(this), getTextModel().getText(), px);
     }
     
-    private double caretToPosition(int cx){
+    public final double caretToPosition(int cx){
         if(cx <= 0) return getHorizontalTextPosition();
         if(cx > getTextModel().characterCount()) cx = getTextModel().characterCount();
         return getFont(this).getWidth(getTextModel().getText(0, cx)) + getHorizontalTextPosition();

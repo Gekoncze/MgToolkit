@@ -21,6 +21,8 @@ import cz.mg.toolkit.component.contents.InteractiveMultilineTextContent;
 import cz.mg.toolkit.component.controls.ComboBox;
 import cz.mg.toolkit.component.controls.SinglelineTextInput;
 import cz.mg.toolkit.component.controls.MultilineTextInput;
+import cz.mg.toolkit.component.controls.MultipleSelectionList;
+import cz.mg.toolkit.component.controls.SingleSelectionList;
 import cz.mg.toolkit.component.controls.menuitems.SeparatorItem;
 import cz.mg.toolkit.component.controls.menuitems.StandardMenuItem;
 import cz.mg.toolkit.component.controls.sliders.horizontal.DoubleHorizontalSlider;
@@ -258,7 +260,30 @@ public class ToolkitTest {
         boxOfPonies.getEventListeners().addLast(new ActionAdapter() {
             @Override
             public void onEventEnter(ActionEvent e) {
-                System.out.println("Your favourite pony is " + boxOfPonies.getSelectedItem());
+                e.consume();
+                System.out.println("Your favourite pony in a box is " + boxOfPonies.getSelectedItem());
+            }
+        });
+        
+        SingleSelectionList<Pony> listOfPonies = new SingleSelectionList<>();
+        listOfPonies.setItems(PONIES);
+        listOfPonies.setParent(v1);
+        listOfPonies.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                e.consume();
+                System.out.println("Your favourite pony in a list is " + listOfPonies.getSelectedItem());
+            }
+        });
+        
+        MultipleSelectionList<Pony> anotherListOfPonies = new MultipleSelectionList<>();
+        anotherListOfPonies.setItems(PONIES);
+        anotherListOfPonies.setParent(v1);
+        anotherListOfPonies.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                e.consume();
+                System.out.println("Your favurite ponies in a list are " + anotherListOfPonies.getSelectedItems().toString(", "));
             }
         });
         
@@ -267,6 +292,7 @@ public class ToolkitTest {
         integerSpinner.getEventListeners().addLast(new ActionAdapter() {
             @Override
             public void onEventEnter(ActionEvent e) {
+                e.consume();
                 System.out.println("Integer: " + integerSpinner.getValue() + " ;; " + e.getSource().getClass().getSimpleName());
             }
         });

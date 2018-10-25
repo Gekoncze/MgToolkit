@@ -2,8 +2,6 @@ package cz.mg.toolkit.component.contents;
 
 import cz.mg.toolkit.component.DrawableContent;
 import cz.mg.toolkit.graphics.Font;
-import cz.mg.toolkit.graphics.Graphics;
-import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.layout.reshapes.Reshape;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.text.textmodels.StringSinglelineTextModel;
@@ -19,18 +17,6 @@ public class SinglelineTextContent extends DrawableContent {
 
     public SinglelineTextContent(String text) {
         setText(text);
-        addEventListeners();
-    }
-    
-    private void addEventListeners(){
-        getEventListeners().addLast(new GraphicsDrawAdapter() {
-            @Override
-            public void onDrawEventLeave(Graphics g) {
-                g.setColor(getCurrentForegroundColor());
-                g.setFont(getFont(SinglelineTextContent.this));
-                g.drawText(textModel.getText(), getHorizontalTextPosition(), getVerticalTextPosition());
-            }
-        });
     }
     
     public final double getHorizontalTextPosition(){

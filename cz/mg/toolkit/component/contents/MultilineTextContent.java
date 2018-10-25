@@ -1,8 +1,6 @@
 package cz.mg.toolkit.component.contents;
 
 import cz.mg.toolkit.component.DrawableContent;
-import cz.mg.toolkit.graphics.Graphics;
-import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.layout.reshapes.Reshape;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
@@ -15,29 +13,10 @@ public class MultilineTextContent extends DrawableContent {
     
     public MultilineTextContent() {
         setText("");
-        addEventListeners();
     }
 
     public MultilineTextContent(String text) {
         setText(text);
-        addEventListeners();
-    }
-    
-    private void addEventListeners(){
-        getEventListeners().addLast(new GraphicsDrawAdapter() {
-            @Override
-            public void onDrawEventLeave(Graphics g) {
-                Font font = getFont(MultilineTextContent.this);
-                g.setColor(getCurrentForegroundColor());
-                g.setFont(font);
-                for(int iy = 0; iy < textModel.lineCount(); iy++){
-                    String line = textModel.getLine(iy);
-                    double x = getHorizontalLinePosition(iy);
-                    double y = getVerticalLinePosition(iy);
-                    g.drawText(line, x, y);
-                }
-            }
-        });
     }
     
     public final MultilineTextModel getTextModel() {

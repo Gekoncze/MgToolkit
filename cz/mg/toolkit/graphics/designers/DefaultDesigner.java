@@ -5,6 +5,10 @@ import cz.mg.toolkit.component.Content;
 import cz.mg.toolkit.component.containers.ContentPanel;
 import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.contents.HorizontalSeparator;
+import cz.mg.toolkit.component.contents.InteractiveMultilineTextContent;
+import cz.mg.toolkit.component.contents.InteractiveSinglelineTextContent;
+import cz.mg.toolkit.component.contents.MultilineTextContent;
+import cz.mg.toolkit.component.contents.SinglelineTextContent;
 import cz.mg.toolkit.component.contents.VerticalSeparator;
 import cz.mg.toolkit.component.controls.Button;
 import cz.mg.toolkit.component.controls.CheckBox;
@@ -14,6 +18,8 @@ import cz.mg.toolkit.component.controls.HorizontalSlider;
 import cz.mg.toolkit.component.controls.Menu;
 import cz.mg.toolkit.component.controls.MultilineTextInput;
 import cz.mg.toolkit.component.controls.RadioButton;
+import cz.mg.toolkit.component.controls.SelectionList;
+import cz.mg.toolkit.component.controls.SingleSelectionList;
 import cz.mg.toolkit.component.controls.SinglelineTextInput;
 import cz.mg.toolkit.component.controls.Spinner;
 import cz.mg.toolkit.component.controls.VerticalScrollBar;
@@ -87,6 +93,9 @@ public class DefaultDesigner extends ContextDesigner {
     private static final double SLIDER_PADDING = 8;
     private static final double COMBO_BOX_TEXT_PADDING = 4;
     private static final double COMBO_BOX_MENU_PADDING = 4;
+    private static final double SELECTION_LIST_ITEM_HORIZONTAL_PADDING = 4;
+    private static final double SELECTION_LIST_ITEM_VERTICAL_PADDING = 2;
+    private static final double SELECTION_LIST_VERTICAL_PADDING = 2;
     
     private static final Decoration LEFT_SCROLL_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
@@ -359,6 +368,208 @@ public class DefaultDesigner extends ContextDesigner {
             g.drawLine(x0, y, x1, y, 0, 0, -1, 0);
         }
     });
+    
+    private static final Decoration SINGLELINE_TEXT_CONTENT_BACKGROUND = new BackgroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            COMMON_BACKGROUND.getInnerDecoration().draw(g, component);
+        }
+    });
+    
+    private static final Decoration SINGLELINE_TEXT_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            SinglelineTextContent content = (SinglelineTextContent) component;
+            g.setFont(getFont(content));
+            g.drawText(content.getTextModel().getText(), content.getHorizontalTextPosition(), content.getVerticalTextPosition());
+        }
+    });
+    
+    private static final Decoration INTERACTIVE_SINGLELINE_TEXT_CONTENT_BACKGROUND = new BackgroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            SINGLELINE_TEXT_CONTENT_BACKGROUND.getInnerDecoration().draw(g, component);
+            
+            InteractiveSinglelineTextContent content = (InteractiveSinglelineTextContent) component;
+            if(content.getCaret() != content.getSelectionCaret()) {
+                int min = Math.min(content.getCaret(), content.getSelectionCaret());
+                int max = Math.max(content.getCaret(), content.getSelectionCaret());
+                double x = content.caretToPosition(min);
+                double y = content.getVerticalTextPosition();
+                double w = content.caretToPosition(max) - x;
+                double h = content.getLineHeight();
+                g.setColor(content.getCurrentForegroundColor());
+                g.drawRectangle(x, y, w, h);
+            }
+        }
+    });
+    
+    private static final Decoration INTERACTIVE_SINGLELINE_TEXT_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            SINGLELINE_TEXT_CONTENT_FOREGROUND.getInnerDecoration().draw(g, component);
+            
+            InteractiveSinglelineTextContent content = (InteractiveSinglelineTextContent) component;
+            
+            if(content.getCaret() != content.getSelectionCaret()){
+                int min = Math.min(content.getCaret(), content.getSelectionCaret());
+                double x = content.caretToPosition(min);
+                double y = content.getVerticalTextPosition();
+                g.setColor(content.getCurrentBackgroundColor());
+                g.drawText(content.getSelectedText(), x, y);
+            }
+
+            if(content.hasKeyboardFocus()){
+                double x = content.caretToPosition(content.getCaret());
+                double y = content.getVerticalTextPosition();
+                g.setColor(getContrastColor(content));
+                g.drawLine(x, y, x, y + content.getLineHeight());
+            }
+        }
+    });
+    
+    private static final Decoration MULTILINE_TEXT_CONTENT_BACKGROUND = new BackgroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            COMMON_BACKGROUND.getInnerDecoration().draw(g, component);
+        }
+    });
+    
+    private static final Decoration MULTILINE_TEXT_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            MultilineTextContent content = (MultilineTextContent) component;
+            Font font = getFont(content);
+            g.setFont(font);
+            for(int iy = 0; iy < content.getTextModel().lineCount(); iy++){
+                String line = content.getTextModel().getLine(iy);
+                double x = content.getHorizontalLinePosition(iy);
+                double y = content.getVerticalLinePosition(iy);
+                g.drawText(line, x, y);
+            }
+        }
+    });
+    
+    private static final Decoration INTERACTIVE_MULTILINE_TEXT_CONTENT_BACKGROUND = new BackgroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            MULTILINE_TEXT_CONTENT_BACKGROUND.getInnerDecoration().draw(g, component);
+            
+            InteractiveMultilineTextContent content = (InteractiveMultilineTextContent) component;
+            int caret = content.getCaret();
+            int selectionCaret = content.getSelectionCaret();
+            if(caret != selectionCaret) {
+                int min = Math.min(caret, selectionCaret);
+                int max = Math.max(caret, selectionCaret);
+                int[] minS = content.caretToCarets(min);
+                int[] maxS = content.caretToCarets(max);
+                g.setColor(content.getCurrentForegroundColor());
+                if(minS[1] == maxS[1]){
+                    double[] p = content.caretToPosition(min);
+                    double w = content.caretToPosition(max)[0] - p[0];
+                    double h = content.getLineHeight();
+                    g.drawRectangle(p[0], p[1], w, h);
+                } else {
+                    Font font = getFont(content);
+
+                    // draw leading line
+                    String leadingLine = content.getTextModel().getLine(minS[1]);
+                    double llx = content.getHorizontalLinePosition(minS[1]) + font.getWidth(leadingLine.substring(0, minS[0]));
+                    double lly = content.getVerticalLinePosition(minS[1]);
+                    double llw = font.getWidth(leadingLine.substring(minS[0]));
+                    double llh = content.getLineHeight();
+                    g.drawRectangle(llx, lly, llw, llh);
+
+                    // draw in-between lines
+                    for(int i = minS[1] + 1; i <= maxS[1] - 1; i++){
+                        String inbetweenLine = content.getTextModel().getLine(i);
+                        double ilx = content.getHorizontalLinePosition(i);
+                        double ily = content.getVerticalLinePosition(i);
+                        double ilw = content.getLineWidth(i);
+                        double ilh = content.getLineHeight();
+                        g.drawRectangle(ilx, ily, ilw, ilh);
+                    }
+
+                    // draw trailing line
+                    String trailingLine = content.getTextModel().getLine(maxS[1]);
+                    double tlx = content.getHorizontalLinePosition(maxS[1]);
+                    double tly = content.getVerticalLinePosition(maxS[1]);
+                    double tlw = font.getWidth(trailingLine.substring(0, maxS[0]));
+                    double tlh = content.getLineHeight();
+                    g.drawRectangle(tlx, tly, tlw, tlh);
+                }
+            }
+        }
+    });
+    
+    private static final Decoration INTERACTIVE_MULTILINE_TEXT_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            MULTILINE_TEXT_CONTENT_FOREGROUND.getInnerDecoration().draw(g, component);
+            
+            InteractiveMultilineTextContent content = (InteractiveMultilineTextContent) component;
+            int caret = content.getCaret();
+            int selectionCaret = content.getSelectionCaret();
+            if(caret != selectionCaret){
+                int min = Math.min(caret, selectionCaret);
+                int max = Math.max(caret, selectionCaret);
+                int[] minS = content.caretToCarets(min);
+                int[] maxS = content.caretToCarets(max);
+                g.setColor(content.getCurrentBackgroundColor());
+                Font font = getFont(content);
+                if(minS[1] == maxS[1]){
+                    String textLine = content.getTextModel().getLine(minS[1]);
+                    double x = content.getHorizontalLinePosition(minS[1]) + font.getWidth(textLine.substring(0, minS[0]));
+                    double y = content.getVerticalLinePosition(minS[1]);
+                    g.drawText(textLine.substring(minS[0], maxS[0]), x, y);
+                } else {
+                    // draw leading line
+                    String leadingLine = content.getTextModel().getLine(minS[1]);
+                    double llx = content.getHorizontalLinePosition(minS[1]) + font.getWidth(leadingLine.substring(0, minS[0]));
+                    double lly = content.getVerticalLinePosition(minS[1]);
+                    g.drawText(leadingLine.substring(minS[0]), llx, lly);
+
+                    // draw in-between lines
+                    for(int i = minS[1] + 1; i <= maxS[1] - 1; i++){
+                        String inbetweenLine = content.getTextModel().getLine(i);
+                        double ilx = content.getHorizontalLinePosition(i);
+                        double ily = content.getVerticalLinePosition(i);
+                        g.drawText(inbetweenLine, ilx, ily);
+                    }
+
+                    // draw trailing line
+                    String trailingLine = content.getTextModel().getLine(maxS[1]);
+                    double tlx = content.getHorizontalLinePosition(maxS[1]);
+                    double tly = content.getVerticalLinePosition(maxS[1]);
+                    g.drawText(trailingLine.substring(0, maxS[0]), tlx, tly);
+                }
+            }
+
+            if(content.hasKeyboardFocus()){
+                double[] p = content.caretToPosition(caret);
+                g.setColor(getContrastColor(content));
+                g.drawLine(p[0], p[1], p[0], p[1] + content.getLineHeight());
+            }
+        }
+    });
+    
+    private static final Decoration SELECTION_LIST_ITEM_BACKGROUND = new BackgroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            SelectionList.ListItem listItem = (SelectionList.ListItem) component;
+            g.setColor(listItem.isSelected() ? listItem.getCurrentForegroundColor() : listItem.getCurrentBackgroundColor());
+            SINGLELINE_TEXT_CONTENT_BACKGROUND.getInnerDecoration().draw(g, component);
+        }
+    });
+    
+    private static final Decoration SELECTION_LIST_ITEM_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            SelectionList.ListItem listItem = (SelectionList.ListItem) component;
+            g.setColor(!listItem.isSelected() ? listItem.getCurrentForegroundColor() : listItem.getCurrentBackgroundColor());
+            SINGLELINE_TEXT_CONTENT_FOREGROUND.getInnerDecoration().draw(g, component);
+        }
+    });
         
     private final Context defaultContext = new Context() {
         @Override
@@ -388,7 +599,8 @@ public class DefaultDesigner extends ContextDesigner {
     protected void onDesign(Component component){
         setPadding(component, 0);
         setSpacing(component, 0);
-        setContrastColor(component, CONTRAST_COLOR);
+        if(component instanceof SinglelineTextContent) setContrastColor(component, CONTRAST_COLOR);
+        if(component instanceof MultilineTextContent) setContrastColor(component, CONTRAST_COLOR);
         if(component instanceof DrawableComponent) setBackground(component, COMMON_BACKGROUND);
         if(component instanceof DrawableComponent) setForeground(component, COMMON_FOREGROUND);
         if(component instanceof ContentPanel) setBackground(component, null);
@@ -444,6 +656,21 @@ public class DefaultDesigner extends ContextDesigner {
         if(component instanceof ComboBox.Menu) setPadding(component, COMBO_BOX_MENU_PADDING);
         if(component instanceof ComboBox.OpenButton.Content) setForeground(component, COMBO_BOX_BUTTON_CONTENT_FOREGROUND);
         if(component instanceof ContentPanel && component.getParent() instanceof SplitArea) setForeground(component, COMMON_FOREGROUND);
+        if(component instanceof SinglelineTextContent) setBackground(component, SINGLELINE_TEXT_CONTENT_BACKGROUND);
+        if(component instanceof SinglelineTextContent) setForeground(component, SINGLELINE_TEXT_CONTENT_FOREGROUND);
+        if(component instanceof InteractiveSinglelineTextContent) setBackground(component, INTERACTIVE_SINGLELINE_TEXT_CONTENT_BACKGROUND);
+        if(component instanceof InteractiveSinglelineTextContent) setForeground(component, INTERACTIVE_SINGLELINE_TEXT_CONTENT_FOREGROUND);
+        if(component instanceof MultilineTextContent) setBackground(component, MULTILINE_TEXT_CONTENT_BACKGROUND);
+        if(component instanceof MultilineTextContent) setForeground(component, MULTILINE_TEXT_CONTENT_FOREGROUND);
+        if(component instanceof InteractiveMultilineTextContent) setBackground(component, INTERACTIVE_MULTILINE_TEXT_CONTENT_BACKGROUND);
+        if(component instanceof InteractiveMultilineTextContent) setForeground(component, INTERACTIVE_MULTILINE_TEXT_CONTENT_FOREGROUND);
+        if(component instanceof SingleSelectionList.ListItem) setBackground(component, SELECTION_LIST_ITEM_BACKGROUND);
+        if(component instanceof SingleSelectionList.ListItem) setForeground(component, SELECTION_LIST_ITEM_FOREGROUND);
+        if(component instanceof SelectionList.ListItem) setBackground(component, SELECTION_LIST_ITEM_BACKGROUND);
+        if(component instanceof SelectionList.ListItem) setForeground(component, SELECTION_LIST_ITEM_FOREGROUND);
+        if(component instanceof SelectionList.ListItem) setHorizontalPadding(component, SELECTION_LIST_ITEM_HORIZONTAL_PADDING);
+        if(component instanceof SelectionList.ListItem) setVerticalPadding(component, SELECTION_LIST_ITEM_VERTICAL_PADDING);
+        if(component instanceof SelectionList) setVerticalPadding(component, SELECTION_LIST_VERTICAL_PADDING);
     }
     
     protected void onDefaultDesign(Component component){

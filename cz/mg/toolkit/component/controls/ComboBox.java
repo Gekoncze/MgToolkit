@@ -59,11 +59,11 @@ public class ComboBox<T> extends Panel {
         });
     }
 
-    public Collection<T> getItems() {
+    public final Collection<T> getItems() {
         return items;
     }
 
-    public void setItems(Collection<T> items) {
+    public final void setItems(Collection<T> items) {
         this.items = items;
         updateContextMenuItems();
         if(items.count() > 0){
@@ -76,12 +76,13 @@ public class ComboBox<T> extends Panel {
         }
     }
 
-    public T getSelectedItem() {
+    public final T getSelectedItem() {
         return selectedItem;
     }
     
     private void updateContextMenuItems(){
         menu.getContentPanel().getChildren().clear();
+        if(items == null) return;
         for(T item : items){
             menu.getContentPanel().getChildren().addLast(new ContextMenuItem(item));
         }
@@ -115,7 +116,7 @@ public class ComboBox<T> extends Panel {
             });
         }
 
-        public T getItem() {
+        public final T getItem() {
             return item;
         }
     }
