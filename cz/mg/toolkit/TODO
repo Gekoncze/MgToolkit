@@ -1,33 +1,23 @@
 #### IDEAS
-    TIP: toolkit components / layouts for huge number of items - must be same size probably
-         row/column virtualization "scrolling" for same sized items
-    TIP: add timestamp for event and eventual expiration
-    TIP: recycling events: event objects can be reused
-    TIP: relative scroll control or scroll by components - only applicable to some layouts ...
-    TIP: add gravity to stacks
+    TIP: toolkit components / layouts for huge number of items - row/column virtualization "scrolling" for same sized items
+    TIP: relative scroll control or scroll by components - might only be applicable to some layouts ...
+    TIP: add gravity to stacks in stack layout
     TIP: add create methods instead of constructors
     TIP: raised / lowered borders
     TIP: automatic font size calculation to fit required size
     TIP: settings/parameter/attribute/style fetching for components - global vs class local vs object local vs group local settings
     TIP: možnost zadávat vzorce do spinerů
     TIP: optimalizace pro mobilní zařízení + gesta
-
-    IDEA: renderer - gets colros, fonts and other properties from a components and takes care of the drawing
-        swing renderer
-        opengl renderer
-        other user defined renderers
+    TIP: better bridge between drawing - something like a classic CPU to GPU converter bridge
 
 #### MUCH LATER:
-    common dialogs
-        color chooser dialog
-        file chooser dialog (load/save)
-        message dialog (none/info/warning/error)
-
     tooltip
-
-    fix vector image width and height with clip area mismatch
     zalamování textu v multiline text contentu
+    designer fine tunning
+        add something like a designer id property - might be better than instanceof
+        přidat možnost přidávání značek ke komponentě - podle značek se pak bude provádět design - mohlo by být jen číslo + generátor
 
+#### LATER:
     optimalizace relayoutu - u size control nastavit dva booleany
         jeden říkající, zdali okolí komponenty ovlivní její velikost
         druhý říkající, zdali vnitřek komponenty ovlivní její velikost
@@ -40,25 +30,28 @@
             počet navštívených komponent při jednom projetí
             počet provedených relayoutů při vybrané akci
 
-    optimalizace eventů (hlavně mouse motion eventy)
+    optimalizace a polishment eventů
+        neprocházet všechny větve (hlavně mouse motion eventy)
+        recycling events: event objects can be reused - must be an option - user might want to have them distinguished
+        add timestamp for event and eventual expiration - if gui hanged and click was processed a second later, user might not want it t be clicked at that time
 
-#### LATER:
+#### SOON
+    common dialogs
+        color chooser dialog
+        file chooser dialog (load/save)
+        message dialog (none/info/warning/error)
+    
+#### NOW
     add possibility for any component to be the root component
         find all usages of getWindow() to prevent errors and null pointers or cast errors
 
-#### SOON
     designer fine tunning
-        add something like a designer id property - might be better than instanceof
-            přidat možnost přidávání značek ke komponentě - podle značek se pak bude provádět design - mohlo by být jen číslo + generátor
         how about: check box and radio button size, scroll buttons size, etc.
             udělat i pro ostatní komponenty - velikost bude podle designeru
                 ale musí mít dobře vymezené hranice co a kdy měnit, kdy ne apod.
-    
-#### NOW
-    shift and caps lock for interactive text content + maybe ctrl to delete words
+        jeden z nápadů je, že u každé property bude parametr navíc, který bude udávat
+            zdali je možné ho změnit přes designer nebo ne
+        to by také možná vyžadovalo, aby se vrátila stará známá size control
 
 #### DONE
-Shape
-    added shape interface into new shape package
-    added some common shape implementations into new shapes package
-    added forgotten files for previous commit ... -.-
+    
