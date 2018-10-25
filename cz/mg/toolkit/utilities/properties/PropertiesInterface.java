@@ -5,6 +5,8 @@ import cz.mg.toolkit.graphics.Color;
 import cz.mg.toolkit.graphics.Designer;
 import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.graphics.Decoration;
+import cz.mg.toolkit.shape.Shape;
+import cz.mg.toolkit.shape.shapes.RectangleShape;
 
 
 public class PropertiesInterface {
@@ -56,6 +58,7 @@ public class PropertiesInterface {
     private static final int HIDDEN = Properties.generateId();
     private static final int DISABLED = Properties.generateId();
     private static final int HIGHLIGHTED = Properties.generateId();
+    private static final int SHAPE = Properties.generateId();
     
     public static int getId(Component component){
         return (int) component.getProperties().get(ID, 0);
@@ -471,5 +474,14 @@ public class PropertiesInterface {
     
     public static final void setHighlighted(Component component, boolean highlighted){
         component.getProperties().set(HIGHLIGHTED, highlighted);
+    }
+    
+    private static final Shape DEFAULT_SHAPE = new RectangleShape();
+    public static final Shape getShape(Component component){
+        return (Shape) component.getProperties().get(SHAPE, DEFAULT_SHAPE);
+    }
+    
+    public static final void setShape(Component component, Shape shape){
+        component.getProperties().set(SHAPE, shape);
     }
 }

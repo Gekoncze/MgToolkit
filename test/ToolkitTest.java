@@ -18,6 +18,7 @@ import cz.mg.toolkit.component.controls.buttons.TextButton;
 import cz.mg.toolkit.component.wrappers.CompactHorizontalScrollArea;
 import cz.mg.toolkit.component.contents.HorizontalSeparator;
 import cz.mg.toolkit.component.contents.InteractiveMultilineTextContent;
+import cz.mg.toolkit.component.controls.Button;
 import cz.mg.toolkit.component.controls.ComboBox;
 import cz.mg.toolkit.component.controls.SinglelineTextInput;
 import cz.mg.toolkit.component.controls.MultilineTextInput;
@@ -43,17 +44,21 @@ import cz.mg.toolkit.component.window.ContextMenu;
 import cz.mg.toolkit.debug.Debug;
 import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
+import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.event.adapters.KeyboardButtonAdapter;
 import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
+import cz.mg.toolkit.graphics.Color;
+import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.graphics.designers.DefaultDesigner;
 import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.impl.swing.SwingImplApi;
 import cz.mg.toolkit.layout.layouts.GridLayout;
 import cz.mg.toolkit.layout.layouts.GridLayout.Column;
+import cz.mg.toolkit.shape.shapes.OvalShape;
 import cz.mg.toolkit.utilities.SelectionGroup;
 import cz.mg.toolkit.utilities.keyboardshortcuts.StandardKeyboardCharacterShortcut;
 import java.io.IOException;
@@ -254,6 +259,12 @@ public class ToolkitTest {
         label = new SinglelineTextContent("Lorem ipsum 9999999999999999999999999999999999999999999999999999");
         label.setParent(h4);
         
+        OvalButton ovalButton = new OvalButton();
+        setShape(ovalButton, new OvalShape());
+        setFixedSize(ovalButton, 64*2, 32*2);
+        ovalButton.setParent(v1);
+        setForeground(ovalButton, null);
+        
         ComboBox<Pony> boxOfPonies = new ComboBox<>();
         boxOfPonies.setItems(PONIES);
         boxOfPonies.setParent(v1);
@@ -442,6 +453,26 @@ public class ToolkitTest {
     private static class BigTextContent extends SinglelineTextContent {
         public BigTextContent(String text) {
             super(text);
+        }
+    }
+    
+    private static class OvalButton extends Button {
+        public OvalButton() {
+            getEventListeners().addLast(new GraphicsDrawAdapter() {
+                @Override
+                public void onDrawEventLeave(Graphics g) {
+                    g.setColor(Color.WHITE);
+                    g.drawOval(0, 0, getWidth(), getHeight());
+                }
+            });
+            
+            getEventListeners().addLast(new ActionAdapter() {
+                @Override
+                public void onEventEnter(ActionEvent e) {
+                    e.consume();
+                    System.out.println("Clicked oval!!!");
+                }
+            });
         }
     }
     

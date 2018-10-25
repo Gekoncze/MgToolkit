@@ -46,24 +46,19 @@
     add possibility for any component to be the root component
         find all usages of getWindow() to prevent errors and null pointers or cast errors
 
+#### SOON
     designer fine tunning
         add something like a designer id property - might be better than instanceof
             přidat možnost přidávání značek ke komponentě - podle značek se pak bude provádět design - mohlo by být jen číslo + generátor
         how about: check box and radio button size, scroll buttons size, etc.
             udělat i pro ostatní komponenty - velikost bude podle designeru
                 ale musí mít dobře vymezené hranice co a kdy měnit, kdy ne apod.
-
-#### SOON
-    add shape class - for mouse click or move-over detection - rectangle or oval as default
-    shift and caps lock for interactive text content + maybe ctrl to delete words
     
 #### NOW
-    
+    shift and caps lock for interactive text content + maybe ctrl to delete words
 
 #### DONE
-selectable list
-    moved text content drawing to designer
-    added selection list component
-    added single selection list
-    added multiple selection list
-    
+Shape
+    added shape interface into new shape package
+    added some common shape implementations into new shapes package
+    added forgotten files for previous commit ... -.-

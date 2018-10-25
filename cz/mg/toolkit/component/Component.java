@@ -13,6 +13,7 @@ import cz.mg.toolkit.event.adapters.DesignAdapter;
 import cz.mg.toolkit.event.adapters.VisitAdapter;
 import cz.mg.toolkit.event.contexts.DesignerEventContext;
 import cz.mg.toolkit.graphics.Designer;
+import cz.mg.toolkit.shape.shapes.OvalShape;
 import cz.mg.toolkit.utilities.EventListeners;
 import cz.mg.toolkit.utilities.properties.Properties;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
@@ -350,6 +351,6 @@ public abstract class Component extends TreeNode<Component, Component> implement
     }
     
     public boolean isInside(double px, double py){
-        return px >= x && py >= y && px < (x + width) && py < (y + height);
+        return getShape(this).isInside(this, px, py);
     }
 }
