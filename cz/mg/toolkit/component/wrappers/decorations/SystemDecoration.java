@@ -1,5 +1,6 @@
 package cz.mg.toolkit.component.wrappers.decorations;
 
+import cz.mg.toolkit.component.ToplevelComponent;
 import cz.mg.toolkit.component.wrappers.Decoration;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.event.adapters.BeforeLayoutAdapter;
@@ -45,5 +46,12 @@ public class SystemDecoration extends Decoration {
         if(window == null) return;
         ImplWindow nativeWindow = window.getImplWindow();
         nativeWindow.setIcon(icon);
+    }
+    
+    private Window getWindow(){
+        ToplevelComponent toplevelComponent = getToplevelComponent();
+        if(toplevelComponent == null) return null;
+        if(toplevelComponent instanceof Window) return (Window) toplevelComponent;
+        return null;
     }
 }

@@ -3,7 +3,6 @@ package cz.mg.toolkit.component;
 import cz.mg.collections.list.List;
 import cz.mg.collections.list.chainlist.ChainList;
 import cz.mg.collections.node.TreeNode;
-import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.event.Event;
 import cz.mg.toolkit.event.EventListener;
 import cz.mg.toolkit.event.EventObserver;
@@ -180,46 +179,46 @@ public abstract class Component extends TreeNode<Component, Component> implement
     }
     
     public final void requestKeyboardFocus(){
-        Window window = getWindow();
-        if(window != null) window.setKeyboardFocus(this);
+        ToplevelComponent toplevel = getToplevelComponent();
+        if(toplevel != null) toplevel.setKeyboardFocus(this);
     }
     
     public final void requestMouseFocus(){
-        Window window = getWindow();
-        if(window != null) window.setMouseFocus(this);
+        ToplevelComponent toplevel = getToplevelComponent();
+        if(toplevel != null) toplevel.setMouseFocus(this);
     }
     
     public final void releaseKeyboardFocus(){
-        Window window = getWindow();
-        if(window != null) if(window.getKeyboardFocus() == this) window.setKeyboardFocus(null);
+        ToplevelComponent toplevel = getToplevelComponent();
+        if(toplevel != null) if(toplevel.getKeyboardFocus() == this) toplevel.setKeyboardFocus(null);
     }
     
     public final void releaseMouseFocus(){
-        Window window = getWindow();
-        if(window != null) if(window.getMouseFocus() == this) window.setMouseFocus(null);
+        ToplevelComponent toplevel = getToplevelComponent();
+        if(toplevel != null) if(toplevel.getMouseFocus() == this) toplevel.setMouseFocus(null);
     }
     
     public final boolean hasKeyboardFocus(){
-        Window window = getWindow();
-        if(window == null) return false;
-        return window.getKeyboardFocus() == this;
+        ToplevelComponent toplevel = getToplevelComponent();
+        if(toplevel == null) return false;
+        return toplevel.getKeyboardFocus() == this;
     }
     
     public final boolean hasMouseFocus(){
-        Window window = getWindow();
-        if(window == null) return false;
-        return window.getMouseFocus() == this;
+        ToplevelComponent toplevel = getToplevelComponent();
+        if(toplevel == null) return false;
+        return toplevel.getMouseFocus() == this;
     }
     
-    public final Component getRoot(){
+    public final Component getRootComponent(){
         Component current = this;
         while(current.getParent() != null) current = current.getParent();
         return current;
     }
     
-    public final Window getWindow(){
-        Component root = getRoot();
-        if(root instanceof Window) return (Window) root;
+    public final ToplevelComponent getToplevelComponent(){
+        Component rootComponent = getRootComponent();
+        if(rootComponent instanceof ToplevelComponent) return (ToplevelComponent) rootComponent;
         else return null;
     }
     

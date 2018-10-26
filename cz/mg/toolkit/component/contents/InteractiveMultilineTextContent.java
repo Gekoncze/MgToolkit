@@ -87,9 +87,9 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
             public void onKeyboardButtonEventEnter(KeyboardButtonEvent e) {
                 if(!e.isRepeated()){
                     if(e.wasPressed()){
-                        getWindow().getKeystrokeRepeater().onKeyboardButtonPressedEvent(e, InteractiveMultilineTextContent.this);
+                        getToplevelComponent().getKeystrokeRepeater().onKeyboardButtonPressedEvent(e, InteractiveMultilineTextContent.this);
                     } else if(e.wasReleased()){
-                        getWindow().getKeystrokeRepeater().onKeyboardButtonReleasedEvent(e, InteractiveMultilineTextContent.this);
+                        getToplevelComponent().getKeystrokeRepeater().onKeyboardButtonReleasedEvent(e, InteractiveMultilineTextContent.this);
                     }
                 }
             }

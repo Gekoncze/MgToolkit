@@ -3,6 +3,7 @@ package cz.mg.toolkit.component.window;
 import cz.mg.toolkit.environment.Cursor;
 import cz.mg.toolkit.component.wrappers.Decoration;
 import cz.mg.toolkit.component.Component;
+import cz.mg.toolkit.component.ToplevelComponent;
 import cz.mg.toolkit.component.containers.Wrapper;
 import cz.mg.toolkit.component.wrappers.decorations.SystemDecoration;
 import cz.mg.toolkit.environment.cursors.ArrowCursor;
@@ -35,7 +36,7 @@ import static cz.mg.toolkit.utilities.properties.PropertiesInterface.*;
 import cz.mg.toolkit.impl.ImplWindow;
 
 
-public class Window extends Wrapper {
+public class Window extends Wrapper implements ToplevelComponent {
     private static final Cursor BLANK_CURSOR = new NoCursor();
     
     private final ImplWindow implWindow = Impl.getImplApi().createWindow();
@@ -140,19 +141,23 @@ public class Window extends Wrapper {
         return implWindow;
     }
 
+    @Override
     public final Component getKeyboardFocus() {
         return keyboardFocus;
     }
     
+    @Override
     public final Component getMouseFocus() {
         return mouseFocus;
     }
 
+    @Override
     public void setKeyboardFocus(Component component) {
         if(component == this) keyboardFocus = null;
         else keyboardFocus = component;
     }
 
+    @Override
     public void setMouseFocus(Component component) {
         if(component == this) mouseFocus = null;
         else mouseFocus = component;
@@ -291,6 +296,7 @@ public class Window extends Wrapper {
         return relayout;
     }
 
+    @Override
     public final KeystrokeRepeater getKeystrokeRepeater() {
         return keystrokeRepeater;
     }

@@ -127,9 +127,9 @@ public class SplitArea extends Panel {
                         }
                     }
                     if((c1 != null && c2 != null) || (r1 != null && r2 != null)){
-                        getWindow().setCursor(new MoveCursor());
+                        getToplevelComponent().setCursor(new MoveCursor());
                     } else {
-                        getWindow().setCursor(new ArrowCursor());
+                        getToplevelComponent().setCursor(new ArrowCursor());
                     }
                 } else if((c1 != null && c2 != null) || (r1 != null && r2 != null)) redraw();
             }

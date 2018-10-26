@@ -86,9 +86,9 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
             public void onKeyboardButtonEventEnter(KeyboardButtonEvent e) {
                 if(!e.isRepeated()){
                     if(e.wasPressed()){
-                        getWindow().getKeystrokeRepeater().onKeyboardButtonPressedEvent(e, InteractiveSinglelineTextContent.this);
+                        getToplevelComponent().getKeystrokeRepeater().onKeyboardButtonPressedEvent(e, InteractiveSinglelineTextContent.this);
                     } else if(e.wasReleased()){
-                        getWindow().getKeystrokeRepeater().onKeyboardButtonReleasedEvent(e, InteractiveSinglelineTextContent.this);
+                        getToplevelComponent().getKeystrokeRepeater().onKeyboardButtonReleasedEvent(e, InteractiveSinglelineTextContent.this);
                     }
                 }
             }

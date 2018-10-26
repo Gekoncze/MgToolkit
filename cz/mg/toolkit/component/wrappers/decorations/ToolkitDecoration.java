@@ -2,6 +2,7 @@ package cz.mg.toolkit.component.wrappers.decorations;
 
 import cz.mg.toolkit.component.Content;
 import cz.mg.toolkit.component.DrawableContent;
+import cz.mg.toolkit.component.ToplevelComponent;
 import cz.mg.toolkit.component.contents.HorizontalSpacer;
 import cz.mg.toolkit.component.wrappers.Decoration;
 import cz.mg.toolkit.component.containers.Panel;
@@ -66,6 +67,7 @@ public class ToolkitDecoration extends Decoration {
         
         public TitleBar() {
             initComponent();
+            initComponents();
             addEventListeners();
         }
         
@@ -74,7 +76,9 @@ public class ToolkitDecoration extends Decoration {
             setHorizontalSizePolicy(this, new FillParentSizePolicy());
             setVerticalSizePolicy(this, new FixedSizePolicy());
             setVerticalContentAlignment(this, 0.5);
-            
+        }
+        
+        private void initComponents(){
             getChildren().addLast(icon);
             getChildren().addLast(new HorizontalSpacer());
             getChildren().addLast(title);
@@ -123,6 +127,13 @@ public class ToolkitDecoration extends Decoration {
                 }
             });
         }
+        
+        private Window getWindow(){
+            ToplevelComponent toplevelComponent = getToplevelComponent();
+            if(toplevelComponent == null) return null;
+            if(toplevelComponent instanceof Window) return (Window) toplevelComponent;
+            return null;
+        }
     }
     
     public static class Icon extends ImageContent {
@@ -143,7 +154,6 @@ public class ToolkitDecoration extends Decoration {
         
         private void initComponent(){
             setVerticalAlignment(this, 0.5);
-            setSizePolicy(this, new FillParentSizePolicy());
         }
     }
     
@@ -168,6 +178,13 @@ public class ToolkitDecoration extends Decoration {
                     if(window != null) windowAction(window);
                 }
             });
+        }
+        
+        private Window getWindow(){
+            ToplevelComponent toplevelComponent = getToplevelComponent();
+            if(toplevelComponent == null) return null;
+            if(toplevelComponent instanceof Window) return (Window) toplevelComponent;
+            return null;
         }
         
         protected abstract void windowAction(Window window);
