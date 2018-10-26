@@ -9,6 +9,7 @@ import cz.mg.toolkit.event.events.AfterLayoutEvent;
 import cz.mg.toolkit.event.events.MouseWheelEvent;
 import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 
 
 public class VerticalScrollArea extends Wrapper {
@@ -23,7 +24,7 @@ public class VerticalScrollArea extends Wrapper {
     
     private void initComponent() {
         setLayout(new HorizontalLayout());
-        setFillParent(this);
+        setSizePolicy(this, new FillParentSizePolicy());
     }
     
     private void initComponents() {

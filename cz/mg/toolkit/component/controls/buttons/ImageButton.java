@@ -1,29 +1,23 @@
 package cz.mg.toolkit.component.controls.buttons;
 
-import cz.mg.toolkit.component.Content;
 import cz.mg.toolkit.component.contents.ImageContent;
-import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.graphics.Image;
 
 
 public class ImageButton extends ContentButton {
-    private final ImageContent imageContent = new ImageContent();
-
     public ImageButton() {
-        initComponents();
+        super(new ImageContent());
     }
-
-    private void initComponents() {
-        imageContent.setParent(this);
-        imageContent.setUsePrefferedSize(false);
-        setFillParent(imageContent);
+    
+    public ImageButton(Image image) {
+        super(new ImageContent(image));
     }
-
-    public final ImageContent getImageContent() {
-        return imageContent;
+    
+    public ImageButton(Image image, double contentWidth, double contentHeight) {
+        super(new ImageContent(image, contentWidth, contentHeight));
     }
-
-    @Override
-    public final Content getContent() {
-        return imageContent;
+    
+    public final ImageContent getImageContent(){
+        return (ImageContent) getContent();
     }
 }

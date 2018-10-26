@@ -5,6 +5,7 @@ import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.contents.SinglelineTextContent;
 import cz.mg.toolkit.utilities.Selectable;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
 
 
 public abstract class SelectionList<T> extends Panel {
@@ -28,7 +29,7 @@ public abstract class SelectionList<T> extends Panel {
         public ListItem(T item) {
             this.item = item;
             setText("" + item);
-            setWrapAndFillWidth(this);
+            setSizePolicy(this, new WrapAndFillSizePolicy());
         }
         
         @Override

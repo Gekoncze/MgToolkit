@@ -13,7 +13,7 @@ public abstract class DrawableContent extends Content implements DrawableCompone
         addEventListeners();
     }
     
-    public DrawableContent(int contentWidth, int contentHeight) {
+    public DrawableContent(double contentWidth, double contentHeight) {
         super(contentWidth, contentHeight);
         addEventListeners();
     }

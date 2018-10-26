@@ -27,6 +27,7 @@ import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import java.io.IOException;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 
 
 public class ToolkitTest2 {
@@ -137,8 +138,7 @@ public class ToolkitTest2 {
         
         InteractiveSinglelineTextContent eyyup = new InteractiveSinglelineTextContent("Eyyyuuup! VA");
         setContentAlignment(eyyup, 0.5);
-        setFillParentWidth(eyyup);
-        setFillParentHeight(eyyup);
+        setSizePolicy(eyyup, new FillParentSizePolicy());
         eyyup.setParent(secondTab);
         eyyup.setEditable(true);
         

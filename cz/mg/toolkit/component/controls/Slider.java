@@ -1,9 +1,9 @@
 package cz.mg.toolkit.component.controls;
 
-import cz.mg.toolkit.component.containers.Panel;
+import cz.mg.toolkit.component.DrawableContent;
 
 
-public abstract class Slider<T> extends Panel {
+public abstract class Slider<T> extends DrawableContent {
     private T value;
     private T minValue;
     private T maxValue;

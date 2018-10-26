@@ -13,6 +13,8 @@ import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import cz.mg.toolkit.utilities.StringUtilities;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
 
 
 public class MultilineTextInput extends Panel {
@@ -28,13 +30,13 @@ public class MultilineTextInput extends Panel {
 
     private void initComponent() {
         setLayout(new OverlayLayout());
-        setFillParent(this);
+        setSizePolicy(this, new FillParentSizePolicy());
         setUnlimitedScroll(this, true);
     }
 
     private void initComponents() {
         textContent.setParent(this);
-        setWrapAndFill(textContent);
+        setSizePolicy(textContent, new WrapAndFillSizePolicy());
         textContent.setEditable(true);
     }
 

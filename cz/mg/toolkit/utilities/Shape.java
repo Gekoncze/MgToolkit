@@ -1,4 +1,4 @@
-package cz.mg.toolkit.shape;
+package cz.mg.toolkit.utilities;
 
 import cz.mg.toolkit.component.Component;
 

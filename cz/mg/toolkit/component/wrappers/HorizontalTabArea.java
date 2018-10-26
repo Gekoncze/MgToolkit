@@ -17,6 +17,10 @@ import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import cz.mg.toolkit.utilities.Timer;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.SameAsHeightSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
 public class HorizontalTabArea extends Panel {
@@ -32,7 +36,7 @@ public class HorizontalTabArea extends Panel {
 
     private void initComponent() {
         setLayout(new VerticalLayout());
-        setFillParent(this);
+        setSizePolicy(this, new FillParentSizePolicy());
     }
 
     private void initComponents() {
@@ -109,11 +113,11 @@ public class HorizontalTabArea extends Panel {
     }
     
     public class Tab {
-        private final HorizontalTabHeader header = new HorizontalTabHeader();
+        private final TabHeader header = new TabHeader();
         private final Panel contentPanel = new ContentPanel();
         private long lastActivationTime = Timer.getCurrentTimeInMilliseconds();
 
-        public final HorizontalTabHeader getHeader() {
+        public final TabHeader getHeader() {
             return header;
         }
         
@@ -137,12 +141,12 @@ public class HorizontalTabArea extends Panel {
             activateTab(this);
         }
         
-        public class HorizontalTabHeader extends Button {
-            private final ImageContent icon = new ImageContent();
-            private final SinglelineTextContent text = new SinglelineTextContent();
+        public class TabHeader extends Button {
+            private final Icon icon = new Icon();
+            private final Text text = new Text();
             private final CloseButton closeButton = new CloseButton();
 
-            public HorizontalTabHeader() {
+            public TabHeader() {
                 initComponent();
                 initComponents();
                 addEventListeners();
@@ -152,22 +156,29 @@ public class HorizontalTabArea extends Panel {
                 setLayout(new HorizontalLayout());
                 setActionInvocation(Button.ActionInvocation.EVENT_LEAVE);
                 setVerticalAlignment(this, 1.0);
+                setHorizontalSizePolicy(this, new WrapContentSizePolicy());
+                setVerticalSizePolicy(this, new FixedSizePolicy());
             }
 
             private void initComponents(){
                 icon.setParent(this);
                 text.setParent(this);
                 closeButton.setParent(this);
-                setFixedSize(closeButton, 16, 16);
-                icon.setContentSize(16, 16);
-                icon.setUsePrefferedSize(false);
+                
+                setHorizontalSizePolicy(icon, new SameAsHeightSizePolicy());
+                setHorizontalSizePolicy(text, new WrapContentSizePolicy());
+                setHorizontalSizePolicy(closeButton, new SameAsHeightSizePolicy());
+                
+                setVerticalSizePolicy(icon, new FillParentSizePolicy());
+                setVerticalSizePolicy(text, new FillParentSizePolicy());
+                setVerticalSizePolicy(closeButton, new FillParentSizePolicy());
             }
 
             private void addEventListeners() {
                 getEventListeners().addLast(new ActionAdapter() {
                     @Override
                     public void onEventEnter(ActionEvent e) {
-                        if(e.getSource() == HorizontalTabHeader.this){
+                        if(e.getSource() == TabHeader.this){
                             activate();
                             HorizontalTabArea.this.relayout();
                         }
@@ -193,6 +204,12 @@ public class HorizontalTabArea extends Panel {
                 return text;
             }
         }
+    }
+    
+    public static class Icon extends ImageContent {
+    }
+    
+    public static class Text extends SinglelineTextContent {
     }
     
     public static class CloseButton extends cz.mg.toolkit.component.controls.buttons.special.CloseButton {

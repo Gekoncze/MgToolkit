@@ -1,26 +1,22 @@
 package cz.mg.toolkit.component.controls.buttons.special;
 
 import cz.mg.toolkit.component.Container;
-import cz.mg.toolkit.component.controls.buttons.ExtendedContentButton;
+import cz.mg.toolkit.component.Content;
+import cz.mg.toolkit.component.DrawableContent;
+import cz.mg.toolkit.component.controls.buttons.ContentButton;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
-import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
-public abstract class ScrollButton extends ExtendedContentButton {
+public abstract class ScrollButton extends ContentButton {
     private static final int DEFAULT_SCROLL_SPEED = 16;
-    private static final int DEFAULT_SIZE = 24;
     
     private Container scrollPanel;
     private int scrollSpeed = DEFAULT_SCROLL_SPEED;
 
-    public ScrollButton() {
-        initComponent();
+    public ScrollButton(Content content) {
+        super(content);
         addEventListeners();
-    }
-    
-    private void initComponent(){
-        setFixedSize(this, DEFAULT_SIZE, DEFAULT_SIZE);
     }
     
     private void addEventListeners(){
@@ -52,4 +48,7 @@ public abstract class ScrollButton extends ExtendedContentButton {
     }
     
     protected abstract void doScroll(Container scrollPanel);
+    
+    public static class Content extends DrawableContent {
+    }
 }

@@ -1,7 +1,7 @@
-package cz.mg.toolkit.shape.shapes;
+package cz.mg.toolkit.utilities.shapes;
 
 import cz.mg.toolkit.component.Component;
-import cz.mg.toolkit.shape.Shape;
+import cz.mg.toolkit.utilities.Shape;
 
 
 public class OvalShape implements Shape {

@@ -6,14 +6,21 @@ import cz.mg.toolkit.event.events.ActionEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import cz.mg.toolkit.utilities.Triggerable;
+import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.setSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
 
 
 public abstract class Button extends DrawableContainer implements Triggerable {
     private ActionInvocation actionInvocation = ActionInvocation.EVENT_ENTER;
     
     public Button() {
-        setLayout(new OverlayLayout());
+        initComponent();
         addEventListeners();
+    }
+    
+    private void initComponent(){
+        setLayout(new OverlayLayout());
+        setSizePolicy(this, new FixedSizePolicy());
     }
     
     private void addEventListeners(){

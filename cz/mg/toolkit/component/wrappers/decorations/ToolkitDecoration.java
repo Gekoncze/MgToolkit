@@ -1,5 +1,6 @@
 package cz.mg.toolkit.component.wrappers.decorations;
 
+import cz.mg.toolkit.component.Content;
 import cz.mg.toolkit.component.DrawableContent;
 import cz.mg.toolkit.component.contents.HorizontalSpacer;
 import cz.mg.toolkit.component.wrappers.Decoration;
@@ -7,23 +8,21 @@ import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.component.contents.ImageContent;
 import cz.mg.toolkit.component.contents.SinglelineTextContent;
-import cz.mg.toolkit.component.controls.buttons.ExtendedContentButton;
-import cz.mg.toolkit.component.controls.buttons.ImageButton;
+import cz.mg.toolkit.component.controls.buttons.ContentButton;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
-import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
-import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.adapters.MouseButtonAdapter;
 import cz.mg.toolkit.event.adapters.MouseMotionAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
-import cz.mg.toolkit.event.events.AfterLayoutEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
-import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.SameAsHeightSizePolicy;
 
 
 public class ToolkitDecoration extends Decoration {
@@ -54,8 +53,6 @@ public class ToolkitDecoration extends Decoration {
     
     
     public static class TitleBar extends Panel {
-        private static final double DEFAULT_HEIGHT = 24;
-        
         private final Icon icon = new Icon();
         private final Title title = new Title();
         private final MinimizeButton minimizeButton = new MinimizeButton();
@@ -74,8 +71,8 @@ public class ToolkitDecoration extends Decoration {
         
         private void initComponent(){
             setLayout(new HorizontalLayout());
-            setFillParentWidth(this);
-            setFixedHeight(this, DEFAULT_HEIGHT);
+            setHorizontalSizePolicy(this, new FillParentSizePolicy());
+            setVerticalSizePolicy(this, new FixedSizePolicy());
             setVerticalContentAlignment(this, 0.5);
             
             getChildren().addLast(icon);
@@ -131,24 +128,11 @@ public class ToolkitDecoration extends Decoration {
     public static class Icon extends ImageContent {
         public Icon() {
             initComponent();
-            addEventListeners();
         }
         
         private void initComponent(){
-            setFixedWidth(this, 0);
-            setFillParentHeight(this);
-        }
-        
-        private void addEventListeners(){
-            getEventListeners().addLast(new AfterLayoutAdapter() {
-                @Override
-                public void onEventEnter(AfterLayoutEvent e) {
-                    if(getWidth() != getHeight()){
-                        setFixedWidth(Icon.this, getHeight());
-                        relayout();
-                    }
-                }
-            });
+            setHorizontalSizePolicy(this, new SameAsHeightSizePolicy());
+            setVerticalSizePolicy(this, new FillParentSizePolicy());
         }
     }
     
@@ -159,29 +143,23 @@ public class ToolkitDecoration extends Decoration {
         
         private void initComponent(){
             setVerticalAlignment(this, 0.5);
+            setSizePolicy(this, new FillParentSizePolicy());
         }
     }
     
-    public static abstract class TitlebarButton extends ExtendedContentButton {
-        public TitlebarButton() {
+    public static abstract class TitlebarButton extends ContentButton {
+        public TitlebarButton(Content content) {
+            super(content);
             initComponent();
             addEventListeners();
         }
         
         private void initComponent(){
-            setFixedWidth(this, 0);
-            setFillParentHeight(this);
+            setHorizontalSizePolicy(this, new SameAsHeightSizePolicy());
+            setVerticalSizePolicy(this, new FillParentSizePolicy());
         }
         
         private void addEventListeners(){
-            getEventListeners().addLast(new AfterLayoutAdapter() {
-                @Override
-                public void onEventEnter(AfterLayoutEvent e) {
-                    if(getWidth() != getHeight()){
-                        setFixedWidth(TitlebarButton.this, getHeight());
-                    }
-                }
-            });
             getEventListeners().addLast(new ActionAdapter() {
                 @Override
                 public void onEventEnter(ActionEvent e) {
@@ -196,29 +174,27 @@ public class ToolkitDecoration extends Decoration {
     }
     
     public static class MinimizeButton extends TitlebarButton {
+        public MinimizeButton() {
+            super(new Content());
+        }
+        
         @Override
         protected void windowAction(Window window) {
             window.setMinimized(!window.isMinimized());
         }
         
-        @Override
-        protected Content createContent() {
-            return new Content();
-        }
-
         public static class Content extends DrawableContent {
         }
     }
     
     public static class MaximizeButton extends TitlebarButton {
-        @Override
-        protected void windowAction(Window window) {
-            window.setMaximized(!window.isMaximized());
+        public MaximizeButton() {
+            super(new Content());
         }
         
         @Override
-        protected Content createContent() {
-            return new Content();
+        protected void windowAction(Window window) {
+            window.setMaximized(!window.isMaximized());
         }
 
         public static class Content extends DrawableContent {
@@ -226,14 +202,13 @@ public class ToolkitDecoration extends Decoration {
     }
     
     public static class CloseButton extends TitlebarButton {
-        @Override
-        protected void windowAction(Window window) {
-            window.close();
+        public CloseButton() {
+            super(new Content());
         }
         
         @Override
-        protected Content createContent() {
-            return new Content();
+        protected void windowAction(Window window) {
+            window.close();
         }
 
         public static class Content extends DrawableContent {

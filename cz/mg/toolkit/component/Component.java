@@ -7,13 +7,13 @@ import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.event.Event;
 import cz.mg.toolkit.event.EventListener;
 import cz.mg.toolkit.event.EventObserver;
+import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
 import cz.mg.toolkit.event.events.*;
 import cz.mg.toolkit.event.adapters.BeforeLayoutAdapter;
 import cz.mg.toolkit.event.adapters.DesignAdapter;
 import cz.mg.toolkit.event.adapters.VisitAdapter;
 import cz.mg.toolkit.event.contexts.DesignerEventContext;
 import cz.mg.toolkit.graphics.Designer;
-import cz.mg.toolkit.shape.shapes.OvalShape;
 import cz.mg.toolkit.utilities.EventListeners;
 import cz.mg.toolkit.utilities.properties.Properties;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
@@ -33,7 +33,16 @@ public abstract class Component extends TreeNode<Component, Component> implement
         getEventListeners().addLast(new BeforeLayoutAdapter() {
             @Override
             public void onEventLeave(BeforeLayoutEvent e) {
-                updateSizeIntervals();
+                getHorizontalSizePolicy(Component.this).beforeLayoutUpdateHorizontal(Component.this);
+                getVerticalSizePolicy(Component.this).beforeLayoutUpdateVertical(Component.this);
+            }
+        });
+        
+        getEventListeners().addLast(new AfterLayoutAdapter() {
+            @Override
+            public void onEventLeave(AfterLayoutEvent e) {
+                getHorizontalSizePolicy(Component.this).afterLayoutUpdateHorizontal(Component.this);
+                getVerticalSizePolicy(Component.this).afterLayoutUpdateVertical(Component.this);
             }
         });
         
@@ -118,13 +127,6 @@ public abstract class Component extends TreeNode<Component, Component> implement
     public final void setSize(double width, double height){
         setWidth(width);
         setHeight(height);
-    }
-    
-    private void updateSizeIntervals(){
-        if(isWrapMinWidth(this)) setMinWidth(this, computeWrapWidth());
-        if(isWrapMinHeight(this)) setMinHeight(this, computeWrapHeight());
-        if(isWrapMaxWidth(this)) setMaxWidth(this, computeWrapWidth());
-        if(isWrapMaxHeight(this)) setMaxHeight(this, computeWrapHeight());
     }
     
     public double getScreenX(){

@@ -1,8 +1,6 @@
 package cz.mg.toolkit.component.wrappers;
 
 import cz.mg.toolkit.component.containers.Wrapper;
-import cz.mg.toolkit.component.controls.buttons.special.LeftScrollButton;
-import cz.mg.toolkit.component.controls.buttons.special.RightScrollButton;
 import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
 import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import cz.mg.toolkit.utilities.ScrollControlsVisibility;
@@ -10,11 +8,12 @@ import cz.mg.toolkit.event.adapters.LocalMouseWheelAdapter;
 import cz.mg.toolkit.event.events.AfterLayoutEvent;
 import cz.mg.toolkit.event.events.MouseWheelEvent;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
 public class CompactHorizontalScrollArea extends Wrapper {
-    private static final double BUTTON_WIDTH = 24;
-    
     private final LeftScrollButton leftButton = new LeftScrollButton();
     private final RightScrollButton rightButton = new RightScrollButton();
     private ScrollControlsVisibility scrollControlsVisibility = ScrollControlsVisibility.WHEN_NEEDED;
@@ -27,17 +26,15 @@ public class CompactHorizontalScrollArea extends Wrapper {
     
     private void initComponent() {
         setLayout(new HorizontalLayout());
-        setFillParentWidth(this);
-        setWrapContentHeight(this);
+        setHorizontalSizePolicy(this, new FillParentSizePolicy());
+        setVerticalSizePolicy(this, new WrapContentSizePolicy());
     }
 
     private void initComponents() {
-        setWrapAndFillHeight(getContentPanel());
+        setVerticalSizePolicy(getContentPanel(), new WrapAndFillSizePolicy());
         
-        setWrapAndFillHeight(leftButton);
-        setWrapAndFillHeight(rightButton);
-        setFixedWidth(leftButton, BUTTON_WIDTH);
-        setFixedWidth(rightButton, BUTTON_WIDTH);
+        setVerticalSizePolicy(leftButton, new WrapAndFillSizePolicy());
+        setVerticalSizePolicy(rightButton, new WrapAndFillSizePolicy());
         
         leftButton.setScrollPanel(getContentPanel());
         rightButton.setScrollPanel(getContentPanel());
@@ -95,5 +92,11 @@ public class CompactHorizontalScrollArea extends Wrapper {
 
     public final void setScrollControlsVisibility(ScrollControlsVisibility scrollControlsVisibility) {
         this.scrollControlsVisibility = scrollControlsVisibility;
+    }
+    
+    public static class LeftScrollButton extends cz.mg.toolkit.component.controls.buttons.special.LeftScrollButton {
+    }
+    
+    public static class RightScrollButton extends cz.mg.toolkit.component.controls.buttons.special.RightScrollButton {
     }
 }

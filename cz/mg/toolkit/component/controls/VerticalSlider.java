@@ -6,20 +6,20 @@ import cz.mg.toolkit.event.events.ActionEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
 
 
 public abstract class VerticalSlider<T> extends Slider<T> {
-    private static final int DEFAULT_WIDTH = 24;
-    private static final int DEFAULT_HEIGHT = 128;
-    
     public VerticalSlider(T defaultValue, T minValue, T maxValue) {
         super(defaultValue, minValue, maxValue);
         initComponent();
         addEventListeners();
     }
-
-    private void initComponent() {
-        setFixedSize(this, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    
+    private void initComponent(){
+        setHorizontalSizePolicy(this, new FixedSizePolicy());
+        setVerticalSizePolicy(this, new FillParentSizePolicy());
     }
 
     private void addEventListeners() {
@@ -30,6 +30,9 @@ public abstract class VerticalSlider<T> extends Slider<T> {
                 if(wasInside(e)){
                     if(wasPressed(e)){
                         requestMouseFocus();
+                        updateSliderPosition(getY(e));
+                        redraw();
+                        raiseOrSendActionEvent();
                     } else {
                         releaseMouseFocus();
                     }
@@ -43,24 +46,29 @@ public abstract class VerticalSlider<T> extends Slider<T> {
             @Override
             public void onMouseMotionEventEnter(MouseMotionEvent e) {
                 if(!hasMouseFocus() || !isLeftButtonPressed(e)) return;
-                double tp = getTopPadding(VerticalSlider.this);
-                double bp = getBottomPadding(VerticalSlider.this);
-                double size = getHeight() - tp - bp;
-                size = Math.max(0, size);
-                double t = (getY(e) - tp) / size;
-                T value = computeValue(t, getMinValue(), getMaxValue());
-                setValue(value);
+                updateSliderPosition(getY(e));
                 redraw();
                 raiseOrSendActionEvent();
             }
         });
     }
+    
+    private void updateSliderPosition(double y){
+        double ss = getSliderSize();
+        double size = getHeight() - ss;
+        size = Math.max(0, size);
+        double t = (y - ss/2) / size;
+        T value = computeValue(t, getMinValue(), getMaxValue());
+        setValue(value);
+    }
 
     public double getSliderPosition(){
-        double tp = getTopPadding(VerticalSlider.this);
-        double bp = getBottomPadding(VerticalSlider.this);
-        double size = getHeight() - tp - bp;
-        return computeNorm(getValue(), getMinValue(), getMaxValue()) * size + tp;
+        double size = getHeight() - getSliderSize();
+        return computeNorm(getValue(), getMinValue(), getMaxValue()) * size + getSliderSize()/2;
+    }
+    
+    public double getSliderSize(){
+        return getWidth();
     }
     
     private void raiseOrSendActionEvent(){

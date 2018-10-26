@@ -10,11 +10,12 @@ import cz.mg.toolkit.event.adapters.LocalMouseWheelAdapter;
 import cz.mg.toolkit.event.events.AfterLayoutEvent;
 import cz.mg.toolkit.event.events.MouseWheelEvent;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
 public class CompactVerticalScrollArea extends Wrapper {
-    private static final double BUTTON_HEIGHT = 24;
-    
     private final UpScrollButton upButton = new UpScrollButton();
     private final DownScrollButton downButton = new DownScrollButton();
     private ScrollControlsVisibility scrollControlsVisibility = ScrollControlsVisibility.WHEN_NEEDED;
@@ -27,17 +28,15 @@ public class CompactVerticalScrollArea extends Wrapper {
     
     private void initComponent(){
         setLayout(new VerticalLayout());
-        setWrapContentWidth(this);
-        setFillParentHeight(this);
+        setHorizontalSizePolicy(this, new WrapContentSizePolicy());
+        setVerticalSizePolicy(this, new FillParentSizePolicy());
     }
 
     private void initComponents() {
-        setWrapAndFillWidth(getContentPanel());
+        setHorizontalSizePolicy(getContentPanel(), new WrapAndFillSizePolicy());
         
-        setWrapAndFillWidth(upButton);
-        setWrapAndFillWidth(downButton);
-        setFixedHeight(upButton, BUTTON_HEIGHT);
-        setFixedHeight(downButton, BUTTON_HEIGHT);
+        setHorizontalSizePolicy(upButton, new WrapAndFillSizePolicy());
+        setHorizontalSizePolicy(downButton, new WrapAndFillSizePolicy());
                 
         upButton.setScrollPanel(getContentPanel());
         downButton.setScrollPanel(getContentPanel());

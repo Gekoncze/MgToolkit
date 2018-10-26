@@ -7,16 +7,13 @@ import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.utilities.SelectionGroup;
 import cz.mg.toolkit.utilities.Selectable;
 import cz.mg.toolkit.utilities.Triggerable;
-import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
 public class RadioButton extends Button implements Selectable, Triggerable {
-    private static final int DEFAULT_SIZE = 16;
     private boolean selected = false;
     private SelectionGroup selectionGroup;
 
     public RadioButton() {
-        setFixedSize(this, DEFAULT_SIZE, DEFAULT_SIZE);
         addEventListeners();
     }
     

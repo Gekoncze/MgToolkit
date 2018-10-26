@@ -6,6 +6,7 @@ import cz.mg.toolkit.event.events.AfterLayoutEvent;
 import cz.mg.toolkit.layout.layouts.StackLayout;
 import cz.mg.toolkit.layout.layouts.VerticalStackLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 
 
 public class VerticalFlowArea extends ScrollArea {
@@ -19,7 +20,7 @@ public class VerticalFlowArea extends ScrollArea {
     private void initComponent() {
         contentLayout.setStackCount(1);
         getContentPanel().setLayout(contentLayout);
-        setFillParent(this);
+        setSizePolicy(this, new FillParentSizePolicy());
     }
 
     private void addEventListeners() {

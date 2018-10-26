@@ -10,6 +10,8 @@ import cz.mg.toolkit.event.events.AfterLayoutEvent;
 import cz.mg.toolkit.event.events.MouseWheelEvent;
 import cz.mg.toolkit.layout.layouts.GridLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
 
 
 public class ScrollArea extends Wrapper {
@@ -26,7 +28,7 @@ public class ScrollArea extends Wrapper {
     
     private void initComponent() {
         setLayout(grid);
-        setFillParent(this);
+        setSizePolicy(this, new FillParentSizePolicy());
     }
     
     private void initComponents() {
@@ -39,8 +41,8 @@ public class ScrollArea extends Wrapper {
         getChildren().addLast(verticalScrollBar);
         getChildren().addLast(horizontalScrollBar);
         
-        setWrapAndFillWidth(grid.getColumns().get(0));
-        setWrapAndFillHeight(grid.getRows().get(0));
+        setHorizontalSizePolicy(grid.getColumns().get(0), new WrapAndFillSizePolicy());
+        setVerticalSizePolicy(grid.getRows().get(0), new WrapAndFillSizePolicy());
     }
     
     private void addEventListeners() {

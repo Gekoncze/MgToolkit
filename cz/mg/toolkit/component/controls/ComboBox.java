@@ -4,7 +4,7 @@ import cz.mg.collections.Collection;
 import cz.mg.toolkit.component.DrawableContent;
 import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.contents.SinglelineTextContent;
-import cz.mg.toolkit.component.controls.buttons.ExtendedContentButton;
+import cz.mg.toolkit.component.controls.buttons.ContentButton;
 import cz.mg.toolkit.component.window.ContextMenu;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
@@ -13,12 +13,11 @@ import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
 
 
 public class ComboBox<T> extends Panel {
-    private static final int DEFAULT_WIDTH = 128;
-    private static final int DEFAULT_HEIGHT = 24;
-    
     private Collection<T> items = null;
     private T selectedItem = null;
     private final Text text = new Text();
@@ -33,18 +32,24 @@ public class ComboBox<T> extends Panel {
     
     private void initComponent() {
         setLayout(new HorizontalLayout());
-        setFixedSize(this, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        setHorizontalSizePolicy(this, new FillParentSizePolicy());
     }
 
     private void initComponents() {
         text.setParent(this);
         button.setParent(this);
-        setFillParent(text);
-        setFixedSize(button, DEFAULT_HEIGHT, DEFAULT_HEIGHT);
+        setSizePolicy(text, new FillParentSizePolicy());
         menu.getContentPanel().setLayout(new VerticalLayout());
     }
 
     private void addEventListeners() {
+        text.getEventListeners().addLast(new LocalMouseButtonAdapter() {
+            @Override
+            public void onMouseButtonEventEnter(MouseButtonEvent e) {
+                if(wasLeftButton(e) && wasPressed(e)) button.sendEvent(new ActionEvent(text));
+            }
+        });
+        
         button.getEventListeners().addLast(new ActionAdapter() {
             @Override
             public void onEventEnter(ActionEvent e) {
@@ -103,7 +108,7 @@ public class ComboBox<T> extends Panel {
         public ContextMenuItem(T item) {
             this.item = item;
             setText("" + this.item);
-            setWrapAndFillWidth(this);
+            setHorizontalSizePolicy(this, new WrapAndFillSizePolicy());
             getEventListeners().addLast(new LocalMouseButtonAdapter() {
                 @Override
                 public void onMouseButtonEventEnter(MouseButtonEvent e) {
@@ -121,12 +126,11 @@ public class ComboBox<T> extends Panel {
         }
     }
 
-    public static class OpenButton extends ExtendedContentButton {
-        @Override
-        protected Content createContent() {
-            return new Content();
+    public static class OpenButton extends ContentButton {
+        public OpenButton() {
+            super(new Content());
         }
-        
+
         public static class Content extends DrawableContent {}
     }
     

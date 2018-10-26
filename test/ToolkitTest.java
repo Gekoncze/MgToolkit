@@ -58,11 +58,16 @@ import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.impl.swing.SwingImplApi;
 import cz.mg.toolkit.layout.layouts.GridLayout;
 import cz.mg.toolkit.layout.layouts.GridLayout.Column;
-import cz.mg.toolkit.shape.shapes.OvalShape;
+import cz.mg.toolkit.utilities.shapes.OvalShape;
 import cz.mg.toolkit.utilities.SelectionGroup;
 import cz.mg.toolkit.utilities.keyboardshortcuts.StandardKeyboardCharacterShortcut;
 import java.io.IOException;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.FixedRangeSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
 public class ToolkitTest {
@@ -165,12 +170,12 @@ public class ToolkitTest {
         h0.setLayout(new HorizontalLayout());
         h0.setParent(v1);
 //        setHorizontalSpacing(h0, 4);
-        setWrapAndFillWidth(h0);
+        setHorizontalSizePolicy(h0, new WrapAndFillSizePolicy());
         
         TextButton tb = new TextButton();
         tb.getTextContent().setText("TB");
         tb.setParent(h0);
-        setFixedSize(tb, 64, 24);
+        setSizePolicy(tb, new FixedSizePolicy(64, 24));
 //        setPadding(tb, 4);
         tb.getEventListeners().addLast(new ActionAdapter() {
             @Override
@@ -183,7 +188,7 @@ public class ToolkitTest {
         ImageButton ib = new ImageButton();
         ib.getImageContent().setImage(new BitmapImage(ToolkitTest2.class.getResourceAsStream("mg.png")));
         ib.setParent(h0);
-        setFixedSize(ib, 64, 24);
+        setSizePolicy(ib, new FixedSizePolicy(64, 24));
 //        setPadding(ib, 4);
         ib.getEventListeners().addLast(new ActionAdapter() {
             @Override
@@ -194,14 +199,13 @@ public class ToolkitTest {
         });
         
         SinglelineTextInput ti = new SinglelineTextInput();
-        setLimitedWidth(ti, 0, 160);
+        setHorizontalSizePolicy(ti, new FixedRangeSizePolicy(0, 160));
         ti.setParent(h0);
         ti.setPlaceholderText("Try typing here!");
         
         SinglelineTextContent alignmentTest = new SinglelineTextContent("Yay!");
         alignmentTest.setParent(h0);
-        setFillParentWidth(alignmentTest);
-        setFillParentHeight(alignmentTest);
+        setSizePolicy(alignmentTest, new FillParentSizePolicy());
         setContentAlignment(alignmentTest, 0.5);
         
         LayoutPanel h1 = new LayoutPanel();
@@ -209,7 +213,7 @@ public class ToolkitTest {
         h1.setLayout(new HorizontalLayout());
         h1.setParent(v1);
 //        setHorizontalSpacing(h1, 8);
-        setWrapAndFillWidth(h1);
+        setHorizontalSizePolicy(h1, new WrapAndFillSizePolicy());
         
         label = new SinglelineTextContent("Lorem ipsum 1");
         label.setParent(h1);
@@ -259,12 +263,6 @@ public class ToolkitTest {
         label = new SinglelineTextContent("Lorem ipsum 9999999999999999999999999999999999999999999999999999");
         label.setParent(h4);
         
-        OvalButton ovalButton = new OvalButton();
-        setShape(ovalButton, new OvalShape());
-        setFixedSize(ovalButton, 64*2, 32*2);
-        ovalButton.setParent(v1);
-        setForeground(ovalButton, null);
-        
         ComboBox<Pony> boxOfPonies = new ComboBox<>();
         boxOfPonies.setItems(PONIES);
         boxOfPonies.setParent(v1);
@@ -275,6 +273,12 @@ public class ToolkitTest {
                 System.out.println("Your favourite pony in a box is " + boxOfPonies.getSelectedItem());
             }
         });
+        
+        OvalButton ovalButton = new OvalButton();
+        setShape(ovalButton, new OvalShape());
+        setSizePolicy(ovalButton, new FixedSizePolicy(64*2, 32*2));
+        ovalButton.setParent(v1);
+        setForeground(ovalButton, null);
         
         SingleSelectionList<Pony> listOfPonies = new SingleSelectionList<>();
         listOfPonies.setItems(PONIES);
@@ -372,7 +376,8 @@ public class ToolkitTest {
         });
         
         LayoutPanel vvp = new LayoutPanel();
-        setWrapContent(vvp);
+        setHorizontalSizePolicy(vvp, new WrapContentSizePolicy());
+        setVerticalSizePolicy(vvp, new FixedSizePolicy(256));
         vvp.setLayout(new HorizontalLayout());
         vvp.setParent(v1);
         
@@ -413,7 +418,7 @@ public class ToolkitTest {
         });
         
         MultilineTextInput mti = new MultilineTextInput();
-        setFixedSize(mti, 128, 64);
+        setSizePolicy(mti, new FixedSizePolicy(128, 64));
         mti.setPlaceholderText("Yay!\nYaay!\nYaaay!");
         mti.setParent(v1);
         mti.getTextContent().setText("Twilight Sparkle\nRarity\nFluttershy\nRainbow Dash\nApplejack\nPinkie Pie");
@@ -429,10 +434,10 @@ public class ToolkitTest {
         grid.setLayout(gridLayout);
         grid.setParent(v1);
 //        setVerticalSpacing(grid, 8);
-        setWrapAndFillWidth(grid);
+        setHorizontalSizePolicy(grid, new WrapAndFillSizePolicy());
         
         for(Column column : gridLayout.getColumns()){
-            setFillParentWidth(column);
+            setHorizontalSizePolicy(column, new FillParentSizePolicy());
         }
         
         for(int i = 0; i < 80; i++){

@@ -36,6 +36,9 @@
         add timestamp for event and eventual expiration - if gui hanged and click was processed a second later, user might not want it t be clicked at that time
 
 #### SOON
+    bring in some nice examples of everything the toolkit can do!
+        most importantly - the designers!!!
+
     common dialogs
         color chooser dialog
         file chooser dialog (load/save)
@@ -53,5 +56,22 @@
             zdali je možné ho změnit přes designer nebo ne
         to by také možná vyžadovalo, aby se vrátila stará známá size control
 
+    u image buttonu a text buttonu
+        možná byl přeci jen lepší původní návrh, kdy se content roztahoval... pokusit se vrátit zpět
+        a poté adaptovat designer - nebude třeba výpočet a použije se nastavení fixed size policy
+
+    make slider to use content height / width to measure button size
+
 #### DONE
-    
+Size polices
+    moved shapes to utilities
+    brought back size polices, yeeeeeeeaa
+    added size policy interface in utilities
+    created new size policies package with some common size policy implementations
+    renamed extendsd content button to custom button
+    image and text content button improvements
+    added width and height to image - user set value
+    fixed drawable content wrong constructor parameter type (from int to double)
+    polished some components sizing
+    fixed combo box click on text to open choices
+    fixed slider click to set value

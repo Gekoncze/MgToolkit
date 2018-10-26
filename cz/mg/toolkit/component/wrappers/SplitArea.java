@@ -18,6 +18,7 @@ import cz.mg.toolkit.layout.layouts.GridLayout;
 import cz.mg.toolkit.layout.layouts.GridLayout.Column;
 import cz.mg.toolkit.layout.layouts.GridLayout.Row;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 
 
 public class SplitArea extends Panel {
@@ -41,7 +42,7 @@ public class SplitArea extends Panel {
 
     private void initComponent() {
         setLayout(grid);
-        setFillParent(this);
+        setSizePolicy(this, new FillParentSizePolicy());
         updateContentPanelArray();
     }
 
@@ -222,7 +223,7 @@ public class SplitArea extends Panel {
         @Override
         public Column create() {
             Column column = super.create();
-            setFillParentWidth(column);
+            setHorizontalSizePolicy(column, new FillParentSizePolicy());
             return column;
         }
     }
@@ -231,7 +232,7 @@ public class SplitArea extends Panel {
         @Override
         public Row create() {
             Row row = super.create();
-            setFillParentHeight(row);
+            setVerticalSizePolicy(row, new FillParentSizePolicy());
             return row;
         }
     }

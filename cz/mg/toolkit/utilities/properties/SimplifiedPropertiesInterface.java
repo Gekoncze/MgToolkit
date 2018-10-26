@@ -1,9 +1,17 @@
 package cz.mg.toolkit.utilities.properties;
 
 import cz.mg.toolkit.component.Component;
+import cz.mg.toolkit.utilities.SizePolicy;
+import static cz.mg.toolkit.utilities.properties.PropertiesInterface.setHorizontalSizePolicy;
+import static cz.mg.toolkit.utilities.properties.PropertiesInterface.setVerticalSizePolicy;
 
 
 public class SimplifiedPropertiesInterface extends PropertiesInterface {
+    public static void setSizePolicy(Component component, SizePolicy sizePolicy){
+        setHorizontalSizePolicy(component, sizePolicy);
+        setVerticalSizePolicy(component, sizePolicy);
+    }
+    
     public static void setMinSize(Component component, double minWidth, double minHeight){
         setMinWidth(component, minWidth);
         setMinHeight(component, minHeight);
@@ -11,119 +19,6 @@ public class SimplifiedPropertiesInterface extends PropertiesInterface {
     
     public static void setMaxSize(Component component, double maxWidth, double maxHeight){
         setMaxWidth(component, maxWidth);
-        setMaxHeight(component, maxHeight);
-    }
-    
-    public static void setWrapContent(Component component){
-        setWrapMinWidth(component, true);
-        setWrapMinHeight(component, true);
-        setWrapMaxWidth(component, true);
-        setWrapMaxHeight(component, true);
-    }
-    
-    public static void setWrapContentWidth(Component component){
-        setWrapMinWidth(component, true);
-        setWrapMaxWidth(component, true);
-    }
-    
-    public static void setWrapContentHeight(Component component){
-        setWrapMinHeight(component, true);
-        setWrapMaxHeight(component, true);
-    }
-    
-    public static void setFillParent(Component component){
-        setWrapMinWidth(component, false);
-        setWrapMinHeight(component, false);
-        setWrapMaxWidth(component, false);
-        setWrapMaxHeight(component, false);
-        setMinWidth(component, 0.0);
-        setMinHeight(component, 0.0);
-        setMaxWidth(component, Integer.MAX_VALUE);
-        setMaxHeight(component, Integer.MAX_VALUE);
-    }
-    
-    public static void setFillParentWidth(Component component){
-        setWrapMinWidth(component, false);
-        setWrapMaxWidth(component, false);
-        setMinWidth(component, 0.0);
-        setMaxWidth(component, Integer.MAX_VALUE);
-    }
-    
-    public static void setFillParentHeight(Component component){
-        setWrapMinHeight(component, false);
-        setWrapMaxHeight(component, false);
-        setMinHeight(component, 0.0);
-        setMaxHeight(component, Integer.MAX_VALUE);
-    }
-    
-    public static void setWrapAndFill(Component component){
-        setWrapMinWidth(component, true);
-        setWrapMinHeight(component, true);
-        setWrapMaxWidth(component, false);
-        setWrapMaxHeight(component, false);
-        setMaxWidth(component, Integer.MAX_VALUE);
-        setMaxHeight(component, Integer.MAX_VALUE);
-    }
-    
-    public static void setWrapAndFillWidth(Component component){
-        setWrapMinWidth(component, true);
-        setWrapMaxWidth(component, false);
-        setMaxWidth(component, Integer.MAX_VALUE);
-    }
-    
-    public static void setWrapAndFillHeight(Component component){
-        setWrapMinHeight(component, true);
-        setWrapMaxHeight(component, false);
-        setMaxHeight(component, Integer.MAX_VALUE);
-    }
-    
-    public static void setFixedSize(Component component, double width, double height){
-        setWrapMinWidth(component, false);
-        setWrapMinHeight(component, false);
-        setWrapMaxWidth(component, false);
-        setWrapMaxHeight(component, false);
-        setMinWidth(component, width);
-        setMinHeight(component, height);
-        setMaxWidth(component, width);
-        setMaxHeight(component, height);
-    }
-    
-    public static void setFixedWidth(Component component, double width){
-        setWrapMinWidth(component, false);
-        setWrapMaxWidth(component, false);
-        setMinWidth(component, width);
-        setMaxWidth(component, width);
-    }
-    
-    public static void setFixedHeight(Component component, double height){
-        setWrapMinHeight(component, false);
-        setWrapMaxHeight(component, false);
-        setMinHeight(component, height);
-        setMaxHeight(component, height);
-    }
-    
-    public static void setLimitedSize(Component component, double minWidth, double minHeight, double maxWidth, double maxHeight){
-        setWrapMinWidth(component, false);
-        setWrapMinHeight(component, false);
-        setWrapMaxWidth(component, false);
-        setWrapMaxHeight(component, false);
-        setMinWidth(component, minWidth);
-        setMinHeight(component, minHeight);
-        setMaxWidth(component, maxWidth);
-        setMaxHeight(component, maxHeight);
-    }
-    
-    public static void setLimitedWidth(Component component, double minWidth, double maxWidth){
-        setWrapMinWidth(component, false);
-        setWrapMaxWidth(component, false);
-        setMinWidth(component, minWidth);
-        setMaxWidth(component, maxWidth);
-    }
-    
-    public static void setLimitedHeight(Component component, double minHeight, double maxHeight){
-        setWrapMinHeight(component, false);
-        setWrapMaxHeight(component, false);
-        setMinHeight(component, minHeight);
         setMaxHeight(component, maxHeight);
     }
     

@@ -5,8 +5,10 @@ import cz.mg.toolkit.graphics.Color;
 import cz.mg.toolkit.graphics.Designer;
 import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.graphics.Decoration;
-import cz.mg.toolkit.shape.Shape;
-import cz.mg.toolkit.shape.shapes.RectangleShape;
+import cz.mg.toolkit.utilities.Shape;
+import cz.mg.toolkit.utilities.SizePolicy;
+import cz.mg.toolkit.utilities.shapes.RectangleShape;
+import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
 public class PropertiesInterface {
@@ -18,10 +20,6 @@ public class PropertiesInterface {
     private static final int MIN_HEIGHT = Properties.generateId();
     private static final int MAX_WIDTH = Properties.generateId();
     private static final int MAX_HEIGHT = Properties.generateId();
-    private static final int WRAP_MIN_WIDTH = Properties.generateId();
-    private static final int WRAP_MIN_HEIGHT = Properties.generateId();
-    private static final int WRAP_MAX_WIDTH = Properties.generateId();
-    private static final int WRAP_MAX_HEIGHT = Properties.generateId();
     private static final int HORIZONTAL_ALIGNMENT = Properties.generateId();
     private static final int VERTICAL_ALIGNMENT = Properties.generateId();
     private static final int HORIZONTAL_CONTENT_ALIGNMENT = Properties.generateId();
@@ -59,6 +57,8 @@ public class PropertiesInterface {
     private static final int DISABLED = Properties.generateId();
     private static final int HIGHLIGHTED = Properties.generateId();
     private static final int SHAPE = Properties.generateId();
+    private static final int HORIZONTAL_SIZE_POLICY = Properties.generateId();
+    private static final int VERTICAL_SIZE_POLICY = Properties.generateId();
     
     public static int getId(Component component){
         return (int) component.getProperties().get(ID, 0);
@@ -134,38 +134,6 @@ public class PropertiesInterface {
     public static void setMaxHeight(Component component, double maxHeight){
         if(maxHeight < 0.0) maxHeight = 0.0;
         component.getProperties().set(MAX_HEIGHT, maxHeight);
-    }
-    
-    public static boolean isWrapMinWidth(Component component){
-        return (boolean) component.getProperties().get(WRAP_MIN_WIDTH, true);
-    }
-    
-    public static void setWrapMinWidth(Component component, boolean wrapMinWidth){
-        component.getProperties().set(WRAP_MIN_WIDTH, wrapMinWidth);
-    }
-    
-    public static boolean isWrapMinHeight(Component component){
-        return (boolean) component.getProperties().get(WRAP_MIN_HEIGHT, true);
-    }
-    
-    public static void setWrapMinHeight(Component component, boolean wrapMinHeight){
-        component.getProperties().set(WRAP_MIN_HEIGHT, wrapMinHeight);
-    }
-    
-    public static boolean isWrapMaxWidth(Component component){
-        return (boolean) component.getProperties().get(WRAP_MAX_WIDTH, true);
-    }
-    
-    public static void setWrapMaxWidth(Component component, boolean wrapMaxWidth){
-        component.getProperties().set(WRAP_MAX_WIDTH, wrapMaxWidth);
-    }
-    
-    public static boolean isWrapMaxHeight(Component component){
-        return (boolean) component.getProperties().get(WRAP_MAX_HEIGHT, true);
-    }
-    
-    public static void setWrapMaxHeight(Component component, boolean wrapMaxHeight){
-        component.getProperties().set(WRAP_MAX_HEIGHT, wrapMaxHeight);
     }
     
     public static double getLeftPadding(Component component){
@@ -483,5 +451,22 @@ public class PropertiesInterface {
     
     public static final void setShape(Component component, Shape shape){
         component.getProperties().set(SHAPE, shape);
+    }
+    
+    private static final SizePolicy DEFAULT_SIZE_POLICY = new WrapContentSizePolicy();
+    public static final SizePolicy getHorizontalSizePolicy(Component component){
+        return (SizePolicy) component.getProperties().get(HORIZONTAL_SIZE_POLICY, DEFAULT_SIZE_POLICY);
+    }
+    
+    public static final void setHorizontalSizePolicy(Component component, SizePolicy sizePolicy){
+        component.getProperties().set(HORIZONTAL_SIZE_POLICY, sizePolicy);
+    }
+    
+    public static final SizePolicy getVerticalSizePolicy(Component component){
+        return (SizePolicy) component.getProperties().get(VERTICAL_SIZE_POLICY, DEFAULT_SIZE_POLICY);
+    }
+    
+    public static final void setVerticalSizePolicy(Component component, SizePolicy sizePolicy){
+        component.getProperties().set(VERTICAL_SIZE_POLICY, sizePolicy);
     }
 }

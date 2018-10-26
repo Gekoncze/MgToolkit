@@ -6,15 +6,12 @@ import cz.mg.toolkit.event.events.ActionEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.utilities.Selectable;
 import cz.mg.toolkit.utilities.Triggerable;
-import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
 public class CheckBox extends Button implements Selectable, Triggerable {
-    private static final int DEFAULT_SIZE = 16;
     private boolean selected = false;
     
     public CheckBox() {
-        setFixedSize(this, DEFAULT_SIZE, DEFAULT_SIZE);
         addEventListeners();
     }
 

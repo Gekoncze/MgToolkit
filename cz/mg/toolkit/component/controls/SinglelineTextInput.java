@@ -11,6 +11,8 @@ import cz.mg.toolkit.event.events.BeforeDrawEvent;
 import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
 
 
 public class SinglelineTextInput extends Panel {
@@ -25,13 +27,13 @@ public class SinglelineTextInput extends Panel {
 
     private void initComponent() {
         setLayout(new OverlayLayout());
-        setFillParentWidth(this);
+        setHorizontalSizePolicy(this, new FillParentSizePolicy());
         setUnlimitedHorizontalScroll(this, true);
     }
 
     private void initComponents() {
         textContent.setParent(this);
-        setWrapAndFillWidth(textContent);
+        setHorizontalSizePolicy(textContent, new WrapAndFillSizePolicy());
         textContent.setEditable(true);
     }
 

@@ -2,6 +2,7 @@ package cz.mg.toolkit.component.contents;
 
 import cz.mg.toolkit.component.DrawableContent;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 
 
 public class VerticalSeparator extends DrawableContent {
@@ -15,6 +16,6 @@ public class VerticalSeparator extends DrawableContent {
     private void initComponent() {
         setContentWidth(DEFAULT_WIDTH);
         setContentHeight(DEFAULT_HEIGHT);
-        setFillParentWidth(this);
+        setHorizontalSizePolicy(this, new FillParentSizePolicy());
     }
 }

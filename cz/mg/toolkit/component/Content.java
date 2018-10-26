@@ -4,16 +4,16 @@ package cz.mg.toolkit.component;
 public abstract class Content extends Component {
     private double contentWidth;
     private double contentHeight;
-    private boolean usePrefferedSize = false;
+    private boolean usePrefferedSize;
     
     public Content(){
-        this(0, 0);
         usePrefferedSize = true;
     }
     
     public Content(double contentWidth, double contentHeight) {
         this.contentWidth = contentWidth;
         this.contentHeight = contentHeight;
+        usePrefferedSize = false;
     }
     
     @Override

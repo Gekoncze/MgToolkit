@@ -12,6 +12,9 @@ import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
 import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
 public class HorizontalScrollBar extends DrawableContainer {
@@ -29,8 +32,8 @@ public class HorizontalScrollBar extends DrawableContainer {
     
     private void initComponent() {
         setLayout(new HorizontalLayout());
-        setWrapAndFillWidth(this);
-        setWrapContentHeight(this);
+        setHorizontalSizePolicy(this, new WrapAndFillSizePolicy());
+        setVerticalSizePolicy(this, new WrapContentSizePolicy());
     }
     
     private void initComponents() {
@@ -68,8 +71,7 @@ public class HorizontalScrollBar extends DrawableContainer {
         }
         
         private void initComponent(){
-            setFillParentWidth(this);
-            setFillParentHeight(this);
+            setSizePolicy(this, new FillParentSizePolicy());
         }
         
         private void addEventListeners(){

@@ -12,6 +12,9 @@ import cz.mg.toolkit.event.adapters.MouseMotionAdapter;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
 public class VerticalScrollBar extends DrawableContainer {
@@ -29,8 +32,8 @@ public class VerticalScrollBar extends DrawableContainer {
     
     private void initComponent(){
         setLayout(new VerticalLayout());
-        setWrapContentWidth(this);
-        setWrapAndFillHeight(this);
+        setHorizontalSizePolicy(this, new WrapContentSizePolicy());
+        setVerticalSizePolicy(this, new WrapAndFillSizePolicy());
     }
 
     private void initComponents() {
@@ -68,8 +71,7 @@ public class VerticalScrollBar extends DrawableContainer {
         }
         
         private void initComponent(){
-            setFillParentWidth(this);
-            setFillParentHeight(this);
+            setSizePolicy(this, new FillParentSizePolicy());
         }
         
         private void addEventListeners(){

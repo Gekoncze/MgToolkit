@@ -2,19 +2,17 @@ package cz.mg.toolkit.component.controls;
 
 import cz.mg.toolkit.component.DrawableContent;
 import cz.mg.toolkit.component.containers.Panel;
-import cz.mg.toolkit.component.controls.buttons.ExtendedContentButton;
+import cz.mg.toolkit.component.controls.buttons.ContentButton;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
 import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
 public abstract class Spinner<T> extends Panel {
-    private static final int DEFAULT_WIDTH = 96;
-    private static final int DEFAULT_BUTTON_WIDTH = 24;
-    private static final int DEFAULT_BUTTTON_HEIGHT = 12;
-    
     private final SinglelineTextInput text = new SinglelineTextInput();
     private final UpButton upButton = new UpButton();
     private final DownButton downButton = new DownButton();
@@ -40,23 +38,20 @@ public abstract class Spinner<T> extends Panel {
 
     private void initComponent() {
         setLayout(new HorizontalLayout());
-        setWrapContentHeight(this);
-        setFixedWidth(this, DEFAULT_WIDTH);
+        setHorizontalSizePolicy(this, new FillParentSizePolicy());
     }
 
     private void initComponents() {
         Panel buttonsPanel = new Panel();
         buttonsPanel.setLayout(new VerticalLayout());
-        setWrapContent(buttonsPanel);
+        setSizePolicy(buttonsPanel, new WrapContentSizePolicy());
         
         text.setParent(this);
         buttonsPanel.setParent(this);
         upButton.setParent(buttonsPanel);
         downButton.setParent(buttonsPanel);
         
-        setFillParent(text);
-        setFixedSize(upButton, DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTTON_HEIGHT);
-        setFixedSize(downButton, DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTTON_HEIGHT);
+        setSizePolicy(text, new FillParentSizePolicy());
     }
 
     private void addEventListeners() {
@@ -162,22 +157,28 @@ public abstract class Spinner<T> extends Panel {
         updateText();
     }
     
-    public static class UpButton extends ExtendedContentButton {
-        @Override
-        protected Content createContent() {
-            return new Content();
+    public static abstract class SpinnerButton extends ContentButton {
+        public SpinnerButton(Content content) {
+            super(content);
         }
         
         public static class Content extends DrawableContent {}
     }
     
-    public static class DownButton extends ExtendedContentButton {
-        @Override
-        protected Content createContent() {
-            return new Content();
+    public static class UpButton extends SpinnerButton {
+        public UpButton() {
+            super(new Content());
         }
         
-        public static class Content extends DrawableContent {}
+        public static class Content extends SpinnerButton.Content {}
+    }
+    
+    public static class DownButton extends SpinnerButton {
+        public DownButton() {
+            super(new Content());
+        }
+        
+        public static class Content extends SpinnerButton.Content {}
     }
     
     public static class ParseNumberException extends Exception {

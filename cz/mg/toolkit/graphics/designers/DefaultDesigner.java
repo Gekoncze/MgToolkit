@@ -21,6 +21,7 @@ import cz.mg.toolkit.component.controls.RadioButton;
 import cz.mg.toolkit.component.controls.SelectionList;
 import cz.mg.toolkit.component.controls.SingleSelectionList;
 import cz.mg.toolkit.component.controls.SinglelineTextInput;
+import cz.mg.toolkit.component.controls.Slider;
 import cz.mg.toolkit.component.controls.Spinner;
 import cz.mg.toolkit.component.controls.VerticalScrollBar;
 import cz.mg.toolkit.component.controls.VerticalSlider;
@@ -44,6 +45,8 @@ import cz.mg.toolkit.graphics.decorations.RectangleBorderDecoration;
 import cz.mg.toolkit.graphics.decorations.RectangleDecoration;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.DrawableComponent;
+import cz.mg.toolkit.utilities.SizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
 
 
 public class DefaultDesigner extends ContextDesigner {
@@ -70,32 +73,44 @@ public class DefaultDesigner extends ContextDesigner {
     private static final Decoration COMMON_BACKGROUND = new BackgroundColorDecoration(new RectangleDecoration());
     private static final Decoration COMMON_FOREGROUND = new ForegroundColorDecoration(new RectangleBorderDecoration());
     
-    private static final Font TITLE_FONT = new Font("default", 18, Font.Style.BOLD);
+    private static final Font TITLE_BAR_FONT = new Font("default", 18, Font.Style.BOLD);
     private static final Font MENU_ITEM_DESCRIPTION_FONT = new Font("default", 18, Font.Style.REGULAR);
     private static final Font MENU_ITEM_SHORTCUT_FONT = new Font("default", 18, Font.Style.ITALIC);
+    private static final Font TAB_AREA_FONT = new Font("default", 15, Font.Style.REGULAR);
+    
+    private static final double MENU_SPACING = 6;
+    private static final double MENU_PADDING = 6;
+    private static final double SPLIT_AREA_SPACING = 4;
+    private static final double TAB_AREA_HEADER_SPACING = 4;
+    private static final double TITLE_BAR_SPACING = 2;
     
     private static final double BUTTON_PADDING = 8;
     private static final double SCROLL_BUTTON_PADDING = 6;
     private static final double CLOSE_BUTTON_PADDING = 0;
-    private static final double MENU_SPACING = 6;
-    private static final double MENU_PADDING = 6;
     private static final double TEXT_INPUT_PADDING = 4;
     private static final double TAB_CLOSE_BUTTON_PADDING = 4;
-    private static final double TAB_AREA_HEADER_PADDING = 4;
-    private static final double TAB_AREA_HEADER_SPACING = 4;
-    private static final double SPLIT_AREA_SPACING = 4;
+    private static final double TAB_AREA_HEADER_PADDING = 5;
     private static final double TITLE_BAR_BUTTON_PADDING = 4;
-    private static final double TITLE_BAR_SPACING = 2;
     private static final double TITLE_BAR_PADDING = 2;
     private static final double CHECK_BOX_PADDING = 4;
     private static final double RADIO_BUTTON_PADDING = 4;
     private static final double SPINNER_BUTTON_PADDING = 4;
-    private static final double SLIDER_PADDING = 8;
     private static final double COMBO_BOX_TEXT_PADDING = 4;
     private static final double COMBO_BOX_MENU_PADDING = 4;
+    private static final double COMBO_BOX_BUTTON_PADDING = 6;
     private static final double SELECTION_LIST_ITEM_HORIZONTAL_PADDING = 4;
     private static final double SELECTION_LIST_ITEM_VERTICAL_PADDING = 2;
     private static final double SELECTION_LIST_VERTICAL_PADDING = 2;
+    
+    private static final double SCROLL_BUTTON_SIZE = 24;
+    private static final double COMBO_BOX_BUTTON_SIZE = 24;
+    private static final double CHECK_BOX_SIZE = 16;
+    private static final double RADIO_BUTTON_SIZE = 16;
+    private static final double SPINNER_BUTTON_WIDTH = 24;
+    private static final double SPINNER_BUTTON_HEIGHT = 12;
+    private static final double SLIDER_SIZE = 16;
+    private static final double TITLE_BAR_SIZE = 24;
+    private static final double TAB_AREA_HEADER_SIZE = 24;
     
     private static final Decoration LEFT_SCROLL_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
@@ -320,28 +335,26 @@ public class DefaultDesigner extends ContextDesigner {
     private static final Decoration HORIZONTAL_SLIDER_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
+            double ss = ((HorizontalSlider)component).getSliderSize();
             double w = component.getWidth();
             double h = component.getHeight();
-            double lp = getLeftPadding(component);
-            double rp = getRightPadding(component);
-            g.drawLine(lp, h/2, w-rp, h/2);
+            g.drawLine(ss/2, h/2, w-ss/2, h/2);
             
             double pos = ((HorizontalSlider)component).getSliderPosition();
-            g.drawOval(pos-lp, h/2-lp, lp*2, lp*2);
+            g.drawOval(pos-ss/2, h/2-ss/2, ss, ss);
         }
     });
     
     private static final Decoration VERTICAL_SLIDER_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
+            double ss = ((VerticalSlider)component).getSliderSize();
             double w = component.getWidth();
             double h = component.getHeight();
-            double tp = getTopPadding(component);
-            double bp = getBottomPadding(component);
-            g.drawLine(w/2, tp, w/2, h-bp);
+            g.drawLine(w/2, ss/2, w/2, h-ss/2);
             
             double pos = ((VerticalSlider)component).getSliderPosition();
-            g.drawOval(w/2-tp, pos-tp, tp*2, tp*2);
+            g.drawOval(w/2-ss/2, pos-ss/2, ss, ss);
         }
     });
     
@@ -599,6 +612,7 @@ public class DefaultDesigner extends ContextDesigner {
     protected void onDesign(Component component){
         setPadding(component, 0);
         setSpacing(component, 0);
+        
         if(component instanceof SinglelineTextContent) setContrastColor(component, CONTRAST_COLOR);
         if(component instanceof MultilineTextContent) setContrastColor(component, CONTRAST_COLOR);
         if(component instanceof DrawableComponent) setBackground(component, COMMON_BACKGROUND);
@@ -608,10 +622,13 @@ public class DefaultDesigner extends ContextDesigner {
         if(component instanceof Content) setForeground(component, null);
         if(component instanceof cz.mg.toolkit.component.wrappers.Decoration) setBackground(component, null);
         if(component instanceof cz.mg.toolkit.component.wrappers.Decoration) setForeground(component, null);
+        
         if(component instanceof StandardMenuItem.Description) setFont(component, MENU_ITEM_DESCRIPTION_FONT);
         if(component instanceof StandardMenuItem.Shortcut) setFont(component, MENU_ITEM_SHORTCUT_FONT);
+        if(component instanceof ToolkitDecoration.Title) setFont(component, TITLE_BAR_FONT);
+        if(component instanceof HorizontalTabArea.Text) setFont(component, TAB_AREA_FONT);
+        
         if(component instanceof ToolkitDecoration.TitleBar) setForeground(component, null);
-        if(component instanceof ToolkitDecoration.Title) setFont(component, TITLE_FONT);
         if(component instanceof HorizontalSeparator) setForeground(component, HORIZONTAL_SEPARATOR_FOREGROUND);
         if(component instanceof HorizontalSeparator) setBackground(component, null);
         if(component instanceof VerticalSeparator) setForeground(component, VERTICAL_SEPARATOR_FOREGROUND);
@@ -624,36 +641,13 @@ public class DefaultDesigner extends ContextDesigner {
         if(component instanceof ToolkitDecoration.MinimizeButton.Content) setForeground(component, MINIMIZE_BUTTON_CONTENT_FOREGROUND);
         if(component instanceof ToolkitDecoration.MaximizeButton.Content) setForeground(component, MAXIMIZE_BUTTON_CONTENT_FOREGROUND);
         if(component instanceof ToolkitDecoration.CloseButton.Content) setForeground(component, CLOSE_BUTTON_CONTENT_FOREGROUND);
-        if(component instanceof Button) setPadding(component, BUTTON_PADDING);
-        if(component instanceof ScrollButton) setPadding(component, SCROLL_BUTTON_PADDING);
-        if(component instanceof CloseButton) setPadding(component, CLOSE_BUTTON_PADDING);
-        if(component instanceof CheckBox) setPadding(component, CHECK_BOX_PADDING);
-        if(component instanceof CheckBox) setForeground(component, CHECK_BOX_FOREGROUND);
-        if(component instanceof RadioButton) setPadding(component, RADIO_BUTTON_PADDING);
         if(component instanceof RadioButton) setForeground(component, RADIO_BUTTON_FOREGROUND);
         if(component instanceof Spinner.UpButton.Content) setForeground(component, UP_SPINNER_BUTTON_CONTENT_FOREGROUND);
-        if(component instanceof Spinner.UpButton) setPadding(component, SPINNER_BUTTON_PADDING);
         if(component instanceof Spinner.DownButton.Content) setForeground(component, DOWN_SPINNER_BUTTON_CONTENT_FOREGROUND);
-        if(component instanceof Spinner.DownButton) setPadding(component, SPINNER_BUTTON_PADDING);
-        if(component instanceof Menu) setSpacing(component, MENU_SPACING);
-        if(component instanceof Menu) setPadding(component, MENU_PADDING);
-        if(component instanceof SinglelineTextInput.TextContent) setPadding(component, TEXT_INPUT_PADDING);
-        if(component instanceof MultilineTextInput.TextContent) setPadding(component, TEXT_INPUT_PADDING);
-        if(component instanceof HorizontalTabArea.CloseButton) setPadding(component, TAB_CLOSE_BUTTON_PADDING);
-        if(component instanceof HorizontalTabArea) setPadding(component, TAB_AREA_HEADER_PADDING);
-        if(component instanceof HorizontalTabArea.Tab.HorizontalTabHeader) setHorizontalSpacing(component, TAB_AREA_HEADER_SPACING);
-        if(component instanceof SplitArea) setSpacing(component, SPLIT_AREA_SPACING);
-        if(component instanceof ToolkitDecoration.TitlebarButton) setPadding(component, TITLE_BAR_BUTTON_PADDING); 
-        if(component instanceof ToolkitDecoration.TitleBar) setPadding(component, TITLE_BAR_PADDING); 
-        if(component instanceof ToolkitDecoration.TitleBar) setHorizontalSpacing(component, TITLE_BAR_SPACING);
         if(component instanceof HorizontalScrollBar.DraggableBar) setForeground(component, HORIZONTAL_SCROLL_BAR_FOREGROUND);
         if(component instanceof VerticalScrollBar.DraggableBar) setForeground(component, VERTICAL_SCROLL_BAR_FOREGROUND);
         if(component instanceof HorizontalSlider) setForeground(component, HORIZONTAL_SLIDER_FOREGROUND);
-        if(component instanceof HorizontalSlider) setPadding(component, SLIDER_PADDING);
         if(component instanceof VerticalSlider) setForeground(component, VERTICAL_SLIDER_FOREGROUND);
-        if(component instanceof VerticalSlider) setPadding(component, SLIDER_PADDING);
-        if(component instanceof ComboBox.Text) setPadding(component, COMBO_BOX_TEXT_PADDING);
-        if(component instanceof ComboBox.Menu) setPadding(component, COMBO_BOX_MENU_PADDING);
         if(component instanceof ComboBox.OpenButton.Content) setForeground(component, COMBO_BOX_BUTTON_CONTENT_FOREGROUND);
         if(component instanceof ContentPanel && component.getParent() instanceof SplitArea) setForeground(component, COMMON_FOREGROUND);
         if(component instanceof SinglelineTextContent) setBackground(component, SINGLELINE_TEXT_CONTENT_BACKGROUND);
@@ -668,9 +662,51 @@ public class DefaultDesigner extends ContextDesigner {
         if(component instanceof SingleSelectionList.ListItem) setForeground(component, SELECTION_LIST_ITEM_FOREGROUND);
         if(component instanceof SelectionList.ListItem) setBackground(component, SELECTION_LIST_ITEM_BACKGROUND);
         if(component instanceof SelectionList.ListItem) setForeground(component, SELECTION_LIST_ITEM_FOREGROUND);
+        
+        if(component instanceof Button) setPadding(component, BUTTON_PADDING);
+        if(component instanceof ScrollButton) setPadding(component, SCROLL_BUTTON_PADDING);
+        if(component instanceof CloseButton) setPadding(component, CLOSE_BUTTON_PADDING);
+        if(component instanceof CheckBox) setPadding(component, CHECK_BOX_PADDING);
+        if(component instanceof CheckBox) setForeground(component, CHECK_BOX_FOREGROUND);
+        if(component instanceof RadioButton) setPadding(component, RADIO_BUTTON_PADDING);
+        if(component instanceof Spinner.SpinnerButton) setPadding(component, SPINNER_BUTTON_PADDING);
+        if(component instanceof Menu) setSpacing(component, MENU_SPACING);
+        if(component instanceof Menu) setPadding(component, MENU_PADDING);
+        if(component instanceof SinglelineTextInput.TextContent) setPadding(component, TEXT_INPUT_PADDING);
+        if(component instanceof MultilineTextInput.TextContent) setPadding(component, TEXT_INPUT_PADDING);
+        if(component instanceof HorizontalTabArea.CloseButton) setPadding(component, TAB_CLOSE_BUTTON_PADDING);
+        if(component instanceof SplitArea) setSpacing(component, SPLIT_AREA_SPACING);
+        if(component instanceof ToolkitDecoration.TitlebarButton) setPadding(component, TITLE_BAR_BUTTON_PADDING); 
+        if(component instanceof ToolkitDecoration.TitleBar) setPadding(component, TITLE_BAR_PADDING); 
+        if(component instanceof ToolkitDecoration.TitleBar) setHorizontalSpacing(component, TITLE_BAR_SPACING);
+        if(component instanceof ComboBox.Text) setPadding(component, COMBO_BOX_TEXT_PADDING);
+        if(component instanceof ComboBox.Menu) setPadding(component, COMBO_BOX_MENU_PADDING);
+        if(component instanceof ComboBox.OpenButton.Content) setPadding(component, COMBO_BOX_BUTTON_PADDING);
         if(component instanceof SelectionList.ListItem) setHorizontalPadding(component, SELECTION_LIST_ITEM_HORIZONTAL_PADDING);
         if(component instanceof SelectionList.ListItem) setVerticalPadding(component, SELECTION_LIST_ITEM_VERTICAL_PADDING);
         if(component instanceof SelectionList) setVerticalPadding(component, SELECTION_LIST_VERTICAL_PADDING);
+        if(component instanceof HorizontalTabArea.Tab.TabHeader) setPadding(component, TAB_AREA_HEADER_PADDING);
+        if(component instanceof HorizontalTabArea.Tab.TabHeader) setHorizontalSpacing(component, TAB_AREA_HEADER_SPACING);
+        
+        if(component instanceof CheckBox) setFixedSize(component, CHECK_BOX_SIZE);
+        if(component instanceof RadioButton) setFixedSize(component, RADIO_BUTTON_SIZE);
+        if(component instanceof ScrollButton) setFixedSize(component, SCROLL_BUTTON_SIZE);
+        if(component instanceof ComboBox.OpenButton) setFixedSize(component, COMBO_BOX_BUTTON_SIZE);
+        if(component instanceof Spinner.SpinnerButton) setFixedSize(component, SPINNER_BUTTON_WIDTH, SPINNER_BUTTON_HEIGHT);
+        if(component instanceof Slider) setFixedSize(component, SLIDER_SIZE);
+        if(component instanceof ToolkitDecoration.TitleBar) setFixedSize(component, TITLE_BAR_SIZE);
+        if(component instanceof HorizontalTabArea.Tab.TabHeader) setFixedSize(component, TAB_AREA_HEADER_SIZE);
+    }
+    
+    private void setFixedSize(Component conponent, double size){
+        setFixedSize(conponent, size, size);
+    }
+    
+    private void setFixedSize(Component component, double width, double height){
+        SizePolicy h = getHorizontalSizePolicy(component);
+        SizePolicy v = getVerticalSizePolicy(component);
+        if(h instanceof FixedSizePolicy) ((FixedSizePolicy) h).setWidth(width);
+        if(v instanceof FixedSizePolicy) ((FixedSizePolicy) v).setHeight(height);
     }
     
     protected void onDefaultDesign(Component component){

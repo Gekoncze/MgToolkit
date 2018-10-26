@@ -9,13 +9,14 @@ import java.io.InputStream;
 
 public class BitmapImage implements Image {
     private final ImplImage implImage;
+    private double width, height;
     
     public BitmapImage(InputStream stream) throws IOException {
         this.implImage = new SwingImplImage(stream);
     }
 
-    public BitmapImage(int width, int height) {
-        this.implImage = new SwingImplImage(width, height);
+    public BitmapImage(int horizontalResolution, int verticalResolution) {
+        this.implImage = new SwingImplImage(horizontalResolution, verticalResolution);
     }
 
     public ImplImage getImplImage() {
@@ -28,5 +29,23 @@ public class BitmapImage implements Image {
     
     public final int getVerticalResolution(){
         return implImage.getVerticalResolution();
+    }
+
+    @Override
+    public double getWidth() {
+        return width;
+    }
+
+    @Override
+    public double getHeight() {
+        return height;
+    }
+
+    public final void setWidth(double width) {
+        this.width = width;
+    }
+
+    public final void setHeight(double height) {
+        this.height = height;
     }
 }
