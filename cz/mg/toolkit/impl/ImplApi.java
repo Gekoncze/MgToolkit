@@ -21,6 +21,8 @@ public interface ImplApi {
     public ImplImage createImage(int horizontalResolution, int verticalResolution);
     public ImplTimer createTimer(int delay, EventObserver eventObserver);
     public ImplWindow createWindow();
+    public ImplDialog createDialog(ImplWindow parent);
+    public ImplDialog createDialog(ImplDialog parent);
     public Display getPrimaryDisplay();
     public Keyboard getPrimaryKeyboard();
     public Mouse getPrimaryMouse();

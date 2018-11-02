@@ -5,7 +5,6 @@ import cz.mg.toolkit.component.wrappers.Decoration;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.event.adapters.BeforeLayoutAdapter;
 import cz.mg.toolkit.event.events.BeforeLayoutEvent;
-import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.impl.ImplWindow;
@@ -30,22 +29,6 @@ public class SystemDecoration extends Decoration {
                 setBottomPadding(SystemDecoration.this, nativeWindow.getBottomInsets());
             }
         });
-    }
-
-    @Override
-    public void setTitle(String title) {
-        Window window = getWindow();
-        if(window == null) return;
-        ImplWindow nativeWindow = window.getImplWindow();
-        nativeWindow.setTitle(title);
-    }
-
-    @Override
-    public void setIcon(BitmapImage icon) {
-        Window window = getWindow();
-        if(window == null) return;
-        ImplWindow nativeWindow = window.getImplWindow();
-        nativeWindow.setIcon(icon);
     }
     
     private Window getWindow(){

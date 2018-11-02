@@ -33,11 +33,11 @@ public abstract class KeyboardButtonAdapter implements EventListener<KeyboardBut
     }
     
     public final boolean isButtonPressed(KeyboardButtonEvent e){
-        return e.getKeyboard().isButtonPressed(e.getButton());
+        return e.getKeyboard().isButtonPressed(e.getPhysicalButton());
     }
     
     public final boolean isButtonReleased(KeyboardButtonEvent e){
-        return e.getKeyboard().isButtonReleased(e.getButton());
+        return e.getKeyboard().isButtonReleased(e.getPhysicalButton());
     }
     
     public final boolean isCtrlPressed(){

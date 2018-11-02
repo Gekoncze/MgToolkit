@@ -138,23 +138,27 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
                     paste("" + e.getCh());
                     relayout();
                 } else {
-                    if(e.getButton() == Keyboard.LEFT_BUTTON){
+                    if(e.getLogicalButton() == Keyboard.Button.LEFT){
                         setCaret(caret - 1);
                         if(!isShiftPressed()) setSelectionCaret(caret);
                         relayout();
-                    } else if(e.getButton() == Keyboard.RIGHT_BUTTON){
+                    } else if(e.getLogicalButton() == Keyboard.Button.RIGHT){
                         setCaret(caret + 1);
                         if(!isShiftPressed()) setSelectionCaret(caret);
                         relayout();
-                    } else if(e.getButton() == Keyboard.BACKSPACE_BUTTON){
+                    } else if(e.getLogicalButton() == Keyboard.Button.BACKSPACE){
                         if(selectionCaret == caret) setSelectionCaret(caret - 1);
                         delete();
                         relayout();
-                    } else if(e.getButton() == Keyboard.DELETE_BUTTON){
+                    } else if(e.getLogicalButton() == Keyboard.Button.DELETE){
                         if(selectionCaret == caret) setSelectionCaret(caret + 1);
                         delete();
                         relayout();
-                    } else if(e.getButton() == Keyboard.ESC_BUTTON || e.getButton() == Keyboard.ENTER_BUTTON || e.getButton() == Keyboard.NUM_ENTER_BUTTON){
+                    } else if(
+                            e.getLogicalButton() == Keyboard.Button.ESC ||
+                            e.getLogicalButton() == Keyboard.Button.ENTER ||
+                            e.getLogicalButton() == Keyboard.Button.NUM_ENTER
+                    ){
                         done();
                     }
                 }

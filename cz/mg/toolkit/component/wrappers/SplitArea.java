@@ -6,6 +6,7 @@ import cz.mg.toolkit.component.containers.ContentPanel;
 import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.environment.cursors.ArrowCursor;
 import cz.mg.toolkit.environment.cursors.MoveCursor;
+import cz.mg.toolkit.environment.device.devices.Mouse;
 import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.adapters.MouseButtonAdapter;
@@ -14,6 +15,7 @@ import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
 import cz.mg.toolkit.utilities.ComponentFactory;
 import cz.mg.toolkit.graphics.Graphics;
+import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.layout.layouts.GridLayout;
 import cz.mg.toolkit.layout.layouts.GridLayout.Column;
 import cz.mg.toolkit.layout.layouts.GridLayout.Row;
@@ -127,9 +129,11 @@ public class SplitArea extends Panel {
                         }
                     }
                     if((c1 != null && c2 != null) || (r1 != null && r2 != null)){
-                        getToplevelComponent().setCursor(new MoveCursor());
+                        Mouse mouse = Impl.getImplApi().getPrimaryMouse();
+                        mouse.setCursor(MoveCursor.INSTANCE);
                     } else {
-                        getToplevelComponent().setCursor(new ArrowCursor());
+                        Mouse mouse = Impl.getImplApi().getPrimaryMouse();
+                        mouse.setCursor(ArrowCursor.INSTANCE);
                     }
                 } else if((c1 != null && c2 != null) || (r1 != null && r2 != null)) redraw();
             }

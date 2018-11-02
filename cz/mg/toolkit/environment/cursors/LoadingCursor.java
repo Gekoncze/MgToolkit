@@ -5,6 +5,8 @@ import cz.mg.toolkit.impl.ImplCursor;
 
 
 public class LoadingCursor extends Cursor {
+    public static final LoadingCursor INSTANCE = new LoadingCursor();
+    
     public LoadingCursor() {
         super(ImplCursor.NativeCursor.LOADING);
     }

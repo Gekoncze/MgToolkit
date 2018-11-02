@@ -1,0 +1,15 @@
+
+//    private void printAllActiveThreads(){
+//        System.out.println("\n");
+//        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+//        for(Thread t : threadSet) System.out.println("T: " + t);
+//        System.out.println("\n");
+//    }
+//
+//    private void printAllWindowState(){
+//        System.out.println("\n");
+//        for(java.awt.Window window : java.awt.Window.getWindows()){
+//            System.out.println("" + window.isDisplayable());
+//        }
+//        System.out.println("\n");
+//    }

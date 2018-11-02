@@ -11,13 +11,14 @@ import cz.mg.toolkit.component.contents.ImageContent;
 import cz.mg.toolkit.component.contents.SinglelineTextContent;
 import cz.mg.toolkit.component.controls.buttons.ContentButton;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
+import cz.mg.toolkit.event.adapters.BeforeLayoutAdapter;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.adapters.MouseButtonAdapter;
 import cz.mg.toolkit.event.adapters.MouseMotionAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
+import cz.mg.toolkit.event.events.BeforeLayoutEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
-import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
@@ -41,17 +42,6 @@ public class ToolkitDecoration extends Decoration {
     private void initComponents(){
         getChildren().addFirst(titleBar);
     }
-
-    @Override
-    public void setIcon(BitmapImage icon) {
-       titleBar.icon.setImage(icon);
-    }
-    
-    @Override
-    public void setTitle(String title) {
-        titleBar.title.setText(title);
-    }
-    
     
     public static class TitleBar extends Panel {
         private final Icon icon = new Icon();
@@ -89,6 +79,15 @@ public class ToolkitDecoration extends Decoration {
         }
         
         private void addEventListeners(){
+            getEventListeners().addLast(new BeforeLayoutAdapter() {
+                @Override
+                public void onEventEnter(BeforeLayoutEvent e) {
+                    Window window = getWindow();
+                    if(window == null) return;
+                    icon.setImage(window.getIcon());
+                    title.setText(window.getTitle());
+                }
+            });
             getEventListeners().addLast(new LocalMouseButtonAdapter() {
                 @Override
                 public void onMouseButtonEventLeave(MouseButtonEvent e) {

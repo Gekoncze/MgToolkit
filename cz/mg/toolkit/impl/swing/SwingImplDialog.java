@@ -11,29 +11,29 @@ import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
 import cz.mg.toolkit.event.events.MouseWheelEvent;
-import java.awt.Frame;
-import javax.swing.JFrame;
 import cz.mg.toolkit.event.EventObserver;
 import cz.mg.toolkit.event.events.DisplayResolutionEvent;
 import cz.mg.toolkit.event.events.WindowCloseEvent;
 import cz.mg.toolkit.event.events.WindowStateEvent;
 import cz.mg.toolkit.graphics.images.BitmapImage;
+import cz.mg.toolkit.impl.ImplDialog;
+import cz.mg.toolkit.impl.synchronization.OneWaySynchronization;
+import cz.mg.toolkit.impl.synchronization.Synchronization;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
-import cz.mg.toolkit.impl.ImplWindow;
-import cz.mg.toolkit.impl.synchronization.OneWaySynchronization;
-import cz.mg.toolkit.impl.synchronization.Synchronization;
+import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
+import javax.swing.JDialog;
 import javax.swing.Timer;
 
 
-public class SwingImplWindow implements EventObserver, ImplWindow {
+public class SwingImplDialog implements EventObserver, ImplDialog {
     private final SwingImplApi api;
     
-    JFrame jframe;
+    JDialog jdialog;
     private Window window;
     
     private boolean relayout = true;
@@ -57,13 +57,18 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
         }
     });
 
-    public SwingImplWindow(SwingImplApi api) {
+    public SwingImplDialog(SwingImplApi api, SwingImplWindow window) {
         this.api = api;
-        initNativeComponents();
+        initNativeComponents(window.jframe);
     }
     
-    private void initNativeComponents(){
-        jframe = new JFrame(){
+    public SwingImplDialog(SwingImplApi api, SwingImplDialog dialog) {
+        this.api = api;
+        initNativeComponents(dialog.jdialog);
+    }
+    
+    private void initNativeComponents(java.awt.Window parent){
+        jdialog = new JDialog(parent, Dialog.ModalityType.APPLICATION_MODAL){
             @Override
             public void paint(java.awt.Graphics g) {
                 synchronizeWindow();
@@ -71,13 +76,13 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
                 window.sendEvent(new BeforeDrawEvent(relayout));
                 relayout = false;
                 if(!window.isRelayoutNeeded()) sendEvent(addGraphicsContext(new DrawEvent()));
-                g.drawImage(api.SWING_DISPLAY_INSTANCE.getGraphicsBuffer(), -getX(), -getY(), jframe);
+                g.drawImage(api.SWING_DISPLAY_INSTANCE.getGraphicsBuffer(), -getX(), -getY(), jdialog);
             }
         };
         
-        jframe.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        jdialog.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         
-        jframe.addComponentListener(new java.awt.event.ComponentAdapter() {
+        jdialog.addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
             public void componentResized(java.awt.event.ComponentEvent e) {
                 relayout();
@@ -99,7 +104,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
             }
         });
         
-        jframe.addMouseListener(new java.awt.event.MouseListener() {
+        jdialog.addMouseListener(new java.awt.event.MouseListener() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
             }
@@ -127,7 +132,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
             }
         });
         
-        jframe.addMouseMotionListener(new java.awt.event.MouseMotionListener() {
+        jdialog.addMouseMotionListener(new java.awt.event.MouseMotionListener() {
             @Override
             public void mouseDragged(java.awt.event.MouseEvent e) {
                 double mx = th(e.getXOnScreen());
@@ -152,7 +157,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
             }
         });
         
-        jframe.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+        jdialog.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
             @Override
             public void mouseWheelMoved(java.awt.event.MouseWheelEvent e) {
                 MouseWheelEvent.Direction direction = e.getWheelRotation() > 0 ? MouseWheelEvent.Direction.DOWN : MouseWheelEvent.Direction.UP;
@@ -160,7 +165,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
             }
         });
         
-        jframe.addKeyListener(new java.awt.event.KeyListener() {
+        jdialog.addKeyListener(new java.awt.event.KeyListener() {
             @Override
             public void keyTyped(java.awt.event.KeyEvent e) {
             }
@@ -190,7 +195,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
             }
         });
         
-        jframe.addWindowListener(new WindowAdapter() {
+        jdialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 sendEvent(new WindowCloseEvent(window));
@@ -219,16 +224,16 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
             }
         });
         
-        jframe.addWindowStateListener(new WindowStateListener() {
+        jdialog.addWindowStateListener(new WindowStateListener() {
             @Override
             public void windowStateChanged(WindowEvent e) {
                 sendEvent(new WindowStateEvent(window));
             }
         });
         
-        jframe.setSize(1, 1); // bug fix
+        jdialog.setSize(1, 1); // bug fix
         
-        jframe.setFocusTraversalKeysEnabled(false);
+        jdialog.setFocusTraversalKeysEnabled(false);
     }
     
     private void onWindowShown(){
@@ -255,7 +260,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     private int trv(double value){
         return (int) Math.round(api.DISPLAY_INSTANCE.millimetersToPixelsV(value));
     }
-    
+
     @Override
     public final void sendEvent(Event e) {
         if(window != null) window.sendEvent(e);
@@ -283,104 +288,66 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     
     @Override
     public final boolean isDecorated(){
-        return !jframe.isUndecorated();
+        return !jdialog.isUndecorated();
     }
     
     @Override
     public final void setDecorated(boolean value){
-        if(jframe.isUndecorated() == !value) return;
-        boolean wasVisible = jframe.isVisible();
-        if(wasVisible) jframe.dispose();
-        jframe.setUndecorated(!value);
-        if(wasVisible) jframe.setVisible(true);
+        if(jdialog.isUndecorated() == !value) return;
+        boolean wasVisible = jdialog.isVisible();
+        if(wasVisible) jdialog.dispose();
+        jdialog.setUndecorated(!value);
+        if(wasVisible) jdialog.setVisible(true);
     }
     
     @Override
     public final double getLeftInsets(){
-        return th(jframe.getInsets().left);
+        return th(jdialog.getInsets().left);
     }
     
     @Override
     public final double getRightInsets(){
-        return th(jframe.getInsets().right);
+        return th(jdialog.getInsets().right);
     }
     
     @Override
     public final double getTopInsets(){
-        return tv(jframe.getInsets().top);
+        return tv(jdialog.getInsets().top);
     }
     
     @Override
     public final double getBottomInsets(){
-        return tv(jframe.getInsets().bottom);
-    }
-    
-    @Override
-    public final boolean isMinimized() {
-        return (jframe.getExtendedState() & Frame.ICONIFIED) != 0;
-    }
-
-    @Override
-    public final void setMinimized(boolean value) {
-        if(value){
-            jframe.setExtendedState(jframe.getExtendedState() | Frame.ICONIFIED);
-        } else {
-            jframe.setExtendedState(jframe.getExtendedState() & (~Frame.ICONIFIED));
-        }
-    }
-
-    @Override
-    public final boolean isMaximized() {
-        return (jframe.getExtendedState() & Frame.MAXIMIZED_BOTH) != 0;
-    }
-    
-    @Override
-    public final void setMaximized(boolean value) {
-        if(value){
-            jframe.setExtendedState(jframe.getExtendedState() | Frame.MAXIMIZED_BOTH);
-        } else {
-            jframe.setExtendedState(jframe.getExtendedState() & (~Frame.MAXIMIZED_BOTH));
-        }
-    }
-
-    @Override
-    public final boolean isActivated() {
-        return jframe.isActive();
-    }
-
-    @Override
-    public final void setActivated(boolean value) {
-        throw new UnsupportedOperationException();
+        return tv(jdialog.getInsets().bottom);
     }
 
     @Override
     public final boolean isResizable() {
-        return jframe.isResizable();
+        return jdialog.isResizable();
     }
 
     @Override
     public final void setResizable(boolean value) {
-        jframe.setResizable(value);
+        jdialog.setResizable(value);
     }
     
     @Override
     public final void open(){
-        jframe.setVisible(true);
+        jdialog.setVisible(true);
     }
     
     @Override
     public final void close(){
-        jframe.dispose();
+        jdialog.dispose();
     }
     
     @Override
     public final void redraw(){
-        jframe.repaint();
+        jdialog.repaint();
     }
     
     private void relayout(){
         relayout = true;
-        jframe.repaint();
+        jdialog.repaint();
     }
     
     private void synchronizeWindow(){
@@ -390,14 +357,14 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     }
     
     private void synchronizeWindowPosition(){
-        boolean minimizedOrMaximized = isMinimized() || isMaximized();
+        boolean minimizedOrMaximized = false;
         
         double currentWindowX = window.getX();
         double currentWindowY = window.getY();
         boolean internalChange = currentWindowX != lastWindowX || currentWindowY != lastWindowY;
         
-        int currentX = jframe.getX();
-        int currentY = jframe.getY();
+        int currentX = jdialog.getX();
+        int currentY = jdialog.getY();
         boolean externalChange = currentX != lastX || currentY != lastY;
         if(ignoreExternalChange) externalChange = false;
         
@@ -410,36 +377,36 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
             window.setY(tv(currentY));
             redraw();
         } else if(internalChange){
-            jframe.setLocation(expectedX, expectedY);
+            jdialog.setLocation(expectedX, expectedY);
             redraw();
         } else if(externalChange){
             window.setX(th(currentX));
             window.setY(tv(currentY));
             redraw();
         } else if(mismatch){
-            jframe.setLocation(expectedX, expectedY);
+            jdialog.setLocation(expectedX, expectedY);
             redraw();
         }
         
         lastWindowX = window.getX();
         lastWindowY = window.getY();
-        lastX = jframe.getX();
-        lastY = jframe.getY();
+        lastX = jdialog.getX();
+        lastY = jdialog.getY();
     }
     
     private void synchronizeWindowSize(){
         double currentWindowWidth = window.getWidth();
         double currentWindowHeight = window.getHeight();
         
-        int currentWidth = jframe.getWidth();
-        int currentHeight = jframe.getHeight();
+        int currentWidth = jdialog.getWidth();
+        int currentHeight = jdialog.getHeight();
         
         int expectedWidth = trh(window.getWidth());
         int expectedHeight = trv(window.getHeight());
         
         boolean mismatch = expectedWidth != currentWidth || expectedHeight != currentHeight;
         if(mismatch) {
-            boolean minimizedOrMaximized = isMinimized() || isMaximized();
+            boolean minimizedOrMaximized = false;
             if(minimizedOrMaximized){
                 window.setWidth(th(currentWidth));
                 window.setHeight(tv(currentHeight));
@@ -449,14 +416,14 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
                 boolean externalChange = currentWidth != lastWidth || currentHeight != lastHeight;
                 if(ignoreExternalChange) externalChange = false;
                 if(internalChange){
-                    jframe.setSize(expectedWidth, expectedHeight);
+                    jdialog.setSize(expectedWidth, expectedHeight);
                     relayout();
                 } else if(externalChange){
                     window.setWidth(th(currentWidth));
                     window.setHeight(tv(currentHeight));
                     relayout();
                 } else {
-                    jframe.setSize(expectedWidth, expectedHeight);
+                    jdialog.setSize(expectedWidth, expectedHeight);
                     relayout();
                 }
             }
@@ -464,9 +431,10 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
         
         lastWindowWidth = window.getWidth();
         lastWindowHeight = window.getHeight();
-        lastWidth = jframe.getWidth();
-        lastHeight = jframe.getHeight();
+        lastWidth = jdialog.getWidth();
+        lastHeight = jdialog.getHeight();
     }
+    
     
     private void synchronizeWindowOther(){
         iconSynchronization.updateValue();
@@ -482,8 +450,8 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
 
         @Override
         public void setImplValue(BitmapImage value) {
-            if(value == null) jframe.setIconImage(null);
-            else jframe.setIconImage(((SwingImplImage)value.getImplImage()).swingImage);
+            if(value == null) jdialog.setIconImage(null);
+            else jdialog.setIconImage(((SwingImplImage)value.getImplImage()).swingImage);
         }
     };
     
@@ -496,7 +464,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
 
         @Override
         public void setImplValue(String value) {
-            jframe.setTitle(value);
+            jdialog.setTitle(value);
         }
     };
     
@@ -508,8 +476,8 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
 
         @Override
         public void setImplValue(Cursor value) {
-            if(value == null) jframe.setCursor(null);
-            else jframe.setCursor(((SwingImplCursor)value.getImplCursor()).swingCursor);
+            if(value == null) jdialog.setCursor(null);
+            else jdialog.setCursor(((SwingImplCursor)value.getImplCursor()).swingCursor);
         }
     };
 }

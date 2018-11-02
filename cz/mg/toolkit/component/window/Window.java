@@ -238,8 +238,6 @@ public class Window extends Wrapper implements ToplevelComponent {
         decoration.setParent(this);
         getContentPanel().setParent(decoration.getContentPanel());
         implWindow.setDecorated(decoration instanceof SystemDecoration);
-        decoration.setIcon(icon);
-        decoration.setTitle(title);
     }
     
     public final void open(){
@@ -262,7 +260,6 @@ public class Window extends Wrapper implements ToplevelComponent {
 
     public final void setTitle(String title) {
         this.title = title;
-        decoration.setTitle(title);
     }
 
     public final BitmapImage getIcon() {
@@ -271,16 +268,6 @@ public class Window extends Wrapper implements ToplevelComponent {
 
     public final void setIcon(BitmapImage icon) {
         this.icon = icon;
-        decoration.setIcon(icon);
-    }
-
-    public final Cursor getCursor() {
-        return cursor;
-    }
-
-    public final void setCursor(Cursor cursor) {
-        this.cursor = cursor;
-        implWindow.setCursor(cursorVisible ? cursor : BLANK_CURSOR);
     }
     
     public final boolean isCursorVisible(){
@@ -289,7 +276,6 @@ public class Window extends Wrapper implements ToplevelComponent {
     
     public final void setCursorVisible(boolean value){
         this.cursorVisible = value;
-        implWindow.setCursor(cursorVisible ? cursor : BLANK_CURSOR);
     }
 
     public boolean isRelayoutNeeded() {

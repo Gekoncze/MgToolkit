@@ -38,15 +38,15 @@ public abstract class MouseMotionAdapter implements EventListener<MouseMotionEve
     }
     
     public final boolean isLeftButtonPressed(MouseMotionEvent e){
-        return e.getMouse().isButtonPressed(Mouse.LEFT_BUTTON);
+        return e.getMouse().isButtonPressed(Mouse.Button.LEFT);
     }
     
     public final boolean isMiddleButtonPressed(MouseMotionEvent e){
-        return e.getMouse().isButtonPressed(Mouse.MIDDLE_BUTTON);
+        return e.getMouse().isButtonPressed(Mouse.Button.MIDDLE);
     }
 
     public final boolean isRightButtonPressed(MouseMotionEvent e){
-        return e.getMouse().isButtonPressed(Mouse.RIGHT_BUTTON);
+        return e.getMouse().isButtonPressed(Mouse.Button.RIGHT);
     }
     
     public final double getX(MouseMotionEvent e){

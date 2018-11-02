@@ -1,5 +1,6 @@
 package cz.mg.toolkit.environment.device.devices;
 
+import cz.mg.toolkit.impl.ImplKeyboard;
 import java.util.HashMap;
 
 
@@ -7,76 +8,52 @@ public final class Keyboard {
     private static final int DEFAULT_ESTIMATED_AVERAGE_BUTTON_COUNT = 100;
     private static final int DEFAULT_ESTIMATED_AVERAGE_CHARACTER_COUNT = 100;
     
+    private final ImplKeyboard implKeyboard;
     private HashMap<Integer,State> buttonStates;
     private HashMap<Character,State> characterStates;
-    
-    public static final HashMap<Integer,String> BUTTON_LABELS = new HashMap<>(DEFAULT_ESTIMATED_AVERAGE_BUTTON_COUNT);
-    
-    public static int CTRL_LEFT_BUTTON = -1;
-    public static int CTRL_RIGHT_BUTTON = -1;
-    public static int ALT_LEFT_BUTTON = -1;
-    public static int ALT_RIGHT_BUTTON = -1;
-    public static int SHIFT_LEFT_BUTTON = -1;
-    public static int SHIFT_RIGHT_BUTTON = -1;
-    
-    public static int ESC_BUTTON = -1;
-    
-    public static int F1_BUTTON = -1;
-    public static int F2_BUTTON = -1;
-    public static int F3_BUTTON = -1;
-    public static int F4_BUTTON = -1;
-    public static int F5_BUTTON = -1;
-    public static int F6_BUTTON = -1;
-    public static int F7_BUTTON = -1;
-    public static int F8_BUTTON = -1;
-    public static int F9_BUTTON = -1;
-    public static int F10_BUTTON = -1;
-    public static int F11_BUTTON = -1;
-    public static int F12_BUTTON = -1;
-    
-    public static int PRINT_SCREEN_BUTTON = -1;
-    public static int PAUSE_BUTTON = -1;
-    
-    public static int INSERT_BUTTON = -1;
-    public static int DELETE_BUTTON = -1;
-    public static int HOME_BUTTON = -1;
-    public static int END_BUTTON = -1;
-    public static int PAGE_UP_BUTTON = -1;
-    public static int PAGE_DOWN_BUTTON = -1;
-    
-    public static int CAPS_LOCK_BUTTON = -1;
-    public static int NUM_LOCK_BUTTON = -1;
-    public static int SCROLL_LOCK_BUTTON = -1;
-    
-    public static int ENTER_BUTTON = -1;
-    public static int BACKSPACE_BUTTON = -1;
-    public static int TAB_BUTTON = -1;
-    public static int SPACE_BUTTON = -1;
-    
-    public static int LEFT_BUTTON = -1;
-    public static int RIGHT_BUTTON = -1;
-    public static int UP_BUTTON = -1;
-    public static int DOWN_BUTTON = -1;
-    
-    public static int NUM_0_BUTTON = -1;
-    public static int NUM_1_BUTTON = -1;
-    public static int NUM_2_BUTTON = -1;
-    public static int NUM_3_BUTTON = -1;
-    public static int NUM_4_BUTTON = -1;
-    public static int NUM_5_BUTTON = -1;
-    public static int NUM_6_BUTTON = -1;
-    public static int NUM_7_BUTTON = -1;
-    public static int NUM_8_BUTTON = -1;
-    public static int NUM_9_BUTTON = -1;
-    public static int NUM_ENTER_BUTTON = -1;
-    public static int NUM_DIVIDE_BUTTON = -1;
-    public static int NUM_MULTIPLY_BUTTON = -1;
-    public static int NUM_MINUS_BUTTON = -1;
-    public static int NUM_PLUS_BUTTON = -1;
-    public static int NUM_COMMA_BUTTON = -1;
+    private int[] logicalToPhysicalButtonMap;
 
-    public Keyboard() {
+   
+    public Keyboard(ImplKeyboard implKeyboard) {
+        this.implKeyboard = implKeyboard;
         reset();
+    }
+
+    public final ImplKeyboard getImplKeyboard() {
+        return implKeyboard;
+    }
+
+    public final int[] getLogicalToPhysicalButtonMap() {
+        return logicalToPhysicalButtonMap;
+    }
+    
+    public final void setLogicalToPhysicalButtonMap(int[] logicalToPhysicalButtonMap) {
+        if(logicalToPhysicalButtonMap != null) if(logicalToPhysicalButtonMap.length != Button.values().length) throw new IllegalArgumentException();
+        this.logicalToPhysicalButtonMap = logicalToPhysicalButtonMap;
+    }
+    
+    public final boolean isCapsLockActive(){
+        return implKeyboard.isCapsLockActive();
+    }
+    
+    public final boolean isNumLockActive(){
+        return implKeyboard.isNumLockActive();
+    }
+    
+    public final boolean isScrollLockActive(){
+        return implKeyboard.isScrollLockActive();
+    }
+    
+    public final void setCapsLockActive(boolean value){
+        implKeyboard.setCapsLockActive(value);
+    }
+    
+    public final void setNumLockActive(boolean value){
+        implKeyboard.setNumLockActive(value);
+    }
+    
+    public final void setScrollLockActive(boolean value){
+        implKeyboard.setScrollLockActive(value);
     }
     
     public final void reset(){
@@ -108,6 +85,14 @@ public final class Keyboard {
         return buttonState == State.RELEASED;
     }
     
+    public final boolean isButtonPressed(Button button){
+        return isButtonPressed(logicalToPhysicalButton(button));
+    }
+    
+    public final boolean isButtonReleased(Button button){
+        return isButtonReleased(logicalToPhysicalButton(button));
+    }
+    
     public final void pressCharacter(char ch){
         characterStates.put(ch, State.PRESSED);
     }
@@ -129,15 +114,31 @@ public final class Keyboard {
     }
     
     public boolean isAltPressed(){
-        return isButtonPressed(ALT_LEFT_BUTTON) || isButtonPressed(ALT_RIGHT_BUTTON);
+        return isButtonPressed(Button.ALT_LEFT) || isButtonPressed(Button.ALT_RIGHT);
     }
     
     public boolean isCtrlPressed(){
-        return isButtonPressed(CTRL_LEFT_BUTTON) || isButtonPressed(CTRL_RIGHT_BUTTON);
+        return isButtonPressed(Button.CTRL_LEFT) || isButtonPressed(Button.CTRL_RIGHT);
     }
     
     public boolean isShiftPressed(){
-        return isButtonPressed(SHIFT_LEFT_BUTTON) || isButtonPressed(SHIFT_RIGHT_BUTTON);
+        return isButtonPressed(Button.SHIFT_LEFT) || isButtonPressed(Button.SHIFT_RIGHT);
+    }
+    
+    public int logicalToPhysicalButton(Button button){
+        if(logicalToPhysicalButtonMap == null) return -1;
+        else return logicalToPhysicalButtonMap[button.ordinal()];
+    }
+    
+    public Button physicalToLogicalButton(int physicalButton){
+        if(logicalToPhysicalButtonMap != null){
+            for(int i = 0; i < logicalToPhysicalButtonMap.length; i++){
+                if(logicalToPhysicalButtonMap[i] == physicalButton){
+                    return Button.values()[i];
+                }
+            }
+        }
+        return null;
     }
     
     public static enum State {
@@ -145,9 +146,68 @@ public final class Keyboard {
         RELEASED
     }
     
-    public static String getButtonLabel(int button){
-        String label = BUTTON_LABELS.get(button);
-        if(label == null) return "<?>";
-        return label;
+    public static enum Button {
+        CTRL_LEFT,
+        CTRL_RIGHT,
+        ALT_LEFT,
+        ALT_RIGHT,
+        SHIFT_LEFT,
+        SHIFT_RIGHT,
+
+        ESC,
+
+        F1,
+        F2,
+        F3,
+        F4,
+        F5,
+        F6,
+        F7,
+        F8,
+        F9,
+        F10,
+        F11,
+        F12,
+
+        PRINT_SCREEN,
+        PAUSE,
+
+        INSERT,
+        DELETE,
+        HOME,
+        END,
+        PAGE_UP,
+        PAGE_DOWN,
+
+        CAPS_LOCK,
+        NUM_LOCK,
+        SCROLL_LOCK,
+
+        ENTER,
+        BACKSPACE,
+        TAB,
+        SPACE,
+
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN,
+
+        NUM_0,
+        NUM_1,
+        NUM_2,
+        NUM_3,
+        NUM_4,
+        NUM_5,
+        NUM_6,
+        NUM_7,
+        NUM_8,
+        NUM_9,
+        NUM_ENTER,
+        NUM_DIVIDE,
+        NUM_MULTIPLY,
+        NUM_MINUS,
+        NUM_PLUS,
+        NUM_COMMA,
     }
 }

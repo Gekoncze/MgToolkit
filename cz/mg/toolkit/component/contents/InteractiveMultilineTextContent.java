@@ -139,37 +139,37 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
                     paste("" + e.getCh());
                     relayout();
                 } else {
-                    if(e.getButton() == Keyboard.LEFT_BUTTON){
+                    if(e.getLogicalButton() == Keyboard.Button.LEFT){
                         setCaret(caret - 1);
                         if(!isShiftPressed()) setSelectionCaret(caret);
                         relayout();
-                    } else if(e.getButton() == Keyboard.RIGHT_BUTTON){
+                    } else if(e.getLogicalButton() == Keyboard.Button.RIGHT){
                         setCaret(caret + 1);
                         if(!isShiftPressed()) setSelectionCaret(caret);
                         relayout();
-                    } else if(e.getButton() == Keyboard.UP_BUTTON){
+                    } else if(e.getLogicalButton() == Keyboard.Button.UP){
                         double[] p = caretToPosition(caret);
                         p[1] -= getLineHeight() * 0.5;
                         setCaret(positionToCaret(p[0], p[1]));
                         if(!isShiftPressed()) setSelectionCaret(caret);
                         relayout();
-                    } else if(e.getButton() == Keyboard.DOWN_BUTTON){
+                    } else if(e.getLogicalButton() == Keyboard.Button.DOWN){
                         double[] p = caretToPosition(caret);
                         p[1] += getLineHeight() * 1.5;
                         setCaret(positionToCaret(p[0], p[1]));
                         if(!isShiftPressed()) setSelectionCaret(caret);
                         relayout();
-                    } else if(e.getButton() == Keyboard.BACKSPACE_BUTTON){
+                    } else if(e.getLogicalButton() == Keyboard.Button.BACKSPACE){
                         if(selectionCaret == caret) setSelectionCaret(caret - 1);
                         delete();
                         relayout();
-                    } else if(e.getButton() == Keyboard.DELETE_BUTTON){
+                    } else if(e.getLogicalButton() == Keyboard.Button.DELETE){
                         if(selectionCaret == caret) setSelectionCaret(caret + 1);
                         delete();
                         relayout();
-                    } else if(e.getButton() == Keyboard.ESC_BUTTON){
+                    } else if(e.getLogicalButton() == Keyboard.Button.ESC){
                         done();
-                    } else if(e.getButton() == Keyboard.ENTER_BUTTON || e.getButton() == Keyboard.NUM_ENTER_BUTTON){
+                    } else if(e.getLogicalButton() == Keyboard.Button.ENTER || e.getLogicalButton() == Keyboard.Button.ENTER){
                         paste("\n");
                         relayout();
                     }

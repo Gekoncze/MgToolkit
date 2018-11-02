@@ -10,6 +10,7 @@ import cz.mg.toolkit.impl.ImplApi;
 import cz.mg.toolkit.impl.ImplClipboard;
 import cz.mg.toolkit.impl.ImplColor;
 import cz.mg.toolkit.impl.ImplCursor;
+import cz.mg.toolkit.impl.ImplDialog;
 import cz.mg.toolkit.impl.ImplFont;
 import cz.mg.toolkit.impl.ImplImage;
 import cz.mg.toolkit.impl.ImplTimer;
@@ -19,10 +20,18 @@ import java.io.InputStream;
 
 
 public class SwingImplApi implements ImplApi {
-    public static final SwingImplDisplay SWING_DISPLAY_INSTANCE = new SwingImplDisplay();
-    public static final Display DISPLAY_INSTANCE = new Display(SWING_DISPLAY_INSTANCE);
-    public static final Mouse MOUSE_INSTANCE = new Mouse();
-    public static final Keyboard KEYBOARD_INSTANCE = new Keyboard();
+    private final int[] defaultKeyboardLogicalToPhysicalButtonMap = SwingImplKeyboard.createDefaultLogicalToPhysicalButtonMap();
+    private final int[] defaultMouseLogicalToPhysicalButtonMap = SwingImplMouse.createDefaultLogicalToPhysicalButtonMap();
+    
+    public final SwingImplDisplay SWING_DISPLAY_INSTANCE = new SwingImplDisplay();
+    public final Display DISPLAY_INSTANCE = new Display(SWING_DISPLAY_INSTANCE);
+    public final Keyboard KEYBOARD_INSTANCE = new Keyboard(new SwingImplKeyboard());
+    public final Mouse MOUSE_INSTANCE = new Mouse(new SwingImplMouse());
+
+    public SwingImplApi() {
+        KEYBOARD_INSTANCE.setLogicalToPhysicalButtonMap(defaultKeyboardLogicalToPhysicalButtonMap);
+        MOUSE_INSTANCE.setLogicalToPhysicalButtonMap(defaultMouseLogicalToPhysicalButtonMap);
+    }
     
     @Override
     public ImplClipboard createClipboard() {
@@ -71,7 +80,17 @@ public class SwingImplApi implements ImplApi {
 
     @Override
     public ImplWindow createWindow() {
-        return new SwingImplWindow();
+        return new SwingImplWindow(this);
+    }
+    
+    @Override
+    public ImplDialog createDialog(ImplWindow window) {
+        return new SwingImplDialog(this, (SwingImplWindow)window);
+    }
+    
+    @Override
+    public ImplDialog createDialog(ImplDialog dialog) {
+        return new SwingImplDialog(this, (SwingImplDialog)dialog);
     }
 
     @Override

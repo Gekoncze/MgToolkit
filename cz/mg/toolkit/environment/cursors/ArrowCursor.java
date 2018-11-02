@@ -5,6 +5,8 @@ import cz.mg.toolkit.impl.ImplCursor;
 
 
 public class ArrowCursor extends Cursor {
+    public static final ArrowCursor INSTANCE = new ArrowCursor();
+    
     public ArrowCursor() {
         super(ImplCursor.NativeCursor.ARROW);
     }

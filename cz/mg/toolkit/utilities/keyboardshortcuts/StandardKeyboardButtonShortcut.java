@@ -5,23 +5,21 @@ import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 
 
 public class StandardKeyboardButtonShortcut extends StandardKeyboardShortcut {
-    private final int button;
+    private final Keyboard.Button button;
+    private String label;
 
-    public StandardKeyboardButtonShortcut(boolean ctrl, boolean alt, boolean shift, int button) {
+    public StandardKeyboardButtonShortcut(boolean ctrl, boolean alt, boolean shift, Keyboard.Button button, String label) {
         super(ctrl, alt, shift);
         this.button = button;
     }
 
     @Override
     public boolean matches(KeyboardButtonEvent e) {
-        return super.matches(e) && e.getButton() == button && e.wasPressed();
+        return super.matches(e) && e.getLogicalButton() == button && e.wasPressed();
     }
     
     @Override
     public String toString() {
-        String string = super.toString();
-        if(string.length() > 0) string += "+";
-        string += Keyboard.getButtonLabel(button);
-        return string;
+        return label;
     }
 }

@@ -48,16 +48,16 @@ public class ToolkitTest2 {
             @Override
             public void onKeyboardButtonEventEnter(KeyboardButtonEvent e) {
                 if(!wasButtonPressed(e)) return;
-                if(e.getButton() == Keyboard.F1_BUTTON) window.setDecorated(!window.isDecorated());
-                if(e.getButton() == Keyboard.F2_BUTTON) window.setDecoration(new SystemDecoration());
-                if(e.getButton() == Keyboard.F3_BUTTON) window.setDecoration(new ToolkitDecoration());
-                if(e.getButton() == Keyboard.F4_BUTTON) ;
-                if(e.getButton() == Keyboard.F5_BUTTON) ;
-                if(e.getButton() == Keyboard.F6_BUTTON) ;
-                if(e.getButton() == Keyboard.F7_BUTTON) window.setActivated(false);
-                if(e.getButton() == Keyboard.F8_BUTTON) window.setMinimized(true);
-                if(e.getButton() == Keyboard.F9_BUTTON) window.setMaximized(!window.isMaximized());
-                if(e.getButton() == Keyboard.F10_BUTTON) setDebug(window);
+                if(e.getLogicalButton() == Keyboard.Button.F1) window.setDecorated(!window.isDecorated());
+                if(e.getLogicalButton() == Keyboard.Button.F2) window.setDecoration(new SystemDecoration());
+                if(e.getLogicalButton() == Keyboard.Button.F3) window.setDecoration(new ToolkitDecoration());
+                if(e.getLogicalButton() == Keyboard.Button.F4) ;
+                if(e.getLogicalButton() == Keyboard.Button.F5) ;
+                if(e.getLogicalButton() == Keyboard.Button.F6) ;
+                if(e.getLogicalButton() == Keyboard.Button.F7) window.setActivated(false);
+                if(e.getLogicalButton() == Keyboard.Button.F8) window.setMinimized(true);
+                if(e.getLogicalButton() == Keyboard.Button.F9) window.setMaximized(!window.isMaximized());
+                if(e.getLogicalButton() == Keyboard.Button.F10) setDebug(window);
                 window.relayout();
             }
         });

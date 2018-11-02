@@ -5,6 +5,8 @@ import cz.mg.toolkit.impl.ImplCursor;
 
 
 public class LinkCursor extends Cursor {
+    public static final LinkCursor INSTANCE = new LinkCursor();
+    
     public LinkCursor() {
         super(ImplCursor.NativeCursor.LINK);
     }

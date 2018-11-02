@@ -35,6 +35,13 @@
         recycling events: event objects can be reused - must be an option - user might want to have them distinguished
         add timestamp for event and eventual expiration - if gui hanged and click was processed a second later, user might not want it t be clicked at that time
 
+    možná implementace pro změnu kurzoru s optimalizací
+        hranice komponenty, kde by docházelo ke změně kurzoru, by mohly být "vyrenderovány" jako obrázek
+        a pak by se jen při každém pohybu myší kontrolovatlo, zdali jsme na pixelu, kde dochází ke změně anebo ne
+        + změna kurzoru se provádí vždy pro aktuální myš !!!
+    
+    možná optimalizace pro okno - provést ruční volání synchronizace při změně nějakého parametru (ve Window)
+
 #### SOON
     bring in some nice examples of everything the toolkit can do!
         most importantly - the designers!!!
@@ -43,13 +50,37 @@
         color chooser dialog
         file chooser dialog (load/save)
         message dialog (none/info/warning/error)
+        yes/no/cancel dialog
+
+    popup window fine tuning - use native popup instead of borderless window
+    pokusit se sjednotit swing impl window a dialog
+
+    
     
 #### NOW
-    
+    move window state from window - maximized, minimized - but also need to check, if it is possible to change!!!
+        same check with window resizing - sometimes window just cannot be resized to required size
+
+    nový systém synchronizace
+        sledovat 3 stavy - toolkit x implementace x knihovna
+        tyto 3 stavy by v optimálním případě měly být ekvivalentní
+        přednostně se synchronizuje směrem od toolkitu dál
+        buďto se to na knihovně povede
+        nebo se to na knihovně neprovede
+        v obou případech si uchovat do implementace hodnotu
+        pak se rozhodnout jak dál postupovat - buto to zkusíme znovu, nebo ne, případně zpětná synchronizace
+        může být ale i možnost synchronizoat směrem od knihovny do toolkitu - změna velikosti okna uživatelem, změna pozice okna
 
 #### DONE
-Toplevel component + fix
-    added possibility for any component to be the root component
-    the component has to implement new ToplevelComponent interface
-    it also has to deal with synchronization with the environment
-    fixed toolkit decoration title alignment
+Keyboard, Mouse and general swing impl api improvements PART #1
+    added ImplKeyboard and ImplMouse, their implementation and adapted Mouse and Keyboard classes
+    added logical to physical button map to keyboard and mouse
+    removed get/set title and icon from decorations
+    added support for shift and caps lock to character sanitizer
+    moved all kayboard related code from swing impl window to swing impl keyboard
+    added numlock, capslock and scrolllock to keyboard classes
+    moved get/set Cursor from window to Mouse, then using synchronization instead
+    removed get/set Icon from window, using synchronization instead
+    removed get/set title from window, using synchronization instead
+    adapted events and components to new logical/physical button system
+    adapted affected components

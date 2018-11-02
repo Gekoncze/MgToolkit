@@ -34,15 +34,15 @@ public abstract class MouseButtonAdapter implements EventListener<MouseButtonEve
     }
     
     public final boolean wasLeftButton(MouseButtonEvent e){
-        return e.getButton() == Mouse.LEFT_BUTTON;
+        return e.getButton() == e.getMouse().logicalToPhysicalButton(Mouse.Button.LEFT);
     }
     
     public final boolean wasMiddleButton(MouseButtonEvent e){
-        return e.getButton() == Mouse.MIDDLE_BUTTON;
+        return e.getButton() == e.getMouse().logicalToPhysicalButton(Mouse.Button.MIDDLE);
     }
 
     public final boolean wasRightButton(MouseButtonEvent e){
-        return e.getButton() == Mouse.RIGHT_BUTTON;
+        return e.getButton() == e.getMouse().logicalToPhysicalButton(Mouse.Button.RIGHT);
     }
     
     public final boolean isPressed(MouseButtonEvent e){
