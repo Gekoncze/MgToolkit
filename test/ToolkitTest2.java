@@ -14,7 +14,7 @@ import cz.mg.toolkit.component.wrappers.VerticalFlowArea;
 import cz.mg.toolkit.component.wrappers.VerticalScrollArea;
 import cz.mg.toolkit.component.wrappers.decorations.SystemDecoration;
 import cz.mg.toolkit.component.wrappers.decorations.ToolkitDecoration;
-import cz.mg.toolkit.debug.Debug;
+import cz.mg.toolkit.utilities.Debug;
 import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.event.adapters.KeyboardButtonAdapter;
 import cz.mg.toolkit.event.adapters.TabCloseAdapter;

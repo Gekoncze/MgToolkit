@@ -1,4 +1,4 @@
-package cz.mg.toolkit.debug;
+package cz.mg.toolkit.utilities;
 
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.Container;

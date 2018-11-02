@@ -58,29 +58,10 @@
     
     
 #### NOW
-    move window state from window - maximized, minimized - but also need to check, if it is possible to change!!!
-        same check with window resizing - sometimes window just cannot be resized to required size
-
-    nový systém synchronizace
-        sledovat 3 stavy - toolkit x implementace x knihovna
-        tyto 3 stavy by v optimálním případě měly být ekvivalentní
-        přednostně se synchronizuje směrem od toolkitu dál
-        buďto se to na knihovně povede
-        nebo se to na knihovně neprovede
-        v obou případech si uchovat do implementace hodnotu
-        pak se rozhodnout jak dál postupovat - buto to zkusíme znovu, nebo ne, případně zpětná synchronizace
-        může být ale i možnost synchronizoat směrem od knihovny do toolkitu - změna velikosti okna uživatelem, změna pozice okna
+    
 
 #### DONE
-Keyboard, Mouse and general swing impl api improvements PART #1
-    added ImplKeyboard and ImplMouse, their implementation and adapted Mouse and Keyboard classes
-    added logical to physical button map to keyboard and mouse
-    removed get/set title and icon from decorations
-    added support for shift and caps lock to character sanitizer
-    moved all kayboard related code from swing impl window to swing impl keyboard
-    added numlock, capslock and scrolllock to keyboard classes
-    moved get/set Cursor from window to Mouse, then using synchronization instead
-    removed get/set Icon from window, using synchronization instead
-    removed get/set title from window, using synchronization instead
-    adapted events and components to new logical/physical button system
-    adapted affected components
+General swing impl api improvements PART #2
+    added one way synchronization
+    added two way synchronization
+    adapted swing impl windows to use the synchronizations

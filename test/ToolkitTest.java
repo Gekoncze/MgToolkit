@@ -41,7 +41,7 @@ import cz.mg.toolkit.component.controls.spinners.LongSpinner;
 import cz.mg.toolkit.component.wrappers.decorations.SystemDecoration;
 import cz.mg.toolkit.component.wrappers.decorations.ToolkitDecoration;
 import cz.mg.toolkit.component.window.ContextMenu;
-import cz.mg.toolkit.debug.Debug;
+import cz.mg.toolkit.utilities.Debug;
 import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
 import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;

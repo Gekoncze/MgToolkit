@@ -24,6 +24,7 @@ import java.awt.event.WindowStateListener;
 import cz.mg.toolkit.impl.ImplWindow;
 import cz.mg.toolkit.impl.synchronization.OneWaySynchronization;
 import cz.mg.toolkit.impl.synchronization.Synchronization;
+import cz.mg.toolkit.impl.synchronization.TwoWaySynchronization;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -35,20 +36,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     
     JFrame jframe;
     private Window window;
-    
     private boolean relayout = true;
-    
-    private int lastX = Integer.MIN_VALUE;
-    private int lastY = Integer.MIN_VALUE;
-    private int lastWidth = Integer.MIN_VALUE;
-    private int lastHeight = Integer.MIN_VALUE;
-    
-    private double lastWindowX = Double.MIN_VALUE;
-    private double lastWindowY = Double.MIN_VALUE;
-    private double lastWindowWidth = Double.MIN_VALUE;
-    private double lastWindowHeight = Double.MIN_VALUE;
-    
-    private boolean ignoreExternalChange = true;
     
     private final Timer synchronizationTimer = new Timer(200, new ActionListener() {
         @Override
@@ -141,7 +129,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
 
             @Override
             public void mouseMoved(java.awt.event.MouseEvent e) {
-                ignoreExternalChange = false;
+                enableExternalSynchronization();
                 double mx = th(e.getXOnScreen());
                 double my = tv(e.getYOnScreen());
                 double dx = mx - api.MOUSE_INSTANCE.getScreenX();
@@ -384,104 +372,134 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     }
     
     private void synchronizeWindow(){
-        synchronizeWindowPosition();
-        synchronizeWindowSize();
-        synchronizeWindowOther();
-    }
-    
-    private void synchronizeWindowPosition(){
-        boolean minimizedOrMaximized = isMinimized() || isMaximized();
-        
-        double currentWindowX = window.getX();
-        double currentWindowY = window.getY();
-        boolean internalChange = currentWindowX != lastWindowX || currentWindowY != lastWindowY;
-        
-        int currentX = jframe.getX();
-        int currentY = jframe.getY();
-        boolean externalChange = currentX != lastX || currentY != lastY;
-        if(ignoreExternalChange) externalChange = false;
-        
-        int expectedX = trh(window.getX());
-        int expectedY = trv(window.getY());
-        boolean mismatch = expectedX != currentX || expectedY != currentY;
-        
-        if(externalChange && minimizedOrMaximized){
-            window.setX(th(currentX));
-            window.setY(tv(currentY));
-            redraw();
-        } else if(internalChange){
-            jframe.setLocation(expectedX, expectedY);
-            redraw();
-        } else if(externalChange){
-            window.setX(th(currentX));
-            window.setY(tv(currentY));
-            redraw();
-        } else if(mismatch){
-            jframe.setLocation(expectedX, expectedY);
-            redraw();
-        }
-        
-        lastWindowX = window.getX();
-        lastWindowY = window.getY();
-        lastX = jframe.getX();
-        lastY = jframe.getY();
-    }
-    
-    private void synchronizeWindowSize(){
-        double currentWindowWidth = window.getWidth();
-        double currentWindowHeight = window.getHeight();
-        
-        int currentWidth = jframe.getWidth();
-        int currentHeight = jframe.getHeight();
-        
-        int expectedWidth = trh(window.getWidth());
-        int expectedHeight = trv(window.getHeight());
-        
-        boolean mismatch = expectedWidth != currentWidth || expectedHeight != currentHeight;
-        if(mismatch) {
-            boolean minimizedOrMaximized = isMinimized() || isMaximized();
-            if(minimizedOrMaximized){
-                window.setWidth(th(currentWidth));
-                window.setHeight(tv(currentHeight));
-                relayout();
-            } else {
-                boolean internalChange = currentWindowWidth != lastWindowWidth || currentWindowHeight != lastWindowHeight;
-                boolean externalChange = currentWidth != lastWidth || currentHeight != lastHeight;
-                if(ignoreExternalChange) externalChange = false;
-                if(internalChange){
-                    jframe.setSize(expectedWidth, expectedHeight);
-                    relayout();
-                } else if(externalChange){
-                    window.setWidth(th(currentWidth));
-                    window.setHeight(tv(currentHeight));
-                    relayout();
-                } else {
-                    jframe.setSize(expectedWidth, expectedHeight);
-                    relayout();
-                }
-            }
-        }
-        
-        lastWindowWidth = window.getWidth();
-        lastWindowHeight = window.getHeight();
-        lastWidth = jframe.getWidth();
-        lastHeight = jframe.getHeight();
-    }
-    
-    private void synchronizeWindowOther(){
+        if(isMinimized() || isMaximized()) disableInternalSynchronization();
+        else enableInternalSynchronization();
+        horizontalPositionSynchronization.updateValue();
+        verticalPositionSynchronization.updateValue();
+        horizontalSizeSynchronization.updateValue();
+        verticalSizeSynchronization.updateValue();
         iconSynchronization.updateValue();
         titleSynchronization.updateValue();
         cursorSynchronization.updateValue();
     }
     
+    private void enableExternalSynchronization(){
+        horizontalPositionSynchronization.setExternalToInternalEnabled(true);
+        verticalPositionSynchronization.setExternalToInternalEnabled(true);
+        horizontalSizeSynchronization.setExternalToInternalEnabled(true);
+        verticalSizeSynchronization.setExternalToInternalEnabled(true);
+    }
+    
+    private void enableInternalSynchronization(){
+        horizontalPositionSynchronization.setInternalToExternalEnabled(true);
+        verticalPositionSynchronization.setInternalToExternalEnabled(true);
+        horizontalSizeSynchronization.setInternalToExternalEnabled(true);
+        verticalSizeSynchronization.setInternalToExternalEnabled(true);
+    }
+    
+    private void disableInternalSynchronization(){
+        horizontalPositionSynchronization.setInternalToExternalEnabled(false);
+        verticalPositionSynchronization.setInternalToExternalEnabled(false);
+        horizontalSizeSynchronization.setInternalToExternalEnabled(false);
+        verticalSizeSynchronization.setInternalToExternalEnabled(false);
+    }
+    
+    private final TwoWaySynchronization horizontalPositionSynchronization = new TwoWaySynchronization<Integer>() {
+        @Override
+        public Integer getInternalValue() {
+            return trh(window.getX());
+        }
+
+        @Override
+        public void setInternalValue(Integer value) {
+            window.setX(th(value));
+        }
+
+        @Override
+        public Integer getExternalValue() {
+            return jframe.getX();
+        }
+
+        @Override
+        public void setExternalValue(Integer value) {
+            jframe.setLocation(value, jframe.getY());
+        }
+    };
+    
+    private final TwoWaySynchronization verticalPositionSynchronization = new TwoWaySynchronization<Integer>() {
+        @Override
+        public Integer getInternalValue() {
+            return trv(window.getY());
+        }
+
+        @Override
+        public void setInternalValue(Integer value) {
+            window.setY(tv(value));
+        }
+
+        @Override
+        public Integer getExternalValue() {
+            return jframe.getY();
+        }
+
+        @Override
+        public void setExternalValue(Integer value) {
+            jframe.setLocation(jframe.getX(), value);
+        }
+    };
+    
+    private final TwoWaySynchronization horizontalSizeSynchronization = new TwoWaySynchronization<Integer>() {
+        @Override
+        public Integer getInternalValue() {
+            return trh(window.getWidth());
+        }
+
+        @Override
+        public void setInternalValue(Integer value) {
+            window.setWidth(th(value));
+        }
+
+        @Override
+        public Integer getExternalValue() {
+            return jframe.getWidth();
+        }
+
+        @Override
+        public void setExternalValue(Integer value) {
+            jframe.setSize(value, jframe.getHeight());
+        }
+    };
+    
+    private final TwoWaySynchronization verticalSizeSynchronization = new TwoWaySynchronization<Integer>() {
+        @Override
+        public Integer getInternalValue() {
+            return trv(window.getHeight());
+        }
+
+        @Override
+        public void setInternalValue(Integer value) {
+            window.setHeight(tv(value));
+        }
+
+        @Override
+        public Integer getExternalValue() {
+            return jframe.getHeight();
+        }
+
+        @Override
+        public void setExternalValue(Integer value) {
+            jframe.setSize(jframe.getWidth(), value);
+        }
+    };
+    
     private final Synchronization iconSynchronization = new OneWaySynchronization<BitmapImage>() {
         @Override
-        public BitmapImage getToolkitValue() {
+        public BitmapImage getInternalValue() {
             return window.getIcon();
         }
 
         @Override
-        public void setImplValue(BitmapImage value) {
+        public void setExternalValue(BitmapImage value) {
             if(value == null) jframe.setIconImage(null);
             else jframe.setIconImage(((SwingImplImage)value.getImplImage()).swingImage);
         }
@@ -489,25 +507,25 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     
     private final Synchronization titleSynchronization = new OneWaySynchronization<String>() {
         @Override
-        public String getToolkitValue() {
+        public String getInternalValue() {
             if(window.getTitle() == null) return "";
             else return window.getTitle();
         }
 
         @Override
-        public void setImplValue(String value) {
+        public void setExternalValue(String value) {
             jframe.setTitle(value);
         }
     };
     
     private final Synchronization cursorSynchronization = new OneWaySynchronization<Cursor>() {
         @Override
-        public Cursor getToolkitValue() {
+        public Cursor getInternalValue() {
             return api.MOUSE_INSTANCE.getCursor();
         }
 
         @Override
-        public void setImplValue(Cursor value) {
+        public void setExternalValue(Cursor value) {
             if(value == null) jframe.setCursor(null);
             else jframe.setCursor(((SwingImplCursor)value.getImplCursor()).swingCursor);
         }

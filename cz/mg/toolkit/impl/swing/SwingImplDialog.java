@@ -19,6 +19,7 @@ import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.impl.ImplDialog;
 import cz.mg.toolkit.impl.synchronization.OneWaySynchronization;
 import cz.mg.toolkit.impl.synchronization.Synchronization;
+import cz.mg.toolkit.impl.synchronization.TwoWaySynchronization;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
@@ -35,20 +36,7 @@ public class SwingImplDialog implements EventObserver, ImplDialog {
     
     JDialog jdialog;
     private Window window;
-    
     private boolean relayout = true;
-    
-    private int lastX = Integer.MIN_VALUE;
-    private int lastY = Integer.MIN_VALUE;
-    private int lastWidth = Integer.MIN_VALUE;
-    private int lastHeight = Integer.MIN_VALUE;
-    
-    private double lastWindowX = Double.MIN_VALUE;
-    private double lastWindowY = Double.MIN_VALUE;
-    private double lastWindowWidth = Double.MIN_VALUE;
-    private double lastWindowHeight = Double.MIN_VALUE;
-    
-    private boolean ignoreExternalChange = true;
     
     private final Timer synchronizationTimer = new Timer(200, new ActionListener() {
         @Override
@@ -146,7 +134,7 @@ public class SwingImplDialog implements EventObserver, ImplDialog {
 
             @Override
             public void mouseMoved(java.awt.event.MouseEvent e) {
-                ignoreExternalChange = false;
+                enableExternalSynchronization();
                 double mx = th(e.getXOnScreen());
                 double my = tv(e.getYOnScreen());
                 double dx = mx - api.MOUSE_INSTANCE.getScreenX();
@@ -351,105 +339,132 @@ public class SwingImplDialog implements EventObserver, ImplDialog {
     }
     
     private void synchronizeWindow(){
-        synchronizeWindowPosition();
-        synchronizeWindowSize();
-        synchronizeWindowOther();
-    }
-    
-    private void synchronizeWindowPosition(){
-        boolean minimizedOrMaximized = false;
-        
-        double currentWindowX = window.getX();
-        double currentWindowY = window.getY();
-        boolean internalChange = currentWindowX != lastWindowX || currentWindowY != lastWindowY;
-        
-        int currentX = jdialog.getX();
-        int currentY = jdialog.getY();
-        boolean externalChange = currentX != lastX || currentY != lastY;
-        if(ignoreExternalChange) externalChange = false;
-        
-        int expectedX = trh(window.getX());
-        int expectedY = trv(window.getY());
-        boolean mismatch = expectedX != currentX || expectedY != currentY;
-        
-        if(externalChange && minimizedOrMaximized){
-            window.setX(th(currentX));
-            window.setY(tv(currentY));
-            redraw();
-        } else if(internalChange){
-            jdialog.setLocation(expectedX, expectedY);
-            redraw();
-        } else if(externalChange){
-            window.setX(th(currentX));
-            window.setY(tv(currentY));
-            redraw();
-        } else if(mismatch){
-            jdialog.setLocation(expectedX, expectedY);
-            redraw();
-        }
-        
-        lastWindowX = window.getX();
-        lastWindowY = window.getY();
-        lastX = jdialog.getX();
-        lastY = jdialog.getY();
-    }
-    
-    private void synchronizeWindowSize(){
-        double currentWindowWidth = window.getWidth();
-        double currentWindowHeight = window.getHeight();
-        
-        int currentWidth = jdialog.getWidth();
-        int currentHeight = jdialog.getHeight();
-        
-        int expectedWidth = trh(window.getWidth());
-        int expectedHeight = trv(window.getHeight());
-        
-        boolean mismatch = expectedWidth != currentWidth || expectedHeight != currentHeight;
-        if(mismatch) {
-            boolean minimizedOrMaximized = false;
-            if(minimizedOrMaximized){
-                window.setWidth(th(currentWidth));
-                window.setHeight(tv(currentHeight));
-                relayout();
-            } else {
-                boolean internalChange = currentWindowWidth != lastWindowWidth || currentWindowHeight != lastWindowHeight;
-                boolean externalChange = currentWidth != lastWidth || currentHeight != lastHeight;
-                if(ignoreExternalChange) externalChange = false;
-                if(internalChange){
-                    jdialog.setSize(expectedWidth, expectedHeight);
-                    relayout();
-                } else if(externalChange){
-                    window.setWidth(th(currentWidth));
-                    window.setHeight(tv(currentHeight));
-                    relayout();
-                } else {
-                    jdialog.setSize(expectedWidth, expectedHeight);
-                    relayout();
-                }
-            }
-        }
-        
-        lastWindowWidth = window.getWidth();
-        lastWindowHeight = window.getHeight();
-        lastWidth = jdialog.getWidth();
-        lastHeight = jdialog.getHeight();
-    }
-    
-    
-    private void synchronizeWindowOther(){
+        horizontalPositionSynchronization.updateValue();
+        verticalPositionSynchronization.updateValue();
+        horizontalSizeSynchronization.updateValue();
+        verticalSizeSynchronization.updateValue();
         iconSynchronization.updateValue();
         titleSynchronization.updateValue();
         cursorSynchronization.updateValue();
     }
     
+    private void enableExternalSynchronization(){
+        horizontalPositionSynchronization.setExternalToInternalEnabled(true);
+        verticalPositionSynchronization.setExternalToInternalEnabled(true);
+        horizontalSizeSynchronization.setExternalToInternalEnabled(true);
+        verticalSizeSynchronization.setExternalToInternalEnabled(true);
+    }
+    
+    private void enableInternalSynchronization(){
+        horizontalPositionSynchronization.setInternalToExternalEnabled(true);
+        verticalPositionSynchronization.setInternalToExternalEnabled(true);
+        horizontalSizeSynchronization.setInternalToExternalEnabled(true);
+        verticalSizeSynchronization.setInternalToExternalEnabled(true);
+    }
+    
+    private void disableInternalSynchronization(){
+        horizontalPositionSynchronization.setInternalToExternalEnabled(false);
+        verticalPositionSynchronization.setInternalToExternalEnabled(false);
+        horizontalSizeSynchronization.setInternalToExternalEnabled(false);
+        verticalSizeSynchronization.setInternalToExternalEnabled(false);
+    }
+    
+    private final TwoWaySynchronization horizontalPositionSynchronization = new TwoWaySynchronization<Integer>() {
+        @Override
+        public Integer getInternalValue() {
+            return trh(window.getX());
+        }
+
+        @Override
+        public void setInternalValue(Integer value) {
+            window.setX(th(value));
+        }
+
+        @Override
+        public Integer getExternalValue() {
+            return jdialog.getX();
+        }
+
+        @Override
+        public void setExternalValue(Integer value) {
+            jdialog.setLocation(value, jdialog.getY());
+        }
+    };
+    
+    private final TwoWaySynchronization verticalPositionSynchronization = new TwoWaySynchronization<Integer>() {
+        @Override
+        public Integer getInternalValue() {
+            return trv(window.getY());
+        }
+
+        @Override
+        public void setInternalValue(Integer value) {
+            window.setY(tv(value));
+        }
+
+        @Override
+        public Integer getExternalValue() {
+            return jdialog.getY();
+        }
+
+        @Override
+        public void setExternalValue(Integer value) {
+            jdialog.setLocation(jdialog.getX(), value);
+        }
+    };
+    
+    private final TwoWaySynchronization horizontalSizeSynchronization = new TwoWaySynchronization<Integer>() {
+        @Override
+        public Integer getInternalValue() {
+            return trh(window.getWidth());
+        }
+
+        @Override
+        public void setInternalValue(Integer value) {
+            window.setWidth(th(value));
+        }
+
+        @Override
+        public Integer getExternalValue() {
+            return jdialog.getWidth();
+        }
+
+        @Override
+        public void setExternalValue(Integer value) {
+            jdialog.setSize(value, jdialog.getHeight());
+        }
+    };
+    
+    private final TwoWaySynchronization verticalSizeSynchronization = new TwoWaySynchronization<Integer>() {
+        @Override
+        public Integer getInternalValue() {
+            return trv(window.getHeight());
+        }
+
+        @Override
+        public void setInternalValue(Integer value) {
+            window.setHeight(tv(value));
+        }
+
+        @Override
+        public Integer getExternalValue() {
+            return jdialog.getHeight();
+        }
+
+        @Override
+        public void setExternalValue(Integer value) {
+            jdialog.setSize(jdialog.getWidth(), value);
+        }
+    };
+    
     private final Synchronization iconSynchronization = new OneWaySynchronization<BitmapImage>() {
         @Override
-        public BitmapImage getToolkitValue() {
+        public BitmapImage getInternalValue() {
             return window.getIcon();
         }
 
         @Override
-        public void setImplValue(BitmapImage value) {
+        public void setExternalValue(BitmapImage value) {
             if(value == null) jdialog.setIconImage(null);
             else jdialog.setIconImage(((SwingImplImage)value.getImplImage()).swingImage);
         }
@@ -457,25 +472,25 @@ public class SwingImplDialog implements EventObserver, ImplDialog {
     
     private final Synchronization titleSynchronization = new OneWaySynchronization<String>() {
         @Override
-        public String getToolkitValue() {
+        public String getInternalValue() {
             if(window.getTitle() == null) return "";
             else return window.getTitle();
         }
 
         @Override
-        public void setImplValue(String value) {
+        public void setExternalValue(String value) {
             jdialog.setTitle(value);
         }
     };
     
     private final Synchronization cursorSynchronization = new OneWaySynchronization<Cursor>() {
         @Override
-        public Cursor getToolkitValue() {
+        public Cursor getInternalValue() {
             return api.MOUSE_INSTANCE.getCursor();
         }
 
         @Override
-        public void setImplValue(Cursor value) {
+        public void setExternalValue(Cursor value) {
             if(value == null) jdialog.setCursor(null);
             else jdialog.setCursor(((SwingImplCursor)value.getImplCursor()).swingCursor);
         }
