@@ -1,5 +1,6 @@
 package cz.mg.toolkit.impl.swing;
 
+import cz.mg.toolkit.component.window.PopupWindow;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.environment.Cursor;
 import cz.mg.toolkit.event.Event;
@@ -17,6 +18,7 @@ import cz.mg.toolkit.event.EventObserver;
 import cz.mg.toolkit.event.events.DisplayResolutionEvent;
 import cz.mg.toolkit.event.events.WindowCloseEvent;
 import cz.mg.toolkit.event.events.WindowStateEvent;
+import cz.mg.toolkit.event.events.WindowStateEvent.StateChange;
 import cz.mg.toolkit.graphics.images.BitmapImage;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -48,6 +50,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     public SwingImplWindow(SwingImplApi api) {
         this.api = api;
         initNativeComponents();
+        disableExternalSynchronization();
     }
     
     private void initNativeComponents(){
@@ -186,14 +189,12 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
 
             @Override
             public void windowActivated(WindowEvent e) {
-                api.KEYBOARD_INSTANCE.reset();
-                api.MOUSE_INSTANCE.reset();
-                sendEvent(new WindowStateEvent(window));
+                onWindowActivated();
             }
 
             @Override
             public void windowDeactivated(WindowEvent e) {
-                sendEvent(new WindowStateEvent(window));
+                onWindowDeactivated();
             }
 
             @Override
@@ -210,7 +211,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
         jframe.addWindowStateListener(new WindowStateListener() {
             @Override
             public void windowStateChanged(WindowEvent e) {
-                sendEvent(new WindowStateEvent(window));
+                onWindowStateChanged(StateChange.OTHER);
             }
         });
         
@@ -219,13 +220,32 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
         jframe.setFocusTraversalKeysEnabled(false);
     }
     
+    private void onWindowActivated(){
+        api.KEYBOARD_INSTANCE.reset();
+        api.MOUSE_INSTANCE.reset();
+        onWindowStateChanged(StateChange.ACTIVATED);
+    }
+    
+    private void onWindowDeactivated(){
+        api.KEYBOARD_INSTANCE.reset();
+        api.MOUSE_INSTANCE.reset();
+        onWindowStateChanged(StateChange.DEACTIVATED);
+    }
+    
     private void onWindowShown(){
         synchronizationTimer.start();
         relayout();
+        onWindowStateChanged(StateChange.SHOWN);
     }
     
     private void onWindowHidden(){
+        disableExternalSynchronization();
         synchronizationTimer.stop();
+        onWindowStateChanged(StateChange.HIDDEN);
+    }
+    
+    private void onWindowStateChanged(StateChange stateChange){
+        sendEvent(new WindowStateEvent(window, stateChange));
     }
     
     private double th(int value){
@@ -335,21 +355,6 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
     public final boolean isActivated() {
         return jframe.isActive();
     }
-
-    @Override
-    public final void setActivated(boolean value) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public final boolean isResizable() {
-        return jframe.isResizable();
-    }
-
-    @Override
-    public final void setResizable(boolean value) {
-        jframe.setResizable(value);
-    }
     
     @Override
     public final void open(){
@@ -388,6 +393,13 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
         verticalPositionSynchronization.setExternalToInternalEnabled(true);
         horizontalSizeSynchronization.setExternalToInternalEnabled(true);
         verticalSizeSynchronization.setExternalToInternalEnabled(true);
+    }
+    
+    private void disableExternalSynchronization(){
+        horizontalPositionSynchronization.setExternalToInternalEnabled(false);
+        verticalPositionSynchronization.setExternalToInternalEnabled(false);
+        horizontalSizeSynchronization.setExternalToInternalEnabled(false);
+        verticalSizeSynchronization.setExternalToInternalEnabled(false);
     }
     
     private void enableInternalSynchronization(){

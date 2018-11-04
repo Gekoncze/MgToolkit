@@ -13,6 +13,7 @@
 #### MUCH LATER:
     tooltip
     zalamování textu v multiline text contentu
+    velikost popup meníčka nejen wrap ale i podle komponenty - např pro context menu
     designer fine tunning
         add something like a designer id property - might be better than instanceof
         přidat možnost přidávání značek ke komponentě - podle značek se pak bude provádět design - mohlo by být jen číslo + generátor
@@ -50,18 +51,19 @@
         color chooser dialog
         file chooser dialog (load/save)
         message dialog (none/info/warning/error)
-        yes/no/cancel dialog
-
-    popup window fine tuning - use native popup instead of borderless window
-    pokusit se sjednotit swing impl window a dialog
-
-    
     
 #### NOW
-    
+    finally add possibility to add marks to components for design
 
 #### DONE
-General swing impl api improvements PART #2
-    added one way synchronization
-    added two way synchronization
-    adapted swing impl windows to use the synchronizations
+General swing impl api improvements PART #3
+    did some small cleanup
+    fixed two way synchronization
+    added isOpened property to window
+    polished some swing impl window behaviour for state change
+    added dialog window component
+    made relayout and redraw events disabled friendly
+    polished text button behaviour and buttons design
+    added state change for window state change event
+    fixed popup window closing behaviour
+    

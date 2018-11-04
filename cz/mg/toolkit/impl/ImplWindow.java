@@ -17,9 +17,6 @@ public interface ImplWindow {
     public boolean isMaximized();
     public void setMaximized(boolean value);
     public boolean isActivated();
-    public void setActivated(boolean value);
-    public boolean isResizable();
-    public void setResizable(boolean value);
     public void open();
     public void close();
     public void redraw();

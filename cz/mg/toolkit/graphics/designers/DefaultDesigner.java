@@ -84,7 +84,7 @@ public class DefaultDesigner extends ContextDesigner {
     private static final double TAB_AREA_HEADER_SPACING = 4;
     private static final double TITLE_BAR_SPACING = 2;
     
-    private static final double BUTTON_PADDING = 8;
+    private static final double BUTTON_PADDING = 6;
     private static final double SCROLL_BUTTON_PADDING = 6;
     private static final double CLOSE_BUTTON_PADDING = 0;
     private static final double TEXT_INPUT_PADDING = 4;

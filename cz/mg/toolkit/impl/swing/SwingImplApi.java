@@ -10,7 +10,6 @@ import cz.mg.toolkit.impl.ImplApi;
 import cz.mg.toolkit.impl.ImplClipboard;
 import cz.mg.toolkit.impl.ImplColor;
 import cz.mg.toolkit.impl.ImplCursor;
-import cz.mg.toolkit.impl.ImplDialog;
 import cz.mg.toolkit.impl.ImplFont;
 import cz.mg.toolkit.impl.ImplImage;
 import cz.mg.toolkit.impl.ImplTimer;
@@ -81,16 +80,6 @@ public class SwingImplApi implements ImplApi {
     @Override
     public ImplWindow createWindow() {
         return new SwingImplWindow(this);
-    }
-    
-    @Override
-    public ImplDialog createDialog(ImplWindow window) {
-        return new SwingImplDialog(this, (SwingImplWindow)window);
-    }
-    
-    @Override
-    public ImplDialog createDialog(ImplDialog dialog) {
-        return new SwingImplDialog(this, (SwingImplDialog)dialog);
     }
 
     @Override

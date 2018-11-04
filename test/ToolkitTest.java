@@ -41,6 +41,7 @@ import cz.mg.toolkit.component.controls.spinners.LongSpinner;
 import cz.mg.toolkit.component.wrappers.decorations.SystemDecoration;
 import cz.mg.toolkit.component.wrappers.decorations.ToolkitDecoration;
 import cz.mg.toolkit.component.window.ContextMenu;
+import cz.mg.toolkit.component.window.DialogWindow;
 import cz.mg.toolkit.utilities.Debug;
 import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
@@ -58,6 +59,7 @@ import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.impl.swing.SwingImplApi;
 import cz.mg.toolkit.layout.layouts.GridLayout;
 import cz.mg.toolkit.layout.layouts.GridLayout.Column;
+import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import cz.mg.toolkit.utilities.shapes.OvalShape;
 import cz.mg.toolkit.utilities.SelectionGroup;
 import cz.mg.toolkit.utilities.keyboardshortcuts.StandardKeyboardCharacterShortcut;
@@ -104,6 +106,8 @@ public class ToolkitTest {
         window.center();
         setDesigner(window, new TestDesigner());
         
+        PonyDialog ponyDialog = new PonyDialog(window);
+        
         window.getEventListeners().addLast(new KeyboardButtonAdapter() {
             @Override
             public void onKeyboardButtonEventEnter(KeyboardButtonEvent e) {
@@ -114,7 +118,7 @@ public class ToolkitTest {
                 if(e.getLogicalButton() == Keyboard.Button.F3) ;
                 if(e.getLogicalButton() == Keyboard.Button.F4) ;
                 if(e.getLogicalButton() == Keyboard.Button.F5) ;
-                if(e.getLogicalButton() == Keyboard.Button.F6) window.setActivated(false);
+                if(e.getLogicalButton() == Keyboard.Button.F6) ;
                 if(e.getLogicalButton() == Keyboard.Button.F7) window.setMinimized(true);
                 if(e.getLogicalButton() == Keyboard.Button.F8) window.setMaximized(!window.isMaximized());
                 if(e.getLogicalButton() == Keyboard.Button.F9) {setDebug(window); setDebug(contextMenu);}
@@ -173,15 +177,15 @@ public class ToolkitTest {
         setHorizontalSizePolicy(h0, new WrapAndFillSizePolicy());
         
         TextButton tb = new TextButton();
-        tb.getTextContent().setText("TB");
+        tb.getTextContent().setText("Pony");
         tb.setParent(h0);
-        setSizePolicy(tb, new FixedSizePolicy(64, 24));
+        setSizePolicy(tb, new WrapContentSizePolicy());
 //        setPadding(tb, 4);
         tb.getEventListeners().addLast(new ActionAdapter() {
             @Override
             public void onEventEnter(ActionEvent e) {
                 e.consume();
-                System.out.println("Text button!");
+                ponyDialog.open();
             }
         });
         
@@ -262,17 +266,6 @@ public class ToolkitTest {
         
         label = new SinglelineTextContent("Lorem ipsum 9999999999999999999999999999999999999999999999999999");
         label.setParent(h4);
-        
-        ComboBox<Pony> boxOfPonies = new ComboBox<>();
-        boxOfPonies.setItems(PONIES);
-        boxOfPonies.setParent(v1);
-        boxOfPonies.getEventListeners().addLast(new ActionAdapter() {
-            @Override
-            public void onEventEnter(ActionEvent e) {
-                e.consume();
-                System.out.println("Your favourite pony in a box is " + boxOfPonies.getSelectedItem());
-            }
-        });
         
         OvalButton ovalButton = new OvalButton();
         setShape(ovalButton, new OvalShape());
@@ -482,6 +475,42 @@ public class ToolkitTest {
     }
     
     private static class PagePanel extends Panel {}
+    
+    private static class PonyDialog extends DialogWindow {
+        private ComboBox<Pony> boxOfPonies;
+        
+        public PonyDialog(Window parent) {
+            super(parent);
+            initComponent();
+            initComponents();
+            
+            getEventListeners().addLast(new KeyboardButtonAdapter() {
+                @Override
+                public void onKeyboardButtonEventEnter(KeyboardButtonEvent e) {
+                    if(e.wasPressed() && e.getLogicalButton() == Keyboard.Button.F9) {setDebug(PonyDialog.this);}
+                }
+            });
+        }
+        
+        private void initComponent(){
+            setSize(640, 320);
+            center();
+            setLayout(new OverlayLayout());
+        }
+        
+        private void initComponents(){
+            boxOfPonies = new ComboBox<>();
+            boxOfPonies.setItems(PONIES);
+            boxOfPonies.setParent(getContentPanel());
+            boxOfPonies.getEventListeners().addLast(new ActionAdapter() {
+                @Override
+                public void onEventEnter(ActionEvent e) {
+                    e.consume();
+                    System.out.println("Your favourite pony in a box is " + boxOfPonies.getSelectedItem());
+                }
+            });
+        }
+    }
     
     public static void setDebug(Window window){
         if(!DEBUG) Debug.setIds(window);

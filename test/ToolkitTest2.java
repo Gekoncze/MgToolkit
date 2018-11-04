@@ -54,7 +54,7 @@ public class ToolkitTest2 {
                 if(e.getLogicalButton() == Keyboard.Button.F4) ;
                 if(e.getLogicalButton() == Keyboard.Button.F5) ;
                 if(e.getLogicalButton() == Keyboard.Button.F6) ;
-                if(e.getLogicalButton() == Keyboard.Button.F7) window.setActivated(false);
+                if(e.getLogicalButton() == Keyboard.Button.F7) ;
                 if(e.getLogicalButton() == Keyboard.Button.F8) window.setMinimized(true);
                 if(e.getLogicalButton() == Keyboard.Button.F9) window.setMaximized(!window.isMaximized());
                 if(e.getLogicalButton() == Keyboard.Button.F10) setDebug(window);

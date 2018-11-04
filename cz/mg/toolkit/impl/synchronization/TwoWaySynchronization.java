@@ -28,22 +28,35 @@ public abstract class TwoWaySynchronization<T> implements Synchronization {
         T ev = getExternalValue();
         boolean internalChange = !equals(iv, cachedValue);
         boolean externalChange = !equals(ev, cachedValue);
+        boolean mismatch = internalChange || externalChange;
         
-        if(internalChange && externalChange){
-            if(internalToExternalEnabled){
-                setExternalValue(iv);
-                cachedValue = iv;
-            } else if(externalToInternalEnabled){
-                setInternalValue(ev);
-                cachedValue = ev;
+        if(internalToExternalEnabled && externalToInternalEnabled){
+            if(internalChange && externalChange){
+                keepInternalValue(iv);
+            } else if(internalChange){
+                keepInternalValue(iv);
+            } else if(externalChange) {
+                keepExternalValue(ev);
             }
-        } else if(internalChange && internalToExternalEnabled) {
-            setExternalValue(iv);
-            cachedValue = iv;
-        } else if(externalChange && externalToInternalEnabled) {
-            setInternalValue(ev);
-            cachedValue = ev;
+        } else if(internalToExternalEnabled) {
+            if(mismatch){
+                keepInternalValue(iv);
+            }
+        } else if(externalToInternalEnabled) {
+            if(mismatch){
+                keepExternalValue(ev);
+            }
         }
+    }
+    
+    private void keepInternalValue(T iv){
+        setExternalValue(iv);
+        cachedValue = iv;
+    }
+    
+    private void keepExternalValue(T ev){
+        setInternalValue(ev);
+        cachedValue = ev;
     }
     
     private boolean equals(T a, T b){

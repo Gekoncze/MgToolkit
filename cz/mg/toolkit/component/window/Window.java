@@ -1,13 +1,10 @@
 package cz.mg.toolkit.component.window;
 
-import cz.mg.toolkit.environment.Cursor;
 import cz.mg.toolkit.component.wrappers.Decoration;
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.ToplevelComponent;
 import cz.mg.toolkit.component.containers.Wrapper;
 import cz.mg.toolkit.component.wrappers.decorations.SystemDecoration;
-import cz.mg.toolkit.environment.cursors.ArrowCursor;
-import cz.mg.toolkit.environment.cursors.NoCursor;
 import cz.mg.toolkit.environment.device.devices.Display;
 import cz.mg.toolkit.event.adapters.BeforeDrawAdapter;
 import cz.mg.toolkit.event.adapters.WindowCloseAdapter;
@@ -37,8 +34,6 @@ import cz.mg.toolkit.impl.ImplWindow;
 
 
 public class Window extends Wrapper implements ToplevelComponent {
-    private static final Cursor BLANK_CURSOR = new NoCursor();
-    
     private final ImplWindow implWindow = Impl.getImplApi().createWindow();
     private Component keyboardFocus = null;
     private Component mouseFocus = null;
@@ -46,11 +41,11 @@ public class Window extends Wrapper implements ToplevelComponent {
     private String title;
     private BitmapImage icon;
     private boolean relayout = true;
-    private Cursor cursor = new ArrowCursor();
     private boolean decorated = true;
     private boolean cursorVisible = true;
     private final KeystrokeRepeater keystrokeRepeater = new KeystrokeRepeater();
     private boolean autoWrap = false;
+    private boolean opened = false;
     
     public Window() {
         initComponent();
@@ -172,6 +167,7 @@ public class Window extends Wrapper implements ToplevelComponent {
     }
     
     public final void closeImmediately(){
+        opened = false;
         implWindow.close();
         keystrokeRepeater.stop();
     }
@@ -194,18 +190,6 @@ public class Window extends Wrapper implements ToplevelComponent {
     
     public final boolean isActivated(){
         return implWindow.isActivated();
-    }
-    
-    public final void setActivated(boolean value){
-        implWindow.setActivated(value);
-    }
-    
-    public final boolean isResizable(){
-        return implWindow.isResizable();
-    }
-    
-    public final void setResizable(boolean value){
-        implWindow.setResizable(value);
     }
     
     public final boolean isDecorated(){
@@ -239,8 +223,13 @@ public class Window extends Wrapper implements ToplevelComponent {
         getContentPanel().setParent(decoration.getContentPanel());
         implWindow.setDecorated(decoration instanceof SystemDecoration);
     }
+
+    public final boolean isOpened() {
+        return opened;
+    }
     
     public final void open(){
+        opened = true;
         implWindow.open();
     }
     

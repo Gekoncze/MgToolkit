@@ -19,7 +19,7 @@ public class PopupWindow extends Window {
         getEventListeners().addLast(new WindowStateAdapter() {
             @Override
             public void onEventEnter(WindowStateEvent e) {
-                if(!isActivated()) closeImmediately();
+                if(e.getStateChange() == WindowStateEvent.StateChange.DEACTIVATED) closeImmediately();
             }
         });
     }
