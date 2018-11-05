@@ -55,19 +55,13 @@
         message dialog (none/info/warning/error)
     
 #### NOW
-    replace context with separate designs for toolkit decoration design
-    horizontal separator - add size setting to designer
-    standard menu item icon - add size setting to designer
     
 
 #### DONE
-Design fine tuning
-    added design name property to component interface
-    moved designer to new package outside of graphics
-    added default design names to all components
-    deleted context designer - its no longer needed
-    added composite designer abstract class
-    changed default designer for new design system
-    removed drawable content, drawable container and drawable component
-    moved placeholder text drawing from text input to designer
+Design fine tunning
+    added separator size to designer
+    added standard menu item icon size to designer + fix in declaration
+    fixed horizontal tab area design
+    fixed split area content panel design
+    finished toolkit decoration design
     

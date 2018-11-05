@@ -45,6 +45,8 @@ public class ToolkitDecoration extends Decoration {
     }
     
     public static class TitleBar extends Panel {
+        public static final String DEFAULT_DESIGN_NAME = "toolkit decoration title bar";
+        
         private final Icon icon = new Icon();
         private final Title title = new Title();
         private final MinimizeButton minimizeButton = new MinimizeButton();
@@ -194,6 +196,10 @@ public class ToolkitDecoration extends Decoration {
         }
         
         protected abstract void windowAction(Window window);
+        
+        public static class Content extends cz.mg.toolkit.component.Content {
+            public static final String DEFAULT_DESIGN_NAME = "toolkit decoration button content";
+        }
     }
     
     public static class MinimizeButton extends TitlebarButton {
@@ -208,7 +214,7 @@ public class ToolkitDecoration extends Decoration {
             window.setMinimized(!window.isMinimized());
         }
         
-        public static class Content extends cz.mg.toolkit.component.Content {
+        public static class Content extends TitlebarButton.Content {
             public static final String DEFAULT_DESIGN_NAME = "toolkit decoration minimize button content";
         }
     }
@@ -225,7 +231,7 @@ public class ToolkitDecoration extends Decoration {
             window.setMaximized(!window.isMaximized());
         }
 
-        public static class Content extends cz.mg.toolkit.component.Content {
+        public static class Content extends TitlebarButton.Content {
             public static final String DEFAULT_DESIGN_NAME = "toolkit decoration maximize button content";
         }
     }
@@ -242,7 +248,7 @@ public class ToolkitDecoration extends Decoration {
             window.close();
         }
 
-        public static class Content extends cz.mg.toolkit.component.Content {
+        public static class Content extends TitlebarButton.Content {
             public static final String DEFAULT_DESIGN_NAME = "toolkit decoration close button content";
         }
     }

@@ -95,6 +95,8 @@ public class DefaultDesigner extends CompositeDesigner {
     private static final double SLIDER_SIZE = 16;
     private static final double TITLE_BAR_SIZE = 24;
     private static final double TAB_AREA_HEADER_SIZE = 24;
+    private static final double SEPARATOR_SIZE = 5;
+    private static final double MENU_ITEM_ICON_SIZE = 16;
     
     private static final Decoration LEFT_SCROLL_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
@@ -631,13 +633,6 @@ public class DefaultDesigner extends CompositeDesigner {
                         setDisabledForegroundColor(component, DISABLED_FOREGROUND_COLOR);
                         setHighlightedBackgroundColor(component, HIGHLIGHTED_BACKGROUND_COLOR);
                         setHighlightedForegroundColor(component, HIGHLIGHTED_FOREGROUND_COLOR);
-                        
-//                        setBackgroundColor(component, TITLE_BACKGROUND_COLOR);
-//                        setForegroundColor(component, TITLE_FOREGROUND_COLOR);
-//                        setDisabledBackgroundColor(component, TITLE_DISABLED_BACKGROUND_COLOR);
-//                        setDisabledForegroundColor(component, TITLE_DISABLED_FOREGROUND_COLOR);
-//                        setHighlightedBackgroundColor(component, TITLE_HIGHLIGHTED_BACKGROUND_COLOR);
-//                        setHighlightedForegroundColor(component, TITLE_HIGHLIGHTED_FOREGROUND_COLOR);
                     }
                 }
                 ,
@@ -745,17 +740,78 @@ public class DefaultDesigner extends CompositeDesigner {
                     }
                 }
                 ,
-                new Design("maximize button content", "content") {
+                new Design("toolkit decoration title", "singleline text content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setFont(component, TITLE_BAR_FONT);
+                        setBackgroundColor(component, TITLE_BACKGROUND_COLOR);
+                        setForegroundColor(component, TITLE_FOREGROUND_COLOR);
+                        setDisabledBackgroundColor(component, TITLE_DISABLED_BACKGROUND_COLOR);
+                        setDisabledForegroundColor(component, TITLE_DISABLED_FOREGROUND_COLOR);
+                        setHighlightedBackgroundColor(component, TITLE_HIGHLIGHTED_BACKGROUND_COLOR);
+                        setHighlightedForegroundColor(component, TITLE_HIGHLIGHTED_FOREGROUND_COLOR);
+                    }
+                }
+                ,
+                new Design("toolkit decoration title bar", "panel") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, null);
+                        setFixedSize(component, TITLE_BAR_SIZE);
+                        setPadding(component, TITLE_BAR_PADDING); 
+                        setHorizontalSpacing(component, TITLE_BAR_SPACING);
+                        setBackgroundColor(component, TITLE_BACKGROUND_COLOR);
+                        setForegroundColor(component, TITLE_FOREGROUND_COLOR);
+                        setDisabledBackgroundColor(component, TITLE_DISABLED_BACKGROUND_COLOR);
+                        setDisabledForegroundColor(component, TITLE_DISABLED_FOREGROUND_COLOR);
+                        setHighlightedBackgroundColor(component, TITLE_HIGHLIGHTED_BACKGROUND_COLOR);
+                        setHighlightedForegroundColor(component, TITLE_HIGHLIGHTED_FOREGROUND_COLOR);
+                    }
+                }
+                ,
+                new Design("toolkit decoration button", "button") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setPadding(component, TITLE_BAR_BUTTON_PADDING);
+                        setBackgroundColor(component, TITLE_BACKGROUND_COLOR);
+                        setForegroundColor(component, TITLE_FOREGROUND_COLOR);
+                        setDisabledBackgroundColor(component, TITLE_DISABLED_BACKGROUND_COLOR);
+                        setDisabledForegroundColor(component, TITLE_DISABLED_FOREGROUND_COLOR);
+                        setHighlightedBackgroundColor(component, TITLE_HIGHLIGHTED_BACKGROUND_COLOR);
+                        setHighlightedForegroundColor(component, TITLE_HIGHLIGHTED_FOREGROUND_COLOR);
+                    }
+                }
+                ,
+                new Design("toolkit decoration button content", "button") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setBackgroundColor(component, TITLE_BACKGROUND_COLOR);
+                        setForegroundColor(component, TITLE_FOREGROUND_COLOR);
+                        setDisabledBackgroundColor(component, TITLE_DISABLED_BACKGROUND_COLOR);
+                        setDisabledForegroundColor(component, TITLE_DISABLED_FOREGROUND_COLOR);
+                        setHighlightedBackgroundColor(component, TITLE_HIGHLIGHTED_BACKGROUND_COLOR);
+                        setHighlightedForegroundColor(component, TITLE_HIGHLIGHTED_FOREGROUND_COLOR);
+                    }
+                }
+                ,
+                new Design("toolkit decoration maximize button content", "toolkit decoration button content") {
                     @Override
                     public void onDesign(Component component) {
                         setForeground(component, MAXIMIZE_BUTTON_CONTENT_FOREGROUND);
                     }
                 }
                 ,
-                new Design("minimize button content", "content") {
+                new Design("toolkit decoration minimize button content", "toolkit decoration button content") {
                     @Override
                     public void onDesign(Component component) {
                         setForeground(component, MINIMIZE_BUTTON_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("toolkit decoration close button content", "toolkit decoration button content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, CLOSE_BUTTON_CONTENT_FOREGROUND);
                     }
                 }
                 ,
@@ -847,6 +903,12 @@ public class DefaultDesigner extends CompositeDesigner {
                     }
                 }
                 ,
+                new Design("horizontal tab area icon", "content") {
+                    @Override
+                    public void onDesign(Component component) {
+                    }
+                }
+                ,
                 new Design("horizontal tab area text", "singleline text content") {
                     @Override
                     public void onDesign(Component component) {
@@ -898,6 +960,7 @@ public class DefaultDesigner extends CompositeDesigner {
                 new Design("horizontal separator", "separator") {
                     @Override
                     public void onDesign(Component component) {
+                        setFixedSize(component, SEPARATOR_SIZE);
                         setForeground(component, HORIZONTAL_SEPARATOR_FOREGROUND);
                     }
                 }
@@ -905,18 +968,26 @@ public class DefaultDesigner extends CompositeDesigner {
                 new Design("vertical separator", "separator") {
                     @Override
                     public void onDesign(Component component) {
+                        setFixedSize(component, SEPARATOR_SIZE);
                         setForeground(component, VERTICAL_SEPARATOR_FOREGROUND);
                     }
                 }
                 ,
-                new Design("menu item description", "singleline text content") {
+                new Design("standard menu item icon", "content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setFixedSize(component, MENU_ITEM_ICON_SIZE);
+                    }
+                }
+                ,
+                new Design("standard menu item description", "singleline text content") {
                     @Override
                     public void onDesign(Component component) {
                         setFont(component, MENU_ITEM_DESCRIPTION_FONT);
                     }
                 }
                 ,
-                new Design("menu item shortcut", "singleline text content") {
+                new Design("standard menu item shortcut", "singleline text content") {
                     @Override
                     public void onDesign(Component component) {
                         setFont(component, MENU_ITEM_SHORTCUT_FONT);
@@ -997,30 +1068,6 @@ public class DefaultDesigner extends CompositeDesigner {
                     }
                 }
                 ,
-                new Design("toolkit decoration title", "singleline text content") {
-                    @Override
-                    public void onDesign(Component component) {
-                        setFont(component, TITLE_BAR_FONT);
-                    }
-                }
-                ,
-                new Design("toolkit decoration title bar", "panel") {
-                    @Override
-                    public void onDesign(Component component) {
-                        setForeground(component, null);
-                        setFixedSize(component, TITLE_BAR_SIZE);
-                        setPadding(component, TITLE_BAR_PADDING); 
-                        setHorizontalSpacing(component, TITLE_BAR_SPACING);
-                    }
-                }
-                ,
-                new Design("toolkit decoration title bar button", "button") {
-                    @Override
-                    public void onDesign(Component component) {
-                        setPadding(component, TITLE_BAR_BUTTON_PADDING); 
-                    }
-                }
-                ,
                 new Design("horizontal scroll bar content", "content") {
                     @Override
                     public void onDesign(Component component) {
@@ -1035,7 +1082,7 @@ public class DefaultDesigner extends CompositeDesigner {
                     }
                 }
                 ,
-                new Design("split area content panel design", "content panel") {
+                new Design("split area content panel", "content panel") {
                     @Override
                     public void onDesign(Component component) {
                         setForeground(component, COMMON_FOREGROUND);

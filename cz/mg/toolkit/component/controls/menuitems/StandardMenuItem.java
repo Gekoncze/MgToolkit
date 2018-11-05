@@ -17,7 +17,7 @@ import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
 public class StandardMenuItem extends ActionMenuItem {
     public static final String DEFAULT_DESIGN_NAME = "standard menu item";
     
-    private final ImageContent imageContent = new ImageContent();
+    private final Icon imageContent = new Icon();
     private final RadioButton radioButton = new RadioButton();
     private final CheckBox checkBox = new CheckBox();
     private final Description description = new Description();
@@ -98,6 +98,6 @@ public class StandardMenuItem extends ActionMenuItem {
     }
     
     public static class Shortcut extends SinglelineTextContent {
-        public static final String DEFAULT_DESIGN_NAME = "standard menu shortcut";
+        public static final String DEFAULT_DESIGN_NAME = "standard menu item shortcut";
     }
 }

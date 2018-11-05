@@ -144,6 +144,8 @@ public class HorizontalTabArea extends Panel {
         }
         
         public class TabHeader extends Button {
+            public static final String DEFAULT_DESIGN_NAME = "horizontal tab area header";
+            
             private final Icon icon = new Icon();
             private final Text text = new Text();
             private final CloseButton closeButton = new CloseButton();
@@ -209,11 +211,14 @@ public class HorizontalTabArea extends Panel {
     }
     
     public static class Icon extends ImageContent {
+        public static final String DEFAULT_DESIGN_NAME = "horizontal tab area icon";
     }
     
     public static class Text extends SinglelineTextContent {
+        public static final String DEFAULT_DESIGN_NAME = "horizontal tab area text";
     }
     
     public static class CloseButton extends cz.mg.toolkit.component.controls.buttons.special.CloseButton {
+        public static final String DEFAULT_DESIGN_NAME = "horizontal tab area close button";
     }
 }

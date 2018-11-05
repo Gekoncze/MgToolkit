@@ -246,7 +246,9 @@ public class SplitArea extends Panel {
     public static class ContentPanelFactory implements ComponentFactory<Panel> {
         @Override
         public Panel create() {
-            return new ContentPanel();
+            ContentPanel contentPanel = new ContentPanel();
+            setDesignName(contentPanel, "split area content panel");
+            return contentPanel;
         }
     }
 }

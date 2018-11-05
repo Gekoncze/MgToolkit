@@ -147,8 +147,9 @@ public class ToolkitTest {
         CompactHorizontalScrollArea tabsArea = new CompactHorizontalScrollArea();
         tabsArea.setParent(windowPanel);
         
-        Container tabs = tabsArea.getContentPanel();
-        tabs.setLayout(new HorizontalLayout());
+        Container bigTextContainer = tabsArea.getContentPanel();
+        setDesignName(bigTextContainer, "big text container");
+        bigTextContainer.setLayout(new HorizontalLayout());
 //        setPadding(tabs, 8);
 //        setHorizontalSpacing(tabs, 8);
         
@@ -156,9 +157,9 @@ public class ToolkitTest {
         for(int i = 0; i <= n; i++){
             label = new SinglelineTextContent(i + "" + i + "" + i + "" + i + "" + i);
             setDesignName(label, "big text content");
-            label.setParent(tabs);
+            label.setParent(bigTextContainer);
             if(i < n){
-                tabs.getChildren().addLast(new HorizontalSeparator());
+                bigTextContainer.getChildren().addLast(new HorizontalSeparator());
             }
         }
         
@@ -449,6 +450,7 @@ public class ToolkitTest {
             if(i == 44) setHidden(label, true);
         }
         
+        window.redesign();
         window.open();
     }
     
@@ -530,6 +532,14 @@ public class ToolkitTest {
                     }
                     ,
                     new Design("page panel", "panel") {
+                        @Override
+                        public void onDesign(Component component) {
+                            setPadding(component, 4);
+                            setSpacing(component, 4);
+                        }
+                    }
+                    ,
+                    new Design("big text container", "content panel") {
                         @Override
                         public void onDesign(Component component) {
                             setPadding(component, 4);
