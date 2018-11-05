@@ -11,6 +11,8 @@ import cz.mg.toolkit.impl.ImplWindow;
 
 
 public class SystemDecoration extends Decoration {
+    public static final String DEFAULT_DESIGN_NAME = "system decoration";
+    
     public SystemDecoration() {
         setLayout(new OverlayLayout());
         addEventListeners();

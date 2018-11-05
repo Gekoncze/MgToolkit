@@ -5,6 +5,8 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.s
 
 
 public class DownScrollButton extends ScrollButton {
+    public static final String DEFAULT_DESIGN_NAME = "down scroll button";
+    
     public DownScrollButton() {
         super(new Content());
     }
@@ -15,5 +17,6 @@ public class DownScrollButton extends ScrollButton {
     }
     
     public static class Content extends ScrollButton.Content {
+        public static final String DEFAULT_DESIGN_NAME = "down scroll button content";
     }
 }

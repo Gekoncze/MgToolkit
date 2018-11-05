@@ -4,6 +4,8 @@ import cz.mg.toolkit.component.controls.Spinner;
 
 
 public class DoubleSpinner extends Spinner<Double> {
+    public static final String DEFAULT_DESIGN_NAME = "double spinner";
+    
     public DoubleSpinner() {
         super(0.0, 1.0, -Double.MAX_VALUE, Double.MAX_VALUE);
     }
@@ -45,5 +47,4 @@ public class DoubleSpinner extends Spinner<Double> {
     protected String numberToString(Double number) {
         return "" + number;
     }
-
 }

@@ -2,6 +2,8 @@ package cz.mg.toolkit.component;
 
 
 public abstract class Content extends Component {
+    public static String DEFAULT_DESIGN_NAME = "content";
+    
     private double contentWidth;
     private double contentHeight;
     private boolean usePrefferedSize;

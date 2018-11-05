@@ -4,6 +4,8 @@ import cz.mg.toolkit.component.controls.HorizontalSlider;
 
 
 public class IntegerHorizontalSlider extends HorizontalSlider<Integer> {
+    public static final String DEFAULT_DESIGN_NAME = "integer horizontal slider";
+    
     public IntegerHorizontalSlider() {
         super(0, Integer.MIN_VALUE/2, Integer.MAX_VALUE/2);
     }

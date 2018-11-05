@@ -5,6 +5,8 @@ import cz.mg.toolkit.layout.layouts.OverlayLayout;
 
 
 public class NoDecoration extends Decoration {
+    public static final String DEFAULT_DESIGN_NAME = "no decoration";
+    
     public NoDecoration() {
         setLayout(new OverlayLayout());
     }

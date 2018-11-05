@@ -2,7 +2,7 @@ package cz.mg.toolkit.utilities.properties;
 
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.graphics.Color;
-import cz.mg.toolkit.graphics.Designer;
+import cz.mg.toolkit.designer.Designer;
 import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.graphics.Decoration;
 import cz.mg.toolkit.utilities.Shape;
@@ -12,8 +12,12 @@ import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
 public class PropertiesInterface {
-    private static final Color UNDEFINED_COLOR = new Color(255, 0, 255, 255);
-    private static final Font UNDEFINED_FONT = new Font("Serif", 18, Font.Style.REGULAR);
+    private static final Color DEFAULT_COLOR = new Color(255, 0, 255, 255);
+    private static final Font DEFAULT_FONT = new Font("Serif", 18, Font.Style.REGULAR);
+    private static final SizePolicy DEFAULT_SIZE_POLICY = new WrapContentSizePolicy();
+    private static final Shape DEFAULT_SHAPE = new RectangleShape();
+    private static final String DEFAULT_DESIGN_NAME = "";
+    private static final String DEFAULT_DESIGN_ID = "";
     
     private static final int ID = Properties.generateId();
     private static final int MIN_WIDTH = Properties.generateId();
@@ -59,6 +63,8 @@ public class PropertiesInterface {
     private static final int SHAPE = Properties.generateId();
     private static final int HORIZONTAL_SIZE_POLICY = Properties.generateId();
     private static final int VERTICAL_SIZE_POLICY = Properties.generateId();
+    private static final int DESIGN_NAME = Properties.generateId();
+    private static final int DESIGN_USED = Properties.generateId();
     
     public static int getId(Component component){
         return (int) component.getProperties().get(ID, 0);
@@ -333,7 +339,7 @@ public class PropertiesInterface {
     }
     
     public static final Color getBackgroundColor(Component component){
-        return (Color) component.getProperties().get(BACKGROUND_COLOR, UNDEFINED_COLOR);
+        return (Color) component.getProperties().get(BACKGROUND_COLOR, DEFAULT_COLOR);
     }
     
     public static final void setBackgroundColor(Component component, Color color){
@@ -341,7 +347,7 @@ public class PropertiesInterface {
     }
     
     public static final Color getForegroundColor(Component component){
-        return (Color) component.getProperties().get(FOREGROUND_COLOR, UNDEFINED_COLOR);
+        return (Color) component.getProperties().get(FOREGROUND_COLOR, DEFAULT_COLOR);
     }
     
     public static final void setForegroundColor(Component component, Color color){
@@ -349,7 +355,7 @@ public class PropertiesInterface {
     }
     
     public static final Color getDisabledBackgroundColor(Component component){
-        return (Color) component.getProperties().get(DISABLED_BACKGROUND_COLOR, UNDEFINED_COLOR);
+        return (Color) component.getProperties().get(DISABLED_BACKGROUND_COLOR, DEFAULT_COLOR);
     }
     
     public static final void setDisabledBackgroundColor(Component component, Color color){
@@ -357,7 +363,7 @@ public class PropertiesInterface {
     }
     
     public static final Color getDisabledForegroundColor(Component component){
-        return (Color) component.getProperties().get(DISABLED_FOREGROUND_COLOR, UNDEFINED_COLOR);
+        return (Color) component.getProperties().get(DISABLED_FOREGROUND_COLOR, DEFAULT_COLOR);
     }
     
     public static final void setDisabledForegroundColor(Component component, Color color){
@@ -365,7 +371,7 @@ public class PropertiesInterface {
     }
     
     public static final Color getHighlightedBackgroundColor(Component component){
-        return (Color) component.getProperties().get(HIGHLIGHTED_BACKGROUND_COLOR, UNDEFINED_COLOR);
+        return (Color) component.getProperties().get(HIGHLIGHTED_BACKGROUND_COLOR, DEFAULT_COLOR);
     }
     
     public static final void setHighlightedBackgroundColor(Component component, Color color){
@@ -373,7 +379,7 @@ public class PropertiesInterface {
     }
     
     public static final Color getHighlightedForegroundColor(Component component){
-        return (Color) component.getProperties().get(HIGHLIGHTED_FOREGROUND_COLOR, UNDEFINED_COLOR);
+        return (Color) component.getProperties().get(HIGHLIGHTED_FOREGROUND_COLOR, DEFAULT_COLOR);
     }
     
     public static final void setHighlightedForegroundColor(Component component, Color color){
@@ -397,7 +403,7 @@ public class PropertiesInterface {
     }
     
     public static final Font getFont(Component component){
-        return (Font) component.getProperties().get(FONT, UNDEFINED_FONT);
+        return (Font) component.getProperties().get(FONT, DEFAULT_FONT);
     }
     
     public static final void setFont(Component component, Font font){
@@ -405,7 +411,7 @@ public class PropertiesInterface {
     }
     
     public static final Color getContrastColor(Component component){
-        return (Color) component.getProperties().get(CONTRAST_COLOR, UNDEFINED_COLOR);
+        return (Color) component.getProperties().get(CONTRAST_COLOR, DEFAULT_COLOR);
     }
     
     public static final void setContrastColor(Component component, Color color){
@@ -444,7 +450,6 @@ public class PropertiesInterface {
         component.getProperties().set(HIGHLIGHTED, highlighted);
     }
     
-    private static final Shape DEFAULT_SHAPE = new RectangleShape();
     public static final Shape getShape(Component component){
         return (Shape) component.getProperties().get(SHAPE, DEFAULT_SHAPE);
     }
@@ -453,7 +458,6 @@ public class PropertiesInterface {
         component.getProperties().set(SHAPE, shape);
     }
     
-    private static final SizePolicy DEFAULT_SIZE_POLICY = new WrapContentSizePolicy();
     public static final SizePolicy getHorizontalSizePolicy(Component component){
         return (SizePolicy) component.getProperties().get(HORIZONTAL_SIZE_POLICY, DEFAULT_SIZE_POLICY);
     }
@@ -468,5 +472,21 @@ public class PropertiesInterface {
     
     public static final void setVerticalSizePolicy(Component component, SizePolicy sizePolicy){
         component.getProperties().set(VERTICAL_SIZE_POLICY, sizePolicy);
+    }
+    
+    public static final String getDesignName(Component component){
+        return (String) component.getProperties().get(DESIGN_NAME, DEFAULT_DESIGN_NAME);
+    }
+    
+    public static final void setDesignName(Component component, String designName){
+        component.getProperties().set(DESIGN_NAME, designName);
+    }
+    
+    public static final String getDesignUsed(Component component){
+        return (String) component.getProperties().get(DESIGN_USED, DEFAULT_DESIGN_NAME);
+    }
+    
+    public static final void setDesignUsed(Component component, String designUsed){
+        component.getProperties().set(DESIGN_USED, designUsed);
     }
 }

@@ -1,40 +1,23 @@
-package cz.mg.toolkit.graphics.designers;
+package cz.mg.toolkit.designer.designers;
 
+import cz.mg.collections.array.Array;
+import cz.mg.collections.list.List;
 import cz.mg.toolkit.component.Component;
-import cz.mg.toolkit.component.Content;
-import cz.mg.toolkit.component.containers.ContentPanel;
 import cz.mg.toolkit.component.containers.Panel;
-import cz.mg.toolkit.component.contents.HorizontalSeparator;
 import cz.mg.toolkit.component.contents.InteractiveMultilineTextContent;
 import cz.mg.toolkit.component.contents.InteractiveSinglelineTextContent;
 import cz.mg.toolkit.component.contents.MultilineTextContent;
 import cz.mg.toolkit.component.contents.SinglelineTextContent;
-import cz.mg.toolkit.component.contents.VerticalSeparator;
-import cz.mg.toolkit.component.controls.Button;
 import cz.mg.toolkit.component.controls.CheckBox;
-import cz.mg.toolkit.component.controls.ComboBox;
 import cz.mg.toolkit.component.controls.HorizontalScrollBar;
 import cz.mg.toolkit.component.controls.HorizontalSlider;
-import cz.mg.toolkit.component.controls.Menu;
 import cz.mg.toolkit.component.controls.MultilineTextInput;
 import cz.mg.toolkit.component.controls.RadioButton;
 import cz.mg.toolkit.component.controls.SelectionList;
-import cz.mg.toolkit.component.controls.SingleSelectionList;
 import cz.mg.toolkit.component.controls.SinglelineTextInput;
-import cz.mg.toolkit.component.controls.Slider;
-import cz.mg.toolkit.component.controls.Spinner;
 import cz.mg.toolkit.component.controls.VerticalScrollBar;
 import cz.mg.toolkit.component.controls.VerticalSlider;
-import cz.mg.toolkit.component.controls.buttons.special.CloseButton;
-import cz.mg.toolkit.component.controls.buttons.special.DownScrollButton;
-import cz.mg.toolkit.component.controls.buttons.special.LeftScrollButton;
-import cz.mg.toolkit.component.controls.buttons.special.RightScrollButton;
-import cz.mg.toolkit.component.controls.buttons.special.ScrollButton;
-import cz.mg.toolkit.component.controls.buttons.special.UpScrollButton;
-import cz.mg.toolkit.component.controls.menuitems.StandardMenuItem;
-import cz.mg.toolkit.component.wrappers.HorizontalTabArea;
-import cz.mg.toolkit.component.wrappers.SplitArea;
-import cz.mg.toolkit.component.wrappers.decorations.ToolkitDecoration;
+import cz.mg.toolkit.designer.CompositeDesigner;
 import cz.mg.toolkit.graphics.Color;
 import cz.mg.toolkit.graphics.Decoration;
 import cz.mg.toolkit.graphics.Font;
@@ -44,12 +27,13 @@ import cz.mg.toolkit.graphics.decorations.ForegroundColorDecoration;
 import cz.mg.toolkit.graphics.decorations.RectangleBorderDecoration;
 import cz.mg.toolkit.graphics.decorations.RectangleDecoration;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
-import cz.mg.toolkit.utilities.DrawableComponent;
 import cz.mg.toolkit.utilities.SizePolicy;
 import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
+import static cz.mg.toolkit.graphics.decorations.BackgroundColorDecoration.*;
+import static cz.mg.toolkit.graphics.decorations.ForegroundColorDecoration.*;
 
 
-public class DefaultDesigner extends ContextDesigner {
+public class DefaultDesigner extends CompositeDesigner {
     private static final Color BACKGROUND_COLOR = new Color(0, 16, 0, 255);
     private static final Color FOREGROUND_COLOR = new Color(0, 220, 0, 255);
     
@@ -239,7 +223,7 @@ public class DefaultDesigner extends ContextDesigner {
     private static final Decoration HORIZONTAL_SCROLL_BAR_FOREGROUND = new ForegroundColorDecoration(new Decoration(){
         @Override
         protected void onDraw(Graphics g, Component component) {
-            HorizontalScrollBar.DraggableBar bar = (HorizontalScrollBar.DraggableBar) component;
+            HorizontalScrollBar.Content bar = (HorizontalScrollBar.Content) component;
             Panel scrollablePanel = bar.getScrollablePanel();
             
             if(scrollablePanel.getContentWidth() <= 0) return;
@@ -287,7 +271,7 @@ public class DefaultDesigner extends ContextDesigner {
     private static final Decoration VERTICAL_SCROLL_BAR_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
-            VerticalScrollBar.DraggableBar bar = (VerticalScrollBar.DraggableBar) component;
+            VerticalScrollBar.Content bar = (VerticalScrollBar.Content) component;
             Panel scrollablePanel = bar.getScrollablePanel();
             
             if(scrollablePanel.getContentHeight() <= 0) return;
@@ -361,7 +345,7 @@ public class DefaultDesigner extends ContextDesigner {
     private static final Decoration HORIZONTAL_SEPARATOR_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
-            g.setColor(((DrawableComponent)component).getCurrentForegroundColor());
+            g.setColor(getCurrentForegroundColor(component));
             double space = component.getHeight() * 0.2;
             double x = component.getWidth()/2;
             double y0 = space;
@@ -373,7 +357,7 @@ public class DefaultDesigner extends ContextDesigner {
     private static final Decoration VERTICAL_SEPARATOR_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
-            g.setColor(((DrawableComponent)component).getCurrentForegroundColor());
+            g.setColor(getCurrentForegroundColor(component));
             double space = component.getWidth() * 0.2;
             double y = component.getHeight()/2;
             double x0 = space;
@@ -411,7 +395,7 @@ public class DefaultDesigner extends ContextDesigner {
                 double y = content.getVerticalTextPosition();
                 double w = content.caretToPosition(max) - x;
                 double h = content.getLineHeight();
-                g.setColor(content.getCurrentForegroundColor());
+                g.setColor(getCurrentForegroundColor(content));
                 g.drawRectangle(x, y, w, h);
             }
         }
@@ -428,7 +412,7 @@ public class DefaultDesigner extends ContextDesigner {
                 int min = Math.min(content.getCaret(), content.getSelectionCaret());
                 double x = content.caretToPosition(min);
                 double y = content.getVerticalTextPosition();
-                g.setColor(content.getCurrentBackgroundColor());
+                g.setColor(getCurrentBackgroundColor(content));
                 g.drawText(content.getSelectedText(), x, y);
             }
 
@@ -437,6 +421,24 @@ public class DefaultDesigner extends ContextDesigner {
                 double y = content.getVerticalTextPosition();
                 g.setColor(getContrastColor(content));
                 g.drawLine(x, y, x, y + content.getLineHeight());
+            }
+        }
+    });
+    
+    private static final Decoration SINGLELINE_TEXT_INPUT_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            INTERACTIVE_SINGLELINE_TEXT_CONTENT_FOREGROUND.getInnerDecoration().draw(g, component);
+            
+            SinglelineTextInput.TextContent textContent = (SinglelineTextInput.TextContent) component;
+            String placeholderText = ((SinglelineTextInput)textContent.getParent()).getPlaceholderText();
+            if(!textContent.hasKeyboardFocus() && textContent.getText().length() <= 0){
+                if(placeholderText == null) return;
+                g.setTransparency(0.5);
+                g.setColor(getCurrentForegroundColor(textContent));
+                g.setFont(getFont(textContent));
+                g.drawText(placeholderText, textContent.getHorizontalTextPosition(placeholderText), textContent.getVerticalTextPosition(placeholderText));
+                g.setTransparency(1.0);
             }
         }
     });
@@ -476,7 +478,7 @@ public class DefaultDesigner extends ContextDesigner {
                 int max = Math.max(caret, selectionCaret);
                 int[] minS = content.caretToCarets(min);
                 int[] maxS = content.caretToCarets(max);
-                g.setColor(content.getCurrentForegroundColor());
+                g.setColor(getCurrentForegroundColor(content));
                 if(minS[1] == maxS[1]){
                     double[] p = content.caretToPosition(min);
                     double w = content.caretToPosition(max)[0] - p[0];
@@ -528,7 +530,7 @@ public class DefaultDesigner extends ContextDesigner {
                 int max = Math.max(caret, selectionCaret);
                 int[] minS = content.caretToCarets(min);
                 int[] maxS = content.caretToCarets(max);
-                g.setColor(content.getCurrentBackgroundColor());
+                g.setColor(getCurrentBackgroundColor(content));
                 Font font = getFont(content);
                 if(minS[1] == maxS[1]){
                     String textLine = content.getTextModel().getLine(minS[1]);
@@ -566,11 +568,37 @@ public class DefaultDesigner extends ContextDesigner {
         }
     });
     
+    private static final Decoration MULTILINE_TEXT_INPUT_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            INTERACTIVE_MULTILINE_TEXT_CONTENT_FOREGROUND.getInnerDecoration().draw(g, component);
+            
+            MultilineTextInput.TextContent textContent = (MultilineTextInput.TextContent) component;
+            List<String> placeholderLines = ((MultilineTextInput)textContent.getParent()).getPlaceholderLines();
+            if(!textContent.hasKeyboardFocus() && textContent.getText().length() <= 0){
+                if(placeholderLines == null) return;
+                g.setTransparency(0.5);
+                g.setColor(getCurrentForegroundColor(textContent));
+                g.setFont(getFont(textContent));
+                int i = 0;
+                for(String placeholderLine : placeholderLines){
+                    g.drawText(
+                            placeholderLine,
+                            textContent.getHorizontalLinePosition(i, placeholderLine),
+                            textContent.getVerticalLinePosition(i, placeholderLine)
+                    );
+                    i++;
+                }
+                g.setTransparency(1.0);
+            }
+        }
+    });
+    
     private static final Decoration SELECTION_LIST_ITEM_BACKGROUND = new BackgroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
             SelectionList.ListItem listItem = (SelectionList.ListItem) component;
-            g.setColor(listItem.isSelected() ? listItem.getCurrentForegroundColor() : listItem.getCurrentBackgroundColor());
+            g.setColor(listItem.isSelected() ? getCurrentForegroundColor(listItem) : getCurrentBackgroundColor(listItem));
             SINGLELINE_TEXT_CONTENT_BACKGROUND.getInnerDecoration().draw(g, component);
         }
     });
@@ -579,153 +607,451 @@ public class DefaultDesigner extends ContextDesigner {
         @Override
         protected void onDraw(Graphics g, Component component) {
             SelectionList.ListItem listItem = (SelectionList.ListItem) component;
-            g.setColor(!listItem.isSelected() ? listItem.getCurrentForegroundColor() : listItem.getCurrentBackgroundColor());
+            g.setColor(!listItem.isSelected() ? getCurrentForegroundColor(listItem) : getCurrentBackgroundColor(listItem));
             SINGLELINE_TEXT_CONTENT_FOREGROUND.getInnerDecoration().draw(g, component);
         }
     });
-        
-    private final Context defaultContext = new Context() {
-        @Override
-        public void design(Component component) {
-            onDefaultDesign(component);
-        }
-    };
     
-    private final Context titleBarContext = new Context() {
-        @Override
-        public void design(Component component) {
-            onTitleBarDesign(component);
-        }
-    };
-
-    @Override
-    protected final Context getDefaultContext() {
-        return defaultContext;
-    }
-
-    @Override
-    protected Context getComponentContext(Component component) {
-        if(component instanceof ToolkitDecoration.TitleBar) return titleBarContext;
-        return null;
+    
+    ////////////////////////////////////////////////////////////////////////////
+    
+    
+    public DefaultDesigner() {
+        super(new Array<Design>(new Design[]{
+                new Design("component") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setPadding(component, 0);
+                        setSpacing(component, 0);
+                        setBackground(component, COMMON_BACKGROUND);
+                        setForeground(component, COMMON_FOREGROUND);
+                        setBackgroundColor(component, BACKGROUND_COLOR);
+                        setForegroundColor(component, FOREGROUND_COLOR);
+                        setDisabledBackgroundColor(component, DISABLED_BACKGROUND_COLOR);
+                        setDisabledForegroundColor(component, DISABLED_FOREGROUND_COLOR);
+                        setHighlightedBackgroundColor(component, HIGHLIGHTED_BACKGROUND_COLOR);
+                        setHighlightedForegroundColor(component, HIGHLIGHTED_FOREGROUND_COLOR);
+                        
+//                        setBackgroundColor(component, TITLE_BACKGROUND_COLOR);
+//                        setForegroundColor(component, TITLE_FOREGROUND_COLOR);
+//                        setDisabledBackgroundColor(component, TITLE_DISABLED_BACKGROUND_COLOR);
+//                        setDisabledForegroundColor(component, TITLE_DISABLED_FOREGROUND_COLOR);
+//                        setHighlightedBackgroundColor(component, TITLE_HIGHLIGHTED_BACKGROUND_COLOR);
+//                        setHighlightedForegroundColor(component, TITLE_HIGHLIGHTED_FOREGROUND_COLOR);
+                    }
+                }
+                ,
+                new Design("content", "component") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, null);
+                    }
+                }
+                ,
+                new Design("text content", "content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setContrastColor(component, CONTRAST_COLOR);
+                        setContrastColor(component, CONTRAST_COLOR);
+                    }
+                }
+                ,
+                new Design("singleline text content", "text content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setBackground(component, SINGLELINE_TEXT_CONTENT_BACKGROUND);
+                        setForeground(component, SINGLELINE_TEXT_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("multiline text content", "text content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setBackground(component, MULTILINE_TEXT_CONTENT_BACKGROUND);
+                        setForeground(component, MULTILINE_TEXT_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("interactive singleline text content", "singleline text content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setBackground(component, INTERACTIVE_SINGLELINE_TEXT_CONTENT_BACKGROUND);
+                        setForeground(component, INTERACTIVE_SINGLELINE_TEXT_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("interactive multiline text content", "multiline text content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setBackground(component, INTERACTIVE_MULTILINE_TEXT_CONTENT_BACKGROUND);
+                        setForeground(component, INTERACTIVE_MULTILINE_TEXT_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("singleline text input content", "interactive singleline text content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setPadding(component, TEXT_INPUT_PADDING);
+                        setForeground(component, SINGLELINE_TEXT_INPUT_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("multiline text input content", "interactive multiline text content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setPadding(component, TEXT_INPUT_PADDING);
+                        setForeground(component, MULTILINE_TEXT_INPUT_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("panel", "component") {
+                    @Override
+                    public void onDesign(Component component) {
+                    }
+                }
+                ,
+                new Design("layout panel", "panel") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, null);
+                        setBackground(component, null);
+                    }
+                }
+                ,
+                new Design("window", "panel") {
+                    @Override
+                    public void onDesign(Component component) {
+                    }
+                }
+                ,
+                new Design("context menu", "window") {
+                    @Override
+                    public void onDesign(Component component) {
+                    }
+                }
+                ,
+                new Design("content panel", "panel") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setBackground(component, null);
+                        setForeground(component, null);
+                    }
+                }
+                ,
+                new Design("button", "component") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setPadding(component, BUTTON_PADDING);
+                    }
+                }
+                ,
+                new Design("maximize button content", "content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, MAXIMIZE_BUTTON_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("minimize button content", "content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, MINIMIZE_BUTTON_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("close button", "button") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setPadding(component, CLOSE_BUTTON_PADDING);
+                    }
+                }
+                ,
+                new Design("close button content", "content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, CLOSE_BUTTON_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("scroll button", "button") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setPadding(component, SCROLL_BUTTON_PADDING);
+                        setFixedSize(component, SCROLL_BUTTON_SIZE);
+                    }
+                }
+                ,
+                new Design("left scroll button content", "scroll button") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, LEFT_SCROLL_BUTTON_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("right scroll button content", "scroll button") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, RIGHT_SCROLL_BUTTON_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("up scroll button content", "scroll button") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, UP_SCROLL_BUTTON_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("down scroll button content", "scroll button") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, DOWN_SCROLL_BUTTON_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("spinner button", "button") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setPadding(component, SPINNER_BUTTON_PADDING);
+                        setFixedSize(component, SPINNER_BUTTON_WIDTH, SPINNER_BUTTON_HEIGHT);
+                    }
+                }
+                ,
+                new Design("up spinner button content", "content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, UP_SPINNER_BUTTON_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("down spinner button content", "content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, DOWN_SPINNER_BUTTON_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("horizontal tab area close button", "close button") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setPadding(component, TAB_CLOSE_BUTTON_PADDING);
+                    }
+                }
+                ,
+                new Design("horizontal tab area header", "button") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setPadding(component, TAB_AREA_HEADER_PADDING);
+                        setHorizontalSpacing(component, TAB_AREA_HEADER_SPACING);
+                        setFixedSize(component, TAB_AREA_HEADER_SIZE);
+                    }
+                }
+                ,
+                new Design("horizontal tab area text", "singleline text content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setFont(component, TAB_AREA_FONT);
+                    }
+                }
+                ,
+                new Design("decoration", "panel") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setBackground(component, null);
+                        setForeground(component, null);
+                    }
+                }
+                ,
+                new Design("check box", "panel") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setPadding(component, CHECK_BOX_PADDING);
+                        setFixedSize(component, CHECK_BOX_SIZE);
+                        setForeground(component, CHECK_BOX_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("radio button", "panel") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setPadding(component, RADIO_BUTTON_PADDING);
+                        setFixedSize(component, RADIO_BUTTON_SIZE);
+                        setForeground(component, RADIO_BUTTON_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("menu", "panel") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setSpacing(component, MENU_SPACING);
+                        setPadding(component, MENU_PADDING);
+                    }
+                }
+                ,
+                new Design("separator", "content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setBackground(component, null);
+                    }
+                }
+                ,
+                new Design("horizontal separator", "separator") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, HORIZONTAL_SEPARATOR_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("vertical separator", "separator") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, VERTICAL_SEPARATOR_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("menu item description", "singleline text content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setFont(component, MENU_ITEM_DESCRIPTION_FONT);
+                    }
+                }
+                ,
+                new Design("menu item shortcut", "singleline text content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setFont(component, MENU_ITEM_SHORTCUT_FONT);
+                    }
+                }
+                ,
+                new Design("slider", "content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setFixedSize(component, SLIDER_SIZE);
+                    }
+                }
+                ,
+                new Design("horizontal slider", "slider") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, HORIZONTAL_SLIDER_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("vertical slider", "slider") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, VERTICAL_SLIDER_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("split area", "panel") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setSpacing(component, SPLIT_AREA_SPACING);
+                    }
+                }
+                ,
+                new Design("seletion list", "panel") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setVerticalPadding(component, SELECTION_LIST_VERTICAL_PADDING);
+                    }
+                }
+                ,
+                new Design("selection list item", "singleline text content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setBackground(component, SELECTION_LIST_ITEM_BACKGROUND);
+                        setForeground(component, SELECTION_LIST_ITEM_FOREGROUND);
+                        setHorizontalPadding(component, SELECTION_LIST_ITEM_HORIZONTAL_PADDING);
+                        setVerticalPadding(component, SELECTION_LIST_ITEM_VERTICAL_PADDING);
+                    }
+                }
+                ,
+                new Design("combo box text", "singleline text content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setPadding(component, COMBO_BOX_TEXT_PADDING);
+                    }
+                }
+                ,
+                new Design("combo box menu", "context menu") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setPadding(component, COMBO_BOX_MENU_PADDING);
+                    }
+                }
+                ,
+                new Design("combo box open button", "button") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setFixedSize(component, COMBO_BOX_BUTTON_SIZE);
+                        setPadding(component, COMBO_BOX_BUTTON_PADDING);
+                    }
+                }
+                ,
+                new Design("combo box open button content", "content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, COMBO_BOX_BUTTON_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("toolkit decoration title", "singleline text content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setFont(component, TITLE_BAR_FONT);
+                    }
+                }
+                ,
+                new Design("toolkit decoration title bar", "panel") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, null);
+                        setFixedSize(component, TITLE_BAR_SIZE);
+                        setPadding(component, TITLE_BAR_PADDING); 
+                        setHorizontalSpacing(component, TITLE_BAR_SPACING);
+                    }
+                }
+                ,
+                new Design("toolkit decoration title bar button", "button") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setPadding(component, TITLE_BAR_BUTTON_PADDING); 
+                    }
+                }
+                ,
+                new Design("horizontal scroll bar content", "content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, HORIZONTAL_SCROLL_BAR_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("vertical scroll bar content", "content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, VERTICAL_SCROLL_BAR_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("split area content panel design", "content panel") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, COMMON_FOREGROUND);
+                    }
+                }
+        }));
     }
     
-    protected void onDesign(Component component){
-        setPadding(component, 0);
-        setSpacing(component, 0);
-        
-        if(component instanceof SinglelineTextContent) setContrastColor(component, CONTRAST_COLOR);
-        if(component instanceof MultilineTextContent) setContrastColor(component, CONTRAST_COLOR);
-        if(component instanceof DrawableComponent) setBackground(component, COMMON_BACKGROUND);
-        if(component instanceof DrawableComponent) setForeground(component, COMMON_FOREGROUND);
-        if(component instanceof ContentPanel) setBackground(component, null);
-        if(component instanceof ContentPanel) setForeground(component, null);
-        if(component instanceof Content) setForeground(component, null);
-        if(component instanceof cz.mg.toolkit.component.wrappers.Decoration) setBackground(component, null);
-        if(component instanceof cz.mg.toolkit.component.wrappers.Decoration) setForeground(component, null);
-        
-        if(component instanceof StandardMenuItem.Description) setFont(component, MENU_ITEM_DESCRIPTION_FONT);
-        if(component instanceof StandardMenuItem.Shortcut) setFont(component, MENU_ITEM_SHORTCUT_FONT);
-        if(component instanceof ToolkitDecoration.Title) setFont(component, TITLE_BAR_FONT);
-        if(component instanceof HorizontalTabArea.Text) setFont(component, TAB_AREA_FONT);
-        
-        if(component instanceof ToolkitDecoration.TitleBar) setForeground(component, null);
-        if(component instanceof HorizontalSeparator) setForeground(component, HORIZONTAL_SEPARATOR_FOREGROUND);
-        if(component instanceof HorizontalSeparator) setBackground(component, null);
-        if(component instanceof VerticalSeparator) setForeground(component, VERTICAL_SEPARATOR_FOREGROUND);
-        if(component instanceof VerticalSeparator) setBackground(component, null);
-        if(component instanceof LeftScrollButton.Content) setForeground(component, LEFT_SCROLL_BUTTON_CONTENT_FOREGROUND);
-        if(component instanceof RightScrollButton.Content) setForeground(component, RIGHT_SCROLL_BUTTON_CONTENT_FOREGROUND);
-        if(component instanceof UpScrollButton.Content) setForeground(component, UP_SCROLL_BUTTON_CONTENT_FOREGROUND);
-        if(component instanceof DownScrollButton.Content) setForeground(component, DOWN_SCROLL_BUTTON_CONTENT_FOREGROUND);
-        if(component instanceof CloseButton.Content) setForeground(component, CLOSE_BUTTON_CONTENT_FOREGROUND);
-        if(component instanceof ToolkitDecoration.MinimizeButton.Content) setForeground(component, MINIMIZE_BUTTON_CONTENT_FOREGROUND);
-        if(component instanceof ToolkitDecoration.MaximizeButton.Content) setForeground(component, MAXIMIZE_BUTTON_CONTENT_FOREGROUND);
-        if(component instanceof ToolkitDecoration.CloseButton.Content) setForeground(component, CLOSE_BUTTON_CONTENT_FOREGROUND);
-        if(component instanceof RadioButton) setForeground(component, RADIO_BUTTON_FOREGROUND);
-        if(component instanceof Spinner.UpButton.Content) setForeground(component, UP_SPINNER_BUTTON_CONTENT_FOREGROUND);
-        if(component instanceof Spinner.DownButton.Content) setForeground(component, DOWN_SPINNER_BUTTON_CONTENT_FOREGROUND);
-        if(component instanceof HorizontalScrollBar.DraggableBar) setForeground(component, HORIZONTAL_SCROLL_BAR_FOREGROUND);
-        if(component instanceof VerticalScrollBar.DraggableBar) setForeground(component, VERTICAL_SCROLL_BAR_FOREGROUND);
-        if(component instanceof HorizontalSlider) setForeground(component, HORIZONTAL_SLIDER_FOREGROUND);
-        if(component instanceof VerticalSlider) setForeground(component, VERTICAL_SLIDER_FOREGROUND);
-        if(component instanceof ComboBox.OpenButton.Content) setForeground(component, COMBO_BOX_BUTTON_CONTENT_FOREGROUND);
-        if(component instanceof ContentPanel && component.getParent() instanceof SplitArea) setForeground(component, COMMON_FOREGROUND);
-        if(component instanceof SinglelineTextContent) setBackground(component, SINGLELINE_TEXT_CONTENT_BACKGROUND);
-        if(component instanceof SinglelineTextContent) setForeground(component, SINGLELINE_TEXT_CONTENT_FOREGROUND);
-        if(component instanceof InteractiveSinglelineTextContent) setBackground(component, INTERACTIVE_SINGLELINE_TEXT_CONTENT_BACKGROUND);
-        if(component instanceof InteractiveSinglelineTextContent) setForeground(component, INTERACTIVE_SINGLELINE_TEXT_CONTENT_FOREGROUND);
-        if(component instanceof MultilineTextContent) setBackground(component, MULTILINE_TEXT_CONTENT_BACKGROUND);
-        if(component instanceof MultilineTextContent) setForeground(component, MULTILINE_TEXT_CONTENT_FOREGROUND);
-        if(component instanceof InteractiveMultilineTextContent) setBackground(component, INTERACTIVE_MULTILINE_TEXT_CONTENT_BACKGROUND);
-        if(component instanceof InteractiveMultilineTextContent) setForeground(component, INTERACTIVE_MULTILINE_TEXT_CONTENT_FOREGROUND);
-        if(component instanceof SingleSelectionList.ListItem) setBackground(component, SELECTION_LIST_ITEM_BACKGROUND);
-        if(component instanceof SingleSelectionList.ListItem) setForeground(component, SELECTION_LIST_ITEM_FOREGROUND);
-        if(component instanceof SelectionList.ListItem) setBackground(component, SELECTION_LIST_ITEM_BACKGROUND);
-        if(component instanceof SelectionList.ListItem) setForeground(component, SELECTION_LIST_ITEM_FOREGROUND);
-        
-        if(component instanceof Button) setPadding(component, BUTTON_PADDING);
-        if(component instanceof ScrollButton) setPadding(component, SCROLL_BUTTON_PADDING);
-        if(component instanceof CloseButton) setPadding(component, CLOSE_BUTTON_PADDING);
-        if(component instanceof CheckBox) setPadding(component, CHECK_BOX_PADDING);
-        if(component instanceof CheckBox) setForeground(component, CHECK_BOX_FOREGROUND);
-        if(component instanceof RadioButton) setPadding(component, RADIO_BUTTON_PADDING);
-        if(component instanceof Spinner.SpinnerButton) setPadding(component, SPINNER_BUTTON_PADDING);
-        if(component instanceof Menu) setSpacing(component, MENU_SPACING);
-        if(component instanceof Menu) setPadding(component, MENU_PADDING);
-        if(component instanceof SinglelineTextInput.TextContent) setPadding(component, TEXT_INPUT_PADDING);
-        if(component instanceof MultilineTextInput.TextContent) setPadding(component, TEXT_INPUT_PADDING);
-        if(component instanceof HorizontalTabArea.CloseButton) setPadding(component, TAB_CLOSE_BUTTON_PADDING);
-        if(component instanceof SplitArea) setSpacing(component, SPLIT_AREA_SPACING);
-        if(component instanceof ToolkitDecoration.TitlebarButton) setPadding(component, TITLE_BAR_BUTTON_PADDING); 
-        if(component instanceof ToolkitDecoration.TitleBar) setPadding(component, TITLE_BAR_PADDING); 
-        if(component instanceof ToolkitDecoration.TitleBar) setHorizontalSpacing(component, TITLE_BAR_SPACING);
-        if(component instanceof ComboBox.Text) setPadding(component, COMBO_BOX_TEXT_PADDING);
-        if(component instanceof ComboBox.Menu) setPadding(component, COMBO_BOX_MENU_PADDING);
-        if(component instanceof ComboBox.OpenButton.Content) setPadding(component, COMBO_BOX_BUTTON_PADDING);
-        if(component instanceof SelectionList.ListItem) setHorizontalPadding(component, SELECTION_LIST_ITEM_HORIZONTAL_PADDING);
-        if(component instanceof SelectionList.ListItem) setVerticalPadding(component, SELECTION_LIST_ITEM_VERTICAL_PADDING);
-        if(component instanceof SelectionList) setVerticalPadding(component, SELECTION_LIST_VERTICAL_PADDING);
-        if(component instanceof HorizontalTabArea.Tab.TabHeader) setPadding(component, TAB_AREA_HEADER_PADDING);
-        if(component instanceof HorizontalTabArea.Tab.TabHeader) setHorizontalSpacing(component, TAB_AREA_HEADER_SPACING);
-        
-        if(component instanceof CheckBox) setFixedSize(component, CHECK_BOX_SIZE);
-        if(component instanceof RadioButton) setFixedSize(component, RADIO_BUTTON_SIZE);
-        if(component instanceof ScrollButton) setFixedSize(component, SCROLL_BUTTON_SIZE);
-        if(component instanceof ComboBox.OpenButton) setFixedSize(component, COMBO_BOX_BUTTON_SIZE);
-        if(component instanceof Spinner.SpinnerButton) setFixedSize(component, SPINNER_BUTTON_WIDTH, SPINNER_BUTTON_HEIGHT);
-        if(component instanceof Slider) setFixedSize(component, SLIDER_SIZE);
-        if(component instanceof ToolkitDecoration.TitleBar) setFixedSize(component, TITLE_BAR_SIZE);
-        if(component instanceof HorizontalTabArea.Tab.TabHeader) setFixedSize(component, TAB_AREA_HEADER_SIZE);
-    }
-    
-    private void setFixedSize(Component conponent, double size){
+    private static void setFixedSize(Component conponent, double size){
         setFixedSize(conponent, size, size);
     }
     
-    private void setFixedSize(Component component, double width, double height){
+    private static void setFixedSize(Component component, double width, double height){
         SizePolicy h = getHorizontalSizePolicy(component);
         SizePolicy v = getVerticalSizePolicy(component);
         if(h instanceof FixedSizePolicy) ((FixedSizePolicy) h).setWidth(width);
         if(v instanceof FixedSizePolicy) ((FixedSizePolicy) v).setHeight(height);
-    }
-    
-    protected void onDefaultDesign(Component component){
-        onDesign(component);
-        setBackgroundColor(component, BACKGROUND_COLOR);
-        setForegroundColor(component, FOREGROUND_COLOR);
-        setDisabledBackgroundColor(component, DISABLED_BACKGROUND_COLOR);
-        setDisabledForegroundColor(component, DISABLED_FOREGROUND_COLOR);
-        setHighlightedBackgroundColor(component, HIGHLIGHTED_BACKGROUND_COLOR);
-        setHighlightedForegroundColor(component, HIGHLIGHTED_FOREGROUND_COLOR);
-    }
-    
-    protected void onTitleBarDesign(Component component){
-        onDesign(component);
-        setBackgroundColor(component, TITLE_BACKGROUND_COLOR);
-        setForegroundColor(component, TITLE_FOREGROUND_COLOR);
-        setDisabledBackgroundColor(component, TITLE_DISABLED_BACKGROUND_COLOR);
-        setDisabledForegroundColor(component, TITLE_DISABLED_FOREGROUND_COLOR);
-        setHighlightedBackgroundColor(component, TITLE_HIGHLIGHTED_BACKGROUND_COLOR);
-        setHighlightedForegroundColor(component, TITLE_HIGHLIGHTED_FOREGROUND_COLOR);
     }
 }

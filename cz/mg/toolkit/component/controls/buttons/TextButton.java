@@ -6,6 +6,8 @@ import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
 public class TextButton extends ContentButton {
+    public static final String DEFAULT_DESIGN_NAME = "text button";
+    
     public TextButton() {
         super(new SinglelineTextContent());
         initComponents();

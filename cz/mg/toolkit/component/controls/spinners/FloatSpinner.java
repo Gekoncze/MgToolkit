@@ -4,6 +4,8 @@ import cz.mg.toolkit.component.controls.Spinner;
 
 
 public class FloatSpinner extends Spinner<Float> {
+    public static final String DEFAULT_DESIGN_NAME = "float spinner";
+    
     public FloatSpinner() {
         super(0.0f, 1.0f, -Float.MAX_VALUE, Float.MAX_VALUE);
     }

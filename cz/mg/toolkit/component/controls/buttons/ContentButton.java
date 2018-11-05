@@ -7,6 +7,8 @@ import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 
 
 public abstract class ContentButton extends Button {
+    public static final String DEFAULT_DESIGN_NAME = "content button";
+    
     private Content content;
 
     public ContentButton(Content content) {

@@ -13,6 +13,8 @@ import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 
 
 public class HorizontalScrollArea extends Wrapper {
+    public static final String DEFAULT_DESIGN_NAME = "horizontal scroll area";
+    
     private final HorizontalScrollBar horizontalScrollBar = new HorizontalScrollBar();
     private ScrollControlsVisibility scrollControlsVisibility = ScrollControlsVisibility.WHEN_NEEDED;
     

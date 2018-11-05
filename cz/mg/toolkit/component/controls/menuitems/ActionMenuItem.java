@@ -8,6 +8,8 @@ import cz.mg.toolkit.utilities.Triggerable;
 
 
 public abstract class ActionMenuItem extends MenuItem implements Triggerable {
+    public static final String DEFAULT_DESIGN_NAME = "action menu item";
+    
     public ActionMenuItem() {
         getEventListeners().addLast(new LocalMouseButtonAdapter() {
             @Override

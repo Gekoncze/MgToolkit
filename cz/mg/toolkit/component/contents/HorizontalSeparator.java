@@ -1,21 +1,20 @@
 package cz.mg.toolkit.component.contents;
 
-import cz.mg.toolkit.component.DrawableContent;
+import cz.mg.toolkit.component.Content;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
 
 
-public class HorizontalSeparator extends DrawableContent {
-    private static final int DEFAULT_WIDTH = 7;
-    private static final int DEFAULT_HEIGHT = 4;
+public class HorizontalSeparator extends Content {
+    public static final String DEFAULT_DESIGN_NAME = "horizontal separator";
     
     public HorizontalSeparator() {
         initComponent();
     }
     
     private void initComponent() {
-        setContentWidth(DEFAULT_WIDTH);
-        setContentHeight(DEFAULT_HEIGHT);
+        setHorizontalSizePolicy(this, new FixedSizePolicy());
         setVerticalSizePolicy(this, new FillParentSizePolicy());
     }
 }

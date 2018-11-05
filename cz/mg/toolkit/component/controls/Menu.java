@@ -8,6 +8,7 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 
 
 public class Menu extends Panel {
+    public static final String DEFAULT_DESIGN_NAME = "menu";
     public static final int COLUMN_COUNT = 4;
     
     private final GridLayout grid = new GridLayout(COLUMN_COUNT, 1);

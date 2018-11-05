@@ -1,7 +1,8 @@
 package cz.mg.toolkit.component.containers;
 
-import cz.mg.toolkit.component.DrawableContainer;
+import cz.mg.toolkit.component.Container;
 
 
-public class Panel extends DrawableContainer {
+public class Panel extends Container {
+    public static final String DEFAULT_DESIGN_NAME = "panel";
 }

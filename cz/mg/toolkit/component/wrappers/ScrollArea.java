@@ -15,6 +15,8 @@ import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
 
 
 public class ScrollArea extends Wrapper {
+    public static final String DEFAULT_DESIGN_NAME = "scroll area";
+    
     private final GridLayout grid = new GridLayout(2, 2);
     private final VerticalScrollBar verticalScrollBar = new VerticalScrollBar();
     private final HorizontalScrollBar horizontalScrollBar = new HorizontalScrollBar();

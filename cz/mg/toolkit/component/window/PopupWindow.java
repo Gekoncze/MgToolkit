@@ -5,6 +5,8 @@ import cz.mg.toolkit.event.events.WindowStateEvent;
 
 
 public class PopupWindow extends Window {
+    public static final String DEFAULT_DESIGN_NAME = "popup window";
+    
     public PopupWindow() {
         initComponent();
         addEventListeners();

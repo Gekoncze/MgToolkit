@@ -1,14 +1,14 @@
 package cz.mg.toolkit.component.controls.buttons.special;
 
 import cz.mg.toolkit.component.Container;
-import cz.mg.toolkit.component.Content;
-import cz.mg.toolkit.component.DrawableContent;
 import cz.mg.toolkit.component.controls.buttons.ContentButton;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
 
 
 public abstract class ScrollButton extends ContentButton {
+    public static final String DEFAULT_DESIGN_NAME = "scroll button";
+    
     private static final int DEFAULT_SCROLL_SPEED = 16;
     
     private Container scrollPanel;
@@ -49,6 +49,7 @@ public abstract class ScrollButton extends ContentButton {
     
     protected abstract void doScroll(Container scrollPanel);
     
-    public static class Content extends DrawableContent {
+    public static class Content extends cz.mg.toolkit.component.Content {
+        public static final String DEFAULT_DESIGN_NAME = "scroll button content";
     }
 }

@@ -6,6 +6,8 @@ import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 
 
 public class ContentPanel extends Panel {
+    public static final String DEFAULT_DESIGN_NAME = "content panel";
+    
     public ContentPanel() {
         initComponent();
     }

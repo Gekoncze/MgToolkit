@@ -24,7 +24,7 @@ import cz.mg.toolkit.component.controls.SinglelineTextInput;
 import cz.mg.toolkit.component.controls.MultilineTextInput;
 import cz.mg.toolkit.component.controls.MultipleSelectionList;
 import cz.mg.toolkit.component.controls.SingleSelectionList;
-import cz.mg.toolkit.component.controls.menuitems.SeparatorItem;
+import cz.mg.toolkit.component.controls.menuitems.SeparatorMenuItem;
 import cz.mg.toolkit.component.controls.menuitems.StandardMenuItem;
 import cz.mg.toolkit.component.controls.sliders.horizontal.DoubleHorizontalSlider;
 import cz.mg.toolkit.component.controls.sliders.horizontal.FloatHorizontalSlider;
@@ -42,6 +42,7 @@ import cz.mg.toolkit.component.wrappers.decorations.SystemDecoration;
 import cz.mg.toolkit.component.wrappers.decorations.ToolkitDecoration;
 import cz.mg.toolkit.component.window.ContextMenu;
 import cz.mg.toolkit.component.window.DialogWindow;
+import cz.mg.toolkit.designer.CompositeDesigner;
 import cz.mg.toolkit.utilities.Debug;
 import cz.mg.toolkit.environment.device.devices.Keyboard;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
@@ -53,7 +54,7 @@ import cz.mg.toolkit.event.events.ActionEvent;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.graphics.Color;
 import cz.mg.toolkit.graphics.Graphics;
-import cz.mg.toolkit.graphics.designers.DefaultDesigner;
+import cz.mg.toolkit.designer.designers.DefaultDesigner;
 import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.impl.swing.SwingImplApi;
@@ -85,7 +86,7 @@ public class ToolkitTest {
         
         MenuItem m1 = new StandardMenuItem(new BitmapImage(ToolkitTest2.class.getResourceAsStream("mg.png")), "yay", new StandardKeyboardCharacterShortcut(true, false, false, 's'), null, null);
         MenuItem m2 = new StandardMenuItem(null, "nayyyyyyyyyyyyyyyyyyyyyy", null, true, null);
-        MenuItem m3 = new SeparatorItem();
+        MenuItem m3 = new SeparatorMenuItem();
         MenuItem m4 = new StandardMenuItem(null, "option 1", null, false, selectionGroup);
         MenuItem m5 = new StandardMenuItem(null, "option 2", null, false, selectionGroup);
         MenuItem m6 = new StandardMenuItem(null, "option 3", null, false, selectionGroup);
@@ -122,6 +123,7 @@ public class ToolkitTest {
                 if(e.getLogicalButton() == Keyboard.Button.F7) window.setMinimized(true);
                 if(e.getLogicalButton() == Keyboard.Button.F8) window.setMaximized(!window.isMaximized());
                 if(e.getLogicalButton() == Keyboard.Button.F9) {setDebug(window); setDebug(contextMenu);}
+                if(e.getLogicalButton() == Keyboard.Button.F10) {setDebug(window); setDebug(contextMenu);}
                 window.relayout();
             }
         });
@@ -152,7 +154,8 @@ public class ToolkitTest {
         
         int n = 5;
         for(int i = 0; i <= n; i++){
-            label = new BigTextContent(i + "" + i + "" + i + "" + i + "" + i);
+            label = new SinglelineTextContent(i + "" + i + "" + i + "" + i + "" + i);
+            setDesignName(label, "big text content");
             label.setParent(tabs);
             if(i < n){
                 tabs.getChildren().addLast(new HorizontalSeparator());
@@ -163,7 +166,8 @@ public class ToolkitTest {
         scrollArea.setParent(windowPanel);
         setHorizontalContentAlignment(scrollArea.getContentPanel(), 0.5);
         
-        PagePanel v1 = new PagePanel();
+        Panel v1 = new Panel();
+        setDesignName(v1, "page panel");
 //        setPadding(v1, 4);
         v1.setLayout(new VerticalLayout());
         v1.setParent(scrollArea.getContentPanel());
@@ -448,12 +452,6 @@ public class ToolkitTest {
         window.open();
     }
     
-    private static class BigTextContent extends SinglelineTextContent {
-        public BigTextContent(String text) {
-            super(text);
-        }
-    }
-    
     private static class OvalButton extends Button {
         public OvalButton() {
             getEventListeners().addLast(new GraphicsDrawAdapter() {
@@ -473,8 +471,6 @@ public class ToolkitTest {
             });
         }
     }
-    
-    private static class PagePanel extends Panel {}
     
     private static class PonyDialog extends DialogWindow {
         private ComboBox<Pony> boxOfPonies;
@@ -521,15 +517,26 @@ public class ToolkitTest {
         Debug.printComponentInfo(window);
     }
     
-    private static class TestDesigner extends DefaultDesigner {
+    private static class TestDesigner extends CompositeDesigner {
         private static final Font TOP_LABEL_FONT = new Font("default", 48, Font.Style.REGULAR);
-        
-        @Override
-        public void onDesign(Component component) {
-            super.onDesign(component);
-            if(component instanceof BigTextContent) setFont(component, TOP_LABEL_FONT);
-            if(component instanceof PagePanel) setPadding(component, 4);
-            if(component instanceof PagePanel) setSpacing(component, 4);
+
+        public TestDesigner() {
+            super(new DefaultDesigner(), new Array<Design>(new Design[]{
+                    new Design("big text content", "singleline text content") {
+                        @Override
+                        public void onDesign(Component component) {
+                            setFont(component, TOP_LABEL_FONT);
+                        }
+                    }
+                    ,
+                    new Design("page panel", "panel") {
+                        @Override
+                        public void onDesign(Component component) {
+                            setPadding(component, 4);
+                            setSpacing(component, 4);
+                        }
+                    }
+            }));
         }
     }
     

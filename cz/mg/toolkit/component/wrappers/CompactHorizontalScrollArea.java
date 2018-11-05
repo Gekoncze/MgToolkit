@@ -14,6 +14,8 @@ import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
 public class CompactHorizontalScrollArea extends Wrapper {
+    public static final String DEFAULT_DESIGN_NAME = "compact horizontal scroll area";
+    
     private final LeftScrollButton leftButton = new LeftScrollButton();
     private final RightScrollButton rightButton = new RightScrollButton();
     private ScrollControlsVisibility scrollControlsVisibility = ScrollControlsVisibility.WHEN_NEEDED;
@@ -95,8 +97,10 @@ public class CompactHorizontalScrollArea extends Wrapper {
     }
     
     public static class LeftScrollButton extends cz.mg.toolkit.component.controls.buttons.special.LeftScrollButton {
+        public static final String DEFAULT_DESIGN_NAME = "compact horizontal scoll area left button";
     }
     
     public static class RightScrollButton extends cz.mg.toolkit.component.controls.buttons.special.RightScrollButton {
+        public static final String DEFAULT_DESIGN_NAME = "compact horizontal scroll area right button";
     }
 }

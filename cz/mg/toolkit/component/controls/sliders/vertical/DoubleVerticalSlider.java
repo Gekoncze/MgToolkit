@@ -4,6 +4,8 @@ import cz.mg.toolkit.component.controls.VerticalSlider;
 
 
 public class DoubleVerticalSlider extends VerticalSlider<Double> {
+    public static final String DEFAULT_DESIGN_NAME = "double vertical slider";
+    
     public DoubleVerticalSlider() {
         super(0.0, -Double.MAX_VALUE/2.0, Double.MAX_VALUE/2.0);
     }

@@ -5,6 +5,8 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 
 
 public class LeftScrollButton extends ScrollButton {
+    public static final String DEFAULT_DESIGN_NAME = "left scroll button";
+    
     public LeftScrollButton() {
         super(new Content());
     }
@@ -15,5 +17,6 @@ public class LeftScrollButton extends ScrollButton {
     }
     
     public static class Content extends ScrollButton.Content {
+        public static final String DEFAULT_DESIGN_NAME = "left scroll button content";
     }
 }

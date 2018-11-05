@@ -8,6 +8,8 @@ import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
 public class ContextMenu extends PopupWindow {
+    public static final String DEFAULT_DESIGN_NAME = "context menu";
+    
     private final Menu menu = new Menu();
     
     public ContextMenu() {

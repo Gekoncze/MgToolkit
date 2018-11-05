@@ -9,6 +9,8 @@ import cz.mg.toolkit.utilities.Triggerable;
 
 
 public class CheckBox extends Button implements Selectable, Triggerable {
+    public static final String DEFAULT_DESIGN_NAME = "check box";
+    
     private boolean selected = false;
     
     public CheckBox() {

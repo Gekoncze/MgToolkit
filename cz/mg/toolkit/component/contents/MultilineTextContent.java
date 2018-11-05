@@ -1,6 +1,5 @@
 package cz.mg.toolkit.component.contents;
 
-import cz.mg.toolkit.component.DrawableContent;
 import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.layout.reshapes.Reshape;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
@@ -8,11 +7,12 @@ import cz.mg.toolkit.utilities.text.MultilineTextModel;
 import cz.mg.toolkit.utilities.text.textmodels.StringMultilineTextModel;
 
 
-public class MultilineTextContent extends DrawableContent {
+public class MultilineTextContent extends TextContent {
+    public static final String DEFAULT_DESIGN_NAME = "multiline text content";
     private MultilineTextModel textModel = new StringMultilineTextModel();
     
     public MultilineTextContent() {
-        setText("");
+        this("");
     }
 
     public MultilineTextContent(String text) {

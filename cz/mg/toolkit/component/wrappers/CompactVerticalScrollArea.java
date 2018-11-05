@@ -1,8 +1,6 @@
 package cz.mg.toolkit.component.wrappers;
 
 import cz.mg.toolkit.component.containers.Wrapper;
-import cz.mg.toolkit.component.controls.buttons.special.DownScrollButton;
-import cz.mg.toolkit.component.controls.buttons.special.UpScrollButton;
 import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import cz.mg.toolkit.utilities.ScrollControlsVisibility;
@@ -16,6 +14,8 @@ import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
 public class CompactVerticalScrollArea extends Wrapper {
+    public static final String DEFAULT_DESIGN_NAME = "compact vertical scroll area";
+    
     private final UpScrollButton upButton = new UpScrollButton();
     private final DownScrollButton downButton = new DownScrollButton();
     private ScrollControlsVisibility scrollControlsVisibility = ScrollControlsVisibility.WHEN_NEEDED;
@@ -94,5 +94,13 @@ public class CompactVerticalScrollArea extends Wrapper {
 
     public final void setScrollControlsVisibility(ScrollControlsVisibility scrollControlsVisibility) {
         this.scrollControlsVisibility = scrollControlsVisibility;
+    }
+    
+    public static class UpScrollButton extends cz.mg.toolkit.component.controls.buttons.special.UpScrollButton {
+        public static final String DEFAULT_DESIGN_NAME = "compact vertical scoll area left button";
+    }
+    
+    public static class DownScrollButton extends cz.mg.toolkit.component.controls.buttons.special.DownScrollButton {
+        public static final String DEFAULT_DESIGN_NAME = "compact vertical scroll area right button";
     }
 }

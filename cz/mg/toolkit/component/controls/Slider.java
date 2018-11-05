@@ -1,9 +1,11 @@
 package cz.mg.toolkit.component.controls;
 
-import cz.mg.toolkit.component.DrawableContent;
+import cz.mg.toolkit.component.Content;
 
 
-public abstract class Slider<T> extends DrawableContent {
+public abstract class Slider<T> extends Content {
+    public static final String DEFAULT_DESIGN_NAME = "slider";
+    
     private T value;
     private T minValue;
     private T maxValue;

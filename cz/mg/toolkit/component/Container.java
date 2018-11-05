@@ -14,6 +14,8 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 
 
 public abstract class Container extends Component {
+    public static String DEFAULT_DESIGN_NAME = "container";
+    
     private Layout layout = new FreeLayout();
     
     private double wrapWidth = 0;
@@ -27,7 +29,7 @@ public abstract class Container extends Component {
     public Container() {
         addEventListeners();
     }
-    
+
     private void addEventListeners(){
         getEventListeners().addLast(new LayoutAdapter() {
             @Override

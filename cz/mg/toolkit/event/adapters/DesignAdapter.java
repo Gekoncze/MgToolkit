@@ -4,7 +4,7 @@ import cz.mg.toolkit.event.Event;
 import cz.mg.toolkit.event.EventListener;
 import cz.mg.toolkit.event.contexts.DesignerEventContext;
 import cz.mg.toolkit.event.events.DesignEvent;
-import cz.mg.toolkit.graphics.Designer;
+import cz.mg.toolkit.designer.Designer;
 
 
 public abstract class DesignAdapter implements EventListener<DesignEvent> {

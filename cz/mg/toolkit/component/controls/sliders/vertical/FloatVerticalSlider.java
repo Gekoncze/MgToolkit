@@ -3,8 +3,9 @@ package cz.mg.toolkit.component.controls.sliders.vertical;
 import cz.mg.toolkit.component.controls.VerticalSlider;
 
 
-
 public class FloatVerticalSlider extends VerticalSlider<Float> {
+    public static final String DEFAULT_DESIGN_NAME = "float vertical slider";
+    
     public FloatVerticalSlider() {
         super(0.0f, -Float.MAX_VALUE/2.0f, Float.MAX_VALUE/2.0f);
     }

@@ -2,8 +2,8 @@ package cz.mg.toolkit.component.controls;
 
 import cz.mg.toolkit.component.controls.buttons.special.UpScrollButton;
 import cz.mg.toolkit.component.controls.buttons.special.DownScrollButton;
-import cz.mg.toolkit.component.DrawableContainer;
-import cz.mg.toolkit.component.DrawableContent;
+import cz.mg.toolkit.component.Container;
+import cz.mg.toolkit.component.Content;
 import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
@@ -17,11 +17,13 @@ import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
 import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
-public class VerticalScrollBar extends DrawableContainer {
+public class VerticalScrollBar extends Container {
+    public static final String DEFAULT_DESIGN_NAME = "vertical scroll bar";
+    
     private Panel scrollablePanel;
     private final UpScrollButton upButton = new UpScrollButton();
     private final DownScrollButton downButton = new DownScrollButton();
-    private final DraggableBar draggableBar = new DraggableBar();
+    private final Content draggableBar = new Content();
     private double dragY;
     private double dragBeginScroll;
     
@@ -60,8 +62,10 @@ public class VerticalScrollBar extends DrawableContainer {
         downButton.setScrollPanel(scrollablePanel);
     }
     
-    public final class DraggableBar extends DrawableContent {
-        public DraggableBar() {
+    public final class Content extends cz.mg.toolkit.component.Content {
+        public static final String DEFAULT_DESIGN_NAME = "vertical scroll bar content";
+        
+        public Content() {
             initComponent();
             addEventListeners();
         }

@@ -4,6 +4,8 @@ import cz.mg.toolkit.component.controls.Spinner;
 
 
 public class IntegerSpinner extends Spinner<Integer> {
+    public static final String DEFAULT_DESIGN_NAME = "integer spinner";
+    
     public IntegerSpinner() {
         super(0, 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }

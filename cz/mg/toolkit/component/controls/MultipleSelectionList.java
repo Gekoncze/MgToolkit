@@ -10,6 +10,8 @@ import cz.mg.toolkit.layout.layouts.VerticalLayout;
 
 
 public class MultipleSelectionList<T> extends SelectionList<T> {
+    public static final String DEFAULT_DESIGN_NAME = "multiple selection list";
+    
     public MultipleSelectionList() {
         initComponent();
     }
@@ -47,6 +49,8 @@ public class MultipleSelectionList<T> extends SelectionList<T> {
     }
     
     public class ListItem extends SelectionList.ListItem {
+        public static final String DEFAULT_DESIGN_NAME = "multiple selection list item";
+        
         public ListItem(T item) {
             super(item);
             getEventListeners().addLast(new LocalMouseButtonAdapter() {

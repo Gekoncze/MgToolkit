@@ -5,6 +5,8 @@ import cz.mg.toolkit.graphics.Image;
 
 
 public class ImageButton extends ContentButton {
+    public static final String DEFAULT_DESIGN_NAME = "image button";
+    
     public ImageButton() {
         super(new ImageContent());
     }

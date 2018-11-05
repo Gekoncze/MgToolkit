@@ -7,6 +7,8 @@ import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 
 
 public abstract class MenuItem extends Content {
+    public static final String DEFAULT_DESIGN_NAME = "menu item";
+    
     public MenuItem() {
         setHorizontallyOptional(this, true);
         setColumn(this, 0);

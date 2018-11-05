@@ -11,10 +11,11 @@ import cz.mg.toolkit.graphics.Image;
 import cz.mg.toolkit.utilities.KeyboardShortcut;
 import cz.mg.toolkit.utilities.SelectionGroup;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
 
 
 public class StandardMenuItem extends ActionMenuItem {
-    private static final int DEFAULT_ICON_SIZE = 16;
+    public static final String DEFAULT_DESIGN_NAME = "standard menu item";
     
     private final ImageContent imageContent = new ImageContent();
     private final RadioButton radioButton = new RadioButton();
@@ -41,8 +42,7 @@ public class StandardMenuItem extends ActionMenuItem {
     private void initComponents(Image icon, String text, KeyboardShortcut keyboardShortcut, Boolean checked, SelectionGroup selectionGroup) {
         if(icon == null) setHidden(imageContent, true);
         setColumn(imageContent, 0);
-        imageContent.setContentWidth(DEFAULT_ICON_SIZE);
-        imageContent.setContentHeight(DEFAULT_ICON_SIZE);
+        setSizePolicy(imageContent, new FixedSizePolicy());
         imageContent.setUsePrefferedSize(false);
         imageContent.setImage(icon);
         
@@ -89,9 +89,15 @@ public class StandardMenuItem extends ActionMenuItem {
         else super.trigger();
     }
     
+    public static class Icon extends ImageContent {
+        public static final String DEFAULT_DESIGN_NAME = "standard menu item icon";
+    }
+    
     public static class Description extends SinglelineTextContent {
+        public static final String DEFAULT_DESIGN_NAME = "standard menu item description";
     }
     
     public static class Shortcut extends SinglelineTextContent {
+        public static final String DEFAULT_DESIGN_NAME = "standard menu shortcut";
     }
 }

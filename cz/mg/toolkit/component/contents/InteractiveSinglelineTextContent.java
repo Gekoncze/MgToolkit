@@ -19,6 +19,8 @@ import cz.mg.toolkit.utilities.text.textmodels.StringBuilderSinglelineTextModel;
 
 
 public class InteractiveSinglelineTextContent extends SinglelineTextContent {
+    public static final String DEFAULT_DESIGN_NAME = "interactive singleline text content";
+    
     private int caret = 0;
     private int selectionCaret = 0;
     private boolean editable = false;

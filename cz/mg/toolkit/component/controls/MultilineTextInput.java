@@ -6,10 +6,8 @@ import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.contents.InteractiveMultilineTextContent;
 import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
 import cz.mg.toolkit.event.adapters.BeforeDrawAdapter;
-import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.event.events.AfterLayoutEvent;
 import cz.mg.toolkit.event.events.BeforeDrawEvent;
-import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;
 import cz.mg.toolkit.utilities.StringUtilities;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
@@ -18,6 +16,8 @@ import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
 
 
 public class MultilineTextInput extends Panel {
+    public static final String DEFAULT_DESIGN_NAME = "multiline text input";
+    
     private final TextContent textContent = new TextContent();
     private String placeholderText;
     private List<String> placeholderLines = null;
@@ -52,28 +52,6 @@ public class MultilineTextInput extends Panel {
             @Override
             public void onEventEnter(AfterLayoutEvent e) {
                 fixScroll();
-            }
-        });
-        
-        textContent.getEventListeners().addFirst(new GraphicsDrawAdapter() {
-            @Override
-            public void onDrawEventLeave(Graphics g) {
-                if(!textContent.hasKeyboardFocus() && textContent.getText().length() <= 0){
-                    if(placeholderLines == null) return;
-                    g.setTransparency(0.5);
-                    g.setColor(getCurrentForegroundColor());
-                    g.setFont(getFont(textContent));
-                    int i = 0;
-                    for(String placeholderLine : placeholderLines){
-                        g.drawText(
-                                placeholderLine,
-                                textContent.getHorizontalLinePosition(i, placeholderLine),
-                                textContent.getVerticalLinePosition(i, placeholderLine)
-                        );
-                        i++;
-                    }
-                    g.setTransparency(1.0);
-                }
             }
         });
     }
@@ -135,6 +113,10 @@ public class MultilineTextInput extends Panel {
         this.placeholderLines = StringUtilities.splitLines(placeholderText);
     }
 
+    public final List<String> getPlaceholderLines() {
+        return placeholderLines;
+    }
+
     public final InteractiveMultilineTextContent getTextContent() {
         return textContent;
     }
@@ -148,5 +130,6 @@ public class MultilineTextInput extends Panel {
     }
     
     public static class TextContent extends InteractiveMultilineTextContent {
+        public static final String DEFAULT_DESIGN_NAME = "multiline text input content";
     }
 }

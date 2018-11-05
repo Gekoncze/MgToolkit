@@ -1,6 +1,6 @@
 package cz.mg.toolkit.component.controls;
 
-import cz.mg.toolkit.component.DrawableContainer;
+import cz.mg.toolkit.component.Container;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
@@ -10,7 +10,9 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.s
 import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
 
 
-public abstract class Button extends DrawableContainer implements Triggerable {
+public abstract class Button extends Container implements Triggerable {
+    public static final String DEFAULT_DESIGN_NAME = "button";
+    
     private ActionInvocation actionInvocation = ActionInvocation.EVENT_ENTER;
     
     public Button() {

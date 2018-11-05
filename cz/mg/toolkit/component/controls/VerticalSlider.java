@@ -11,6 +11,8 @@ import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
 
 
 public abstract class VerticalSlider<T> extends Slider<T> {
+    public static final String DEFAULT_DESIGN_NAME = "vertical slider";
+    
     public VerticalSlider(T defaultValue, T minValue, T maxValue) {
         super(defaultValue, minValue, maxValue);
         initComponent();

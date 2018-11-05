@@ -1,6 +1,5 @@
 package cz.mg.toolkit.component.controls;
 
-import cz.mg.toolkit.component.DrawableContent;
 import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.controls.buttons.ContentButton;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
@@ -13,6 +12,8 @@ import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
 public abstract class Spinner<T> extends Panel {
+    public static final String DEFAULT_DESIGN_NAME = "spinner";
+    
     private final SinglelineTextInput text = new SinglelineTextInput();
     private final UpButton upButton = new UpButton();
     private final DownButton downButton = new DownButton();
@@ -158,27 +159,38 @@ public abstract class Spinner<T> extends Panel {
     }
     
     public static abstract class SpinnerButton extends ContentButton {
+        public static final String DEFAULT_DESIGN_NAME = "spinner button";
+        
         public SpinnerButton(Content content) {
             super(content);
         }
         
-        public static class Content extends DrawableContent {}
+        public static class Content extends cz.mg.toolkit.component.Content {
+            public static final String DEFAULT_DESIGN_NAME = "spinner button content";
+        }
     }
     
     public static class UpButton extends SpinnerButton {
+        public static final String DEFAULT_DESIGN_NAME = "up spinner button";
+        
         public UpButton() {
             super(new Content());
         }
         
-        public static class Content extends SpinnerButton.Content {}
+        public static class Content extends SpinnerButton.Content {
+            public static final String DEFAULT_DESIGN_NAME = "up spinner button content";
+        }
     }
     
     public static class DownButton extends SpinnerButton {
+        public static final String DEFAULT_DESIGN_NAME = "down spinner button";
         public DownButton() {
             super(new Content());
         }
         
-        public static class Content extends SpinnerButton.Content {}
+        public static class Content extends SpinnerButton.Content {
+            public static final String DEFAULT_DESIGN_NAME = "down spinner button content";
+        }
     }
     
     public static class ParseNumberException extends Exception {

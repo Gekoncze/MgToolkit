@@ -9,6 +9,8 @@ import cz.mg.toolkit.utilities.SelectionGroup;
 
 
 public class SingleSelectionList<T> extends SelectionList<T> {
+    public static final String DEFAULT_DESIGN_NAME = "single selection list";
+    
     private final SelectionGroup selectionGroup = new SelectionGroup();
     
     public SingleSelectionList() {
@@ -51,6 +53,8 @@ public class SingleSelectionList<T> extends SelectionList<T> {
     }
     
     public class ListItem extends SelectionList.ListItem {
+        public static final String DEFAULT_DESIGN_NAME = "single selection list item";
+        
         public ListItem(T item) {
             super(item);
             getEventListeners().addLast(new LocalMouseButtonAdapter() {

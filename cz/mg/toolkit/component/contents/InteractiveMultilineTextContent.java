@@ -20,6 +20,8 @@ import cz.mg.toolkit.utilities.text.textmodels.StringBuilderMultilineTextModel;
 
 
 public class InteractiveMultilineTextContent extends MultilineTextContent {
+    public static final String DEFAULT_DESIGN_NAME = "interactive multiline text content";
+    
     private int caret = 0;
     private int selectionCaret = 0;
     private boolean editable = false;

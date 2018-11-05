@@ -9,13 +9,18 @@ import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
 
 
 public abstract class SelectionList<T> extends Panel {
-    protected Collection<T> items = null;
+    public static final String DEFAULT_DESIGN_NAME = "selection list";
     
-    public Collection<T> getItems() {
+    protected Collection<T> items = null;
+
+    public SelectionList() {
+    }
+    
+    public final Collection<T> getItems() {
         return items;
     }
 
-    public void setItems(Collection<T> items) {
+    public final void setItems(Collection<T> items) {
         this.items = items;
         rebuildComponents();
     }
@@ -23,6 +28,8 @@ public abstract class SelectionList<T> extends Panel {
     protected abstract void rebuildComponents();
     
     public class ListItem extends SinglelineTextContent implements Selectable {
+        public static final String DEFAULT_DESIGN_NAME = "selection list item";
+        
         private final T item;
         private boolean selected = false;
 

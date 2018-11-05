@@ -4,6 +4,8 @@ import cz.mg.toolkit.component.controls.HorizontalSlider;
 
 
 public class DoubleHorizontalSlider extends HorizontalSlider<Double> {
+    public static final String DEFAULT_DESIGN_NAME = "double horizontal slider";
+    
     public DoubleHorizontalSlider() {
         super(0.0, -Double.MAX_VALUE/2.0, Double.MAX_VALUE/2.0);
     }

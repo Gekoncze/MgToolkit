@@ -9,11 +9,13 @@
     TIP: možnost zadávat vzorce do spinerů
     TIP: optimalizace pro mobilní zařízení + gesta
     TIP: better bridge between drawing - something like a classic CPU to GPU converter bridge
+    TIP: parsing dsign from file
 
 #### MUCH LATER:
     tooltip
     zalamování textu v multiline text contentu
     velikost popup meníčka nejen wrap ale i podle komponenty - např pro context menu
+        možná pak bude i potřeba respektovat velikosti MIN a MAX při synchronizaci okna
     designer fine tunning
         add something like a designer id property - might be better than instanceof
         přidat možnost přidávání značek ke komponentě - podle značek se pak bude provádět design - mohlo by být jen číslo + generátor
@@ -53,17 +55,19 @@
         message dialog (none/info/warning/error)
     
 #### NOW
-    finally add possibility to add marks to components for design
+    replace context with separate designs for toolkit decoration design
+    horizontal separator - add size setting to designer
+    standard menu item icon - add size setting to designer
+    
 
 #### DONE
-General swing impl api improvements PART #3
-    did some small cleanup
-    fixed two way synchronization
-    added isOpened property to window
-    polished some swing impl window behaviour for state change
-    added dialog window component
-    made relayout and redraw events disabled friendly
-    polished text button behaviour and buttons design
-    added state change for window state change event
-    fixed popup window closing behaviour
+Design fine tuning
+    added design name property to component interface
+    moved designer to new package outside of graphics
+    added default design names to all components
+    deleted context designer - its no longer needed
+    added composite designer abstract class
+    changed default designer for new design system
+    removed drawable content, drawable container and drawable component
+    moved placeholder text drawing from text input to designer
     

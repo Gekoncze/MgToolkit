@@ -3,8 +3,9 @@ package cz.mg.toolkit.component.controls.sliders.vertical;
 import cz.mg.toolkit.component.controls.VerticalSlider;
 
 
-
 public class LongVerticalSlider extends VerticalSlider<Long> {
+    public static final String DEFAULT_DESIGN_NAME = "long vertical slider";
+    
     public LongVerticalSlider() {
         super(0L, Long.MIN_VALUE/2L, Long.MAX_VALUE/2L);
     }

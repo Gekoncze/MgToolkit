@@ -24,6 +24,8 @@ import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
 
 public class HorizontalTabArea extends Panel {
+    public static final String DEFAULT_DESIGN_NAME = "horizontal tab area";
+    
     private final CompactHorizontalScrollArea tabsArea = new CompactHorizontalScrollArea();
     private final Panel contentPanel = new ContentPanel();
     private final List<Tab> tabs = new QuickList<>();

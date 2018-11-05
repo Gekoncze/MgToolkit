@@ -1,5 +1,6 @@
 package cz.mg.toolkit.utilities;
 
+import cz.mg.collections.list.chainlist.ChainList;
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.Container;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
@@ -9,7 +10,7 @@ import cz.mg.toolkit.event.events.MouseMotionEvent;
 import cz.mg.toolkit.event.events.VisitEvent;
 import cz.mg.toolkit.graphics.Color;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
-import cz.mg.toolkit.utilities.DrawableComponent;
+import java.lang.reflect.Field;
 
 
 public class Debug {
@@ -19,9 +20,7 @@ public class Debug {
         component.sendEvent(new VisitEvent() {
             @Override
             public void onComponentEnter(Component component) {
-                if(component instanceof DrawableComponent){
-                    setRandomColors(component);
-                }
+                setRandomColors(component);
             }
 
             @Override
@@ -97,6 +96,8 @@ public class Debug {
                 message += " - Min: " + getMinWidth(component) + " x " + getMinHeight(component);
                 message += " - Max: " + getMaxWidth(component) + " x " + getMaxHeight(component);
                 message += " - Current: " + component.getWidth() + " x " + component.getHeight();
+                message += " | " + classNameOrNull(getHorizontalSizePolicy(component)) + " | " + classNameOrNull(getVerticalSizePolicy(component)) + " | ";
+                message += " | preffered design: " + getDesignName(component) + " | design used: " + getDesignUsed(component) + " | fallback designs: " + listFallbackDesigns(component);
                 debugLine("### " + message, 1);
             }
 
@@ -105,6 +106,29 @@ public class Debug {
                 debugLine("", -1);
             }
         });
+    }
+    
+    private static String classNameOrNull(Object object){
+        if(object == null) return "null";
+        else return object.getClass().getSimpleName();
+    }
+    
+    private static String listFallbackDesigns(Component component){
+        ChainList<String> designs = new ChainList<>();
+        Class c = component.getClass();
+        while(c != null){
+            if(!Component.class.isAssignableFrom(c)) break;
+            for(Field field : c.getDeclaredFields()){
+                if(field.getName().equals("DEFAULT_DESIGN_NAME") && field.getType().equals(String.class)){
+                    try {
+                        String designName = (String) field.get(null);
+                        designs.addLast(designName);
+                    } catch (Exception e) {}
+                }
+            }
+            c = c.getSuperclass();
+        }
+        return designs.toString(", ");
     }
     
     
@@ -136,9 +160,7 @@ public class Debug {
         component.raiseEvent(new VisitEvent() {
             @Override
             public void onComponentEnter(Component component) {
-                if(component instanceof DrawableComponent){
-                    setRandomColors(component);
-                }
+                setRandomColors(component);
             }
 
             @Override

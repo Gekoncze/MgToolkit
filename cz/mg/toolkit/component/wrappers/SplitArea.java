@@ -24,6 +24,8 @@ import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 
 
 public class SplitArea extends Panel {
+    public static final String DEFAULT_DESIGN_NAME = "split area";
+    
     private final GridLayout grid = new GridLayout(1, 1, new ColumnFactory(), new RowFactory());
     private Array2D<Panel> contentPanels = new Array2D<>(1, 1);
     private final ContentPanelFactory contentPanelFactory;

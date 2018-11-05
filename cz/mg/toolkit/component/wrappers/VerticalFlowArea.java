@@ -10,6 +10,8 @@ import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 
 
 public class VerticalFlowArea extends ScrollArea {
+    public static final String DEFAULT_DESIGN_NAME = "vertical flow area";
+    
     private final VerticalStackLayout contentLayout = new VerticalStackLayout();
     
     public VerticalFlowArea() {

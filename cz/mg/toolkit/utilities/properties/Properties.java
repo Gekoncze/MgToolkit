@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 
 public class Properties {
-    private static final int DEFAULT_MAP_SIZE = 20;
+    private static final int DEFAULT_MAP_SIZE = 30;
     
     private static int currentId = 0;
     

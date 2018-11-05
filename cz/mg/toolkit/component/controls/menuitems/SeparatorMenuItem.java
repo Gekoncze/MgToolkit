@@ -6,11 +6,13 @@ import cz.mg.toolkit.component.contents.VerticalSeparator;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
-public class SeparatorItem extends MenuItem {
+public class SeparatorMenuItem extends MenuItem {
+    public static final String DEFAULT_DESIGN_NAME = "separator menu item";
+    
     private final VerticalSeparator separator = new VerticalSeparator();
     private final Component[] components = new Component[]{separator};
     
-    public SeparatorItem() {
+    public SeparatorMenuItem() {
         initComponents();
     }
     

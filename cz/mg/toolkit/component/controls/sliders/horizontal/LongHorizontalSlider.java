@@ -4,6 +4,8 @@ import cz.mg.toolkit.component.controls.HorizontalSlider;
 
 
 public class LongHorizontalSlider extends HorizontalSlider<Long> {
+    public static final String DEFAULT_DESIGN_NAME = "long horizontal slider";
+    
     public LongHorizontalSlider() {
         super(0L, Long.MIN_VALUE/2L, Long.MAX_VALUE/2L);
     }

@@ -1,7 +1,7 @@
 package cz.mg.toolkit.component.controls;
 
 import cz.mg.collections.Collection;
-import cz.mg.toolkit.component.DrawableContent;
+import cz.mg.toolkit.component.Content;
 import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.contents.SinglelineTextContent;
 import cz.mg.toolkit.component.controls.buttons.ContentButton;
@@ -18,6 +18,8 @@ import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
 
 
 public class ComboBox<T> extends Panel {
+    public static final String DEFAULT_DESIGN_NAME = "combo box";
+    
     private Collection<T> items = null;
     private T selectedItem = null;
     private final Text text = new Text();
@@ -127,14 +129,20 @@ public class ComboBox<T> extends Panel {
     }
 
     public static class OpenButton extends ContentButton {
+        public static final String DEFAULT_DESIGN_NAME = "combo box button";
+        
         public OpenButton() {
             super(new Content());
         }
 
-        public static class Content extends DrawableContent {}
+        public static class Content extends cz.mg.toolkit.component.Content {}
     }
     
-    public static class Text extends SinglelineTextContent {}
+    public static class Text extends SinglelineTextContent {
+        public static final String DEFAULT_DESIGN_NAME = "combo box text";
+    }
     
-    public static class Menu extends ContextMenu {}
+    public static class Menu extends ContextMenu {
+        public static final String DEFAULT_DESIGN_NAME = "combo box menu";
+    }
 }

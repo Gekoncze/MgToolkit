@@ -1,7 +1,6 @@
 package cz.mg.toolkit.component.wrappers.decorations;
 
 import cz.mg.toolkit.component.Content;
-import cz.mg.toolkit.component.DrawableContent;
 import cz.mg.toolkit.component.ToplevelComponent;
 import cz.mg.toolkit.component.contents.HorizontalSpacer;
 import cz.mg.toolkit.component.wrappers.Decoration;
@@ -28,6 +27,8 @@ import cz.mg.toolkit.utilities.sizepolices.SameAsHeightSizePolicy;
 
 
 public class ToolkitDecoration extends Decoration {
+    public static final String DEFAULT_DESIGN_NAME = "toolkit decoration";
+    
     private final TitleBar titleBar = new TitleBar();
     
     public ToolkitDecoration() {
@@ -136,6 +137,8 @@ public class ToolkitDecoration extends Decoration {
     }
     
     public static class Icon extends ImageContent {
+        public static final String DEFAULT_DESIGN_NAME = "toolkit decoration icon";
+        
         public Icon() {
             initComponent();
         }
@@ -147,6 +150,8 @@ public class ToolkitDecoration extends Decoration {
     }
     
     public static class Title extends SinglelineTextContent {
+        public static final String DEFAULT_DESIGN_NAME = "toolkit decoration title";
+        
         public Title() {
             initComponent();
         }
@@ -157,6 +162,8 @@ public class ToolkitDecoration extends Decoration {
     }
     
     public static abstract class TitlebarButton extends ContentButton {
+        public static final String DEFAULT_DESIGN_NAME = "toolkit decoration button";
+        
         public TitlebarButton(Content content) {
             super(content);
             initComponent();
@@ -190,6 +197,8 @@ public class ToolkitDecoration extends Decoration {
     }
     
     public static class MinimizeButton extends TitlebarButton {
+        public static final String DEFAULT_DESIGN_NAME = "toolkit decoration minimize button";
+        
         public MinimizeButton() {
             super(new Content());
         }
@@ -199,11 +208,14 @@ public class ToolkitDecoration extends Decoration {
             window.setMinimized(!window.isMinimized());
         }
         
-        public static class Content extends DrawableContent {
+        public static class Content extends cz.mg.toolkit.component.Content {
+            public static final String DEFAULT_DESIGN_NAME = "toolkit decoration minimize button content";
         }
     }
     
     public static class MaximizeButton extends TitlebarButton {
+        public static final String DEFAULT_DESIGN_NAME = "toolkit decoration maximize button";
+        
         public MaximizeButton() {
             super(new Content());
         }
@@ -213,11 +225,14 @@ public class ToolkitDecoration extends Decoration {
             window.setMaximized(!window.isMaximized());
         }
 
-        public static class Content extends DrawableContent {
+        public static class Content extends cz.mg.toolkit.component.Content {
+            public static final String DEFAULT_DESIGN_NAME = "toolkit decoration maximize button content";
         }
     }
     
     public static class CloseButton extends TitlebarButton {
+        public static final String DEFAULT_DESIGN_NAME = "toolkit decoration close button";
+        
         public CloseButton() {
             super(new Content());
         }
@@ -227,7 +242,8 @@ public class ToolkitDecoration extends Decoration {
             window.close();
         }
 
-        public static class Content extends DrawableContent {
+        public static class Content extends cz.mg.toolkit.component.Content {
+            public static final String DEFAULT_DESIGN_NAME = "toolkit decoration close button content";
         }
     }
 }

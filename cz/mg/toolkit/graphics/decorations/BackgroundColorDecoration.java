@@ -1,9 +1,10 @@
 package cz.mg.toolkit.graphics.decorations;
 
 import cz.mg.toolkit.component.Component;
+import cz.mg.toolkit.graphics.Color;
 import cz.mg.toolkit.graphics.Decoration;
 import cz.mg.toolkit.graphics.Graphics;
-import cz.mg.toolkit.utilities.DrawableComponent;
+import static cz.mg.toolkit.utilities.properties.PropertiesInterface.*;
 
 
 public class BackgroundColorDecoration extends Decoration {
@@ -13,8 +14,12 @@ public class BackgroundColorDecoration extends Decoration {
     
     @Override
     protected void onDraw(Graphics g, Component component) {
-        if(component instanceof DrawableComponent){
-            g.setColor(((DrawableComponent) component).getCurrentBackgroundColor());
-        }
+        g.setColor(getCurrentBackgroundColor(component));
+    }
+    
+    public static final Color getCurrentBackgroundColor(Component component){
+        if(component.isEffectivelyDisabled()) return getDisabledBackgroundColor(component);
+        if(isHighlighted(component)) return getHighlightedBackgroundColor(component);
+        return getBackgroundColor(component);
     }
 }

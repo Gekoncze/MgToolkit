@@ -4,6 +4,8 @@ import cz.mg.toolkit.component.controls.HorizontalSlider;
 
 
 public class FloatHorizontalSlider extends HorizontalSlider<Float> {
+    public static final String DEFAULT_DESIGN_NAME = "float horizontal slider";
+    
     public FloatHorizontalSlider() {
         super(0.0f, -Float.MAX_VALUE/2.0f, Float.MAX_VALUE/2.0f);
     }

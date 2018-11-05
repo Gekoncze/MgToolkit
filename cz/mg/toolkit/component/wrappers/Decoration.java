@@ -6,6 +6,8 @@ import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 
 
 public abstract class Decoration extends Wrapper {
+    public static final String DEFAULT_DESIGN_NAME = "decoration";
+    
     public Decoration() {
         setSizePolicy(this, new FillParentSizePolicy());
     }

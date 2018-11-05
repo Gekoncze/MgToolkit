@@ -4,6 +4,8 @@ import cz.mg.toolkit.component.controls.Spinner;
 
 
 public class LongSpinner extends Spinner<Long> {
+    public static final String DEFAULT_DESIGN_NAME = "long spinner";
+    
     public LongSpinner() {
         super(0L, 1L, Long.MIN_VALUE, Long.MAX_VALUE);
     }

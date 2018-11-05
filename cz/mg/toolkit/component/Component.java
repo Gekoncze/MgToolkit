@@ -1,7 +1,5 @@
 package cz.mg.toolkit.component;
 
-import cz.mg.collections.list.List;
-import cz.mg.collections.list.chainlist.ChainList;
 import cz.mg.collections.node.TreeNode;
 import cz.mg.toolkit.event.Event;
 import cz.mg.toolkit.event.EventListener;
@@ -12,13 +10,18 @@ import cz.mg.toolkit.event.adapters.BeforeLayoutAdapter;
 import cz.mg.toolkit.event.adapters.DesignAdapter;
 import cz.mg.toolkit.event.adapters.VisitAdapter;
 import cz.mg.toolkit.event.contexts.DesignerEventContext;
-import cz.mg.toolkit.graphics.Designer;
+import cz.mg.toolkit.designer.Designer;
+import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
+import cz.mg.toolkit.graphics.Decoration;
+import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.utilities.EventListeners;
 import cz.mg.toolkit.utilities.properties.Properties;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
 public abstract class Component extends TreeNode<Component, Component> implements EventObserver {
+    public static String DEFAULT_DESIGN_NAME = "component";
+    
     private double x, y;
     private double width, height;
     private final EventListeners eventListeners = new EventListeners();
@@ -69,6 +72,20 @@ public abstract class Component extends TreeNode<Component, Component> implement
             @Override
             public void parentChanged() {
                 if(getParent() != null) design();
+            }
+        });
+        
+        getEventListeners().addLast(new GraphicsDrawAdapter() {
+            @Override
+            public void onDrawEventEnter(Graphics g) {
+                Decoration background = getBackground(Component.this);
+                if(background != null) background.draw(g, Component.this);
+            }
+
+            @Override
+            public void onDrawEventLeave(Graphics g) {
+                Decoration foreground = getForeground(Component.this);
+                if(foreground != null) foreground.draw(g, Component.this);
             }
         });
     }
@@ -247,32 +264,12 @@ public abstract class Component extends TreeNode<Component, Component> implement
         return designer;
     }
     
-    private void initDesignerContext(Designer designer){
-        designer.clearState();
-        List<Component> path = new ChainList<>();
-        Component current = this;
-        while(current != null){
-            path.addFirst(current);
-            current = current.getParent();
-        }
-        for(Component component : path) designer.pushState(component);
-    }
-    
-    private void clearDesignerContext(Designer designer){
-        designer.clearState();
-    }
-    
     public final void design(){
         Designer designer = getEffectiveDesigner();
         if(designer == null) return;
-        
-        initDesignerContext(designer);
-        
         DesignEvent event = new DesignEvent();
         event.setEventContext(new DesignerEventContext(designer));
         sendEvent(event);
-        
-        clearDesignerContext(designer);
     }
     
     @Override

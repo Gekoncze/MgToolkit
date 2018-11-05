@@ -16,6 +16,8 @@ import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
 
 
 public class SinglelineTextInput extends Panel {
+    public static final String DEFAULT_DESIGN_NAME = "singleline text input";
+    
     private final TextContent textContent = new TextContent();
     private String placeholderText;
 
@@ -55,14 +57,7 @@ public class SinglelineTextInput extends Panel {
         textContent.getEventListeners().addFirst(new GraphicsDrawAdapter() {
             @Override
             public void onDrawEventLeave(Graphics g) {
-                if(!textContent.hasKeyboardFocus() && textContent.getText().length() <= 0){
-                    if(placeholderText == null) return;
-                    g.setTransparency(0.5);
-                    g.setColor(getCurrentForegroundColor());
-                    g.setFont(getFont(textContent));
-                    g.drawText(placeholderText, textContent.getHorizontalTextPosition(placeholderText), textContent.getVerticalTextPosition(placeholderText));
-                    g.setTransparency(1.0);
-                }
+                
             }
         });
     }
@@ -108,5 +103,6 @@ public class SinglelineTextInput extends Panel {
     }
     
     public static class TextContent extends InteractiveSinglelineTextContent {
+        public static final String DEFAULT_DESIGN_NAME = "singleline text input content";
     }
 }

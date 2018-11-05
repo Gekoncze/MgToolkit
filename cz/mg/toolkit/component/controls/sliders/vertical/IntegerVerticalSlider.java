@@ -5,6 +5,8 @@ import cz.mg.toolkit.component.controls.VerticalSlider;
 
 
 public class IntegerVerticalSlider extends VerticalSlider<Integer> {
+    public static final String DEFAULT_DESIGN_NAME = "integer vertical slider";
+    
     public IntegerVerticalSlider() {
         super(0, Integer.MIN_VALUE/2, Integer.MAX_VALUE/2);
     }

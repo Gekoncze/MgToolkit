@@ -10,6 +10,8 @@ import cz.mg.toolkit.utilities.Triggerable;
 
 
 public class RadioButton extends Button implements Selectable, Triggerable {
+    public static final String DEFAULT_DESIGN_NAME = "radio button";
+    
     private boolean selected = false;
     private SelectionGroup selectionGroup;
 
@@ -37,11 +39,11 @@ public class RadioButton extends Button implements Selectable, Triggerable {
         });
     }
 
-    public SelectionGroup getSelectionGroup() {
+    public final SelectionGroup getSelectionGroup() {
         return selectionGroup;
     }
 
-    public void setSelectionGroup(SelectionGroup selectionGroup) {
+    public final void setSelectionGroup(SelectionGroup selectionGroup) {
         if(this.selectionGroup != null) this.selectionGroup.removeSelectable(this);
         this.selectionGroup = selectionGroup;
         selectionGroup.addSelectable(this);

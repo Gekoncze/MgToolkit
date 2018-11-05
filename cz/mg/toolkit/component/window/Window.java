@@ -24,7 +24,7 @@ import cz.mg.toolkit.event.events.MouseEvent;
 import cz.mg.toolkit.event.events.RedesignEvent;
 import cz.mg.toolkit.event.events.RedrawEvent;
 import cz.mg.toolkit.event.events.RelayoutEvent;
-import cz.mg.toolkit.graphics.designers.DefaultDesigner;
+import cz.mg.toolkit.designer.designers.DefaultDesigner;
 import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;
@@ -34,6 +34,8 @@ import cz.mg.toolkit.impl.ImplWindow;
 
 
 public class Window extends Wrapper implements ToplevelComponent {
+    public static final String DEFAULT_DESIGN_NAME = "window";
+    
     private final ImplWindow implWindow = Impl.getImplApi().createWindow();
     private Component keyboardFocus = null;
     private Component mouseFocus = null;

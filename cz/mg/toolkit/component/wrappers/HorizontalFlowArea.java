@@ -10,6 +10,8 @@ import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 
 
 public class HorizontalFlowArea extends ScrollArea {
+    public static final String DEFAULT_DESIGN_NAME = "horizontal flow area";
+    
     private final HorizontalStackLayout contentLayout = new HorizontalStackLayout();
     
     public HorizontalFlowArea() {

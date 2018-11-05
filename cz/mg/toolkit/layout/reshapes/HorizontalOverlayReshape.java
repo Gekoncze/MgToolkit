@@ -7,6 +7,8 @@ import static cz.mg.toolkit.layout.reshapes.Reshape.getEffectiveMaxWidth;
 import static cz.mg.toolkit.layout.reshapes.Reshape.getEffectiveMinWidth;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import static cz.mg.toolkit.layout.reshapes.Reshape.align;
+import static cz.mg.toolkit.layout.reshapes.Reshape.align;
+import static cz.mg.toolkit.layout.reshapes.Reshape.align;
 
 
 public class HorizontalOverlayReshape {
