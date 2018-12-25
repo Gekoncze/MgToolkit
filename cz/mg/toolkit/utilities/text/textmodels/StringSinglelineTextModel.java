@@ -1,5 +1,6 @@
 package cz.mg.toolkit.utilities.text.textmodels;
 
+import cz.mg.toolkit.utilities.StringUtilities;
 import cz.mg.toolkit.utilities.text.SinglelineTextModel;
 
 
@@ -24,14 +25,6 @@ public class StringSinglelineTextModel implements SinglelineTextModel {
     
     @Override
     public String getText(int iBegin, int iEnd) {
-        return FailsafeString.substring(text, iBegin, iEnd);
-    }
-    
-    @Override
-    public void insert(int i, String text) {
-    }
-
-    @Override
-    public void remove(int iBegin, int iEnd) {
+        return StringUtilities.substring(text, iBegin, iEnd);
     }
 }

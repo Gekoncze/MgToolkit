@@ -1,9 +1,11 @@
 package cz.mg.toolkit.utilities.text.textmodels;
 
+import cz.mg.toolkit.utilities.StringUtilities;
+import cz.mg.toolkit.utilities.text.EditableTextModel;
 import cz.mg.toolkit.utilities.text.SinglelineTextModel;
 
 
-public class StringBuilderSinglelineTextModel implements SinglelineTextModel {
+public class StringBuilderSinglelineTextModel implements SinglelineTextModel, EditableTextModel {
     private StringBuilder text = new StringBuilder("");
     
     @Override
@@ -24,16 +26,16 @@ public class StringBuilderSinglelineTextModel implements SinglelineTextModel {
     
     @Override
     public String getText(int iBegin, int iEnd) {
-        return FailsafeStringBuilder.substring(text, iBegin, iEnd);
+        return StringUtilities.substring(text, iBegin, iEnd);
     }
     
     @Override
     public void insert(int i, String text) {
-        FailsafeStringBuilder.insert(this.text, i, text);
+        StringUtilities.insert(this.text, i, text);
     }
 
     @Override
     public void remove(int iBegin, int iEnd) {
-        FailsafeStringBuilder.delete(this.text, iBegin, iEnd);
+        StringUtilities.delete(this.text, iBegin, iEnd);
     }
 }

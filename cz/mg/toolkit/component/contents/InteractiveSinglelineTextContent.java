@@ -15,6 +15,7 @@ import cz.mg.toolkit.event.events.MouseMotionEvent;
 import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.utilities.keyboardshortcuts.CommonKeyboardShortcuts;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
+import cz.mg.toolkit.utilities.text.EditableTextModel;
 import cz.mg.toolkit.utilities.text.textmodels.StringBuilderSinglelineTextModel;
 
 
@@ -258,11 +259,11 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
     }
     
     public final void delete(){
-        if(!editable) return;
+        if(!editable || !(getTextModel() instanceof EditableTextModel)) return;
         if(caret == selectionCaret) return;
         int min = getMinCatet();
         int max = getMaxCatet();
-        getTextModel().remove(min, max);
+        ((EditableTextModel)getTextModel()).remove(min, max);
         setCaret(min);
         setSelectionCaret(caret);
     }
@@ -274,9 +275,9 @@ public class InteractiveSinglelineTextContent extends SinglelineTextContent {
     public final void paste(String s){
         if(s == null) return;
         if(s.length() <= 0) return;
-        if(!editable) return;
+        if(!editable || !(getTextModel() instanceof EditableTextModel)) return;
         if(selectionCaret != caret) delete();
-        getTextModel().insert(caret, s);
+        ((EditableTextModel)getTextModel()).insert(caret, s);
         setCaret(caret + s.length());
         setSelectionCaret(caret);
     }

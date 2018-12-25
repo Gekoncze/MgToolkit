@@ -16,6 +16,7 @@ import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.utilities.keyboardshortcuts.CommonKeyboardShortcuts;
 import static cz.mg.toolkit.utilities.properties.PropertiesInterface.getFont;
 import static cz.mg.toolkit.utilities.properties.PropertiesInterface.setHighlighted;
+import cz.mg.toolkit.utilities.text.EditableTextModel;
 import cz.mg.toolkit.utilities.text.textmodels.StringBuilderMultilineTextModel;
 
 
@@ -197,7 +198,7 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
         double lpx = px - getHorizontalLinePosition(line);
         int character = getClosestCharacter(getFont(this), getTextModel().getLine(line), lpx);
         
-        return caretsToCaret(character, line);
+        return getTextModel().caretsToCaret(character, line);
     }
     
     public double[] caretToPosition(int c){
@@ -249,15 +250,6 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
             }
         }
         return new int[]{cx, cy};
-    }
-    
-    private int caretsToCaret(int cx, int cy){
-        int caret = 0;
-        for(int l = 0; l < cy; l++){
-            String textLine = getTextModel().getLine(l);
-            caret += textLine.length() + 1;
-        }
-        return caret + cx;
     }
     
     public final int getCaret() {
@@ -314,11 +306,11 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
     }
     
     public final void delete(){
-        if(!editable) return;
+        if(!editable || !(getTextModel() instanceof EditableTextModel)) return;
         if(caret == selectionCaret) return;
         int min = getMinCatet();
         int max = getMaxCatet();
-        getTextModel().remove(min, max);
+        ((EditableTextModel)getTextModel()).remove(min, max);
         setCaret(min);
         setSelectionCaret(caret);
     }
@@ -330,9 +322,9 @@ public class InteractiveMultilineTextContent extends MultilineTextContent {
     public final void paste(String s){
         if(s == null) return;
         if(s.length() <= 0) return;
-        if(!editable) return;
+        if(!editable || !(getTextModel() instanceof EditableTextModel)) return;
         if(selectionCaret != caret) delete();
-        getTextModel().insert(caret, s);
+        ((EditableTextModel)getTextModel()).insert(caret, s);
         setCaret(caret + s.length());
         setSelectionCaret(caret);
     }

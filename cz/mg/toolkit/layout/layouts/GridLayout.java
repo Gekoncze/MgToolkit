@@ -1,7 +1,7 @@
 package cz.mg.toolkit.layout.layouts;
 
 import cz.mg.collections.list.List;
-import cz.mg.collections.list.quicklist.QuickList;
+import cz.mg.collections.list.chainlist.CachedChainList;
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.Container;
 import cz.mg.toolkit.component.Content;
@@ -19,8 +19,8 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 public class GridLayout extends Layout {
     private static final BeforeLayoutEvent BEFORE_LAYOUT_EVENT = new BeforeLayoutEvent();
     
-    private final List<Column> columns = new QuickList<>();
-    private final List<Row> rows = new QuickList<>();
+    private final List<Column> columns = new CachedChainList<>();
+    private final List<Row> rows = new CachedChainList<>();
     private final ColumnFactory columnFactory;
     private final RowFactory rowFactory;
     

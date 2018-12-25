@@ -1,13 +1,14 @@
 package cz.mg.toolkit.utilities.text.textmodels;
 
 import cz.mg.collections.list.List;
+import cz.mg.collections.list.chainlist.CachedChainList;
 import cz.mg.toolkit.utilities.StringUtilities;
 import cz.mg.toolkit.utilities.text.MultilineTextModel;
 
 
 public class StringMultilineTextModel implements MultilineTextModel {
     private String text = "";
-    private List<String> lines = null;
+    protected List<String> lines = null;
     
     @Override
     public String getText() {
@@ -28,15 +29,7 @@ public class StringMultilineTextModel implements MultilineTextModel {
     
     @Override
     public String getText(int iBegin, int iEnd) {
-        return FailsafeString.substring(text, iBegin, iEnd);
-    }
-
-    @Override
-    public void insert(int i, String text) {
-    }
-
-    @Override
-    public void remove(int iBegin, int iEnd) {
+        return StringUtilities.substring(text, iBegin, iEnd);
     }
 
     @Override
@@ -52,27 +45,18 @@ public class StringMultilineTextModel implements MultilineTextModel {
         updateLines();
         return lines.count();
     }
-    
-    private void updateLines(){
-        if(lines != null) return;
-        lines = StringUtilities.splitLines(text);
+
+    @Override
+    public int caretsToCaret(int ix, int iy) {
+        int caret = 0;
+        for(int l = 0; l < iy; l++){
+            caret += getLine(l).length() + 1;
+        }
+        return caret + ix;
     }
     
-    private int xy2i(int ix, int iy){
-        int x = 0;
-        int y = 0;
-        for(int i = 0; i < text.length(); i++){
-            if(y > iy) return i;
-            if(y == iy && x >= ix) return i;
-            
-            char ch = text.charAt(i);
-            if(ch == '\n'){
-                y++;
-                x = 0;
-            } else {
-                x++;
-            }
-        }
-        return text.length();
+    protected void updateLines(){
+        if(lines != null) return;
+        lines = new CachedChainList<>(StringUtilities.splitLines(text));
     }
 }

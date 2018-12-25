@@ -14,13 +14,13 @@
     možnost zadávat vzorce do spinerů
 
 #### LATER:
-    optimalizace relayoutu - u size control nastavit dva booleany
+    optimalizace relayoutu - u size policy nastavit dva booleany
         jeden říkající, zdali okolí komponenty ovlivní její velikost
         druhý říkající, zdali vnitřek komponenty ovlivní její velikost
         poté při relayoutu doskákat vždy jen do potřebného bodu
-        možná by bylo třeba upřesnit, jakého rozměru by se měl relayout týkat... a mohlo by být složitější
-            might take into account that component or content width might depend on height or similar
-        anebo naopak... zdali okolí/obsah určitě neovlivní její velikost!
+
+        možná by bylo třeba upřesnit, jakého rozměru by se měl relayout týkat...
+            ale mohlo by selhat u komponent, jejichž šířka či výška závisí jedna na druhé
 
         změřit efektivitu
             počet navštívených komponent při jednom projetí
@@ -41,10 +41,11 @@
 #### SOON
     bring in some nice examples of everything the toolkit can do!
         most importantly - the designers!!!
-
-    zalamování textu v multiline text contentu
+    
     velikost popup meníčka nejen wrap ale i podle komponenty - např pro context menu
         možná pak bude i potřeba respektovat velikosti MIN a MAX při synchronizaci okna
+
+    fix separator menu item design
     
 #### NOW
     common dialogs
@@ -53,5 +54,11 @@
         message dialog (none/info/warning/error)
         decision dialog
 
+    zalamování textu v multiline text contentu
+
 #### DONE
-    
+Wrap text model preparations
+    moved code form failsafe string and stringbuilder to strign utilities and removed the empty classes
+    moved caret computation to text model
+    improved text model interfaces
+    adapted text contents to the changes

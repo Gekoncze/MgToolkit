@@ -1,7 +1,7 @@
 package cz.mg.toolkit.component.wrappers;
 
 import cz.mg.collections.list.List;
-import cz.mg.collections.list.quicklist.QuickList;
+import cz.mg.collections.list.chainlist.CachedChainList;
 import cz.mg.toolkit.component.controls.Button;
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.containers.ContentPanel;
@@ -28,7 +28,7 @@ public class HorizontalTabArea extends Panel {
     
     private final CompactHorizontalScrollArea tabsArea = new CompactHorizontalScrollArea();
     private final Panel contentPanel = new ContentPanel();
-    private final List<Tab> tabs = new QuickList<>();
+    private final List<Tab> tabs = new CachedChainList<>();
 
     public HorizontalTabArea() {
         initComponent();
