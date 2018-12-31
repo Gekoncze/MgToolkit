@@ -1,13 +1,12 @@
 package cz.mg.toolkit.component.wrappers.decorations;
 
-import cz.mg.toolkit.component.Content;
 import cz.mg.toolkit.component.ToplevelComponent;
 import cz.mg.toolkit.component.contents.HorizontalSpacer;
 import cz.mg.toolkit.component.wrappers.Decoration;
 import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.component.contents.ImageContent;
-import cz.mg.toolkit.component.contents.SinglelineTextContent;
+import cz.mg.toolkit.component.contents.TextContent;
 import cz.mg.toolkit.component.controls.buttons.ContentButton;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
 import cz.mg.toolkit.event.adapters.BeforeLayoutAdapter;
@@ -151,7 +150,7 @@ public class ToolkitDecoration extends Decoration {
         }
     }
     
-    public static class Title extends SinglelineTextContent {
+    public static class Title extends TextContent {
         public static final String DEFAULT_DESIGN_NAME = "toolkit decoration title";
         
         public Title() {

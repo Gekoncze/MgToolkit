@@ -3,6 +3,7 @@ package cz.mg.toolkit.utilities;
 import cz.mg.collections.list.chainlist.ChainList;
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.Container;
+import cz.mg.toolkit.component.Content;
 import cz.mg.toolkit.event.adapters.LocalMouseButtonAdapter;
 import cz.mg.toolkit.event.adapters.LocalMouseMotionAdapter;
 import cz.mg.toolkit.event.events.MouseButtonEvent;
@@ -89,13 +90,16 @@ public class Debug {
             public void onComponentEnter(Component component) {
                 String message = "";
                 message += getId(component);
-                message += " - " + component.getClass().getSimpleName();
+                message += " | " + component.getClass().getSimpleName();
                 if(component instanceof Container){
-                    message += " - " + ((Container) component).getLayout().getClass().getSimpleName();
+                    message += " | " + ((Container) component).getLayout().getClass().getSimpleName();
                 }
-                message += " - Min: " + getMinWidth(component) + " x " + getMinHeight(component);
-                message += " - Max: " + getMaxWidth(component) + " x " + getMaxHeight(component);
-                message += " - Current: " + component.getWidth() + " x " + component.getHeight();
+                message += " | Min: " + getMinWidth(component) + " x " + getMinHeight(component);
+                message += " | Max: " + getMaxWidth(component) + " x " + getMaxHeight(component);
+                message += " | Current: " + component.getWidth() + " x " + component.getHeight();
+                if(component instanceof Content){
+                    message += " | preffered size: " + ((Content) component).getPrefferedWidth() + " x " + ((Content) component).getPrefferedHeight();
+                }
                 message += " | " + classNameOrNull(getHorizontalSizePolicy(component)) + " | " + classNameOrNull(getVerticalSizePolicy(component)) + " | ";
                 message += " | preffered design: " + getDesignName(component) + " | design used: " + getDesignUsed(component) + " | fallback designs: " + listFallbackDesigns(component);
                 debugLine("### " + message, 1);

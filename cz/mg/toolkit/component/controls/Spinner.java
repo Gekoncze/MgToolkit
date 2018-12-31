@@ -14,7 +14,7 @@ import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 public abstract class Spinner<T> extends Panel {
     public static final String DEFAULT_DESIGN_NAME = "spinner";
     
-    private final SinglelineTextInput text = new SinglelineTextInput();
+    private final TextInput text = new TextInput();
     private final UpButton upButton = new UpButton();
     private final DownButton downButton = new DownButton();
     private T value;

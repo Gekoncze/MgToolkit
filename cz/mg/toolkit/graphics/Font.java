@@ -6,7 +6,7 @@ import cz.mg.toolkit.impl.ImplFont;
 
 
 public class Font {
-    private final ImplFont implFont;
+    private ImplFont implFont;
     
     public Font(String name, double height, Style style) {
         this.implFont = Impl.getImplApi().createFont(name, height, style);
@@ -46,6 +46,10 @@ public class Font {
 
     public final double getHeight() {
         return implFont.getHeight();
+    }
+    
+    public final void setHeight(double height) {
+        this.implFont = Impl.getImplApi().createFont(getName(), height, getStyle());
     }
     
     public final double getDisplayWidth(Display display, String s) {

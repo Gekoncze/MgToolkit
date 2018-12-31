@@ -1,6 +1,6 @@
 package cz.mg.toolkit.component.controls.buttons;
 
-import cz.mg.toolkit.component.contents.SinglelineTextContent;
+import cz.mg.toolkit.component.contents.TextContent;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
@@ -9,12 +9,12 @@ public class TextButton extends ContentButton {
     public static final String DEFAULT_DESIGN_NAME = "text button";
     
     public TextButton() {
-        super(new SinglelineTextContent());
+        super(new TextContent());
         initComponents();
     }
     
     public TextButton(String text) {
-        super(new SinglelineTextContent(text));
+        super(new TextContent(text));
         initComponents();
     }
     
@@ -24,7 +24,7 @@ public class TextButton extends ContentButton {
         setSizePolicy(getContent(), new WrapContentSizePolicy());
     }
 
-    public final SinglelineTextContent getTextContent() {
-        return (SinglelineTextContent) getContent();
+    public final TextContent getTextContent() {
+        return (TextContent) getContent();
     }
 }

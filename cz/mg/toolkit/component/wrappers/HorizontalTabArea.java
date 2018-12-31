@@ -7,7 +7,7 @@ import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.containers.ContentPanel;
 import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.contents.ImageContent;
-import cz.mg.toolkit.component.contents.SinglelineTextContent;
+import cz.mg.toolkit.component.contents.TextContent;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
 import cz.mg.toolkit.event.adapters.TabCloseAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
@@ -204,7 +204,7 @@ public class HorizontalTabArea extends Panel {
                 return icon;
             }
 
-            public final SinglelineTextContent getText() {
+            public final TextContent getText() {
                 return text;
             }
         }
@@ -214,7 +214,7 @@ public class HorizontalTabArea extends Panel {
         public static final String DEFAULT_DESIGN_NAME = "horizontal tab area icon";
     }
     
-    public static class Text extends SinglelineTextContent {
+    public static class Text extends TextContent {
         public static final String DEFAULT_DESIGN_NAME = "horizontal tab area text";
     }
     

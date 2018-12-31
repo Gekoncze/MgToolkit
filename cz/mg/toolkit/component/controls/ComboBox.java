@@ -1,9 +1,8 @@
 package cz.mg.toolkit.component.controls;
 
 import cz.mg.collections.Collection;
-import cz.mg.toolkit.component.Content;
 import cz.mg.toolkit.component.containers.Panel;
-import cz.mg.toolkit.component.contents.SinglelineTextContent;
+import cz.mg.toolkit.component.contents.TextContent;
 import cz.mg.toolkit.component.controls.buttons.ContentButton;
 import cz.mg.toolkit.component.window.ContextMenu;
 import cz.mg.toolkit.event.adapters.ActionAdapter;
@@ -15,6 +14,7 @@ import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
+import cz.mg.toolkit.utilities.text.textmodels.SingleLineTextModel;
 
 
 public class ComboBox<T> extends Panel {
@@ -104,11 +104,12 @@ public class ComboBox<T> extends Panel {
         raiseEvent(new ActionEvent(this));
     }
     
-    private class ContextMenuItem extends SinglelineTextContent {
+    private class ContextMenuItem extends TextContent {
         private final T item;
 
         public ContextMenuItem(T item) {
             this.item = item;
+            setTextModel(new SingleLineTextModel());
             setText("" + this.item);
             setHorizontalSizePolicy(this, new WrapAndFillSizePolicy());
             getEventListeners().addLast(new LocalMouseButtonAdapter() {
@@ -138,7 +139,7 @@ public class ComboBox<T> extends Panel {
         public static class Content extends cz.mg.toolkit.component.Content {}
     }
     
-    public static class Text extends SinglelineTextContent {
+    public static class Text extends TextContent {
         public static final String DEFAULT_DESIGN_NAME = "combo box text";
     }
     

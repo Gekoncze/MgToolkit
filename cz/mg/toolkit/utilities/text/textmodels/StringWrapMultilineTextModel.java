@@ -1,3 +1,5 @@
+//package cz.mg.toolkit.utilities.text.textmodels.qb;
+
 //package cz.mg.toolkit.utilities.text.textmodels;
 //
 //import cz.mg.collections.list.ListItem;
@@ -7,8 +9,6 @@
 //
 //
 //public class StringWrapMultilineTextModel extends StringMultilineTextModel implements WrapableTextModel {
-//    pozor - problém - re-wrap by se nezavolal při zvětšení - protože není třeba nic wrapovat, ale to není pravda! může se provést unwrap;
-//    
 //    @Override
 //    public boolean isWrapable(Font font, double width){
 //        boolean wrapable = false;
@@ -25,42 +25,42 @@
 //        lines = newLines;
 //    }
 //    
-//    private void wrapLine(Font font, double width, ListItem<String> item, ChainList<String> newLines){
-//        String oldLine = item.getData();
-//        if(isWrapable(font, width, oldLine)){
-//            String[] parts = wrap(font, width, oldLine);
-//            newLines.addLast(parts[0]);
-//            item.addNext(parts[1]);
-//        } else {
-//            newLines.addLast(oldLine);
-//        }
-//    }
-//    
-//    private static boolean isWrapable(Font font, double width, String line){
-//        if(line.length() < 2) return false;
-//        return font.getWidth(line) > width;
-//    }
-//    
-//    private static String[] wrap(Font font, double width, String line){
-//        if(line.length() > 1) throw new RuntimeException();
-//        for(int i = 2; i <= line.length(); i++){
-//            String currentSubstring = line.substring(0, i);
-//            if(font.getWidth(currentSubstring) > width){
-//                return new String[]{
-//                    line.substring(0, i-1),
-//                    line.substring(i)
-//                };
-//            }
-//        }
-//        throw new RuntimeException();
-//    }
+////    private void wrapLine(Font font, double width, ListItem<String> item, ChainList<String> newLines){
+////        String oldLine = item.getData();
+////        if(isWrapable(font, width, oldLine)){
+////            String[] parts = wrap(font, width, oldLine);
+////            newLines.addLast(parts[0]);
+////            item.addNext(parts[1]);
+////        } else {
+////            newLines.addLast(oldLine);
+////        }
+////    }
+////    
+////    private static boolean isWrapable(Font font, double width, String line){
+////        if(line.length() < 2) return false;
+////        return font.getWidth(line) > width;
+////    }
+////    
+////    private static String[] wrap(Font font, double width, String line){
+////        if(line.length() > 1) throw new RuntimeException();
+////        for(int i = 2; i <= line.length(); i++){
+////            String currentSubstring = line.substring(0, i);
+////            if(font.getWidth(currentSubstring) > width){
+////                return new String[]{
+////                    line.substring(0, i-1),
+////                    line.substring(i)
+////                };
+////            }
+////        }
+////        throw new RuntimeException();
+////    }
 //    
 //    @Override
 //    public int caretsToCaret(int ix, int iy) {
 //        todo begin;
 //        int caret = 0;
 //        for(int l = 0; l < iy; l++){
-//            caret += getLine(l).length() + 1;
+//            caret += getLine(l).length() + 1; // +1 might depend on last character, if it WAS \n, then add, otherwise not
 //        }
 //        return caret + ix;
 //        todo end;

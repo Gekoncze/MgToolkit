@@ -46,19 +46,29 @@
         možná pak bude i potřeba respektovat velikosti MIN a MAX při synchronizaci okna
 
     fix separator menu item design
-    
-#### NOW
+
     common dialogs
         color chooser dialog
         file chooser dialog (load/save)
         message dialog (none/info/warning/error)
         decision dialog
 
-    zalamování textu v multiline text contentu
+    move image content drawing to designer ???
+    
+#### NOW
+    možná optimalizace text modelu - brát v úvahu jen viditelnou část ??? nebo nastavit limit počtu řádků ???
+    wrap text in multiline text content
+
+    fix random layout issues for text content or text input
 
 #### DONE
-Wrap text model preparations
-    moved code form failsafe string and stringbuilder to strign utilities and removed the empty classes
-    moved caret computation to text model
-    improved text model interfaces
-    adapted text contents to the changes
+New text management system
+    moved carets from components to text model
+    moved text positioning from components to text model
+    added new TextModel interface
+    added Caret interface
+    added TextPart interface
+    added single-line implementation of text model
+    added multi-line implementation of text model
+    adapted default designer
+    adapted affected components

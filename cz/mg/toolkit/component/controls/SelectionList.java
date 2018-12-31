@@ -2,10 +2,11 @@ package cz.mg.toolkit.component.controls;
 
 import cz.mg.collections.Collection;
 import cz.mg.toolkit.component.containers.Panel;
-import cz.mg.toolkit.component.contents.SinglelineTextContent;
+import cz.mg.toolkit.component.contents.TextContent;
 import cz.mg.toolkit.utilities.Selectable;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
+import cz.mg.toolkit.utilities.text.textmodels.SingleLineTextModel;
 
 
 public abstract class SelectionList<T> extends Panel {
@@ -27,7 +28,7 @@ public abstract class SelectionList<T> extends Panel {
     
     protected abstract void rebuildComponents();
     
-    public class ListItem extends SinglelineTextContent implements Selectable {
+    public class ListItem extends TextContent implements Selectable {
         public static final String DEFAULT_DESIGN_NAME = "selection list item";
         
         private final T item;
@@ -35,7 +36,8 @@ public abstract class SelectionList<T> extends Panel {
 
         public ListItem(T item) {
             this.item = item;
-            setText("" + item);
+            setTextModel(new SingleLineTextModel());
+            getTextModel().setText("" + item);
             setSizePolicy(this, new WrapAndFillSizePolicy());
         }
         
