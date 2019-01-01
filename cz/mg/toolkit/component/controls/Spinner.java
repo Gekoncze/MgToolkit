@@ -6,6 +6,7 @@ import cz.mg.toolkit.event.adapters.ActionAdapter;
 import cz.mg.toolkit.event.events.ActionEvent;
 import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
+import cz.mg.toolkit.utilities.ScrollControlsVisibility;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
@@ -48,6 +49,7 @@ public abstract class Spinner<T> extends Panel {
         setSizePolicy(buttonsPanel, new WrapContentSizePolicy());
         
         text.setParent(this);
+        text.setScrollControlsVisibility(ScrollControlsVisibility.NEVER);
         buttonsPanel.setParent(this);
         upButton.setParent(buttonsPanel);
         downButton.setParent(buttonsPanel);

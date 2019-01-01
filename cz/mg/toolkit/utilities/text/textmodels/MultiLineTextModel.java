@@ -70,7 +70,7 @@ public class MultiLineTextModel implements TextModel {
     public void delete() {
         clearParts();
         StringUtilities.delete(this.text, beginCaret.getCaret(), endCaret.getCaret());
-        endCaret.setCaret(beginCaret.getCaret());
+        joinFirstCaret();
     }
 
     @Override
@@ -79,7 +79,7 @@ public class MultiLineTextModel implements TextModel {
         delete();
         StringUtilities.insert(this.text, endCaret.getCaret(), string);
         endCaret.setCaret(endCaret.getCaret() + string.length());
-        beginCaret.setCaret(endCaret.getCaret());
+        joinEndCaret();
     }
 
     @Override
@@ -108,13 +108,24 @@ public class MultiLineTextModel implements TextModel {
     }
 
     @Override
+    public double getTextX() {
+        updateParts();
+        double minX = Double.MAX_VALUE;
+        for(TextPart part : textParts) minX = Math.min(minX, part.getX());
+        return minX;
+    }
+
+    @Override
+    public double getTextY() {
+        return textParts.getFirst().getY();
+    }
+
+    @Override
     public double getTextWidth() {
         updateParts();
         double maxWidth = 0;
         Font font = options.getFont();
-        for(TextPart textPart : textParts){
-            maxWidth = Math.max(maxWidth, font.getWidth(textPart.getText()));
-        }
+        for(TextPart textPart : textParts) maxWidth = Math.max(maxWidth, font.getWidth(textPart.getText()));
         return maxWidth;
     }
 
@@ -265,5 +276,23 @@ public class MultiLineTextModel implements TextModel {
     
     public final double getVerticalTextPosition(){
         return Reshape.align(options.getHeight(), getTextHeight(), options.getVerticalAlignment(), options.getTopPadding(), options.getBottomPadding());
+    }
+    
+    private void joinBeginCaret(){
+        endCaret.setCaret(beginCaret.getCaret());
+    }
+    
+    private void joinEndCaret(){
+        beginCaret.setCaret(endCaret.getCaret());
+    }
+    
+    private void joinFirstCaret(){
+        if(beginCaret.getCaret() < endCaret.getCaret()) joinBeginCaret();
+        else joinEndCaret();
+    }
+    
+    private void joinSecondCaret(){
+        if(beginCaret.getCaret() > endCaret.getCaret()) joinBeginCaret();
+        else joinEndCaret();
     }
 }

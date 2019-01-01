@@ -401,6 +401,8 @@ public class DefaultDesigner extends CompositeDesigner {
                 double by = beginCaret.getY();
                 double ex = endCaret.getX();
                 double ey = endCaret.getY();
+                double tx = content.getTextModel().getTextX();
+                double ty = content.getTextModel().getTextY();
                 double tw = content.getTextModel().getTextWidth();
                 double th = content.getTextModel().getTextHeight();
                 double lh = content.getTextModel().getLineHeight();
@@ -408,9 +410,34 @@ public class DefaultDesigner extends CompositeDesigner {
                 if(beginCaret.getRow() == endCaret.getRow()){
                     g.drawRectangle(bx, by, ex - bx, lh); // draw single line selection
                 } else {
-                    g.drawRectangle(bx, by, tw - bx, lh); // draw leading line selection
-                    g.drawRectangle(0, by+lh, tw, ey-(by+lh)); // draw in-between line selection
-                    g.drawRectangle(0, ey, ex, lh); // draw trailing line selection
+                    Font font = getFont(content);
+                    int bcx = beginCaret.getColumn();
+                    int bcy = beginCaret.getRow();
+                    int ecx = endCaret.getColumn();
+                    int ecy = endCaret.getRow();
+                    
+                    // draw leading line selection
+                    TextPart leadingLine = content.getTextModel().getTextParts().get(bcy);
+                    double lrw = font.getWidth(leadingLine.getText().substring(bcx));
+                    double lrx = bx;
+                    double lry = by;
+                    g.drawRectangle(lrx, lry, lrw, lh); 
+                    
+                    // draw in-between lines
+                    for(int i = bcy + 1; i <= ecy - 1; i++){
+                        TextPart inbetweenLine = content.getTextModel().getTextParts().get(i);
+                        double irx = inbetweenLine.getX();
+                        double iry = inbetweenLine.getY();
+                        double irw = font.getWidth(inbetweenLine.getText());
+                        g.drawRectangle(irx, iry, irw, lh);
+                    }
+                    
+                    // draw trailing line selection
+                    TextPart trailingLine = content.getTextModel().getTextParts().get(ecy);
+                    double trw = font.getWidth(trailingLine.getText().substring(0, ecx));
+                    double trx = ex - trw;
+                    double tryy = ey;
+                    g.drawRectangle(trx, tryy, trw, lh);
                 }
             }
         }

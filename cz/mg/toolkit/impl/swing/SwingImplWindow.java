@@ -15,6 +15,7 @@ import cz.mg.toolkit.event.events.MouseWheelEvent;
 import java.awt.Frame;
 import javax.swing.JFrame;
 import cz.mg.toolkit.event.EventObserver;
+import cz.mg.toolkit.event.events.AfterDrawEvent;
 import cz.mg.toolkit.event.events.DisplayResolutionEvent;
 import cz.mg.toolkit.event.events.WindowCloseEvent;
 import cz.mg.toolkit.event.events.WindowStateEvent;
@@ -63,6 +64,7 @@ public class SwingImplWindow implements EventObserver, ImplWindow {
                 relayout = false;
                 if(!window.isRelayoutNeeded()) sendEvent(addGraphicsContext(new DrawEvent()));
                 g.drawImage(api.SWING_DISPLAY_INSTANCE.getGraphicsBuffer(), -getX(), -getY(), jframe);
+                window.sendEvent(new AfterDrawEvent());
             }
         };
         

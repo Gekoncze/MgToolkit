@@ -88,6 +88,16 @@ public class SingleLineTextModel implements TextModel {
     }
 
     @Override
+    public double getTextX() {
+        return textParts.getFirst().getX();
+    }
+
+    @Override
+    public double getTextY() {
+        return textParts.getFirst().getY();
+    }
+
+    @Override
     public double getTextWidth() {
         return options.getFont().getWidth(text.toString());
     }

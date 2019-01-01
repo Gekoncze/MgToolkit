@@ -15,6 +15,8 @@ public interface TextModel {
     public void paste(String string);
     public boolean update();
     public Options getOptions();
+    public double getTextX();
+    public double getTextY();
     public double getTextWidth();
     public double getTextHeight();
     public double getLineHeight();

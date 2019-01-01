@@ -122,4 +122,9 @@ public class ScrollArea extends Wrapper {
         this.scrollControlsVisibility = scrollControlsVisibility;
         relayout();
     }
+    
+    public void scroll(double deltaX, double deltaY){
+        scrollHorizontally(getContentPanel(), deltaX);
+        scrollVertically(getContentPanel(), deltaY);
+    }
 }

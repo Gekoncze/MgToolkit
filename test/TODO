@@ -59,16 +59,11 @@
     možná optimalizace text modelu - brát v úvahu jen viditelnou část ??? nebo nastavit limit počtu řádků ???
     wrap text in multiline text content
 
-    fix random layout issues for text content or text input
-
 #### DONE
-New text management system
-    moved carets from components to text model
-    moved text positioning from components to text model
-    added new TextModel interface
-    added Caret interface
-    added TextPart interface
-    added single-line implementation of text model
-    added multi-line implementation of text model
-    adapted default designer
-    adapted affected components
+text input fixes and improvements
+    fixed caret behaviour for delete
+    fixed scroll issues with text input
+    added scroll bars
+    added after draw event and adapter
+    fixed and improved selection background
+    

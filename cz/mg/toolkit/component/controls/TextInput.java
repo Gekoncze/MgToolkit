@@ -1,13 +1,15 @@
 package cz.mg.toolkit.component.controls;
 
-import cz.mg.toolkit.component.containers.Panel;
 import cz.mg.toolkit.component.contents.InteractiveTextContent;
+import cz.mg.toolkit.component.wrappers.ScrollArea;
+import cz.mg.toolkit.event.adapters.AfterDrawAdapter;
 import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
 import cz.mg.toolkit.event.adapters.BeforeDrawAdapter;
+import cz.mg.toolkit.event.adapters.KeyboardButtonAdapter;
+import cz.mg.toolkit.event.events.AfterDrawEvent;
 import cz.mg.toolkit.event.events.AfterLayoutEvent;
 import cz.mg.toolkit.event.events.BeforeDrawEvent;
-import cz.mg.toolkit.layout.layouts.OverlayLayout;
-import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
 import cz.mg.toolkit.utilities.text.TextModel;
 import cz.mg.toolkit.utilities.text.textmodels.MultiLineTextModel;
@@ -15,24 +17,18 @@ import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*
 import cz.mg.toolkit.utilities.text.Options;
 
 
-public class TextInput extends Panel {
+public class TextInput extends ScrollArea {
     public static final String DEFAULT_DESIGN_NAME = "text input";
     private final TextContent textContent = new TextContent();
+    private boolean needsFix = true;
 
     public TextInput() {
-        initComponent();
         initComponents();
         addEventListeners();
     }
-    
-    private void initComponent() {
-        setLayout(new OverlayLayout());
-        setSizePolicy(this, new FillParentSizePolicy());
-        setUnlimitedScroll(this, true);
-    }
 
     private void initComponents() {
-        textContent.setParent(this);
+        textContent.setParent(getContentPanel());
         setSizePolicy(textContent, new WrapAndFillSizePolicy());
         textContent.setEditable(true);
     }
@@ -45,10 +41,18 @@ public class TextInput extends Panel {
             }
         });
         
-        getEventListeners().addLast(new AfterLayoutAdapter() {
+        getEventListeners().addLast(new AfterDrawAdapter() {
             @Override
-            public void onEventEnter(AfterLayoutEvent e) {
-                fixScroll();
+            public void onEventEnter(AfterDrawEvent e) {
+                if(needsFix) fixScroll();
+                needsFix = false;
+            }
+        });
+        
+        textContent.getEventListeners().addFirst(new KeyboardButtonAdapter() {
+            @Override
+            public void onKeyboardButtonEventEnter(KeyboardButtonEvent e) {
+                needsFix = true;
             }
         });
     }
@@ -61,20 +65,15 @@ public class TextInput extends Panel {
         double cx = textContent.getTextModel().getBeginCaret().getX() + textContent.getX();
         double cy = textContent.getTextModel().getBeginCaret().getY() + textContent.getY();
         
-        double leftPadding = getLeftPadding(this);
-        double rightPadding = getRightPadding(this);
-        double topPadding = getTopPadding(this);
-        double bottomPadding = getBottomPadding(this);
-        
-        double leftBoundary = leftPadding;
-        double rightBoundary = getWidth() - rightPadding;
-        double topBoundary = topPadding;
-        double bottomBoundary = getHeight() - bottomPadding;
+        double leftBoundary = 0;
+        double rightBoundary = getContentPanel().getWidth();
+        double topBoundary = 0;
+        double bottomBoundary = getContentPanel().getHeight();
         
         double lineHeight = textContent.getTextModel().getLineHeight();
         
-        double leftPoint = cx;
-        double rightPoint = cx;
+        double leftPoint = cx - lineHeight / 2;
+        double rightPoint = cx + lineHeight / 2;
         double topPoint = cy;
         double bottomPoint = cy + lineHeight;
         
@@ -83,25 +82,25 @@ public class TextInput extends Panel {
         
         if(leftPoint < leftBoundary) {
             double delta = Math.abs(leftPoint - leftBoundary);
-            scrollHorizontally(this, -delta);
+            scroll(-delta, 0);
             relayout();
         }
         
         if(rightPoint > rightBoundary) {
             double delta = Math.abs(rightPoint - rightBoundary);
-            scrollHorizontally(this, delta);
+            scroll(delta, 0);
             relayout();
         }
         
         if(topPoint < topBoundary) {
             double delta = Math.abs(topPoint - topBoundary);
-            scrollVertically(this, -delta);
+            scroll(0, -delta);
             relayout();
         }
         
         if(bottomPoint > bottomBoundary) {
             double delta = Math.abs(bottomPoint - bottomBoundary);
-            scrollVertically(this, delta);
+            scroll(0, delta);
             relayout();
         }
     }
