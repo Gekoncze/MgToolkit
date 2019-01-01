@@ -401,10 +401,6 @@ public class DefaultDesigner extends CompositeDesigner {
                 double by = beginCaret.getY();
                 double ex = endCaret.getX();
                 double ey = endCaret.getY();
-                double tx = content.getTextModel().getTextX();
-                double ty = content.getTextModel().getTextY();
-                double tw = content.getTextModel().getTextWidth();
-                double th = content.getTextModel().getTextHeight();
                 double lh = content.getTextModel().getLineHeight();
                 
                 if(beginCaret.getRow() == endCaret.getRow()){

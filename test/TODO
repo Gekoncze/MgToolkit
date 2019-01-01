@@ -6,6 +6,7 @@
     TIP: raised / lowered borders
     TIP: automatic font size calculation to fit required size
     TIP: tooltip
+    TIP: lepší je nahradit, pokud je to možné (např v icon layoutu) provádět změnu rozložení jen při změně hodnoty, která to může zplsobit
 
 #### MUCH LATER:
     parsing dsign from file
@@ -56,14 +57,9 @@
     move image content drawing to designer ???
     
 #### NOW
-    možná optimalizace text modelu - brát v úvahu jen viditelnou část ??? nebo nastavit limit počtu řádků ???
-    wrap text in multiline text content
+    
 
 #### DONE
-text input fixes and improvements
-    fixed caret behaviour for delete
-    fixed scroll issues with text input
-    added scroll bars
-    added after draw event and adapter
-    fixed and improved selection background
-    
+multiline wrap text model
+    added multiline wrap text model
+    modified text content's model update logic a bit

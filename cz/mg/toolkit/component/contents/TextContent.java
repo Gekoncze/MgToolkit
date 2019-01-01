@@ -35,6 +35,7 @@ public class TextContent extends Content {
         getEventListeners().addLast(new AfterLayoutAdapter() {
             @Override
             public void onEventEnter(AfterLayoutEvent e) {
+                updateOptions();
                 if(textModel.update()) relayout();
             }
         });

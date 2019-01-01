@@ -16,6 +16,33 @@ public class Options {
     
     public Options() {
     }
+    
+    public Options copy(){
+        Options copy = new Options();
+        copy.width = width;
+        copy.height = height;
+        copy.leftPadding = leftPadding;
+        copy.rightPadding = rightPadding;
+        copy.topPadding = topPadding;
+        copy.bottomPadding = bottomPadding;
+        copy.verticalAlignment = verticalAlignment;
+        copy.horizontalAlignment = horizontalAlignment;
+        copy.font = font;
+        return copy;
+    }
+    
+    public static boolean equals(Options o1, Options o2){
+        return
+                o1.width == o2.width &&
+                o1.height == o2.height &&
+                o1.leftPadding == o2.leftPadding &&
+                o1.rightPadding == o2.rightPadding &&
+                o1.topPadding == o2.topPadding &&
+                o1.bottomPadding == o2.bottomPadding &&
+                o1.verticalAlignment == o2.verticalAlignment &&
+                o1.horizontalAlignment == o2.horizontalAlignment &&
+                o1.font == o2.font;
+    }
 
     public double getWidth() {
         return width;
@@ -88,12 +115,4 @@ public class Options {
     public void setFont(Font font) {
         this.font = font;
     }
-    
-//    public final double getHorizontalTextPosition(String text){
-//        return Reshape.align(getWidth(), getFont(this).getWidth(text), getHorizontalContentAlignment(this), getLeftPadding(this), getRightPadding(this));
-//    }
-//    
-//    public final double getVerticalTextPosition(String text){
-//        return Reshape.align(getHeight(), getFont(this).getHeight(), getVerticalContentAlignment(this), getTopPadding(this), getBottomPadding(this));
-//    }
 }

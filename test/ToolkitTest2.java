@@ -9,6 +9,7 @@ import cz.mg.toolkit.component.window.Window;
 import cz.mg.toolkit.component.wrappers.HorizontalFlowArea;
 import cz.mg.toolkit.component.wrappers.HorizontalScrollArea;
 import cz.mg.toolkit.component.wrappers.HorizontalTabArea;
+import cz.mg.toolkit.component.wrappers.ScrollArea;
 import cz.mg.toolkit.component.wrappers.SplitArea;
 import cz.mg.toolkit.component.wrappers.VerticalFlowArea;
 import cz.mg.toolkit.component.wrappers.VerticalScrollArea;
@@ -28,6 +29,8 @@ import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import java.io.IOException;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
+import cz.mg.toolkit.utilities.text.textmodels.MultiLineWrapTextModel;
 
 
 public class ToolkitTest2 {
@@ -134,7 +137,6 @@ public class ToolkitTest2 {
         
         Panel secondTab = tabs.getTabs().get(1).getContentPanel();
         secondTab.setLayout(new VerticalLayout());
-        tabs.getTabs().get(1).activate();
         
         InteractiveTextContent eyyup = new InteractiveTextContent("Eyyyuuup! VA");
         setContentAlignment(eyyup, 0.5);
@@ -149,6 +151,17 @@ public class ToolkitTest2 {
 //        mtct.setLayout(new VerticalLayout());
 //        mtct.getChildren().addLast(new MultilineTextContent(""));
         
+
+        ScrollArea scrollArea = new ScrollArea();
+        scrollArea.setParent(splitArea.getContentPanels().get(2, 0));
+
+        TextContent text = new TextContent();
+        text.setTextModel(new MultiLineWrapTextModel("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pellentesque mattis facilisis.\nPellentesque quis purus sed magna venenatis tincidunt in mattis nisl.\nFusce vel efficitur justo. Quisque rhoncus porta nisl id interdum.\nIn ut ipsum faucibus elit ultricies pellentesque a non dolor.\nMaecenas sit amet est sit amet urna laoreet sodales nec nec lectus."));
+        setHorizontalSizePolicy(text, new FillParentSizePolicy());
+        setVerticalSizePolicy(text, new WrapContentSizePolicy());
+        scrollArea.getContentPanel().getChildren().addLast(text);
+        
+
         window.open();
         window.relayout();
     }
