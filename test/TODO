@@ -1,20 +1,22 @@
 #### IDEAS
-    TIP: toolkit components / layouts for huge number of items - row/column virtualization "scrolling" for same sized items
-    TIP: relative scroll control or scroll by components - might only be applicable to some layouts ...
-    TIP: add gravity to stacks in stack layout
-    TIP: add factories instead of constructors ?
-    TIP: raised / lowered borders
-    TIP: automatic font size calculation to fit required size
-    TIP: tooltip
-    TIP: lepší je nahradit, pokud je to možné (např v icon layoutu) provádět změnu rozložení jen při změně hodnoty, která to může zplsobit
+    relative scroll control
+    add factories instead of constructors ?
+    raised / lowered borders
+    automatic font size calculation to fit required size
+    tooltip
 
-#### MUCH LATER:
+#### MAYBE LATER:
+    toolkit components / layouts for huge number of items - row/column virtualization "scrolling" for same sized items
     parsing dsign from file
     better bridge between drawing - something like a classic CPU to GPU converter bridge
     optimalizace pro mobilní zařízení + gesta
     možnost zadávat vzorce do spinerů
+    absolute positioned split pane (H/V, right/left fixed)
+    optimalizace pro věci, kde záleží na velikosti okna - např stack layout - udělat podobně jako wrap text content
+        lepší je nahradit, pokud je to možné (např v icon layoutu) provádět změnu rozložení jen při změně hodnoty, která to může zplsobit
+    add stack layout gravity
 
-#### LATER:
+#### MUCH LATER
     optimalizace relayoutu - u size policy nastavit dva booleany
         jeden říkající, zdali okolí komponenty ovlivní její velikost
         druhý říkající, zdali vnitřek komponenty ovlivní její velikost
@@ -32,29 +34,30 @@
         recycling events: event objects can be reused - must be an option - user might want to have them distinguished
         add timestamp for event and eventual expiration - if gui hanged and click was processed a second later, user might not want it t be clicked at that time
 
+#### LATER:
     možná implementace pro změnu kurzoru s optimalizací
         hranice komponenty, kde by docházelo ke změně kurzoru, by mohly být "vyrenderovány" jako obrázek
         a pak by se jen při každém pohybu myší kontrolovatlo, zdali jsme na pixelu, kde dochází ke změně anebo ne
         + změna kurzoru se provádí vždy pro aktuální myš !!!
         ! v každém případě je logika - jedenkrát zjistit jaký kurzor má být na jaké pozici - projet všechyn komponenty tam - dobrá !
             zde by stačilo renderovat jen každou komponentu jinou barvou a každé barvě pak přidělit kurzor
-    
-    možná optimalizace pro okno - provést ruční volání synchronizace při změně nějakého parametru (ve Window)
 
     bring in some nice examples of everything the toolkit can do!
         most importantly - the designers!!!
-
-#### SOON
-    velikost popup meníčka nejen wrap ale i podle komponenty - např pro context menu
-        možná pak bude i potřeba respektovat velikosti MIN a MAX při synchronizaci okna
-
-    fix separator menu item design
 
     common dialogs
         color chooser dialog
         file chooser dialog (load/save)
         message dialog (none/info/warning/error)
         decision dialog
+
+#### SOON
+    velikost popup meníčka nejen wrap ale i podle komponenty - např pro context menu
+        možná pak bude i potřeba respektovat velikosti MIN a MAX při synchronizaci okna
+
+    možná optimalizace pro okno - provést ruční volání synchronizace při změně nějakého parametru (ve Window)
+
+    fix separator menu item design
     
     
 #### NOW
@@ -63,12 +66,4 @@
         tam budou ještě nedodělky :o
 
 #### DONE
-text model cleanup + minor changes
-    moved image content drawing to designer
-    added text builder interface
-    added default text builder implementing class
-    moved some code form string utilities to default text builder
-    adapted affected classes
-    added abstract text model class
-    moved some code from text models to the abstract class
     
