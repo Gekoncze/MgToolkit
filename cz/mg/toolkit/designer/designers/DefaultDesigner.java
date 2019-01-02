@@ -3,6 +3,7 @@ package cz.mg.toolkit.designer.designers;
 import cz.mg.collections.array.Array;
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.component.containers.Panel;
+import cz.mg.toolkit.component.contents.ImageContent;
 import cz.mg.toolkit.component.contents.TextContent;
 import cz.mg.toolkit.component.controls.CheckBox;
 import cz.mg.toolkit.component.controls.HorizontalScrollBar;
@@ -17,6 +18,7 @@ import cz.mg.toolkit.graphics.Color;
 import cz.mg.toolkit.graphics.Decoration;
 import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.graphics.Graphics;
+import cz.mg.toolkit.graphics.Image;
 import cz.mg.toolkit.graphics.decorations.BackgroundColorDecoration;
 import cz.mg.toolkit.graphics.decorations.ForegroundColorDecoration;
 import cz.mg.toolkit.graphics.decorations.RectangleBorderDecoration;
@@ -533,6 +535,15 @@ public class DefaultDesigner extends CompositeDesigner {
         }
     });
     
+    private static final Decoration IMAGE_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
+        @Override
+        protected void onDraw(Graphics g, Component component) {
+            ImageContent content = (ImageContent) component;
+            Image image = content.getImage();
+            if(image != null) g.drawImage(image, 0, 0, component.getWidth(), component.getHeight());
+        }
+    });
+    
     
     ////////////////////////////////////////////////////////////////////////////
     
@@ -569,6 +580,13 @@ public class DefaultDesigner extends CompositeDesigner {
                         setContrastColor(component, CONTRAST_COLOR);
                         setBackground(component, TEXT_CONTENT_BACKGROUND);
                         setForeground(component, TEXT_CONTENT_FOREGROUND);
+                    }
+                }
+                ,
+                new Design("image content", "content") {
+                    @Override
+                    public void onDesign(Component component) {
+                        setForeground(component, IMAGE_CONTENT_FOREGROUND);
                     }
                 }
                 ,

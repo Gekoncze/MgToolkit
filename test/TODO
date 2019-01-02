@@ -36,13 +36,15 @@
         hranice komponenty, kde by docházelo ke změně kurzoru, by mohly být "vyrenderovány" jako obrázek
         a pak by se jen při každém pohybu myší kontrolovatlo, zdali jsme na pixelu, kde dochází ke změně anebo ne
         + změna kurzoru se provádí vždy pro aktuální myš !!!
+        ! v každém případě je logika - jedenkrát zjistit jaký kurzor má být na jaké pozici - projet všechyn komponenty tam - dobrá !
+            zde by stačilo renderovat jen každou komponentu jinou barvou a každé barvě pak přidělit kurzor
     
     možná optimalizace pro okno - provést ruční volání synchronizace při změně nějakého parametru (ve Window)
 
-#### SOON
     bring in some nice examples of everything the toolkit can do!
         most importantly - the designers!!!
-    
+
+#### SOON
     velikost popup meníčka nejen wrap ale i podle komponenty - např pro context menu
         možná pak bude i potřeba respektovat velikosti MIN a MAX při synchronizaci okna
 
@@ -53,13 +55,20 @@
         file chooser dialog (load/save)
         message dialog (none/info/warning/error)
         decision dialog
-
-    move image content drawing to designer ???
+    
     
 #### NOW
-    
+    more text model cleanup
+    vyzkoušet editaci wrap text contentu!!!!
+        tam budou ještě nedodělky :o
 
 #### DONE
-multiline wrap text model
-    added multiline wrap text model
-    modified text content's model update logic a bit
+text model cleanup + minor changes
+    moved image content drawing to designer
+    added text builder interface
+    added default text builder implementing class
+    moved some code form string utilities to default text builder
+    adapted affected classes
+    added abstract text model class
+    moved some code from text models to the abstract class
+    

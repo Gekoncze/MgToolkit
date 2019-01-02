@@ -1,9 +1,7 @@
 package cz.mg.toolkit.component.contents;
 
 import cz.mg.toolkit.component.Content;
-import cz.mg.toolkit.graphics.Graphics;
 import cz.mg.toolkit.graphics.Image;
-import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 
 
 public class ImageContent extends Content {
@@ -12,27 +10,15 @@ public class ImageContent extends Content {
     private Image image;
 
     public ImageContent() {
-        addEventListeners();
     }
     
     public ImageContent(Image image) {
         this.image = image;
-        addEventListeners();
     }
     
     public ImageContent(Image image, double contentWidth, double contentHeight) {
         super(contentWidth, contentHeight);
         this.image = image;
-        addEventListeners();
-    }
-
-    private void addEventListeners(){
-        getEventListeners().addLast(new GraphicsDrawAdapter() {
-            @Override
-            public void onDrawEventEnter(Graphics g) {
-                if(image != null) g.drawImage(image, 0, 0, getWidth(), getHeight());
-            }
-        });
     }
     
     public final Image getImage() {

@@ -1,144 +1,40 @@
 package cz.mg.toolkit.utilities.text.textmodels;
 
-import cz.mg.toolkit.utilities.text.TextModel;
 import cz.mg.collections.list.List;
-import cz.mg.collections.list.ReadonlyList;
 import cz.mg.collections.list.chainlist.CachedChainList;
-import cz.mg.toolkit.graphics.Font;
-import cz.mg.toolkit.layout.reshapes.Reshape;
 import cz.mg.toolkit.utilities.StringUtilities;
 import cz.mg.toolkit.utilities.text.Caret;
-import cz.mg.toolkit.utilities.text.Options;
 import cz.mg.toolkit.utilities.text.TextPart;
 
 
-public class MultiLineTextModel implements TextModel {
-    private StringBuilder text = new StringBuilder("");
-    private List<TextPart> textParts = null;
-    private final Options options = new Options();
-    private final Caret beginCaret = new ImplCaret();
-    private final Caret endCaret = new ImplCaret();
-
+public class MultiLineTextModel extends AbstractTextModel {
     public MultiLineTextModel() {
     }
     
     public MultiLineTextModel(String text) {
-        setText(text);
+        super(text);
     }
     
     @Override
-    public String getText() {
-        return text.toString();
-    }
-
-    @Override
-    public void setText(String text) {
-        if(text == null) this.text = new StringBuilder("");
-        else this.text = new StringBuilder(text);
-    }
-
-    @Override
-    public ReadonlyList<TextPart> getTextParts() {
-        updateParts();
-        return textParts;
-    }
-
-    @Override
-    public Caret getBeginCaret() {
-        return beginCaret;
-    }
-
-    @Override
-    public Caret getEndCaret() {
-        return endCaret;
-    }
-
-    @Override
-    public String copy() {
-        return StringUtilities.substring(text, beginCaret.getCaret(), endCaret.getCaret());
-    }
-    
-    @Override
-    public String cut(){
-        clearParts();
-        String string = copy();
-        delete();
-        return string;
-    }
-
-    @Override
-    public void delete() {
-        clearParts();
-        StringUtilities.delete(this.text, beginCaret.getCaret(), endCaret.getCaret());
-        joinFirstCaret();
-    }
-
-    @Override
-    public void paste(String string) {
-        clearParts();
-        delete();
-        StringUtilities.insert(this.text, endCaret.getCaret(), string);
-        endCaret.setCaret(endCaret.getCaret() + string.length());
-        joinEndCaret();
-    }
-
-    @Override
-    public boolean update() {
-        return false;
-    }
-
-    @Override
-    public Options getOptions() {
-        return options;
-    }
-    
-    private void clearParts(){
+    protected void clearParts(){
         textParts = null;
     }
-    
-    private void updateParts(){
+
+    @Override
+    protected void createParts() {
         if(textParts != null) return;
         textParts = new CachedChainList<>();
-        List<String> lines = StringUtilities.splitLines(text.toString(), false);
+        List<String> lines = StringUtilities.splitLines(textBuilder.toString(), false);
         int row = 0;
         for(String line : lines){
             textParts.addLast(new ImplTextPart(line, row));
             row++;
         }
     }
-
-    @Override
-    public double getTextX() {
-        updateParts();
-        double minX = Double.MAX_VALUE;
-        for(TextPart part : textParts) minX = Math.min(minX, part.getX());
-        return minX;
-    }
-
-    @Override
-    public double getTextY() {
-        return textParts.getFirst().getY();
-    }
-
-    @Override
-    public double getTextWidth() {
-        updateParts();
-        double maxWidth = 0;
-        Font font = options.getFont();
-        for(TextPart textPart : textParts) maxWidth = Math.max(maxWidth, font.getWidth(textPart.getText()));
-        return maxWidth;
-    }
-
-    @Override
-    public double getTextHeight() {
-        updateParts();
-        double totalHeight = options.getFont().getHeight() * textParts.count();
-        return totalHeight;
-    }
     
     @Override
-    public double getLineHeight(){
-        return options.getFont().getHeight();
+    public boolean update() {
+        return false;
     }
     
     private class ImplCaret implements Caret {
@@ -168,7 +64,7 @@ public class MultiLineTextModel implements TextModel {
 
         @Override
         public double getX() {
-            updateParts();
+            createParts();
             int[] cs = caretToCarets(caret);
             TextPart part = textParts.get(cs[1]);
             return part.getX() + options.getFont().getWidth(part.getText().substring(0, cs[0]));
@@ -176,7 +72,7 @@ public class MultiLineTextModel implements TextModel {
 
         @Override
         public double getY() {
-            updateParts();
+            createParts();
             int[] cs = caretToCarets(caret);
             TextPart part = textParts.get(cs[1]);
             return part.getY();
@@ -184,7 +80,7 @@ public class MultiLineTextModel implements TextModel {
 
         @Override
         public void setCaret(double x, double y) {
-            double lpy = y - getVerticalTextPosition();
+            double lpy = y - getTextY();
             int line = StringUtilities.getClosestLine(options.getFont(), textParts.count(), lpy);
 
             TextPart part = textParts.get(line);
@@ -213,12 +109,12 @@ public class MultiLineTextModel implements TextModel {
         
         private void fix(){
             if(caret < 0) caret = 0;
-            if(caret > text.length()) caret = text.length();
+            if(caret > textBuilder.count()) caret = textBuilder.count();
         }
     }
     
     public int caretsToCaret(int ix, int iy) {
-        updateParts();
+        createParts();
         int caret = 0;
         for(int i = 0; i < iy; i++){
             caret += textParts.get(i).getText().length() + 1;
@@ -227,9 +123,9 @@ public class MultiLineTextModel implements TextModel {
     }
 
     public int[] caretToCarets(int i) {
-        updateParts();
+        createParts();
         if(i <= 0) return new int[]{0, 0};
-        if(i > text.length()) i = text.length();
+        if(i > textBuilder.count()) i = textBuilder.count();
         
         int iy = 0;
         int ix = 0;
@@ -244,55 +140,9 @@ public class MultiLineTextModel implements TextModel {
         }
         return new int[]{ix, iy};
     }
-    
-    private class ImplTextPart implements TextPart {
-        private final String text;
-        private final int row;
 
-        public ImplTextPart(String text, int row) {
-            this.text = text;
-            this.row = row;
-        }
-        
-        @Override
-        public String getText() {
-            return text;
-        }
-
-        @Override
-        public double getX() {
-            return Reshape.align(options.getWidth(), options.getFont().getWidth(text), options.getHorizontalAlignment(), options.getLeftPadding(), options.getRightPadding());
-        }
-
-        @Override
-        public double getY() {
-            return getVerticalTextPosition() + row*getLineHeight();
-        }
-    }
-    
-    public final double getHorizontalTextPosition(){
-        return Reshape.align(options.getWidth(), getTextWidth(), options.getHorizontalAlignment(), options.getLeftPadding(), options.getRightPadding());
-    }
-    
-    public final double getVerticalTextPosition(){
-        return Reshape.align(options.getHeight(), getTextHeight(), options.getVerticalAlignment(), options.getTopPadding(), options.getBottomPadding());
-    }
-    
-    private void joinBeginCaret(){
-        endCaret.setCaret(beginCaret.getCaret());
-    }
-    
-    private void joinEndCaret(){
-        beginCaret.setCaret(endCaret.getCaret());
-    }
-    
-    private void joinFirstCaret(){
-        if(beginCaret.getCaret() < endCaret.getCaret()) joinBeginCaret();
-        else joinEndCaret();
-    }
-    
-    private void joinSecondCaret(){
-        if(beginCaret.getCaret() > endCaret.getCaret()) joinBeginCaret();
-        else joinEndCaret();
+    @Override
+    protected Caret createCaret() {
+        return new ImplCaret();
     }
 }

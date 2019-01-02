@@ -3,6 +3,7 @@ package cz.mg.toolkit.utilities;
 import cz.mg.collections.list.List;
 import cz.mg.collections.list.chainlist.ChainList;
 import cz.mg.toolkit.graphics.Font;
+import cz.mg.toolkit.utilities.text.TextBuilder;
 
 
 public class StringUtilities {
@@ -24,48 +25,10 @@ public class StringUtilities {
         return lines;
     }
     
-    public static String substring(StringBuilder string, int beginIndex, int endIndex){
-        if(beginIndex == endIndex) return "";
-        if(beginIndex > endIndex){ int buffer = beginIndex; beginIndex = endIndex; endIndex = buffer; }
-        if(string == null) return "";
-        if(string.length() <= 0) return "";
-        if(beginIndex < 0) beginIndex = 0;
-        if(beginIndex > string.length()) beginIndex = string.length();
-        if(endIndex < 0) endIndex = 0;
-        if(endIndex >= string.length()) endIndex = string.length();
-        try {
-            return string.substring(beginIndex, endIndex);
-        } catch(IndexOutOfBoundsException e){
-            return "";
-        }
-    }
-    
-    public static void delete(StringBuilder string, int beginIndex, int endIndex){
-        if(beginIndex == endIndex) return;
-        if(beginIndex > endIndex){ int buffer = beginIndex; beginIndex = endIndex; endIndex = buffer; }
-        if(string == null) return;
-        if(string.length() <= 0) return;
-        if(beginIndex < 0) beginIndex = 0;
-        if(beginIndex > string.length()) beginIndex = string.length();
-        if(endIndex < 0) endIndex = 0;
-        if(endIndex > string.length()) endIndex = string.length();
-        if(beginIndex >= endIndex) return;
-        try {
-            string.delete(beginIndex, endIndex);
-        } catch(IndexOutOfBoundsException e){
-        }
-    }
-    
-    public static void insert(StringBuilder string, int i, String part){
-        if(i < 0) i = 0;
-        if(i > string.length()) i = string.length();
-        string.insert(i, part);
-    }
-    
-    public static int getClosestCharacter(Font font, String string, double px){
+    public static int getClosestCharacter(Font font, TextBuilder string, double px){
         int id = 0;
         double minDistance = Math.abs(px - 0);
-        for(int i = 1; i <= string.length(); i++){
+        for(int i = 1; i <= string.count(); i++){
             double currentCaretPosition = font.getWidth(string.substring(0, i));
             double dx = Math.abs(px - currentCaretPosition);
             if(dx < minDistance){
@@ -76,7 +39,7 @@ public class StringUtilities {
         return id;
     }
     
-    public static int getClosestCharacter(Font font, StringBuilder string, double px){
+    public static int getClosestCharacter(Font font, String string, double px){
         int id = 0;
         double minDistance = Math.abs(px - 0);
         for(int i = 1; i <= string.length(); i++){
