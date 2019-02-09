@@ -12,7 +12,7 @@ import cz.mg.toolkit.event.events.BeforeDrawEvent;
 import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
 import cz.mg.toolkit.utilities.text.TextModel;
-import cz.mg.toolkit.utilities.text.textmodels.MultiLineTextModel;
+
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.text.Options;
 
@@ -62,15 +62,15 @@ public class TextInput extends ScrollArea {
     }
     
     private void fixScroll(){
-        double cx = textContent.getTextModel().getBeginCaret().getX() + textContent.getX();
-        double cy = textContent.getTextModel().getBeginCaret().getY() + textContent.getY();
+        double cx = textContent.getTextModel().getTextArrangement().getBeginCaret().getX() + textContent.getX();
+        double cy = textContent.getTextModel().getTextArrangement().getBeginCaret().getY() + textContent.getY();
         
         double leftBoundary = 0;
         double rightBoundary = getContentPanel().getWidth();
         double topBoundary = 0;
         double bottomBoundary = getContentPanel().getHeight();
         
-        double lineHeight = textContent.getTextModel().getLineHeight();
+        double lineHeight = textContent.getTextModel().getTextArrangement().getLineHeight();
         
         double leftPoint = cx - lineHeight / 2;
         double rightPoint = cx + lineHeight / 2;
@@ -107,7 +107,7 @@ public class TextInput extends ScrollArea {
     
     public static class TextContent extends InteractiveTextContent {
         public static final String DEFAULT_DESIGN_NAME = "text input content";
-        private TextModel placeholderTextModel = new MultiLineTextModel();
+        private TextModel placeholderTextModel = new TextModel();
 
         public TextContent() {
             addEventListeners();
@@ -124,7 +124,7 @@ public class TextInput extends ScrollArea {
             getEventListeners().addLast(new AfterLayoutAdapter() {
                 @Override
                 public void onEventEnter(AfterLayoutEvent e) {
-                    if(placeholderTextModel.update()) relayout();
+                    if(placeholderTextModel.getTextArrangement().update()) relayout();
                 }
             });
         }
@@ -132,13 +132,9 @@ public class TextInput extends ScrollArea {
         public TextModel getPlaceholderTextModel() {
             return placeholderTextModel;
         }
-
-        public void setPlaceholderTextModel(TextModel placeholderTextModel) {
-            this.placeholderTextModel = placeholderTextModel;
-        }
         
         private void updateOptions(){
-            Options options = placeholderTextModel.getOptions();
+            Options options = placeholderTextModel.getTextArrangement().getOptions();
             options.setLeftPadding(getLeftPadding(this));
             options.setRightPadding(getRightPadding(this));
             options.setTopPadding(getTopPadding(this));

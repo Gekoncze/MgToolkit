@@ -58,8 +58,8 @@ public class InteractiveTextContent extends TextContent {
                 if(!wasLeftButton(e) || !wasPressed(e)) return;
                 if(editable && !hasKeyboardFocus()) requestKeyboardFocus();
                 requestMouseFocus();
-                getTextModel().getBeginCaret().setCaret(getX(e), getY(e));
-                getTextModel().getEndCaret().setCaret(getX(e), getY(e));
+                getTextModel().getTextArrangement().getBeginCaret().setCaret(getX(e), getY(e));
+                getTextModel().getTextArrangement().getEndCaret().setCaret(getX(e), getY(e));
                 partialFocus = true;
                 redraw();
             }
@@ -69,7 +69,7 @@ public class InteractiveTextContent extends TextContent {
             @Override
             public void onMouseMotionEventLeave(MouseMotionEvent e) {
                 if(!hasMouseFocus()) return;
-                getTextModel().getEndCaret().setCaret(getX(e), getY(e));
+                getTextModel().getTextArrangement().getEndCaret().setCaret(getX(e), getY(e));
                 redraw();
             }
         });
@@ -91,8 +91,8 @@ public class InteractiveTextContent extends TextContent {
             @Override
             public void onKeyboardButtonEventEnter(KeyboardButtonEvent e) {
                 if(!e.isRepeated() && partialFocus && wasButtonPressed(e)){
-                    Caret beginCaret = getTextModel().getBeginCaret();
-                    Caret endCaret = getTextModel().getEndCaret();
+                    Caret beginCaret = getTextModel().getTextArrangement().getBeginCaret();
+                    Caret endCaret = getTextModel().getTextArrangement().getEndCaret();
                     
                     if(CommonKeyboardShortcuts.SELECT_ALL.matches(e)){
                         beginCaret.setCaret(0);
@@ -135,8 +135,8 @@ public class InteractiveTextContent extends TextContent {
                     getTextModel().paste("" + e.getCh());
                     relayout();
                 } else {
-                    Caret beginCaret = getTextModel().getBeginCaret();
-                    Caret endCaret = getTextModel().getEndCaret();
+                    Caret beginCaret = getTextModel().getTextArrangement().getBeginCaret();
+                    Caret endCaret = getTextModel().getTextArrangement().getEndCaret();
                     
                     if(e.getLogicalButton() == Keyboard.Button.LEFT){
                         endCaret.moveHorizontally(-1);
@@ -195,7 +195,7 @@ public class InteractiveTextContent extends TextContent {
         releaseMouseFocus();
         releaseKeyboardFocus();
         partialFocus = false;
-        getTextModel().getEndCaret().setCaret(getTextModel().getBeginCaret().getCaret());
+        getTextModel().joinBeginCaret();
         redraw();
         raiseOrSendActionEvent();
     }

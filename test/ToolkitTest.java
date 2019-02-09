@@ -34,7 +34,7 @@ import cz.mg.toolkit.utilities.keyboardshortcuts.StandardKeyboardCharacterShortc
 import java.io.IOException;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.*;
-import cz.mg.toolkit.utilities.text.textmodels.MultiLineTextModel;
+import cz.mg.toolkit.utilities.text.textarrangements.MultilineTextArrangement;
 
 
 public class ToolkitTest {
@@ -42,8 +42,8 @@ public class ToolkitTest {
     
     public static void main(String[] args) throws IOException {
         Impl.setImplApi(new SwingImplApi());
-        Impl.getImplApi().getPrimaryDisplay().setHorizontalZoom(0.25);
-        Impl.getImplApi().getPrimaryDisplay().setVerticalZoom(0.25);
+        Impl.getImplApi().getPrimaryDisplay().setHorizontalZoom(0.4);
+        Impl.getImplApi().getPrimaryDisplay().setVerticalZoom(0.4);
         
         TextContent label;
         SelectionGroup selectionGroup = new SelectionGroup();
@@ -175,7 +175,8 @@ public class ToolkitTest {
         setHorizontalSizePolicy(ti, new FixedRangeSizePolicy(0, 160));
         setVerticalSizePolicy(ti, new FixedSizePolicy(64));
         ti.setParent(h0);
-        ti.getTextContent().setPlaceholderTextModel(new MultiLineTextModel("Try typing here!"));
+        ti.getTextContent().setText("Try typing here!");
+        ti.getTextContent().getPlaceholderTextModel().setTextArrangement(new MultilineTextArrangement());
         
         TextContent alignmentTest = new TextContent("Yay!");
         alignmentTest.setParent(h0);

@@ -65,5 +65,17 @@
     vyzkoušet editaci wrap text contentu!!!!
         tam budou ještě nedodělky :o
 
+    add vertical spacing to text model options and implement it
+    fix scrolling issues for text inputs
+    tons of cleanup required!
+
 #### DONE
-    
+Text model simplification
+    improved debug lil
+    separated text arrangement from text model into a new interface and implementing classes
+    change options copy method into a copy constructor
+    made a lot of simplifications
+    moved lot of code into abstract text arangement
+    deleted now unnecessary string utilities
+    caret behaviour should now be correct
+    TODO: fix some scroll issues

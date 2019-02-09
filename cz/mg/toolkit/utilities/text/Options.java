@@ -12,36 +12,19 @@ public class Options {
     private double bottomPadding;
     private double verticalAlignment;
     private double horizontalAlignment;
+    private double verticalSpacing;
     private Font font = new Font("default", 10, Font.Style.REGULAR);
+    private boolean changed = true;
     
     public Options() {
     }
-    
-    public Options copy(){
-        Options copy = new Options();
-        copy.width = width;
-        copy.height = height;
-        copy.leftPadding = leftPadding;
-        copy.rightPadding = rightPadding;
-        copy.topPadding = topPadding;
-        copy.bottomPadding = bottomPadding;
-        copy.verticalAlignment = verticalAlignment;
-        copy.horizontalAlignment = horizontalAlignment;
-        copy.font = font;
-        return copy;
+
+    public boolean isChanged() {
+        return changed;
     }
-    
-    public static boolean equals(Options o1, Options o2){
-        return
-                o1.width == o2.width &&
-                o1.height == o2.height &&
-                o1.leftPadding == o2.leftPadding &&
-                o1.rightPadding == o2.rightPadding &&
-                o1.topPadding == o2.topPadding &&
-                o1.bottomPadding == o2.bottomPadding &&
-                o1.verticalAlignment == o2.verticalAlignment &&
-                o1.horizontalAlignment == o2.horizontalAlignment &&
-                o1.font == o2.font;
+
+    public void setChanged(boolean changed) {
+        this.changed = changed;
     }
 
     public double getWidth() {
@@ -49,6 +32,7 @@ public class Options {
     }
 
     public void setWidth(double width) {
+        if(this.width != width) changed = true;
         this.width = width;
     }
 
@@ -57,6 +41,7 @@ public class Options {
     }
 
     public void setHeight(double height) {
+        if(this.height != height) changed = true;
         this.height = height;
     }
 
@@ -65,6 +50,7 @@ public class Options {
     }
 
     public void setLeftPadding(double leftPadding) {
+        if(this.leftPadding != leftPadding) changed = true;
         this.leftPadding = leftPadding;
     }
 
@@ -73,6 +59,7 @@ public class Options {
     }
 
     public void setRightPadding(double rightPadding) {
+        if(this.rightPadding != rightPadding) changed = true;
         this.rightPadding = rightPadding;
     }
 
@@ -81,6 +68,7 @@ public class Options {
     }
 
     public void setTopPadding(double topPadding) {
+        if(this.topPadding != topPadding) changed = true;
         this.topPadding = topPadding;
     }
 
@@ -89,6 +77,7 @@ public class Options {
     }
 
     public void setBottomPadding(double bottomPadding) {
+        if(this.bottomPadding != bottomPadding) changed = true;
         this.bottomPadding = bottomPadding;
     }
 
@@ -97,6 +86,7 @@ public class Options {
     }
 
     public void setVerticalAlignment(double verticalAlignment) {
+        if(this.verticalAlignment != verticalAlignment) changed = true;
         this.verticalAlignment = verticalAlignment;
     }
 
@@ -105,7 +95,17 @@ public class Options {
     }
 
     public void setHorizontalAlignment(double horizontalAlignment) {
+        if(this.horizontalAlignment != horizontalAlignment) changed = true;
         this.horizontalAlignment = horizontalAlignment;
+    }
+
+    public double getVerticalSpacing() {
+        return verticalSpacing;
+    }
+
+    public void setVerticalSpacing(double verticalSpacing) {
+        if(this.verticalSpacing != verticalSpacing) changed = true;
+        this.verticalSpacing = verticalSpacing;
     }
 
     public Font getFont() {
@@ -113,6 +113,7 @@ public class Options {
     }
 
     public void setFont(Font font) {
+        if(this.font != font) changed = true;
         this.font = font;
     }
 }

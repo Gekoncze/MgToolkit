@@ -8,12 +8,11 @@ import cz.mg.toolkit.event.events.BeforeDrawEvent;
 import static cz.mg.toolkit.utilities.properties.PropertiesInterface.*;
 import cz.mg.toolkit.utilities.text.Options;
 import cz.mg.toolkit.utilities.text.TextModel;
-import cz.mg.toolkit.utilities.text.textmodels.MultiLineTextModel;
 
 
 public class TextContent extends Content {
     public static final String DEFAULT_DESIGN_NAME = "text content";
-    private TextModel textModel = new MultiLineTextModel();
+    private final TextModel textModel = new TextModel();
 
     public TextContent() {
         addEventListeners();
@@ -36,7 +35,7 @@ public class TextContent extends Content {
             @Override
             public void onEventEnter(AfterLayoutEvent e) {
                 updateOptions();
-                if(textModel.update()) relayout();
+                if(textModel.getTextArrangement().update()) relayout();
             }
         });
     }
@@ -53,10 +52,6 @@ public class TextContent extends Content {
         return textModel;
     }
 
-    public final void setTextModel(TextModel textModel) {
-        this.textModel = textModel;
-    }
-
     @Override
     public final double getPrefferedWidth() {
         return getPrefferedTextModelWidth() + getLeftPadding(this) + getRightPadding(this);
@@ -68,15 +63,15 @@ public class TextContent extends Content {
     }
     
     private double getPrefferedTextModelWidth(){
-        return textModel == null ? 0 : textModel.getPrefferedWidth();
+        return textModel.getTextArrangement().getRequiredWidth();
     }
     
     private double getPrefferedTextModelHeight(){
-        return textModel == null ? 0 : textModel.getPrefferedHeight();
+        return textModel.getTextArrangement().getRequiredHeight();
     }
     
     private void updateOptions(){
-        Options options = textModel.getOptions();
+        Options options = textModel.getTextArrangement().getOptions();
         options.setLeftPadding(getLeftPadding(this));
         options.setRightPadding(getRightPadding(this));
         options.setTopPadding(getTopPadding(this));

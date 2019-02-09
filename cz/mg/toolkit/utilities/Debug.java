@@ -91,15 +91,21 @@ public class Debug {
                 String message = "";
                 message += getId(component);
                 message += " | " + component.getClass().getSimpleName();
+
+                message += " | Size: " + component.getWidth() + " x " + component.getHeight();
+                message += " | Position: " + component.getX() + " x " + component.getY();
+
                 if(component instanceof Container){
                     message += " | " + ((Container) component).getLayout().getClass().getSimpleName();
                 }
+
                 message += " | Min: " + getMinWidth(component) + " x " + getMinHeight(component);
                 message += " | Max: " + getMaxWidth(component) + " x " + getMaxHeight(component);
-                message += " | Current: " + component.getWidth() + " x " + component.getHeight();
+
                 if(component instanceof Content){
                     message += " | preffered size: " + ((Content) component).getPrefferedWidth() + " x " + ((Content) component).getPrefferedHeight();
                 }
+
                 message += " | " + classNameOrNull(getHorizontalSizePolicy(component)) + " | " + classNameOrNull(getVerticalSizePolicy(component)) + " | ";
                 message += " | preffered design: " + getDesignName(component) + " | design used: " + getDesignUsed(component) + " | fallback designs: " + listFallbackDesigns(component);
                 debugLine("### " + message, 1);

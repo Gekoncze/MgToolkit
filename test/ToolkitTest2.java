@@ -30,7 +30,7 @@ import java.io.IOException;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
-import cz.mg.toolkit.utilities.text.textmodels.MultiLineWrapTextModel;
+import cz.mg.toolkit.utilities.text.textarrangements.MultilineWrapTextArrangement;
 
 
 public class ToolkitTest2 {
@@ -38,8 +38,8 @@ public class ToolkitTest2 {
     
     public static void main(String[] args) throws IOException {
         Impl.setImplApi(new SwingImplApi());
-        Impl.getImplApi().getPrimaryDisplay().setHorizontalZoom(0.25);
-        Impl.getImplApi().getPrimaryDisplay().setVerticalZoom(0.25);
+        Impl.getImplApi().getPrimaryDisplay().setHorizontalZoom(0.4);
+        Impl.getImplApi().getPrimaryDisplay().setVerticalZoom(0.4);
         
         Window window = new Window();
         window.setSize(200*4, 150*4);
@@ -155,8 +155,10 @@ public class ToolkitTest2 {
         ScrollArea scrollArea = new ScrollArea();
         scrollArea.setParent(splitArea.getContentPanels().get(2, 0));
 
-        TextContent text = new TextContent();
-        text.setTextModel(new MultiLineWrapTextModel("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pellentesque mattis facilisis.\nPellentesque quis purus sed magna venenatis tincidunt in mattis nisl.\nFusce vel efficitur justo. Quisque rhoncus porta nisl id interdum.\nIn ut ipsum faucibus elit ultricies pellentesque a non dolor.\nMaecenas sit amet est sit amet urna laoreet sodales nec nec lectus."));
+        InteractiveTextContent text = new InteractiveTextContent();
+        text.setEditable(true);
+        text.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pellentesque mattis facilisis.\nPellentesque quis purus sed magna venenatis tincidunt in mattis nisl.\nFusce vel efficitur justo. Quisque rhoncus porta nisl id interdum.\nIn ut ipsum faucibus elit ultricies pellentesque a non dolor.\nMaecenas sit amet est sit amet urna laoreet sodales nec nec lectus.");
+        text.getTextModel().setTextArrangement(new MultilineWrapTextArrangement());
         setHorizontalSizePolicy(text, new FillParentSizePolicy());
         setVerticalSizePolicy(text, new WrapContentSizePolicy());
         scrollArea.getContentPanel().getChildren().addLast(text);

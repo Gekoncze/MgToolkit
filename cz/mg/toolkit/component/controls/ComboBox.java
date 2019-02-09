@@ -14,7 +14,7 @@ import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
 import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
-import cz.mg.toolkit.utilities.text.textmodels.SingleLineTextModel;
+import cz.mg.toolkit.utilities.text.textarrangements.SinglelineTextArrangement;
 
 
 public class ComboBox<T> extends Panel {
@@ -109,7 +109,7 @@ public class ComboBox<T> extends Panel {
 
         public ContextMenuItem(T item) {
             this.item = item;
-            setTextModel(new SingleLineTextModel());
+            getTextModel().setTextArrangement(new SinglelineTextArrangement());
             setText("" + this.item);
             setHorizontalSizePolicy(this, new WrapAndFillSizePolicy());
             getEventListeners().addLast(new LocalMouseButtonAdapter() {

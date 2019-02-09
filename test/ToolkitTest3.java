@@ -9,8 +9,7 @@ import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import static cz.mg.toolkit.utilities.properties.PropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.FixedRangeSizePolicy;
 import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
-import cz.mg.toolkit.utilities.text.textmodels.MultiLineTextModel;
-import cz.mg.toolkit.utilities.text.textmodels.SingleLineTextModel;
+import cz.mg.toolkit.utilities.text.textarrangements.SinglelineTextArrangement;
 
 
 public class ToolkitTest3 {
@@ -30,8 +29,9 @@ public class ToolkitTest3 {
         setHorizontalSizePolicy(ti, new FixedRangeSizePolicy(0, 160));
         setVerticalSizePolicy(ti, new FixedSizePolicy(64));
         ti.setParent(p);
-        ti.getTextContent().setPlaceholderTextModel(new SingleLineTextModel("Try typing here!"));
-        ti.getTextContent().setTextModel(new SingleLineTextModel());
+        ti.getTextContent().getPlaceholderTextModel().setText("Try typing here!");
+        ti.getTextContent().getPlaceholderTextModel().setTextArrangement(new SinglelineTextArrangement());
+        ti.getTextContent().getTextModel().setTextArrangement(new SinglelineTextArrangement());
         
 //        TextContent text = new TextContent("Yay!");
 //        text.setParent(p);

@@ -6,7 +6,7 @@ import cz.mg.toolkit.component.contents.TextContent;
 import cz.mg.toolkit.utilities.Selectable;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.WrapAndFillSizePolicy;
-import cz.mg.toolkit.utilities.text.textmodels.SingleLineTextModel;
+import cz.mg.toolkit.utilities.text.textarrangements.SinglelineTextArrangement;
 
 
 public abstract class SelectionList<T> extends Panel {
@@ -36,7 +36,7 @@ public abstract class SelectionList<T> extends Panel {
 
         public ListItem(T item) {
             this.item = item;
-            setTextModel(new SingleLineTextModel());
+            getTextModel().setTextArrangement(new SinglelineTextArrangement());
             getTextModel().setText("" + item);
             setSizePolicy(this, new WrapAndFillSizePolicy());
         }
