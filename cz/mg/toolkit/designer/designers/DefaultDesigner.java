@@ -29,6 +29,7 @@ import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
 import static cz.mg.toolkit.graphics.decorations.BackgroundColorDecoration.*;
 import static cz.mg.toolkit.graphics.decorations.ForegroundColorDecoration.*;
 import cz.mg.toolkit.utilities.text.Caret;
+import cz.mg.toolkit.utilities.text.TextArrangement;
 import cz.mg.toolkit.utilities.text.TextPart;
 
 
@@ -378,8 +379,9 @@ public class DefaultDesigner extends CompositeDesigner {
         @Override
         protected void onDraw(Graphics g, Component component) {
             TextContent content = (TextContent) component;
-            g.setFont(content.getTextModel().getTextArrangement().getOptions().getFont());
-            for(TextPart textPart : content.getTextModel().getTextArrangement().getParts()){
+            TextArrangement arrangement = content.getTextModel().getTextArrangement();
+            g.setFont(arrangement.getOptions().getFont());
+            for(TextPart textPart : arrangement.getParts()){
                 g.drawText(textPart.getText(), textPart.getX(), textPart.getY());
             }
         }
@@ -391,8 +393,9 @@ public class DefaultDesigner extends CompositeDesigner {
             TEXT_CONTENT_BACKGROUND.getInnerDecoration().draw(g, component);
             
             TextContent content = (TextContent) component;
-            Caret beginCaret = content.getTextModel().getTextArrangement().getBeginCaret();
-            Caret endCaret = content.getTextModel().getTextArrangement().getEndCaret();
+            TextArrangement arrangement = content.getTextModel().getTextArrangement();
+            Caret beginCaret = arrangement.getBeginCaret();
+            Caret endCaret = arrangement.getEndCaret();
             
             // draw selection if needed
             if(beginCaret.getCaret() != endCaret.getCaret()) {
@@ -403,7 +406,7 @@ public class DefaultDesigner extends CompositeDesigner {
                 double by = beginCaret.getY();
                 double ex = endCaret.getX();
                 double ey = endCaret.getY();
-                double lh = content.getTextModel().getTextArrangement().getLineHeight();
+                double lh = arrangement.getLineHeight();
                 
                 if(beginCaret.getRow() == endCaret.getRow()){
                     g.drawRectangle(bx, by, ex - bx, lh); // draw single line selection
@@ -415,7 +418,7 @@ public class DefaultDesigner extends CompositeDesigner {
                     int ecy = endCaret.getRow();
                     
                     // draw leading line selection
-                    TextPart leadingLine = content.getTextModel().getTextArrangement().getParts().get(bcy);
+                    TextPart leadingLine = arrangement.getParts().get(bcy);
                     double lrw = font.getWidth(leadingLine.getText().substring(bcx));
                     double lrx = bx;
                     double lry = by;
@@ -423,7 +426,7 @@ public class DefaultDesigner extends CompositeDesigner {
                     
                     // draw in-between lines
                     for(int i = bcy + 1; i <= ecy - 1; i++){
-                        TextPart inbetweenLine = content.getTextModel().getTextArrangement().getParts().get(i);
+                        TextPart inbetweenLine = arrangement.getParts().get(i);
                         double irx = inbetweenLine.getX();
                         double iry = inbetweenLine.getY();
                         double irw = font.getWidth(inbetweenLine.getText());
@@ -431,7 +434,7 @@ public class DefaultDesigner extends CompositeDesigner {
                     }
                     
                     // draw trailing line selection
-                    TextPart trailingLine = content.getTextModel().getTextArrangement().getParts().get(ecy);
+                    TextPart trailingLine = arrangement.getParts().get(ecy);
                     double trw = font.getWidth(trailingLine.getText().substring(0, ecx));
                     double trx = ex - trw;
                     double tryy = ey;
@@ -447,8 +450,9 @@ public class DefaultDesigner extends CompositeDesigner {
             TEXT_CONTENT_FOREGROUND.getInnerDecoration().draw(g, component);
             
             TextContent content = (TextContent) component;
-            Caret beginCaret = content.getTextModel().getTextArrangement().getBeginCaret();
-            Caret endCaret = content.getTextModel().getTextArrangement().getEndCaret();
+            TextArrangement arrangement = content.getTextModel().getTextArrangement();
+            Caret beginCaret = arrangement.getBeginCaret();
+            Caret endCaret = arrangement.getEndCaret();
             
             if(beginCaret.getCaret() != endCaret.getCaret()){
                 if(beginCaret.getCaret() >= endCaret.getCaret()) { Caret buffer = beginCaret; beginCaret = endCaret; endCaret = buffer; }
@@ -461,27 +465,27 @@ public class DefaultDesigner extends CompositeDesigner {
                 int ecy = endCaret.getRow();
                 
                 if(beginCaret.getRow() == endCaret.getRow()){
-                    TextPart line = content.getTextModel().getTextArrangement().getParts().get(bcy);
+                    TextPart line = arrangement.getParts().get(bcy);
                     double x = line.getX() + font.getWidth(line.getText().substring(0, bcx));
                     double y = line.getY();
                     g.drawText(line.getText().substring(bcx, ecx), x, y);
                 } else {
                     // draw leading line
-                    TextPart leadingLine = content.getTextModel().getTextArrangement().getParts().get(bcy);
+                    TextPart leadingLine = arrangement.getParts().get(bcy);
                     double llx = leadingLine.getX() + font.getWidth(leadingLine.getText().substring(0, bcx));
                     double lly = leadingLine.getY();
                     g.drawText(leadingLine.getText().substring(bcx), llx, lly);
 
                     // draw in-between lines
                     for(int i = bcy + 1; i <= ecy - 1; i++){
-                        TextPart inbetweenLine = content.getTextModel().getTextArrangement().getParts().get(i);
+                        TextPart inbetweenLine = arrangement.getParts().get(i);
                         double ilx = inbetweenLine.getX();
                         double ily = inbetweenLine.getY();
                         g.drawText(inbetweenLine.getText(), ilx, ily);
                     }
 
                     // draw trailing line
-                    TextPart trailingLine = content.getTextModel().getTextArrangement().getParts().get(ecy);
+                    TextPart trailingLine = arrangement.getParts().get(ecy);
                     double tlx = trailingLine.getX();
                     double tly = trailingLine.getY();
                     g.drawText(trailingLine.getText().substring(0, ecx), tlx, tly);
@@ -489,9 +493,9 @@ public class DefaultDesigner extends CompositeDesigner {
             }
 
             if(content.hasKeyboardFocus()){
-                double x = content.getTextModel().getTextArrangement().getEndCaret().getX();
-                double y = content.getTextModel().getTextArrangement().getEndCaret().getY();
-                double lh = content.getTextModel().getTextArrangement().getLineHeight();
+                double x = arrangement.getEndCaret().getX();
+                double y = arrangement.getEndCaret().getY();
+                double lh = arrangement.getLineHeight();
                 g.setColor(getContrastColor(content));
                 g.drawLine(x, y, x, y + lh);
             }
@@ -504,12 +508,13 @@ public class DefaultDesigner extends CompositeDesigner {
             INTERACTIVE_TEXT_CONTENT_FOREGROUND.getInnerDecoration().draw(g, component);
             
             // draw placeholder text if needed
-            TextInput.TextContent textContent = (TextInput.TextContent) component;
-            if(!textContent.hasKeyboardFocus() && textContent.getTextModel().getText().length() <= 0){
-                g.setFont(textContent.getPlaceholderTextModel().getTextArrangement().getOptions().getFont());
+            TextInput.TextContent content = (TextInput.TextContent) component;
+            TextArrangement arrangement = content.getPlaceholderTextModel().getTextArrangement();
+            if(!content.hasKeyboardFocus() && content.getTextModel().getText().length() <= 0){
+                g.setFont(arrangement.getOptions().getFont());
                 g.setTransparency(0.5);
-                g.setColor(getCurrentForegroundColor(textContent));
-                for(TextPart textPart : textContent.getPlaceholderTextModel().getTextArrangement().getParts()){
+                g.setColor(getCurrentForegroundColor(content));
+                for(TextPart textPart : arrangement.getParts()){
                     g.drawText(textPart.getText(), textPart.getX(), textPart.getY());
                 }
                 g.setTransparency(1.0);

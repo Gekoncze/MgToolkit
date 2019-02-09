@@ -138,7 +138,7 @@ public final class Keyboard {
                 }
             }
         }
-        return null;
+        return Button.UNKNOWN;
     }
     
     public static enum State {
@@ -147,6 +147,8 @@ public final class Keyboard {
     }
     
     public static enum Button {
+        UNKNOWN,
+
         CTRL_LEFT,
         CTRL_RIGHT,
         ALT_LEFT,

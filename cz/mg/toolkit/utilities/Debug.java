@@ -103,7 +103,7 @@ public class Debug {
                 message += " | Max: " + getMaxWidth(component) + " x " + getMaxHeight(component);
 
                 if(component instanceof Content){
-                    message += " | preffered size: " + ((Content) component).getPrefferedWidth() + " x " + ((Content) component).getPrefferedHeight();
+                    message += " | preffered size: " + ((Content) component).getRequiredWidth() + " x " + ((Content) component).getRequiredHeight();
                 }
 
                 message += " | " + classNameOrNull(getHorizontalSizePolicy(component)) + " | " + classNameOrNull(getVerticalSizePolicy(component)) + " | ";

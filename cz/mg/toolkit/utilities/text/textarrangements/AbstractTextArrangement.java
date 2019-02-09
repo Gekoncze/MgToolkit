@@ -73,9 +73,10 @@ public abstract class AbstractTextArrangement implements TextArrangement {
     @Override
     public final double getTextHeight() {
         createParts();
+        if(parts.count() <= 0) return 0;
         double totalHeight = options.getFont().getHeight() * parts.count();
         double totalGap = (parts.count() - 1) * options.getVerticalSpacing();
-        return totalHeight;
+        return totalHeight + totalGap;
     }
 
     @Override

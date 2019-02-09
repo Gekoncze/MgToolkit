@@ -2,6 +2,7 @@ package cz.mg.toolkit.component.wrappers;
 
 import cz.mg.toolkit.component.containers.Wrapper;
 import cz.mg.toolkit.component.controls.HorizontalScrollBar;
+import cz.mg.toolkit.component.controls.TextInput;
 import cz.mg.toolkit.component.controls.VerticalScrollBar;
 import cz.mg.toolkit.event.adapters.AfterLayoutAdapter;
 import cz.mg.toolkit.utilities.ScrollControlsVisibility;
@@ -107,11 +108,11 @@ public class ScrollArea extends Wrapper {
     }
     
     private boolean areHorizontalScrollControlsNeeded(){
-        return getContentPanel().getContentWidth() > getAvailableWidth();
+        return getContentPanel().getContentWidth() > getContentPanel().getAvailableWidth();
     }
     
     private boolean areVerticalScrollControlsNeeded(){
-        return getContentPanel().getContentHeight() > getAvailableHeight();
+        return getContentPanel().getContentHeight() > getContentPanel().getAvailableHeight();
     }
 
     public final ScrollControlsVisibility getScrollControlsVisibility() {

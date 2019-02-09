@@ -43,7 +43,7 @@ public class StandardMenuItem extends ActionMenuItem {
         if(icon == null) setHidden(imageContent, true);
         setColumn(imageContent, 0);
         setSizePolicy(imageContent, new FixedSizePolicy());
-        imageContent.setUsePrefferedSize(false);
+        imageContent.setAutosize(false);
         imageContent.setImage(icon);
         
         if(checked == null) setHidden(radioButton, true);

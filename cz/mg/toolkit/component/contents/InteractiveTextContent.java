@@ -97,14 +97,12 @@ public class InteractiveTextContent extends TextContent {
                     if(CommonKeyboardShortcuts.SELECT_ALL.matches(e)){
                         beginCaret.setCaret(0);
                         endCaret.setCaret(getTextModel().getText().length());
-                        e.consume();
                         redraw();
                         return;
                     }
                     
                     if(CommonKeyboardShortcuts.COPY.matches(e)){
                         if(beginCaret.getCaret() != endCaret.getCaret()) Clipboard.getInstance().setText(getTextModel().copy());
-                        e.consume();
                         redraw();
                         return;
                     }
@@ -112,14 +110,12 @@ public class InteractiveTextContent extends TextContent {
                     if(editable && CommonKeyboardShortcuts.PASTE.matches(e)){
                         String text = Clipboard.getInstance().getText();
                         if(text != null && text.length() > 0) getTextModel().paste(text);
-                        e.consume();
                         relayout();
                         return;
                     }
                     
                     if(editable && CommonKeyboardShortcuts.CUT.matches(e)){
                         if(beginCaret.getCaret() != endCaret.getCaret()) Clipboard.getInstance().setText(getTextModel().cut());
-                        e.consume();
                         relayout();
                         return;
                     }
@@ -131,46 +127,64 @@ public class InteractiveTextContent extends TextContent {
             @Override
             public void onKeyboardButtonEventEnter(KeyboardButtonEvent e) {
                 if(!hasKeyboardFocus() || !editable || !wasButtonPressed(e)) return;
-                if(isPrintable(e.getCh())){
-                    getTextModel().paste("" + e.getCh());
-                    relayout();
-                } else {
-                    Caret beginCaret = getTextModel().getTextArrangement().getBeginCaret();
-                    Caret endCaret = getTextModel().getTextArrangement().getEndCaret();
-                    
-                    if(e.getLogicalButton() == Keyboard.Button.LEFT){
+
+                Caret beginCaret = getTextModel().getTextArrangement().getBeginCaret();
+                Caret endCaret = getTextModel().getTextArrangement().getEndCaret();
+
+                switch(e.getLogicalButton()){
+                    case LEFT:
                         endCaret.moveHorizontally(-1);
                         if(!isShiftPressed()) beginCaret.setCaret(endCaret.getCaret());
                         redraw();
-                    } else if(e.getLogicalButton() == Keyboard.Button.RIGHT){
+                        break;
+
+                    case RIGHT:
                         endCaret.moveHorizontally(+1);
                         if(!isShiftPressed()) beginCaret.setCaret(endCaret.getCaret());
                         redraw();
-                    } else if(e.getLogicalButton() == Keyboard.Button.UP){
+                        break;
+
+                    case UP:
                         endCaret.moveVertically(-1);
                         if(!isShiftPressed()) beginCaret.setCaret(endCaret.getCaret());
                         redraw();
-                    } else if(e.getLogicalButton() == Keyboard.Button.DOWN){
+                        break;
+
+                    case DOWN:
                         endCaret.moveVertically(+1);
                         if(!isShiftPressed()) beginCaret.setCaret(endCaret.getCaret());
                         redraw();
-                    } else if(e.getLogicalButton() == Keyboard.Button.BACKSPACE){
+                        break;
+
+                    case BACKSPACE:
                         if(beginCaret.getCaret() == endCaret.getCaret()) beginCaret.moveHorizontally(-1);
                         getTextModel().delete();
                         relayout();
-                    } else if(e.getLogicalButton() == Keyboard.Button.DELETE){
+                        break;
+
+                    case DELETE:
                         if(beginCaret.getCaret() == endCaret.getCaret()) beginCaret.moveHorizontally(1);
                         getTextModel().delete();
                         relayout();
-                    } else if(e.getLogicalButton() == Keyboard.Button.ESC){
+                        break;
+
+                    case ESC:
                         done();
-                    } else if(e.getLogicalButton() == Keyboard.Button.ENTER || e.getLogicalButton() == Keyboard.Button.NUM_ENTER){
+                        break;
+
+                    case ENTER:
+                    case NUM_ENTER:
                         getTextModel().paste("\n");
                         relayout();
-                    }
+                        break;
+
+                    default:
+                        if(isPrintable(e.getCh())){
+                            getTextModel().paste("" + e.getCh());
+                            relayout();
+                        }
+                        break;
                 }
-                
-                e.consume();
             }
         });
     }

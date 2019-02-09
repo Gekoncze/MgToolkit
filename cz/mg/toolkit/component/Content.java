@@ -6,16 +6,16 @@ public abstract class Content extends Component {
     
     private double contentWidth;
     private double contentHeight;
-    private boolean usePrefferedSize;
+    private boolean autosize;
     
     public Content(){
-        usePrefferedSize = true;
+        autosize = true;
     }
     
     public Content(double contentWidth, double contentHeight) {
         this.contentWidth = contentWidth;
         this.contentHeight = contentHeight;
-        usePrefferedSize = false;
+        autosize = false;
     }
     
     @Override
@@ -41,29 +41,29 @@ public abstract class Content extends Component {
         setContentHeight(height);
     }
 
-    public final boolean isUsePrefferedSize() {
-        return usePrefferedSize;
+    public final boolean isAutosize() {
+        return autosize;
     }
 
-    public final void setUsePrefferedSize(boolean usePrefferedSize) {
-        this.usePrefferedSize = usePrefferedSize;
+    public final void setAutosize(boolean autosize) {
+        this.autosize = autosize;
     }
     
     @Override
     public final double computeWrapWidth() {
-        return usePrefferedSize ? getPrefferedWidth() : getContentWidth();
+        return autosize ? getRequiredWidth() : getContentWidth();
     }
 
     @Override
     public final double computeWrapHeight() {
-        return usePrefferedSize ? getPrefferedHeight() : getContentHeight();
+        return autosize ? getRequiredHeight() : getContentHeight();
     }
     
-    public double getPrefferedWidth(){
+    public double getRequiredWidth(){
         return getContentWidth();
     }
     
-    public double getPrefferedHeight(){
+    public double getRequiredHeight(){
         return getContentHeight();
     }
 }

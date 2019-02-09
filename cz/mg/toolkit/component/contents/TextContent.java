@@ -53,21 +53,13 @@ public class TextContent extends Content {
     }
 
     @Override
-    public final double getPrefferedWidth() {
-        return getPrefferedTextModelWidth() + getLeftPadding(this) + getRightPadding(this);
+    public final double getRequiredWidth() {
+        return textModel.getTextArrangement().getRequiredWidth() + getLeftPadding(this) + getRightPadding(this);
     }
 
     @Override
-    public final double getPrefferedHeight() {
-        return getPrefferedTextModelHeight() + getTopPadding(this) + getBottomPadding(this);
-    }
-    
-    private double getPrefferedTextModelWidth(){
-        return textModel.getTextArrangement().getRequiredWidth();
-    }
-    
-    private double getPrefferedTextModelHeight(){
-        return textModel.getTextArrangement().getRequiredHeight();
+    public final double getRequiredHeight() {
+        return textModel.getTextArrangement().getRequiredHeight() + getTopPadding(this) + getBottomPadding(this);
     }
     
     private void updateOptions(){

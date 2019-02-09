@@ -12,13 +12,26 @@
         add stack layout gravity
         simplifikace tam, kde záleží na velikosti panelu - např stack/icon layout - udělat podobně jako wrap text content
             lepší je nahradit, pokud je to možné, změnou rozložení jen při změně určité hodnoty - jako je změna options
+        make scrol buttons auto-sizeable - have min 0 and max the preferred size
 
     graphics
         better bridge between drawing - something like a classic CPU to GPU converter bridge
         možná ještě třeba komplet předělat
             hodilo by se, aby se vykreslování realizovalo ne se zaokrouhlováním, ale s postupnými přechody
-        automatic font size calculation to fit required size
-        lepší práce s fonty - automatická změna rozlišení apod.
+
+        lepší práce s fonty
+            text scaling types for fixed size
+                no scale - trim
+                non-uniform scale
+                uniform scale
+            automatická změna rozlišení apod.
+            vlastní načítání a renderování
+            non-uniform renderování
+            různé druhy cache - rozhraní
+            možnost vykreslovat i nevykreslovatelné znaky jako otazník
+                poté odebrat podmínky v interactive text content "is printable"
+                umožnit vykreslovat i control znaky jako otazníky
+
         add more borders
             raised / lowered
 
@@ -66,11 +79,35 @@
         možná pak bude i potřeba respektovat velikosti MIN a MAX při synchronizaci okna
 
     fix separator menu item design
-    parsing dsign from file
+
+    parsing dsign from file - might need parser
+        can define similar rules like in css
+        can also define variables and make computations/expressions
+        maybe can also define global scale factor somehow ???
+
+    image content
+        image scaling types for fixed size
+            no scale - trim
+            non-uniform scale
+            uniform scale (centered)
+        image drawing - as foreground or background?
+            should still support background and foreground drawing
+            so should be something like in-between drawing ???
+            eiter give option, or draw image during background drawing on top of the background
     
 #### NOW
     add vertical spacing to text model options and implement it
-    fix scrolling issues for text inputs
-    tons of cleanup required!
+    polish scale factors! try using actual size in millimeters + screen size info
 
 #### DONE
+cleanup + fixes
+    designer simplifications for readability
+    renamed "preferred" to "required" in content and text contents
+    renamed "use required size" to "autosize" in content
+    fixed text height computation
+    simplified text content
+    simplified interactive text content - replaced chain of ifs with switch
+    made get logical button for keyboard event return UNKNOWN instead of null
+    made interactive text content not consume keyboard event
+    minor text input polishments
+    fixed scroll bar visibility issues

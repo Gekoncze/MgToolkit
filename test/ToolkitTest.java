@@ -42,8 +42,8 @@ public class ToolkitTest {
     
     public static void main(String[] args) throws IOException {
         Impl.setImplApi(new SwingImplApi());
-        Impl.getImplApi().getPrimaryDisplay().setHorizontalZoom(0.4);
-        Impl.getImplApi().getPrimaryDisplay().setVerticalZoom(0.4);
+        Impl.getImplApi().getPrimaryDisplay().setHorizontalZoom(0.35);
+        Impl.getImplApi().getPrimaryDisplay().setVerticalZoom(0.35);
         
         TextContent label;
         SelectionGroup selectionGroup = new SelectionGroup();
@@ -266,42 +266,42 @@ public class ToolkitTest {
             }
         });
         
-        IntegerSpinner integerSpinner = new IntegerSpinner();
-        integerSpinner.setParent(v1);
-        integerSpinner.getEventListeners().addLast(new ActionAdapter() {
-            @Override
-            public void onEventEnter(ActionEvent e) {
-                e.consume();
-                System.out.println("Integer: " + integerSpinner.getValue() + " ;; " + e.getSource().getClass().getSimpleName());
-            }
-        });
-        
-        LongSpinner longSpinner = new LongSpinner();
-        longSpinner.setParent(v1);
-        longSpinner.getEventListeners().addLast(new ActionAdapter() {
-            @Override
-            public void onEventEnter(ActionEvent e) {
-                System.out.println("Long: " + longSpinner.getValue());
-            }
-        });
-        
-        FloatSpinner floatSpinner = new FloatSpinner();
-        floatSpinner.setParent(v1);
-        floatSpinner.getEventListeners().addLast(new ActionAdapter() {
-            @Override
-            public void onEventEnter(ActionEvent e) {
-                System.out.println("Float: " + floatSpinner.getValue());
-            }
-        });
-        
-        DoubleSpinner doubleSpinner = new DoubleSpinner();
-        doubleSpinner.setParent(v1);
-        doubleSpinner.getEventListeners().addLast(new ActionAdapter() {
-            @Override
-            public void onEventEnter(ActionEvent e) {
-                System.out.println("Double: " + doubleSpinner.getValue());
-            }
-        });
+//        IntegerSpinner integerSpinner = new IntegerSpinner();
+//        integerSpinner.setParent(v1);
+//        integerSpinner.getEventListeners().addLast(new ActionAdapter() {
+//            @Override
+//            public void onEventEnter(ActionEvent e) {
+//                e.consume();
+//                System.out.println("Integer: " + integerSpinner.getValue() + " ;; " + e.getSource().getClass().getSimpleName());
+//            }
+//        });
+//
+//        LongSpinner longSpinner = new LongSpinner();
+//        longSpinner.setParent(v1);
+//        longSpinner.getEventListeners().addLast(new ActionAdapter() {
+//            @Override
+//            public void onEventEnter(ActionEvent e) {
+//                System.out.println("Long: " + longSpinner.getValue());
+//            }
+//        });
+//
+//        FloatSpinner floatSpinner = new FloatSpinner();
+//        floatSpinner.setParent(v1);
+//        floatSpinner.getEventListeners().addLast(new ActionAdapter() {
+//            @Override
+//            public void onEventEnter(ActionEvent e) {
+//                System.out.println("Float: " + floatSpinner.getValue());
+//            }
+//        });
+//
+//        DoubleSpinner doubleSpinner = new DoubleSpinner();
+//        doubleSpinner.setParent(v1);
+//        doubleSpinner.getEventListeners().addLast(new ActionAdapter() {
+//            @Override
+//            public void onEventEnter(ActionEvent e) {
+//                System.out.println("Double: " + doubleSpinner.getValue());
+//            }
+//        });
         
         IntegerHorizontalSlider ihs = new IntegerHorizontalSlider(0, 10, -10);
         ihs.setParent(v1);
@@ -386,11 +386,11 @@ public class ToolkitTest {
         mti.getTextContent().getPlaceholderTextModel().setText("Yay!\nYaay!\nYaaay!");
         mti.setParent(v1);
         mti.getTextContent().setText("Twilight Sparkle\nRarity\nFluttershy\nRainbow Dash\nApplejack\nPinkie Pie");
-        
-        InteractiveTextContent mtc = new InteractiveTextContent("Twilight Sparkle\nRarity\nFluttershy\nRainbow Dash\nApplejack\nPinkie Pie");
-        mtc.setParent(v1);
-        mtc.setEditable(true);
-        setHorizontalContentAlignment(mtc, 0.5);
+//
+//        InteractiveTextContent mtc = new InteractiveTextContent("Twilight Sparkle\nRarity\nFluttershy\nRainbow Dash\nApplejack\nPinkie Pie");
+//        mtc.setParent(v1);
+//        mtc.setEditable(true);
+//        setHorizontalContentAlignment(mtc, 0.5);
         
         LayoutPanel grid = new LayoutPanel();
 //        setPadding(grid, 8);
@@ -415,11 +415,26 @@ public class ToolkitTest {
             if(i == 43) setHidden(label, true);
             if(i == 44) setHidden(label, true);
         }
+
+        Debug.setIds(window);
         
         window.redesign();
         window.open();
     }
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private static class OvalButton extends Button {
         public OvalButton() {
             getEventListeners().addLast(new GraphicsDrawAdapter() {

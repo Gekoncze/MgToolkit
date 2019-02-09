@@ -30,12 +30,12 @@ public class ImageContent extends Content {
     }
 
     @Override
-    public final double getPrefferedWidth() {
+    public final double getRequiredWidth() {
         return image != null ? image.getWidth() : 0;
     }
 
     @Override
-    public final double getPrefferedHeight() {
+    public final double getRequiredHeight() {
         return image != null ? image.getHeight() : 0;
     }
 }

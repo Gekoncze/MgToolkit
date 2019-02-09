@@ -18,7 +18,7 @@ public abstract class ContentButton extends Button {
     private void initComponents(Content content) {
         this.content = content;
         content.setParent(this);
-        content.setUsePrefferedSize(false);
+        content.setAutosize(false);
         setSizePolicy(content, new FillParentSizePolicy());
     }
 

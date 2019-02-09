@@ -20,7 +20,7 @@ public class TextButton extends ContentButton {
     
     private void initComponents(){
         setContentAlignment(getTextContent(), 0.5);
-        getContent().setUsePrefferedSize(true);
+        getContent().setAutosize(true);
         setSizePolicy(getContent(), new WrapContentSizePolicy());
     }
 
