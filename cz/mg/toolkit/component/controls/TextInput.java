@@ -145,6 +145,7 @@ public class TextInput extends ScrollArea {
             options.setBottomPadding(getBottomPadding(this));
             options.setHorizontalAlignment(getHorizontalContentAlignment(this));
             options.setVerticalAlignment(getVerticalContentAlignment(this));
+            options.setVerticalSpacing(getVerticalSpacing(this));
             options.setFont(getFont(this));
             options.setWidth(getWidth());
             options.setHeight(getHeight());

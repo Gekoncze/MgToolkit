@@ -13,6 +13,7 @@
         simplifikace tam, kde záleží na velikosti panelu - např stack/icon layout - udělat podobně jako wrap text content
             lepší je nahradit, pokud je to možné, změnou rozložení jen při změně určité hodnoty - jako je změna options
         make scrol buttons auto-sizeable - have min 0 and max the preferred size
+        fix separator menu item design ???
 
     graphics
         better bridge between drawing - something like a classic CPU to GPU converter bridge
@@ -72,42 +73,30 @@
         ! v každém případě je logika - jedenkrát zjistit jaký kurzor má být na jaké pozici - projet všechyn komponenty tam - dobrá !
             zde by stačilo renderovat jen každou komponentu jinou barvou a každé barvě pak přidělit kurzor
 
-    window independent root component - could be parent of window
+    image content
+            image scaling types for fixed size
+                no scale - trim
+                non-uniform scale
+                uniform scale (centered)
+            image drawing - as foreground or background?
+                should still support background and foreground drawing
+                so should be something like in-between drawing ???
+                eiter give option, or draw image during background drawing on top of the background
 
 #### SOON
+    window independent root component - could be parent of window
+
     velikost popup meníčka nejen wrap ale i podle komponenty - např pro context menu
         možná pak bude i potřeba respektovat velikosti MIN a MAX při synchronizaci okna
-
-    fix separator menu item design
-
-    parsing dsign from file - might need parser
-        can define similar rules like in css
-        can also define variables and make computations/expressions
-        maybe can also define global scale factor somehow ???
-
-    image content
-        image scaling types for fixed size
-            no scale - trim
-            non-uniform scale
-            uniform scale (centered)
-        image drawing - as foreground or background?
-            should still support background and foreground drawing
-            so should be something like in-between drawing ???
-            eiter give option, or draw image during background drawing on top of the background
     
 #### NOW
-    add vertical spacing to text model options and implement it
+    parsing design from file - might need parser
+            can define similar rules like in css
+            can also define variables and make computations/expressions
+            maybe can also define global scale factor somehow ???
+
     polish scale factors! try using actual size in millimeters + screen size info
 
 #### DONE
-cleanup + fixes
-    designer simplifications for readability
-    renamed "preferred" to "required" in content and text contents
-    renamed "use required size" to "autosize" in content
-    fixed text height computation
-    simplified text content
-    simplified interactive text content - replaced chain of ifs with switch
-    made get logical button for keyboard event return UNKNOWN instead of null
-    made interactive text content not consume keyboard event
-    minor text input polishments
-    fixed scroll bar visibility issues
+vertical spacing
+    added vertical spacing to text model
