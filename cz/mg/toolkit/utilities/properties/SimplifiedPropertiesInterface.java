@@ -2,8 +2,6 @@ package cz.mg.toolkit.utilities.properties;
 
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.utilities.SizePolicy;
-import static cz.mg.toolkit.utilities.properties.PropertiesInterface.setHorizontalSizePolicy;
-import static cz.mg.toolkit.utilities.properties.PropertiesInterface.setVerticalSizePolicy;
 
 
 public class SimplifiedPropertiesInterface extends PropertiesInterface {
@@ -11,15 +9,45 @@ public class SimplifiedPropertiesInterface extends PropertiesInterface {
         setHorizontalSizePolicy(component, sizePolicy);
         setVerticalSizePolicy(component, sizePolicy);
     }
+
+    public static void setFixedWidth(Component component, double fixedWidth){
+        setMinWidth(component, fixedWidth);
+        setMaxWidth(component, fixedWidth);
+    }
+
+    public static void setFixedHeight(Component component, double fixedHeight){
+        setMinHeight(component, fixedHeight);
+        setMaxHeight(component, fixedHeight);
+    }
     
     public static void setMinSize(Component component, double minWidth, double minHeight){
         setMinWidth(component, minWidth);
         setMinHeight(component, minHeight);
     }
+
+    public static void setMinSize(Component component, double size){
+        setMinWidth(component, size);
+        setMinHeight(component, size);
+    }
     
     public static void setMaxSize(Component component, double maxWidth, double maxHeight){
         setMaxWidth(component, maxWidth);
         setMaxHeight(component, maxHeight);
+    }
+
+    public static void setMaxSize(Component component, double size){
+        setMaxWidth(component, size);
+        setMaxHeight(component, size);
+    }
+
+    public static void setFixedSize(Component component, double fixedWidth, double fixedHeight){
+        setFixedWidth(component, fixedWidth);
+        setFixedHeight(component, fixedHeight);
+    }
+
+    public static void setFixedSize(Component component, double size){
+        setFixedWidth(component, size);
+        setFixedHeight(component, size);
     }
     
     public static void setPadding(Component component, double padding){

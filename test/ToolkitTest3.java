@@ -7,8 +7,7 @@ import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.impl.swing.SwingImplApi;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import static cz.mg.toolkit.utilities.properties.PropertiesInterface.*;
-import cz.mg.toolkit.utilities.sizepolices.FixedRangeSizePolicy;
-import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
+
 import cz.mg.toolkit.utilities.text.textarrangements.SinglelineTextArrangement;
 
 

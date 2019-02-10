@@ -7,7 +7,6 @@ import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
-import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
 
 
 public abstract class HorizontalSlider<T> extends Slider<T> {

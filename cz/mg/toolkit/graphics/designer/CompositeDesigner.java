@@ -1,4 +1,4 @@
-package cz.mg.toolkit.designer;
+package cz.mg.toolkit.graphics.designer;
 
 import cz.mg.collections.Collection;
 import cz.mg.collections.list.chainlist.ChainList;

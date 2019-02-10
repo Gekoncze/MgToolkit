@@ -10,7 +10,7 @@ import cz.mg.toolkit.event.adapters.BeforeLayoutAdapter;
 import cz.mg.toolkit.event.adapters.DesignAdapter;
 import cz.mg.toolkit.event.adapters.VisitAdapter;
 import cz.mg.toolkit.event.contexts.DesignerEventContext;
-import cz.mg.toolkit.designer.Designer;
+import cz.mg.toolkit.graphics.designer.Designer;
 import cz.mg.toolkit.event.adapters.GraphicsDrawAdapter;
 import cz.mg.toolkit.graphics.Decoration;
 import cz.mg.toolkit.graphics.Graphics;

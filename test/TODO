@@ -74,14 +74,14 @@
             zde by stačilo renderovat jen každou komponentu jinou barvou a každé barvě pak přidělit kurzor
 
     image content
-            image scaling types for fixed size
-                no scale - trim
-                non-uniform scale
-                uniform scale (centered)
-            image drawing - as foreground or background?
-                should still support background and foreground drawing
-                so should be something like in-between drawing ???
-                eiter give option, or draw image during background drawing on top of the background
+        image scaling types for fixed size
+            no scale - trim
+            non-uniform scale
+            uniform scale (centered)
+        image drawing - as foreground or background?
+            should still support background and foreground drawing
+            so should be something like in-between drawing ???
+            eiter give option, or draw image during background drawing on top of the background
 
 #### SOON
     window independent root component - could be parent of window
@@ -90,13 +90,18 @@
         možná pak bude i potřeba respektovat velikosti MIN a MAX při synchronizaci okna
     
 #### NOW
-    parsing design from file - might need parser
-            can define similar rules like in css
-            can also define variables and make computations/expressions
-            maybe can also define global scale factor somehow ???
+    parsing design from file
+        implement parser
+        decorations will be looked up in usage-ed class via reflection
+        setters will be found in simplified properties interface - might also need usage directive
+        support for expressions
 
     polish scale factors! try using actual size in millimeters + screen size info
 
 #### DONE
-vertical spacing
-    added vertical spacing to text model
+designer from file - preparations
+    moved designer package to graphics package
+    deleted some redundant files
+    transformed default designer into text file version
+    removed redundant fixed and fixed range size polices - can use no size policy instead
+    added fixed size to simplified properties interface

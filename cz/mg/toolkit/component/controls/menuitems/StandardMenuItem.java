@@ -11,7 +11,6 @@ import cz.mg.toolkit.graphics.Image;
 import cz.mg.toolkit.utilities.KeyboardShortcut;
 import cz.mg.toolkit.utilities.SelectionGroup;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
-import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
 
 
 public class StandardMenuItem extends ActionMenuItem {

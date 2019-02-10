@@ -4,7 +4,7 @@ import cz.mg.collections.list.List;
 import cz.mg.collections.list.chainlist.ChainList;
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.event.EventContext;
-import cz.mg.toolkit.designer.Designer;
+import cz.mg.toolkit.graphics.designer.Designer;
 import cz.mg.toolkit.utilities.properties.PropertiesInterface;
 
 

@@ -1,0 +1,246 @@
+USING DECORATIONS cz.mg.toolkit.graphics.decorations.component.DefaultComponentDecorations
+
+DEFINE CONSTANT background_color = 0, 16, 0, 255
+DEFINE CONSTANT foreground_color = 0, 220, 0, 255
+
+DEFINE CONSTANT disabled_background_color = 16, 16, 16, 255
+DEFINE CONSTANT disabled_foreground_color = 220, 220, 220, 255
+
+DEFINE CONSTANT highlighted_background_color = 0, 48, 0, 255
+DEFINE CONSTANT highlighted_foreground_color = 0, 255, 0, 255
+
+DEFINE CONSTANT title_background_color = 0, 224, 0, 255
+DEFINE CONSTANT title_foreground_color = 0, 16, 0, 255
+
+DEFINE CONSTANT title_disabled_background_color = 224, 224, 224, 255
+DEFINE CONSTANT title_disabled_foreground_color = 16, 16, 16, 255
+
+DEFINE CONSTANT title_highlighted_background_color = 0, 255, 0, 255
+DEFINE CONSTANT title_highlighted_foreground_color = 0, 32, 0, 255
+
+DEFINE CONSTANT contrast_color = 255, 0, 0, 255
+
+
+DEFINE DESIGN component
+    padding = 0
+    spacing = 0
+    background = COMMON_BACKGROUND
+    foreground = COMMON_FOREGROUND
+    background color = BACKGROUND_COLOR
+    foreground color = foreground_color
+    disabled background color = disabled_background_color
+    disabled foreground color = disabled_foreground_color
+    highlighted background color = highlighted_background_color
+    highlighted foreground color = highlighted_foreground_color
+
+DEFINE DESIGN content BASED ON component
+    foreground = null
+
+DEFINE DESIGN text content BASED ON content
+    contrast color = contrast_color
+    contrast color = contrast_color
+    background = TEXT_CONTENT_BACKGROUND
+    foreground = TEXT_CONTENT_FOREGROUND
+
+DEFINE DESIGN image content BASED ON content
+    foreground = IMAGE_CONTENT_FOREGROUND
+
+DEFINE DESIGN interactive text content BASED ON text content
+    background = INTERACTIVE_TEXT_CONTENT_BACKGROUND
+    foreground = INTERACTIVE_TEXT_CONTENT_FOREGROUND
+
+DEFINE DESIGN text input content BASED ON interactive text content
+    padding = 4
+    foreground = TEXT_INPUT_CONTENT_FOREGROUND
+    horizontal content alignment = 0.5
+    vertical content alignment = 0.5
+
+DEFINE DESIGN panel BASED ON component
+
+DEFINE DESIGN layout panel BASED ON panel
+    foreground = null
+    background = null
+
+DEFINE DESIGN window BASED ON panel
+
+DEFINE DESIGN context menu BASED ON window
+
+DEFINE DESIGN content panel BASED ON panel
+    background = null
+    foreground = null
+
+DEFINE DESIGN button BASED ON component
+    padding = 6
+
+DEFINE DESIGN toolkit decoration title BASED ON text content
+    font = "default", 18, BOLD
+    background color = title_background_color
+    foreground color = title_foreground_color
+    disabled background color = title_disabled_background_color
+    disabled foreground color = title_disabled_foreground_color
+    highlighted background color = title_highlighted_background_color
+    highlighted foreground color = title_highlighted_foreground_color
+
+DEFINE DESIGN toolkit decoration title bar BASED ON panel
+    foreground = null
+    fixed size = 24, 24
+    padding = 2
+    horizontal spacing = 2
+    background color = title_background_color
+    foreground color = title_foreground_color
+    disabled background color = title_disabled_background_color
+    disabled foreground color = title_disabled_foreground_color
+    highlighted background color = title_highlighted_background_color
+    highlighted foreground color = title_highlighted_foreground_color
+
+DEFINE DESIGN toolkit decoration button BASED ON button
+    padding = 4
+    background color = title_background_color
+    foreground color = title_foreground_color
+    disabled background color = title_disabled_background_color
+    disabled foreground color = title_disabled_foreground_color
+    highlighted background color = title_highlighted_background_color
+    highlighted foreground color = title_highlighted_foreground_color
+
+DEFINE DESIGN toolkit decoration button content BASED ON button
+    background color = title_background_color
+    foreground color = title_foreground_color
+    disabled background color = title_disabled_background_color
+    disabled foreground color = title_disabled_foreground_color
+    highlighted background color = title_highlighted_background_color
+    highlighted foreground color = title_highlighted_foreground_color
+
+DEFINE DESIGN toolkit decoration maximize button content BASED ON toolkit decoration button content
+    foreground = MAXIMIZE_BUTTON_CONTENT_FOREGROUND
+
+DEFINE DESIGN toolkit decoration minimize button content BASED ON toolkit decoration button content
+    foreground = MINIMIZE_BUTTON_CONTENT_FOREGROUND
+
+DEFINE DESIGN toolkit decoration close button content BASED ON toolkit decoration button content
+    foreground = CLOSE_BUTTON_CONTENT_FOREGROUND
+
+DEFINE DESIGN close button BASED ON button
+    padding = 0
+
+DEFINE DESIGN close button content BASED ON content
+    foreground = CLOSE_BUTTON_CONTENT_FOREGROUND
+
+DEFINE DESIGN scroll button BASED ON button
+    padding = 6
+    fixed size = 24
+
+DEFINE DESIGN left scroll button content BASED ON scroll button
+    foreground = LEFT_SCROLL_BUTTON_CONTENT_FOREGROUND
+
+DEFINE DESIGN right scroll button content BASED ON scroll button
+    foreground = RIGHT_SCROLL_BUTTON_CONTENT_FOREGROUND
+
+DEFINE DESIGN up scroll button content BASED ON scroll button
+    foreground = UP_SCROLL_BUTTON_CONTENT_FOREGROUND
+
+DEFINE DESIGN down scroll button content BASED ON scroll button
+    foreground = DOWN_SCROLL_BUTTON_CONTENT_FOREGROUND
+
+DEFINE DESIGN spinner button BASED ON button
+    padding = 4
+    fixed size = 12
+
+DEFINE DESIGN up spinner button content BASED ON content
+    foreground = UP_SPINNER_BUTTON_CONTENT_FOREGROUND
+
+DEFINE DESIGN down spinner button content BASED ON content
+    foreground = DOWN_SPINNER_BUTTON_CONTENT_FOREGROUND
+
+DEFINE DESIGN horizontal tab area close button BASED ON close button
+    padding = 4
+
+DEFINE DESIGN horizontal tab area header BASED ON button
+    padding = 5
+    horizontal spacing = 4
+    fixed size = 24
+
+DEFINE DESIGN horizontal tab area icon BASED ON content
+
+DEFINE DESIGN horizontal tab area text BASED ON text content
+    font = "default", 15, REGULAR
+
+DEFINE DESIGN decoration BASED ON panel
+    background = null
+    foreground = null
+
+DEFINE DESIGN check box BASED ON panel
+    padding = 4
+    fixed size = 16
+    foreground = CHECK_BOX_FOREGROUND
+
+DEFINE DESIGN radio button BASED ON panel
+    padding = 4
+    fixed size = 16
+    foreground = RADIO_BUTTON_FOREGROUND
+
+DEFINE DESIGN menu BASED ON panel
+    spacing = MENU_SPACING
+    padding = 6
+
+DEFINE DESIGN separator BASED ON content
+    background = null
+
+DEFINE DESIGN horizontal separator BASED ON separator
+    fixed size = 5
+    foreground = HORIZONTAL_SEPARATOR_FOREGROUND
+
+DEFINE DESIGN vertical separator BASED ON separator
+    fixed size = 5
+    foreground = VERTICAL_SEPARATOR_FOREGROUND
+
+DEFINE DESIGN standard menu item icon BASED ON content
+    fixed size = 16
+
+DEFINE DESIGN standard menu item description BASED ON text content
+    font = "default", 18, REGULAR
+
+DEFINE DESIGN standard menu item shortcut BASED ON text content
+    font = "default", 18, ITALIC
+
+DEFINE DESIGN slider BASED ON content
+    fixed size = 16
+
+DEFINE DESIGN horizontal slider BASED ON slider
+    foreground = HORIZONTAL_SLIDER_FOREGROUND
+
+DEFINE DESIGN vertical slider BASED ON slider
+    foreground = VERTICAL_SLIDER_FOREGROUND
+
+DEFINE DESIGN split area BASED ON panel
+    spacing = 4
+
+DEFINE DESIGN selection list BASED ON panel
+    vertical padding = 2
+
+DEFINE DESIGN selection list item BASED ON text content
+    background = SELECTION_LIST_ITEM_BACKGROUND
+    foreground = SELECTION_LIST_ITEM_FOREGROUND
+    horizontal padding = 4
+    vertical padding = 2
+
+DEFINE DESIGN combo box text BASED ON text content
+    padding = 4
+
+DEFINE DESIGN combo box menu BASED ON context menu
+    padding = 4
+
+DEFINE DESIGN combo box open button BASED ON button
+    fixed size = 24
+    padding = 6
+
+DEFINE DESIGN combo box open button content BASED ON content
+    foreground = COMBO_BOX_BUTTON_CONTENT_FOREGROUND
+
+DEFINE DESIGN horizontal scroll bar content BASED ON content
+    foreground = HORIZONTAL_SCROLL_BAR_FOREGROUND
+
+DEFINE DESIGN vertical scroll bar content BASED ON content
+    foreground = VERTICAL_SCROLL_BAR_FOREGROUND
+
+DEFINE DESIGN split area content panel BASED ON content panel
+    foreground = COMMON_FOREGROUND

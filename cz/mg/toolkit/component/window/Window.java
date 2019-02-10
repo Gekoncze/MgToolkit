@@ -24,7 +24,6 @@ import cz.mg.toolkit.event.events.MouseEvent;
 import cz.mg.toolkit.event.events.RedesignEvent;
 import cz.mg.toolkit.event.events.RedrawEvent;
 import cz.mg.toolkit.event.events.RelayoutEvent;
-import cz.mg.toolkit.designer.designers.DefaultDesigner;
 import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;

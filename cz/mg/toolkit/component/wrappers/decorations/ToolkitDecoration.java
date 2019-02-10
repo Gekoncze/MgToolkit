@@ -21,7 +21,6 @@ import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
-import cz.mg.toolkit.utilities.sizepolices.FixedSizePolicy;
 import cz.mg.toolkit.utilities.sizepolices.SameAsHeightSizePolicy;
 
 

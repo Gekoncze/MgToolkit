@@ -2,7 +2,7 @@ package cz.mg.toolkit.utilities.properties;
 
 import cz.mg.toolkit.component.Component;
 import cz.mg.toolkit.graphics.Color;
-import cz.mg.toolkit.designer.Designer;
+import cz.mg.toolkit.graphics.designer.Designer;
 import cz.mg.toolkit.graphics.Font;
 import cz.mg.toolkit.graphics.Decoration;
 import cz.mg.toolkit.utilities.Shape;
