@@ -13,6 +13,8 @@ import cz.mg.toolkit.graphics.decorations.BackgroundColorDecoration;
 import cz.mg.toolkit.graphics.decorations.ForegroundColorDecoration;
 import cz.mg.toolkit.graphics.decorations.RectangleBorderDecoration;
 import cz.mg.toolkit.graphics.decorations.RectangleDecoration;
+import cz.mg.toolkit.utilities.annotations.ComponentDecoration;
+import cz.mg.toolkit.utilities.annotations.ComponentDecorations;
 import cz.mg.toolkit.utilities.text.Caret;
 import cz.mg.toolkit.utilities.text.TextArrangement;
 import cz.mg.toolkit.utilities.text.TextPart;
@@ -21,10 +23,15 @@ import static cz.mg.toolkit.graphics.decorations.ForegroundColorDecoration.getCu
 import static cz.mg.toolkit.utilities.properties.PropertiesInterface.*;
 
 
+@ComponentDecorations
 public class DefaultComponentDecorations {
+    @ComponentDecoration
     public static final Decoration COMMON_BACKGROUND = new BackgroundColorDecoration(new RectangleDecoration());
+
+    @ComponentDecoration
     public static final Decoration COMMON_FOREGROUND = new ForegroundColorDecoration(new RectangleBorderDecoration());
 
+    @ComponentDecoration
     public static final Decoration LEFT_SCROLL_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -35,6 +42,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration RIGHT_SCROLL_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -45,6 +53,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration UP_SCROLL_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -55,6 +64,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration DOWN_SCROLL_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -65,6 +75,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration MINIMIZE_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -74,6 +85,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration MAXIMIZE_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -83,6 +95,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration CLOSE_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -93,6 +106,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration UP_SPINNER_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -104,6 +118,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration DOWN_SPINNER_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -115,6 +130,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration COMBO_BOX_BUTTON_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -126,6 +142,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration CHECK_BOX_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -138,6 +155,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration RADIO_BUTTON_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -149,6 +167,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration HORIZONTAL_SCROLL_BAR_FOREGROUND = new ForegroundColorDecoration(new Decoration(){
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -197,6 +216,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration VERTICAL_SCROLL_BAR_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -245,6 +265,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration HORIZONTAL_SLIDER_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -258,6 +279,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration VERTICAL_SLIDER_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -271,6 +293,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration HORIZONTAL_SEPARATOR_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -283,6 +306,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration VERTICAL_SEPARATOR_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -295,6 +319,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration TEXT_CONTENT_BACKGROUND = new BackgroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -302,6 +327,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration TEXT_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -314,6 +340,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration INTERACTIVE_TEXT_CONTENT_BACKGROUND = new BackgroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -371,6 +398,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration INTERACTIVE_TEXT_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -429,6 +457,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration TEXT_INPUT_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -449,6 +478,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration SELECTION_LIST_ITEM_BACKGROUND = new BackgroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -458,6 +488,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration SELECTION_LIST_ITEM_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {
@@ -467,6 +498,7 @@ public class DefaultComponentDecorations {
         }
     });
 
+    @ComponentDecoration
     public static final Decoration IMAGE_CONTENT_FOREGROUND = new ForegroundColorDecoration(new Decoration() {
         @Override
         protected void onDraw(Graphics g, Component component) {

@@ -502,15 +502,15 @@ public class ToolkitTest {
         private static final Font TOP_LABEL_FONT = new Font("default", 48, Font.Style.REGULAR);
 
         public TestDesigner() {
-            super(new DefaultDesigner(), new Array<Design>(new Design[]{
-                    new Design("big text content", "text content") {
+            super(new DefaultDesigner(), new Array<CompositeDesign>(new CompositeDesign[]{
+                    new CompositeDesign("big text content", "text content") {
                         @Override
                         public void onDesign(Component component) {
                             setFont(component, TOP_LABEL_FONT);
                         }
                     }
                     ,
-                    new Design("page panel", "panel") {
+                    new CompositeDesign("page panel", "panel") {
                         @Override
                         public void onDesign(Component component) {
                             setPadding(component, 4);
@@ -518,7 +518,7 @@ public class ToolkitTest {
                         }
                     }
                     ,
-                    new Design("big text container", "content panel") {
+                    new CompositeDesign("big text container", "content panel") {
                         @Override
                         public void onDesign(Component component) {
                             setPadding(component, 4);

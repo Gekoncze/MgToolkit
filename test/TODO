@@ -56,23 +56,6 @@
 
         možná optimalizace pro okno - provést ruční volání synchronizace při změně nějakého parametru (ve Window)
 
-    bring in some nice examples of everything the toolkit can do!
-        most importantly - the designers!!!
-
-    common dialogs
-        color chooser dialog
-        file chooser dialog (load/save)
-        message dialog (none/info/warning/error)
-        decision dialog
-
-#### LATER:
-    možná implementace pro změnu kurzoru s optimalizací
-        hranice komponenty, kde by docházelo ke změně kurzoru, by mohly být "vyrenderovány" jako obrázek
-        a pak by se jen při každém pohybu myší kontrolovatlo, zdali jsme na pixelu, kde dochází ke změně anebo ne
-        + změna kurzoru se provádí vždy pro aktuální myš !!!
-        ! v každém případě je logika - jedenkrát zjistit jaký kurzor má být na jaké pozici - projet všechyn komponenty tam - dobrá !
-            zde by stačilo renderovat jen každou komponentu jinou barvou a každé barvě pak přidělit kurzor
-
     image content
         image scaling types for fixed size
             no scale - trim
@@ -83,6 +66,29 @@
             so should be something like in-between drawing ???
             eiter give option, or draw image during background drawing on top of the background
 
+
+
+#### LATER:
+    bring in some nice examples of everything the toolkit can do!
+        most importantly - the designers!!!
+
+    common dialogs
+        color chooser dialog
+        file chooser dialog (load/save)
+        message dialog (none/info/warning/error)
+        decision dialog
+
+    možná implementace pro změnu kurzoru s optimalizací
+        hranice komponenty, kde by docházelo ke změně kurzoru, by mohly být "vyrenderovány" jako obrázek
+        a pak by se jen při každém pohybu myší kontrolovatlo, zdali jsme na pixelu, kde dochází ke změně anebo ne
+        + změna kurzoru se provádí vždy pro aktuální myš !!!
+        ! v každém případě je logika - jedenkrát zjistit jaký kurzor má být na jaké pozici - projet všechyn komponenty tam - dobrá !
+            zde by stačilo renderovat jen každou komponentu jinou barvou a každé barvě pak přidělit kurzor
+
+        případně druhá varianta - při každém pohybu myší procházet všechny komponenty na daném místě a ptát se jich, jaký kurzor tam má být
+            zavedla by se přepisovatelná metoda, něco jako getCursor(double x, double y)
+
+
 #### SOON
     window independent root component - could be parent of window
 
@@ -90,18 +96,25 @@
         možná pak bude i potřeba respektovat velikosti MIN a MAX při synchronizaci okna
     
 #### NOW
-    parsing design from file
-        implement parser
-        decorations will be looked up in usage-ed class via reflection
-        setters will be found in simplified properties interface - might also need usage directive
-        support for expressions
-
     polish scale factors! try using actual size in millimeters + screen size info
 
+    parsing design from file
+        implement loader logic
+        implement structured designer and design
+
+        decorations will be looked up in usage-ed class via reflection
+        setters will be found in simplified properties interface via reflection
+
+        add support for expressions
+
+        add setters for various datatypes
+
 #### DONE
-designer from file - preparations
-    moved designer package to graphics package
-    deleted some redundant files
-    transformed default designer into text file version
-    removed redundant fixed and fixed range size polices - can use no size policy instead
-    added fixed size to simplified properties interface
+design from file part #1
+    extracted design from composite designer as composite design
+    added structured designer and structured design classes
+    added designer loader class into new loaders package
+    added helper classes for designer loader representing objects in designer file
+    added annotation types that can be used to mark classes and their methods that can be used in designer file
+    added the new annotations to the default classes
+    changed designer file to better match parser rules
