@@ -98,6 +98,10 @@
 #### NOW
     polish scale factors! try using actual size in millimeters + screen size info
 
+    location guess for exception based on substring original text and begin-end positions
+        might be useful to have locable exception - to store the location (might include file too, then ofc row and column begin-end)
+    polish parser, maybe add compiler utilities, like task and/or/maybe entity and exceptions maybe, readers, etc.
+
     parsing design from file
         implement loader logic
         implement structured designer and design
@@ -110,11 +114,7 @@
         add setters for various datatypes
 
 #### DONE
-design from file part #1
-    extracted design from composite designer as composite design
-    added structured designer and structured design classes
-    added designer loader class into new loaders package
-    added helper classes for designer loader representing objects in designer file
-    added annotation types that can be used to mark classes and their methods that can be used in designer file
-    added the new annotations to the default classes
-    changed designer file to better match parser rules
+design from file part #2
+    added loader package to designer
+    implemented designer composer
+    TODO: implement designer resolver, implement sctructured designer and related classes

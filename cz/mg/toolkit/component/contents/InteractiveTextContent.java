@@ -21,7 +21,7 @@ public class InteractiveTextContent extends TextContent {
     public static final String DEFAULT_DESIGN_NAME = "interactive text content";
     
     private boolean editable = false;
-    private boolean partialFocus = false; // for read only selection and copy support
+    private boolean partialFocus = false; // for load only selection and copy support
     
     public InteractiveTextContent() {
         addEventListeners();
