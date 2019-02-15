@@ -1,25 +1,25 @@
 USING DECORATIONS cz.mg.toolkit.graphics.decorations.component.DefaultComponentDecorations
 USING INTERFACE cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface
 
-DEFINE CONSTANT background color = "0, 16, 0, 255"
-DEFINE CONSTANT foreground color = "0, 220, 0, 255"
+DEFINE CONSTANT background color = "#001000ff"
+DEFINE CONSTANT foreground color = "#00dc00ff"
 
-DEFINE CONSTANT disabled background color = "16, 16, 16, 255"
-DEFINE CONSTANT disabled foreground color = "220, 220, 220, 255"
+DEFINE CONSTANT disabled background color = "#101010ff"
+DEFINE CONSTANT disabled foreground color = "#dcdcdcff"
 
-DEFINE CONSTANT highlighted background color = "0, 48, 0, 255"
-DEFINE CONSTANT highlighted foreground color = "0, 255, 0, 255"
+DEFINE CONSTANT highlighted background color = "#003000ff"
+DEFINE CONSTANT highlighted foreground color = "#00ff00ff"
 
-DEFINE CONSTANT title background color = "0, 224, 0, 255"
-DEFINE CONSTANT title foreground color = "0, 16, 0, 255"
+DEFINE CONSTANT title background color = "#00e000ff"
+DEFINE CONSTANT title foreground color = "#001000ff"
 
-DEFINE CONSTANT title disabled background color = "224, 224, 224, 255"
-DEFINE CONSTANT title disabled foreground color = "16, 16, 16, 255"
+DEFINE CONSTANT title disabled background color = "#e0e0e0ff"
+DEFINE CONSTANT title disabled foreground color = "#101010ff"
 
-DEFINE CONSTANT title highlighted background color = "0, 255, 0, 255"
-DEFINE CONSTANT title highlighted foreground color = "0, 32, 0, 255"
+DEFINE CONSTANT title highlighted background color = "#00ff00ff"
+DEFINE CONSTANT title highlighted foreground color = "#002000ff"
 
-DEFINE CONSTANT contrast color = "255, 0, 0, 255"
+DEFINE CONSTANT contrast color = "ff0000ff"
 
 
 DEFINE DESIGN component

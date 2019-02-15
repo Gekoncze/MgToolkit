@@ -1,10 +1,12 @@
 package cz.mg.toolkit.graphics.designer.loader.task;
 
 import cz.mg.collections.list.chainlist.ChainList;
+import cz.mg.collections.list.chainlist.ChainListItem;
 import cz.mg.parser.utilities.Substring;
 import cz.mg.toolkit.graphics.Color;
 import cz.mg.toolkit.graphics.Decoration;
 import cz.mg.toolkit.graphics.Font;
+import cz.mg.toolkit.graphics.designer.Design;
 import cz.mg.toolkit.graphics.designer.StructuredDesign;
 import cz.mg.toolkit.graphics.designer.StructuredDesigner;
 import cz.mg.toolkit.graphics.designer.StructuredSetter;
@@ -20,25 +22,47 @@ import java.lang.reflect.Modifier;
 
 
 public class DesignerResolver {
+    private DesignerRoot designerRoot;
+    private ChainList<Method> properties;
+    private ChainList<Field> decorations;
+    private boolean[] locks;
+    private boolean[] resolved;
+
     public StructuredDesigner resolve(DesignerRoot designerRoot){
-        StructuredDesigner structuredDesigner = new StructuredDesigner();
-        ChainList<Method> properties = getUsingPropertiesMethods(getUsingPropertiesClasses(designerRoot));
-        ChainList<Field> decorations = getUsingDecorationsFields(getUsingDecorationsClasses(designerRoot));
+        try {
+            StructuredDesigner structuredDesigner = new StructuredDesigner();
+            this.designerRoot = designerRoot;
+            this.properties = getUsingPropertiesMethods(getUsingPropertiesClasses(designerRoot));
+            this.decorations = getUsingDecorationsFields(getUsingDecorationsClasses(designerRoot));
 
-        for(Object childDefine : designerRoot.getChildren()){
-            if(childDefine instanceof DefineDesign){
-                StructuredDesign structuredDesign = resolveDesign((DefineDesign) childDefine);
-                structuredDesigner.getDesigns().addLast(structuredDesign);
+            for(Object childDefine : designerRoot.getChildren()){
+                if(childDefine instanceof DefineDesign){
+                    StructuredDesign structuredDesign = resolveDesign((DefineDesign) childDefine);
+                    structuredDesigner.getDesigns().addLast(structuredDesign);
+                }
             }
+
+            this.locks = new boolean[structuredDesigner.getDesigns().count()];
+            this.resolved = new boolean[structuredDesigner.getDesigns().count()];
+            int i = 0;
+            for(Design design : structuredDesigner.getDesigns()){
+                StructuredDesign structuredDesign = (StructuredDesign) design;
+                resolveDesignInheritance(i, structuredDesign, structuredDesigner);
+                i++;
+            }
+
+            return structuredDesigner;
+        } finally {
+            this.properties = null;
+            this.decorations = null;
+            this.designerRoot = null;
+            this.locks = null;
+            this.resolved = null;
         }
-
-        todo - resolve based on inheritance!!!; will need lock map on names to prevent cycles!!!;
-
-        return structuredDesigner;
     }
 
     private StructuredDesign resolveDesign(DefineDesign define){
-        StructuredDesign structuredDesign = new StructuredDesign(define.getName().toString());
+        StructuredDesign structuredDesign = new StructuredDesign(define.getName().toString(), define.getParentName() != null ? define.getParentName().toString() : null);
         for(Object childSetter : define.getChildren()){
             if(childSetter instanceof Setter){
                 Setter setter = (Setter) childSetter;
@@ -46,25 +70,22 @@ public class DesignerResolver {
                 structuredDesign.getSetters().addLast(structuredSetter);
             }
         }
+        return structuredDesign;
     }
 
-    private StructuredSetter resolveSetter(Setter setter, ChainList<Method> availableMethods){
+    private StructuredSetter resolveSetter(Setter setter){
         String methodName = getMethodName(setter.getName());
-        ChainList<Method> methods = new ChainList<>();
-        for(Method method : availableMethods){
-            if(Modifier.isStatic(method.getModifiers())){
-                if(method.isAnnotationPresent(ComponentProperty.class)){
-                    if(method.getParameterCount() == setter.getValues().count()){
-                        if(method.getName().equals(methodName)){
-                            methods.addLast(method);
-                        }
-                    }
+        ChainList<Method> candidates = new ChainList<>();
+        for(Method property : properties){
+            if(property.getParameterCount() == setter.getValues().count()){
+                if(property.getName().equals(methodName)){
+                    candidates.addLast(property);
                 }
             }
         }
-        if(methods.count() <= 0) throw new ResolverException("Parameter " + setter.getName().toString() + " was not found.");
-        if(methods.count() > 1) throw new ResolverException("Parameter " + setter.getName().toString() + " is ambiguous. (" + methods.count() + " possibilities)");
-        Method method = methods.getFirst();
+        if(candidates.count() <= 0) throw new ResolverException("Parameter " + setter.getName().toString() + " was not found.");
+        if(candidates.count() > 1) throw new ResolverException("Parameter " + setter.getName().toString() + " is ambiguous. (" + candidates.count() + " candidates)");
+        Method method = candidates.getFirst();
         Object[] values = resolveSetterValues(setter, method);
         return new StructuredSetter(values, method);
     }
@@ -81,6 +102,7 @@ public class DesignerResolver {
             }
             i++;
         }
+        return values;
     }
 
     private Object resolveLiteralValue(Class c, Substring value){
@@ -96,7 +118,35 @@ public class DesignerResolver {
     }
 
     private Object resolveNamedValue(Class c, Substring name){
-        todo;
+        if(c == Decoration.class){
+            String fieldName = name.toString().toUpperCase().replace(" ", "_");
+            ChainList<Object> candidates = new ChainList<>();
+            for(Field decoration : decorations){
+                if(decoration.getName().equals(fieldName)){
+                    try {
+                        candidates.addLast(decoration.get(null));
+                    } catch(ReflectiveOperationException e){
+                        throw new RuntimeException("Could not read field: " + e.getClass().getSimpleName() + ": " + e.getMessage());
+                    }
+                }
+            }
+            if(candidates.count() <= 0) throw new ResolverException("Undefined constant " + name.toString() + ".");
+            if(candidates.count() > 1) throw new ResolverException("Constant " + name.toString() + " is ambiguous. (" + candidates.count() + " candidates)");
+            return candidates.getFirst();
+        } else {
+            ChainList<Substring> candidates = new ChainList<>();
+            for(Object child : designerRoot.getChildren()){
+                if(child instanceof DefineConstant){
+                    DefineConstant constant = (DefineConstant) child;
+                    if(constant.getName().equals(name)){
+                        candidates.addLast(constant.getValue());
+                    }
+                }
+            }
+            if(candidates.count() <= 0) throw new ResolverException("Undefined constant " + name.toString() + ".");
+            if(candidates.count() > 1) throw new ResolverException("Constant " + name.toString() + " is ambiguous. (" + candidates.count() + " candidates)");
+            return resolveLiteralValue(c, candidates.getFirst());
+        }
     }
 
     private Object parseInteger(Substring value){
@@ -120,15 +170,36 @@ public class DesignerResolver {
     }
 
     private Object parseColor(Substring value){
-        todo;
+        String v = value.toString();
+        if(value.count() < 0) throw new ResolverException("Missing value.");
+        if(value.get(0) != '#') throw new ResolverException("Missing # for color definition.");
+        if(value.count() == 7){
+            return new Color(
+                    Integer.parseInt(v.substring(1,1+2), 16),
+                    Integer.parseInt(v.substring(3,3+2), 16),
+                    Integer.parseInt(v.substring(5,5+2), 16),
+                    255
+            );
+        }
+        if(value.count() == 9){
+            return new Color(
+                    Integer.parseInt(v.substring(1,1+2), 16),
+                    Integer.parseInt(v.substring(3,3+2), 16),
+                    Integer.parseInt(v.substring(5,5+2), 16),
+                    Integer.parseInt(v.substring(7,7+2), 16)
+            );
+        }
+        throw new ResolverException("Invalid color code length. Expected 6 or 8, but got " + (value.count() - 1) + ".");
     }
 
     private Object parseFont(Substring value){
-        todo;
+        String[] values = value.toString().split(",");
+        if(values.length != 3) throw new ResolverException("Invalid number of parameters for font. Expected 3 (name, size, style), but got " + values.length);
+        return new Font(values[0], Integer.parseInt(values[1]), Font.Style.valueOf(values[2].toUpperCase()));
     }
 
     private Object parseDecoration(Substring value){
-        todo;
+        throw new ResolverException("Decoration cannot be literal value.");
     }
 
     private String getMethodName(Substring name){
@@ -190,8 +261,10 @@ public class DesignerResolver {
         ChainList<Method> methods = new ChainList<>();
         for(Class c : classes){
             for(Method method : c.getMethods()){
-                if(method.isAnnotationPresent(ComponentProperty.class)){
-                    methods.addLast(method);
+                if(Modifier.isStatic(method.getModifiers())) {
+                    if(method.isAnnotationPresent(ComponentProperty.class)){
+                        methods.addLast(method);
+                    }
                 }
             }
         }
@@ -202,38 +275,41 @@ public class DesignerResolver {
         ChainList<Field> fields = new ChainList<>();
         for(Class c : classes){
             for(Field field : c.getFields()){
-                if(field.isAnnotationPresent(ComponentDecoration.class)){
-                    fields.addLast(field);
+                if(Modifier.isStatic(field.getModifiers())) {
+                    if(field.isAnnotationPresent(ComponentDecoration.class)){
+                        fields.addLast(field);
+                    }
                 }
             }
         }
         return fields;
     }
+
+    private void resolveDesignInheritance(int i, StructuredDesign structuredDesign, StructuredDesigner structuredDesigner){
+        if(locks[i]) throw new ResolverException("Cyclic inheritance detected at design " + structuredDesign.getName());
+        locks[i] = true;
+        if(!resolved[i] && structuredDesign.getParentName() != null){
+            String name = structuredDesign.getParentName();
+            int ii = 0;
+            ChainList<StructuredDesign> candidates = new ChainList<>();
+            int parentId = -1;
+            for(Design d : structuredDesigner.getDesigns()){
+                StructuredDesign candidate = (StructuredDesign) d;
+                if(candidate.getName().equals(name)){
+                    candidates.addLast(candidate);
+                    parentId = ii;
+                }
+                ii++;
+            }
+            if(candidates.count() <= 0) throw new ResolverException("Unknown design " + name.toString() + ".");
+            if(candidates.count() > 1) throw new ResolverException("Design " + name.toString() + " is ambiguous. (" + candidates.count() + " candidates)");
+            StructuredDesign parent = candidates.getFirst();
+            if(!resolved[parentId]) resolveDesignInheritance(parentId, parent, structuredDesigner);
+            for(ChainListItem<StructuredSetter> item = parent.getSetters().getLastItem(); item != null; item = item.getPreviousItem()){
+                structuredDesign.getSetters().addFirst(item.getData());
+            }
+        }
+        resolved[i] = true;
+        locks[i] = false;
+    }
 }
-
-
-//    private void findParentDesign(){
-//        parentDesign = designer.getDesign(parentDesignName);
-//        if(parentDesign == null) throw new RuntimeException("Could not find parent designer " + parentDesignName + " for " + name + ".");
-//        checkCycle();
-//    }
-//
-//    private void checkCycle(){
-//        CompositeDesign currentDesign = parentDesign;
-//        while(currentDesign != null) {
-//            if(currentDesign == this) throw new RuntimeException("Cycle detected in designer " + name + ": " + getCyclePath());
-//            currentDesign = currentDesign.parentDesign;
-//        }
-//    }
-//
-//    private String getCyclePath(){
-//        ChainList<String> path = new ChainList<>();
-//        path.addLast(name);
-//        CompositeDesign currentDesign = parentDesign;
-//        while(currentDesign != null){
-//            path.addLast(currentDesign.name);
-//            if(currentDesign == this) return path.toString(" -> ");
-//            currentDesign = currentDesign.parentDesign;
-//        }
-//        return "<error>";
-//    }

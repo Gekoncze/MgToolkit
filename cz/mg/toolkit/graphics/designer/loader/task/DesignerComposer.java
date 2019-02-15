@@ -107,7 +107,7 @@ public class DesignerComposer {
 
         DefineDesign defineDesign = new DefineDesign(
                 Substring.union(name.getFirst(), name.getLast()),
-                Substring.union(parentName.getFirst(), parentName.getLast())
+                parentName.count() > 0 ? Substring.union(parentName.getFirst(), parentName.getLast()) : null
         );
 
         Line line;
@@ -147,8 +147,7 @@ public class DesignerComposer {
         lineReader.readNoMoreChildren();
         return new Setter(
                 Substring.union(name.getFirst(), name.getLast()),
-                new ChainList<>(Substring.union(value.getFirst(), value.getLast())),
-                literal
+                new ChainList<>(new Value(Substring.union(value.getFirst(), value.getLast()), literal))
         );
     }
 
