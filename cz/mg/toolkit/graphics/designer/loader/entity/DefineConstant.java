@@ -1,22 +1,23 @@
 package cz.mg.toolkit.graphics.designer.loader.entity;
 
 import cz.mg.collections.tree.TreeLeaf;
+import cz.mg.parser.utilities.Substring;
 
 
-public class DefineConstant extends TreeLeaf<DefineDesign> {
-    private final String name;
-    private final String value;
+public class DefineConstant extends TreeLeaf<DesignerRoot> {
+    private final Substring name;
+    private final Substring value;
 
-    public DefineConstant(String name, String value) {
+    public DefineConstant(Substring name, Substring value) {
         this.name = name;
         this.value = value;
     }
 
-    public String getName() {
+    public Substring getName() {
         return name;
     }
 
-    public String getValue() {
+    public Substring getValue() {
         return value;
     }
 }

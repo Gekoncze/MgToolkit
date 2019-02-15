@@ -42,8 +42,12 @@ public class DesignerComposer {
                             DefineDesign defineDesign = composeDefineDesign(lineReader, tokenReader);
                             defineDesign.setParent(designerRoot);
                             break;
+                        case "CONSTANT":
+                            DefineConstant defineConstant = composeDefineConstant(lineReader, tokenReader);
+                            defineConstant.setParent(designerRoot);
+                            break;
                         default:
-                            throw new ComposerException("Expected DESIGN, but got " + token.getContent().toString());
+                            throw new ComposerException("Expected DESIGN or CONSTANT, but got " + token.getContent().toString());
                     }
                     break;
                 default:
@@ -143,8 +147,27 @@ public class DesignerComposer {
         lineReader.readNoMoreChildren();
         return new Setter(
                 Substring.union(name.getFirst(), name.getLast()),
-                Substring.union(value.getFirst(), value.getLast()),
+                new ChainList<>(Substring.union(value.getFirst(), value.getLast())),
                 literal
+        );
+    }
+
+    private DefineConstant composeDefineConstant(LineReader lineReader, TokenReader tokenReader){
+        ChainList<Substring> name = new ChainList<>();
+        Substring value;
+
+        Token token = tokenReader.takeRequired(Token.Type.NAME);
+        name.addLast(token.getContent());
+        while((token = tokenReader.takeOptional(Token.Type.NAME)) != null){
+            name.addLast(token.getContent());
+        }
+        tokenReader.takeRequired(Token.Type.SPECIAL, "=");
+        value = tokenReader.takeRequired(Token.Type.LITERAL).getContent();
+        tokenReader.readNoMore();
+        lineReader.readNoMoreChildren();
+        return new DefineConstant(
+                Substring.union(name.getFirst(), name.getLast()),
+                value
         );
     }
 }
