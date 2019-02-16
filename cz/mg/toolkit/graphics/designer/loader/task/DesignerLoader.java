@@ -22,7 +22,6 @@ public class DesignerLoader {
         Page page = new Page(new Substring(readText()));
         PageParser pageParser = new PageParser();
         pageParser.parse(page);
-
         DesignerComposer designerComposer = new DesignerComposer();
         DesignerRoot designerFile = designerComposer.compose(page);
 

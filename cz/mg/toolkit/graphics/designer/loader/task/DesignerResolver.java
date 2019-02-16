@@ -32,8 +32,8 @@ public class DesignerResolver {
         try {
             StructuredDesigner structuredDesigner = new StructuredDesigner();
             this.designerRoot = designerRoot;
-            this.properties = getUsingPropertiesMethods(getUsingPropertiesClasses(designerRoot));
-            this.decorations = getUsingDecorationsFields(getUsingDecorationsClasses(designerRoot));
+            this.properties = getUsingPropertiesMethods(getUsingPropertiesClasses());
+            this.decorations = getUsingDecorationsFields(getUsingDecorationsClasses());
 
             for(Object childDefine : designerRoot.getChildren()){
                 if(childDefine instanceof DefineDesign){
@@ -77,22 +77,22 @@ public class DesignerResolver {
         String methodName = getMethodName(setter.getName());
         ChainList<Method> candidates = new ChainList<>();
         for(Method property : properties){
-            if(property.getParameterCount() == setter.getValues().count()){
+            if(property.getParameterCount() == (setter.getValues().count() + 1)){
                 if(property.getName().equals(methodName)){
                     candidates.addLast(property);
                 }
             }
         }
-        if(candidates.count() <= 0) throw new ResolverException("Parameter " + setter.getName().toString() + " was not found.");
+        if(candidates.count() <= 0) throw new ResolverException("Parameter " + setter.getName().toString() + " was not found. Make sure method " + methodName + " is defined in used class and properly annotated.");
         if(candidates.count() > 1) throw new ResolverException("Parameter " + setter.getName().toString() + " is ambiguous. (" + candidates.count() + " candidates)");
         Method method = candidates.getFirst();
         Object[] values = resolveSetterValues(setter, method);
-        return new StructuredSetter(values, method);
+        return new StructuredSetter(method, values);
     }
 
     private Object[] resolveSetterValues(Setter setter, Method method){
         Object[] values = new Object[method.getParameterCount()];
-        int i = 0;
+        int i = 1;
         for(Value value : setter.getValues()){
             Class c = method.getParameterTypes()[i];
             if(value.isLiteral()){
@@ -114,7 +114,7 @@ public class DesignerResolver {
         if(c == Color.class) return parseColor(value);
         if(c == Font.class) return parseFont(value);
         if(c == Decoration.class) return parseDecoration(value);
-        throw new RuntimeException("Unsupported type " + c.getClass().getSimpleName() + ".");
+        throw new RuntimeException("Unsupported type " + c.getSimpleName() + ".");
     }
 
     private Object resolveNamedValue(Class c, Substring name){
@@ -172,7 +172,7 @@ public class DesignerResolver {
     private Object parseColor(Substring value){
         String v = value.toString();
         if(value.count() < 0) throw new ResolverException("Missing value.");
-        if(value.get(0) != '#') throw new ResolverException("Missing # for color definition.");
+        if(value.get(0) != '#') throw new ResolverException("Missing # for color definition. (" + value.toString() + ")");
         if(value.count() == 7){
             return new Color(
                     Integer.parseInt(v.substring(1,1+2), 16),
@@ -195,29 +195,28 @@ public class DesignerResolver {
     private Object parseFont(Substring value){
         String[] values = value.toString().split(",");
         if(values.length != 3) throw new ResolverException("Invalid number of parameters for font. Expected 3 (name, size, style), but got " + values.length);
-        return new Font(values[0], Integer.parseInt(values[1]), Font.Style.valueOf(values[2].toUpperCase()));
+        return new Font(values[0].trim(), Integer.parseInt(values[1].trim()), Font.Style.valueOf(values[2].toUpperCase().trim()));
     }
 
     private Object parseDecoration(Substring value){
-        throw new ResolverException("Decoration cannot be literal value.");
+        if(value.equals("null")) return null;
+        throw new ResolverException("Decoration cannot be literal value except null. (" + value + ")");
     }
 
     private String getMethodName(Substring name){
         if(name.count() <= 0) return "";
-        StringBuilder methodName = new StringBuilder();
-        methodName.append(Character.toLowerCase(name.get(0)));
-        for(int i = 1; i < name.count(); i++){
-            char ch = name.get(i);
-            char pch = name.get(i-1);
-            if(ch == ' ') continue;
-            if(pch == ' ') ch = Character.toUpperCase(ch);
-            else ch = Character.toLowerCase(ch);
-            methodName.append(ch);
+        String[] names = name.toString().split(" ");
+        StringBuilder sb = new StringBuilder("set");
+        for(String n : names){
+            if(n.length() > 0){
+                sb.append(n.substring(0, 1).toUpperCase());
+                sb.append(n.substring(1).toLowerCase());
+            }
         }
-        return methodName.toString();
+        return sb.toString();
     }
 
-    private ChainList<Class> getUsingPropertiesClasses(DesignerRoot designerRoot){
+    private ChainList<Class> getUsingPropertiesClasses(){
         ChainList<Class> classes = new ChainList<>();
         for(Object child : designerRoot){
             if(child instanceof UsingInterface){
@@ -237,7 +236,7 @@ public class DesignerResolver {
         return classes;
     }
 
-    private ChainList<Class> getUsingDecorationsClasses(DesignerRoot designerRoot){
+    private ChainList<Class> getUsingDecorationsClasses(){
         ChainList<Class> classes = new ChainList<>();
         for(Object child : designerRoot){
             if(child instanceof UsingDecorations){

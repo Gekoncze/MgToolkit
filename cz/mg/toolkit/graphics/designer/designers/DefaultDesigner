@@ -19,7 +19,7 @@ DEFINE CONSTANT title disabled foreground color = "#101010ff"
 DEFINE CONSTANT title highlighted background color = "#00ff00ff"
 DEFINE CONSTANT title highlighted foreground color = "#002000ff"
 
-DEFINE CONSTANT contrast color = "ff0000ff"
+DEFINE CONSTANT contrast color = "#ff0000ff"
 
 
 DEFINE DESIGN component
@@ -84,7 +84,7 @@ DEFINE DESIGN toolkit decoration title BASED ON text content
 
 DEFINE DESIGN toolkit decoration title bar BASED ON panel
     foreground = "null"
-    fixed size = "24, 24"
+    fixed size = "24"
     padding = "2"
     horizontal spacing = "2"
     background color = title background color
@@ -180,7 +180,7 @@ DEFINE DESIGN radio button BASED ON panel
     foreground = radio button foreground
 
 DEFINE DESIGN menu BASED ON panel
-    spacing = menu spacing
+    spacing = "6"
     padding = "6"
 
 DEFINE DESIGN separator BASED ON content

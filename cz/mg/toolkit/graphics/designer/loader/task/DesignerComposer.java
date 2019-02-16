@@ -17,6 +17,7 @@ public class DesignerComposer {
         LineReader lineReader = new LineReader((ChainList<Line>)page.getChildren());
         while(lineReader.canTake()){
             Line line = lineReader.take();
+            if(line.getChildren().count() <= 0) continue;
             TokenReader tokenReader = new TokenReader((ChainList<Token>)line.getChildren());
             Token token = tokenReader.takeRequired(Token.Type.KEYWORD);
             switch(token.getContent().toString()){
@@ -112,7 +113,8 @@ public class DesignerComposer {
 
         Line line;
         int childLevel = lineReader.getLastIndentation() + 1;
-        if((line = lineReader.takeLevelOptional(childLevel)) != null){
+        while((line = lineReader.takeLevelOptional(childLevel)) != null){
+            if(line.getChildren().count() <= 0) continue;
             tokenReader = new TokenReader((ChainList<Token>)line.getChildren());
             Setter setter = composeSetter(lineReader, tokenReader);
             setter.setParent(defineDesign);

@@ -114,7 +114,15 @@
         make sure names cannot have more than one space inbetween
 
         setter optimalization for inheritance
+        use parser instead of page parser
 
 #### DONE
-design from file part #5
-    preparations for debug and fixes
+design from file part #6
+    fixed parser
+    fixed composer - skip empty lines
+    fixed resolver
+        get method name
+        resolve setter
+    fixed designer file bugs
+    fixed structured setter
+

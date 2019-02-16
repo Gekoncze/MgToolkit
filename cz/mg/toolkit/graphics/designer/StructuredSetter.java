@@ -5,13 +5,13 @@ import java.lang.reflect.Method;
 
 
 public class StructuredSetter {
-    private final Object[] values;
     private final Method method;
+    private final Object[] values;
 
-    public StructuredSetter(Object[] values, Method method) {
-        this.values = new Object[values.length + 1];
+    public StructuredSetter(Method method, Object... values) {
+        if(method.getParameterCount() != values.length) throw new RuntimeException("Wrong number of values for method. Expected " + method.getParameterCount() + ", but got " + values.length + ".");
         this.method = method;
-        for(int i = 0; i < values.length; i++) this.values[i+1] = values[i];
+        this.values = values;
     }
 
     public void set(Component component){
