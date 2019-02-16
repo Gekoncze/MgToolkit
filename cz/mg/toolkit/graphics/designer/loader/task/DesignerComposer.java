@@ -7,7 +7,7 @@ import cz.mg.parser.entity.Page;
 import cz.mg.parser.entity.Token;
 import cz.mg.parser.utilities.Substring;
 import cz.mg.toolkit.graphics.designer.loader.entity.*;
-import cz.mg.toolkit.graphics.designer.loader.utilities.ComposerException;
+import cz.mg.toolkit.graphics.designer.loader.utilities.ComposeException;
 import cz.mg.toolkit.graphics.designer.loader.utilities.LineReader;
 import cz.mg.toolkit.graphics.designer.loader.utilities.TokenReader;
 
@@ -45,7 +45,7 @@ public class DesignerComposer {
                             logicalProperties.setParent(logicalDesigner);
                             break;
                         default:
-                            throw new ComposerException("Expected DECORATIONS or INTERFACE, but got " + token.getContent().toString());
+                            throw new ComposeException(token.getContent(), "Expected DECORATIONS or INTERFACE, but got " + token.getContent().toString());
                     }
                     break;
                 case "DEFINE":
@@ -60,11 +60,11 @@ public class DesignerComposer {
                             logicalConstant.setParent(logicalDesigner);
                             break;
                         default:
-                            throw new ComposerException("Expected DESIGN or CONSTANT, but got " + token.getContent().toString());
+                            throw new ComposeException(token.getContent(), "Expected DESIGN or CONSTANT, but got " + token.getContent().toString());
                     }
                     break;
                 default:
-                    throw new ComposerException("Expected USING or DEFINE, but got " + token.getContent().toString());
+                    throw new ComposeException(token.getContent(), "Expected USING or DEFINE, but got " + token.getContent().toString());
             }
         }
         return logicalDesigner;
@@ -90,7 +90,7 @@ public class DesignerComposer {
         tokenReader.readNoMore();
         lineReader.readNoMoreChildren();
         Substring cp = Substring.union(classPath.getFirst(), classPath.getLast());
-        if(cp.toString().contains(" ")) throw new ComposerException("Class path cannot contain spaces.");
+        if(cp.toString().contains(" ")) throw new ComposeException(cp, "Class path cannot contain spaces.");
         return cp;
     }
 
@@ -152,7 +152,7 @@ public class DesignerComposer {
             name.addLast(token.getContent());
         }
         Substring n = Substring.union(name.getFirst(), name.getLast());
-        if(n.toString().contains("  ")) throw new ComposerException("Name parts can be separated only by one space.");
+        if(n.toString().contains("  ")) throw new ComposeException(n, "Name parts can be separated only by one space.");
         return n;
     }
 }

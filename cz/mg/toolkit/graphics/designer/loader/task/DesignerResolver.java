@@ -7,12 +7,11 @@ import cz.mg.parser.utilities.Substring;
 import cz.mg.toolkit.graphics.Color;
 import cz.mg.toolkit.graphics.Decoration;
 import cz.mg.toolkit.graphics.Font;
-import cz.mg.toolkit.graphics.designer.Design;
 import cz.mg.toolkit.graphics.designer.StructuredDesign;
 import cz.mg.toolkit.graphics.designer.StructuredDesigner;
 import cz.mg.toolkit.graphics.designer.StructuredSetter;
 import cz.mg.toolkit.graphics.designer.loader.entity.*;
-import cz.mg.toolkit.graphics.designer.loader.utilities.ResolverException;
+import cz.mg.toolkit.graphics.designer.loader.utilities.ResolveException;
 import cz.mg.toolkit.utilities.annotations.ComponentDecoration;
 import cz.mg.toolkit.utilities.annotations.ComponentDecorations;
 import cz.mg.toolkit.utilities.annotations.ComponentProperties;
@@ -31,6 +30,7 @@ public class DesignerResolver {
     private boolean[] resolved;
     private HashMap<String, Boolean> usages;
     private HashMap<Method, Boolean> methods;
+    private ChainList<Substring> parentNames;
 
     public DesignerResolver() {
     }
@@ -42,12 +42,14 @@ public class DesignerResolver {
             this.usages = new HashMap<>();
             this.properties = getUsingPropertiesMethods(getUsingPropertiesClasses());
             this.decorations = getUsingDecorationsFields(getUsingDecorationsClasses());
+            this.parentNames = new ChainList<>();
 
             for(LogicalDesigner designer : logic){
                 for(TreeNode child : designer){
                     if(child instanceof LogicalDesign){
                         StructuredDesign structuredDesign = resolveDesign((LogicalDesign) child);
                         structuredDesigner.getDesigns().addLast(structuredDesign);
+                        parentNames.addLast(((LogicalDesign) child).getParentName());
                     }
                 }
             }
@@ -73,6 +75,7 @@ public class DesignerResolver {
             this.resolved = null;
             this.usages = null;
             this.methods = null;
+            this.parentNames = null;
         }
     }
 
@@ -98,8 +101,8 @@ public class DesignerResolver {
                 }
             }
         }
-        if(candidates.count() <= 0) throw new ResolverException("Parameter " + setter.getName().toString() + " was not found. Make sure method " + methodName + " is defined in used class and properly annotated.");
-        if(candidates.count() > 1) throw new ResolverException("Parameter " + setter.getName().toString() + " is ambiguous. (" + candidates.count() + " candidates)");
+        if(candidates.count() <= 0) throw new ResolveException(setter.getName(), "Parameter " + setter.getName().toString() + " was not found. Make sure method " + methodName + " is defined in used class and properly annotated.");
+        if(candidates.count() > 1) throw new ResolveException(setter.getName(), "Parameter " + setter.getName().toString() + " is ambiguous. (" + candidates.count() + " candidates)");
         Method method = candidates.getFirst();
         Object[] values = resolveSetterValues(setter, method);
         return new StructuredSetter(method, values);
@@ -145,8 +148,8 @@ public class DesignerResolver {
                     }
                 }
             }
-            if(candidates.count() <= 0) throw new ResolverException("Undefined constant " + name.toString() + ".");
-            if(candidates.count() > 1) throw new ResolverException("Constant " + name.toString() + " is ambiguous. (" + candidates.count() + " candidates)");
+            if(candidates.count() <= 0) throw new ResolveException(name, "Undefined constant " + name.toString() + ".");
+            if(candidates.count() > 1) throw new ResolveException(name, "Constant " + name.toString() + " is ambiguous. (" + candidates.count() + " candidates)");
             return candidates.getFirst();
         } else {
             ChainList<Substring> candidates = new ChainList<>();
@@ -160,64 +163,96 @@ public class DesignerResolver {
                     }
                 }
             }
-            if(candidates.count() <= 0) throw new ResolverException("Undefined constant " + name.toString() + ".");
-            if(candidates.count() > 1) throw new ResolverException("Constant " + name.toString() + " is ambiguous. (" + candidates.count() + " candidates)");
+            if(candidates.count() <= 0) throw new ResolveException(name, "Undefined constant " + name.toString() + ".");
+            if(candidates.count() > 1) throw new ResolveException(name, "Constant " + name.toString() + " is ambiguous. (" + candidates.count() + " candidates)");
             return resolveLiteralValue(c, candidates.getFirst());
         }
     }
 
     private Object parseInteger(Substring value){
-        return Integer.parseInt(value.toString());
+        try {
+            return Integer.parseInt(value.toString());
+        } catch(RuntimeException e){
+            throw new ResolveException(value, e.getClass().getSimpleName() + ": " + e.getMessage());
+        }
     }
 
     private Object parseLong(Substring value){
-        return Long.parseLong(value.toString());
+        try {
+            return Long.parseLong(value.toString());
+        } catch(RuntimeException e){
+            throw new ResolveException(value, e.getClass().getSimpleName() + ": " + e.getMessage());
+        }
     }
 
     private Object parseFloat(Substring value){
-        return Float.parseFloat(value.toString());
+        try {
+            return Float.parseFloat(value.toString());
+        } catch(RuntimeException e){
+            throw new ResolveException(value, e.getClass().getSimpleName() + ": " + e.getMessage());
+        }
     }
 
     private Object parseDouble(Substring value){
-        return Double.parseDouble(value.toString());
+        try {
+            return Double.parseDouble(value.toString());
+        } catch(RuntimeException e){
+            throw new ResolveException(value, e.getClass().getSimpleName() + ": " + e.getMessage());
+        }
     }
 
     private Object parseBoolean(Substring value){
-        return Boolean.parseBoolean(value.toString());
+        try {
+            return Boolean.parseBoolean(value.toString());
+        } catch(RuntimeException e){
+            throw new ResolveException(value, e.getClass().getSimpleName() + ": " + e.getMessage());
+        }
     }
 
     private Object parseColor(Substring value){
         String v = value.toString();
-        if(value.count() < 0) throw new ResolverException("Missing value.");
-        if(value.get(0) != '#') throw new ResolverException("Missing # for color definition. (" + value.toString() + ")");
+        if(value.count() < 0) throw new ResolveException(value, "Missing value.");
+        if(value.get(0) != '#') throw new ResolveException(value, "Missing # for color definition. (" + value.toString() + ")");
         if(value.count() == 7){
-            return new Color(
-                    Integer.parseInt(v.substring(1,1+2), 16),
-                    Integer.parseInt(v.substring(3,3+2), 16),
-                    Integer.parseInt(v.substring(5,5+2), 16),
-                    255
-            );
+            try {
+                return new Color(
+                        Integer.parseInt(v.substring(1,1+2), 16),
+                        Integer.parseInt(v.substring(3,3+2), 16),
+                        Integer.parseInt(v.substring(5,5+2), 16),
+                        255
+                );
+            } catch(RuntimeException e){
+                throw new ResolveException(value, e.getClass().getSimpleName() + ": " + e.getMessage());
+            }
         }
         if(value.count() == 9){
-            return new Color(
-                    Integer.parseInt(v.substring(1,1+2), 16),
-                    Integer.parseInt(v.substring(3,3+2), 16),
-                    Integer.parseInt(v.substring(5,5+2), 16),
-                    Integer.parseInt(v.substring(7,7+2), 16)
-            );
+            try {
+                return new Color(
+                        Integer.parseInt(v.substring(1,1+2), 16),
+                        Integer.parseInt(v.substring(3,3+2), 16),
+                        Integer.parseInt(v.substring(5,5+2), 16),
+                        Integer.parseInt(v.substring(7,7+2), 16)
+                );
+            } catch(RuntimeException e){
+                throw new ResolveException(value, e.getClass().getSimpleName() + ": " + e.getMessage());
+            }
         }
-        throw new ResolverException("Invalid color code length. Expected 6 or 8, but got " + (value.count() - 1) + ".");
+        throw new ResolveException(value, "Invalid color code length. Expected 6 or 8, but got " + (value.count() - 1) + ".");
     }
 
     private Object parseFont(Substring value){
-        String[] values = value.toString().split(",");
-        if(values.length != 3) throw new ResolverException("Invalid number of parameters for font. Expected 3 (name, size, style), but got " + values.length);
-        return new Font(values[0].trim(), Integer.parseInt(values[1].trim()), Font.Style.valueOf(values[2].toUpperCase().trim()));
+        try {
+            String[] values = value.toString().split(",");
+            if(values.length != 3) throw new ResolveException(value, "Invalid number of parameters for font. Expected 3 (name, size, style), but got " + values.length);
+            return new Font(values[0].trim(), Integer.parseInt(values[1].trim()), Font.Style.valueOf(values[2].toUpperCase().trim()));
+        } catch(RuntimeException e){
+            throw new ResolveException(value, e.getClass().getSimpleName() + ": " + e.getMessage());
+        }
     }
 
     private Object parseDecoration(Substring value){
         if(value.equals("null")) return null;
-        throw new ResolverException("Decoration cannot be literal value except null. (" + value + ")");
+        throw new ResolveException(value, "Decoration cannot be literal value except null. (" + value + ")");
     }
 
     private String getMethodName(Substring name){
@@ -238,7 +273,8 @@ public class DesignerResolver {
         for(LogicalDesigner designer : logic){
             for(TreeNode child : designer){
                 if(child instanceof LogicalProperties){
-                    String classPath = ((LogicalProperties) child).getClassPath().toString();
+                    Substring cp = ((LogicalProperties) child).getClassPath();
+                    String classPath = cp.toString();
                     if(usages.containsKey(classPath)) continue;
                     usages.put(classPath, true);
                     try {
@@ -246,10 +282,10 @@ public class DesignerResolver {
                         if(c.isAnnotationPresent(ComponentProperties.class)){
                             classes.addLast(c);
                         } else {
-                            throw new ResolverException("Missing ComponentProperties annotation on class " + classPath + ".");
+                            throw new ResolveException(cp, "Missing ComponentProperties annotation on class " + classPath + ".");
                         }
                     } catch(ReflectiveOperationException e){
-                        throw new ResolverException("Could not load class " + classPath + ": " + e.getClass().getSimpleName() + ": " + e.getMessage());
+                        throw new ResolveException(cp, "Could not load class " + classPath + ": " + e.getClass().getSimpleName() + ": " + e.getMessage());
                     }
                 }
             }
@@ -262,7 +298,8 @@ public class DesignerResolver {
         for(LogicalDesigner designer : logic){
             for(Object child : designer){
                 if(child instanceof LogicalDecorations){
-                    String classPath = ((LogicalDecorations) child).getClassPath().toString();
+                    Substring cp = ((LogicalDecorations) child).getClassPath();
+                    String classPath = cp.toString();
                     if(usages.containsKey(classPath)) continue;
                     usages.put(classPath, true);
                     try {
@@ -270,10 +307,10 @@ public class DesignerResolver {
                         if(c.isAnnotationPresent(ComponentDecorations.class)){
                             classes.addLast(c);
                         } else {
-                            throw new ResolverException("Missing ComponentDecorations annotation on class " + classPath + ".");
+                            throw new ResolveException(cp, "Missing ComponentDecorations annotation on class " + classPath + ".");
                         }
                     } catch(ReflectiveOperationException e){
-                        throw new ResolverException("Could not load class " + classPath + ": " + e.getClass().getSimpleName() + ": " + e.getMessage());
+                        throw new ResolveException(cp, "Could not load class " + classPath + ": " + e.getClass().getSimpleName() + ": " + e.getMessage());
                     }
                 }
             }
@@ -310,7 +347,7 @@ public class DesignerResolver {
     }
 
     private void resolveDesignInheritance(int i, StructuredDesign structuredDesign, StructuredDesigner structuredDesigner){
-        if(locks[i]) throw new ResolverException("Cyclic inheritance detected at design " + structuredDesign.getName());
+        if(locks[i]) throw new ResolveException(parentNames.get(i), "Cyclic inheritance detected at design " + structuredDesign.getName());
         locks[i] = true;
         if(!resolved[i] && structuredDesign.getParentName() != null){
             String name = structuredDesign.getParentName();
@@ -324,8 +361,8 @@ public class DesignerResolver {
                 }
                 ii++;
             }
-            if(candidates.count() <= 0) throw new ResolverException("Unknown design " + name.toString() + ".");
-            if(candidates.count() > 1) throw new ResolverException("Design " + name.toString() + " is ambiguous. (" + candidates.count() + " candidates)");
+            if(candidates.count() <= 0) throw new ResolveException(parentNames.get(i), "Unknown design " + name + ".");
+            if(candidates.count() > 1) throw new ResolveException(parentNames.get(i), "Design " + name + " is ambiguous. (" + candidates.count() + " candidates)");
             StructuredDesign parent = candidates.getFirst();
             if(!resolved[parentId]) resolveDesignInheritance(parentId, parent, structuredDesigner);
             for(ChainListItem<StructuredSetter> item = parent.getSetters().getLastItem(); item != null; item = item.getPreviousItem()){

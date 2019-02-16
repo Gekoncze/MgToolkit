@@ -76,6 +76,6 @@ public class LineReader {
     }
 
     public void readNoMoreChildren(){
-        if(getNextIndentation() > getLastIndentation()) throw new ComposerException("At line " + getNextLineNumber() + " column " + 0 + ": Unexpected child block.");
+        if(getNextIndentation() > getLastIndentation()) throw new ComposeException(position.getData().getContent(), "Unexpected child block.");
     }
 }

@@ -27,19 +27,19 @@ public class TokenReader {
 
     public Token takeRequired(){
         Token token = take();
-        if(token == null) throw new ComposerException("Missing token.");
+        if(token == null) throw new ComposeException(tokens.getLast().getContent(), "Missing token.");
         return token;
     }
 
     public Token takeRequired(Token.Type type){
         Token token = takeRequired();
-        if(token.getType() != type) throw new ComposerException("Expected " + type.name() + " token, but got " + token.getType().name() + ".");
+        if(token.getType() != type) throw new ComposeException(token.getContent(), "Expected " + type.name() + " token, but got " + token.getType().name() + ".");
         return token;
     }
 
     public Token takeRequired(Token.Type type, String content){
         Token token = takeRequired(type);
-        if(!token.getContent().toString().equals(content)) throw new ComposerException("Expected " + content + ", but got " + token.getContent().toString() + ".");
+        if(!token.getContent().toString().equals(content)) throw new ComposeException(token.getContent(), "Expected " + content + ", but got " + token.getContent().toString() + ".");
         return token;
     }
 
@@ -81,7 +81,7 @@ public class TokenReader {
     public void readNoMore(){
         while(canTake()){
             Token token = take();
-            if(token.getType() != Token.Type.COMMENT) throw new ComposerException("Unexpected token " + token.getType() + ": " + token.getContent().toString() + ".");
+            if(token.getType() != Token.Type.COMMENT) throw new ComposeException(token.getContent(), "Unexpected token " + token.getType() + ": " + token.getContent().toString() + ".");
         }
     }
 }
