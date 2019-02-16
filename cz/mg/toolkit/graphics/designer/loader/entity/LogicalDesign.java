@@ -4,11 +4,11 @@ import cz.mg.collections.tree.TreeNode;
 import cz.mg.parser.utilities.Substring;
 
 
-public class DefineDesign extends TreeNode<DesignerRoot, Setter> {
+public class LogicalDesign extends TreeNode<LogicalDesigner, LogicalSetter> {
     private final Substring name;
     private final Substring parentName;
 
-    public DefineDesign(Substring name, Substring parentName) {
+    public LogicalDesign(Substring name, Substring parentName) {
         this.name = name;
         this.parentName = parentName;
     }

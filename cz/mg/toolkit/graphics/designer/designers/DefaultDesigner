@@ -1,5 +1,5 @@
 USING DECORATIONS cz.mg.toolkit.graphics.decorations.component.DefaultComponentDecorations
-USING INTERFACE cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface
+USING PROPERTIES cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface
 
 DEFINE CONSTANT background color = "#001000ff"
 DEFINE CONSTANT foreground color = "#00dc00ff"

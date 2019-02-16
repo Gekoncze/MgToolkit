@@ -37,6 +37,7 @@ import cz.mg.toolkit.impl.ImplWindow;
 
 public class Window extends Wrapper implements ToplevelComponent {
     public static final String DEFAULT_DESIGN_NAME = "window";
+    public static Designer defaultDesigner = loadDesigner();
     
     private final ImplWindow implWindow = Impl.getImplApi().createWindow();
     private Component keyboardFocus = null;
@@ -60,13 +61,13 @@ public class Window extends Wrapper implements ToplevelComponent {
     
     private void initComponent(){
         setLayout(new OverlayLayout());
-        setDesigner(this, loadDesigner());
+        setDesigner(this, defaultDesigner);
         design();
     }
 
-    private Designer loadDesigner(){
-        DesignerLoader loader = new DesignerLoader(DesignersLocation.class.getResourceAsStream("DefaultDesigner"));
-        return loader.load();
+    private static Designer loadDesigner(){
+        DesignerLoader loader = new DesignerLoader();
+        return loader.load(DesignersLocation.class.getResourceAsStream("DefaultDesigner"));
     }
     
     private void initComponents(){

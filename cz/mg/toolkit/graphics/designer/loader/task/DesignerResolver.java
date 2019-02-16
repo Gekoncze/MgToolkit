@@ -2,6 +2,7 @@ package cz.mg.toolkit.graphics.designer.loader.task;
 
 import cz.mg.collections.list.chainlist.ChainList;
 import cz.mg.collections.list.chainlist.ChainListItem;
+import cz.mg.collections.tree.TreeNode;
 import cz.mg.parser.utilities.Substring;
 import cz.mg.toolkit.graphics.Color;
 import cz.mg.toolkit.graphics.Decoration;
@@ -19,26 +20,34 @@ import cz.mg.toolkit.utilities.annotations.ComponentProperty;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.HashMap;
 
 
 public class DesignerResolver {
-    private DesignerRoot designerRoot;
+    private Logic logic;
     private ChainList<Method> properties;
     private ChainList<Field> decorations;
     private boolean[] locks;
     private boolean[] resolved;
+    private HashMap<String, Boolean> usages;
 
-    public StructuredDesigner resolve(DesignerRoot designerRoot){
+    public DesignerResolver() {
+    }
+
+    public StructuredDesigner resolve(Logic logic){
         try {
             StructuredDesigner structuredDesigner = new StructuredDesigner();
-            this.designerRoot = designerRoot;
+            this.logic = logic;
+            this.usages = new HashMap<>();
             this.properties = getUsingPropertiesMethods(getUsingPropertiesClasses());
             this.decorations = getUsingDecorationsFields(getUsingDecorationsClasses());
 
-            for(Object childDefine : designerRoot.getChildren()){
-                if(childDefine instanceof DefineDesign){
-                    StructuredDesign structuredDesign = resolveDesign((DefineDesign) childDefine);
-                    structuredDesigner.getDesigns().addLast(structuredDesign);
+            for(LogicalDesigner designer : logic){
+                for(TreeNode child : designer){
+                    if(child instanceof LogicalDesign){
+                        StructuredDesign structuredDesign = resolveDesign((LogicalDesign) child);
+                        structuredDesigner.getDesigns().addLast(structuredDesign);
+                    }
                 }
             }
 
@@ -55,17 +64,18 @@ public class DesignerResolver {
         } finally {
             this.properties = null;
             this.decorations = null;
-            this.designerRoot = null;
+            this.logic = null;
             this.locks = null;
             this.resolved = null;
+            this.usages = null;
         }
     }
 
-    private StructuredDesign resolveDesign(DefineDesign define){
+    private StructuredDesign resolveDesign(LogicalDesign define){
         StructuredDesign structuredDesign = new StructuredDesign(define.getName().toString(), define.getParentName() != null ? define.getParentName().toString() : null);
         for(Object childSetter : define.getChildren()){
-            if(childSetter instanceof Setter){
-                Setter setter = (Setter) childSetter;
+            if(childSetter instanceof LogicalSetter){
+                LogicalSetter setter = (LogicalSetter) childSetter;
                 StructuredSetter structuredSetter = resolveSetter(setter);
                 structuredDesign.getSetters().addLast(structuredSetter);
             }
@@ -73,7 +83,7 @@ public class DesignerResolver {
         return structuredDesign;
     }
 
-    private StructuredSetter resolveSetter(Setter setter){
+    private StructuredSetter resolveSetter(LogicalSetter setter){
         String methodName = getMethodName(setter.getName());
         ChainList<Method> candidates = new ChainList<>();
         for(Method property : properties){
@@ -90,7 +100,7 @@ public class DesignerResolver {
         return new StructuredSetter(method, values);
     }
 
-    private Object[] resolveSetterValues(Setter setter, Method method){
+    private Object[] resolveSetterValues(LogicalSetter setter, Method method){
         Object[] values = new Object[method.getParameterCount()];
         int i = 1;
         for(Value value : setter.getValues()){
@@ -135,11 +145,13 @@ public class DesignerResolver {
             return candidates.getFirst();
         } else {
             ChainList<Substring> candidates = new ChainList<>();
-            for(Object child : designerRoot.getChildren()){
-                if(child instanceof DefineConstant){
-                    DefineConstant constant = (DefineConstant) child;
-                    if(constant.getName().equals(name)){
-                        candidates.addLast(constant.getValue());
+            for(LogicalDesigner designer : logic){
+                for(TreeNode child : designer){
+                    if(child instanceof LogicalConstant){
+                        LogicalConstant constant = (LogicalConstant) child;
+                        if(constant.getName().equals(name)){
+                            candidates.addLast(constant.getValue());
+                        }
                     }
                 }
             }
@@ -218,18 +230,22 @@ public class DesignerResolver {
 
     private ChainList<Class> getUsingPropertiesClasses(){
         ChainList<Class> classes = new ChainList<>();
-        for(Object child : designerRoot){
-            if(child instanceof UsingInterface){
-                String classPath = ((UsingInterface) child).getClassPath().toString();
-                try {
-                    Class c = Class.forName(classPath);
-                    if(c.isAnnotationPresent(ComponentProperties.class)){
-                        classes.addLast(c);
-                    } else {
-                        throw new ResolverException("Missing ComponentProperties annotation on class " + classPath + ".");
+        for(LogicalDesigner designer : logic){
+            for(TreeNode child : designer){
+                if(child instanceof LogicalProperties){
+                    String classPath = ((LogicalProperties) child).getClassPath().toString();
+                    if(usages.containsKey(classPath)) continue;
+                    usages.put(classPath, true);
+                    try {
+                        Class c = Class.forName(classPath);
+                        if(c.isAnnotationPresent(ComponentProperties.class)){
+                            classes.addLast(c);
+                        } else {
+                            throw new ResolverException("Missing ComponentProperties annotation on class " + classPath + ".");
+                        }
+                    } catch(ReflectiveOperationException e){
+                        throw new ResolverException("Could not load class " + classPath + ": " + e.getClass().getSimpleName() + ": " + e.getMessage());
                     }
-                } catch(ReflectiveOperationException e){
-                    throw new ResolverException("Could not load class " + classPath + ": " + e.getClass().getSimpleName() + ": " + e.getMessage());
                 }
             }
         }
@@ -238,18 +254,22 @@ public class DesignerResolver {
 
     private ChainList<Class> getUsingDecorationsClasses(){
         ChainList<Class> classes = new ChainList<>();
-        for(Object child : designerRoot){
-            if(child instanceof UsingDecorations){
-                String classPath = ((UsingDecorations) child).getClassPath().toString();
-                try {
-                    Class c = Class.forName(classPath);
-                    if(c.isAnnotationPresent(ComponentDecorations.class)){
-                        classes.addLast(c);
-                    } else {
-                        throw new ResolverException("Missing ComponentDecorations annotation on class " + classPath + ".");
+        for(LogicalDesigner designer : logic){
+            for(Object child : designer){
+                if(child instanceof LogicalDecorations){
+                    String classPath = ((LogicalDecorations) child).getClassPath().toString();
+                    if(usages.containsKey(classPath)) continue;
+                    usages.put(classPath, true);
+                    try {
+                        Class c = Class.forName(classPath);
+                        if(c.isAnnotationPresent(ComponentDecorations.class)){
+                            classes.addLast(c);
+                        } else {
+                            throw new ResolverException("Missing ComponentDecorations annotation on class " + classPath + ".");
+                        }
+                    } catch(ReflectiveOperationException e){
+                        throw new ResolverException("Could not load class " + classPath + ": " + e.getClass().getSimpleName() + ": " + e.getMessage());
                     }
-                } catch(ReflectiveOperationException e){
-                    throw new ResolverException("Could not load class " + classPath + ": " + e.getClass().getSimpleName() + ": " + e.getMessage());
                 }
             }
         }
@@ -292,8 +312,7 @@ public class DesignerResolver {
             int ii = 0;
             ChainList<StructuredDesign> candidates = new ChainList<>();
             int parentId = -1;
-            for(Design d : structuredDesigner.getDesigns()){
-                StructuredDesign candidate = (StructuredDesign) d;
+            for(StructuredDesign candidate : structuredDesigner.getDesigns()){
                 if(candidate.getName().equals(name)){
                     candidates.addLast(candidate);
                     parentId = ii;

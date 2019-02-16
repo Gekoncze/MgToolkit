@@ -1,10 +1,9 @@
 package cz.mg.toolkit.graphics.designer.loader.task;
 
-import cz.mg.parser.entity.Page;
-import cz.mg.parser.task.PageParser;
-import cz.mg.parser.utilities.Substring;
+import cz.mg.parser.entity.Book;
+import cz.mg.parser.task.Parser;
 import cz.mg.toolkit.graphics.designer.Designer;
-import cz.mg.toolkit.graphics.designer.loader.entity.DesignerRoot;
+import cz.mg.toolkit.graphics.designer.loader.entity.Logic;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,24 +11,27 @@ import java.io.InputStreamReader;
 
 
 public class DesignerLoader {
-    private final InputStream stream;
-
-    public DesignerLoader(InputStream stream) {
-        this.stream = stream;
+    public DesignerLoader() {
     }
 
-    public Designer load(){
-        Page page = new Page(new Substring(readText()));
-        PageParser pageParser = new PageParser();
-        pageParser.parse(page);
+    public Designer load(InputStream... streams){
+        Parser parser = new Parser();
+        Book book = parser.parse(readTexts(streams));
+
         DesignerComposer designerComposer = new DesignerComposer();
-        DesignerRoot designerFile = designerComposer.compose(page);
+        Logic logic = designerComposer.compose(book);
 
         DesignerResolver designerResolver = new DesignerResolver();
-        return designerResolver.resolve(designerFile);
+        return designerResolver.resolve(logic);
     }
 
-    private String readText(){
+    private String[] readTexts(InputStream[] streams){
+        String[] texts = new String[streams.length];
+        for(int i = 0; i < streams.length; i++) texts[i] = readText(streams[i]);
+        return texts;
+    }
+
+    private String readText(InputStream stream){
         StringBuilder text = new StringBuilder();
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(stream))){
             String line;

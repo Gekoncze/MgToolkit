@@ -4,11 +4,11 @@ import cz.mg.collections.tree.TreeLeaf;
 import cz.mg.parser.utilities.Substring;
 
 
-public class DefineConstant extends TreeLeaf<DesignerRoot> {
+public class LogicalConstant extends TreeLeaf<LogicalDesigner> {
     private final Substring name;
     private final Substring value;
 
-    public DefineConstant(Substring name, Substring value) {
+    public LogicalConstant(Substring name, Substring value) {
         this.name = name;
         this.value = value;
     }

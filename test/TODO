@@ -88,41 +88,41 @@
         případně druhá varianta - při každém pohybu myší procházet všechny komponenty na daném místě a ptát se jich, jaký kurzor tam má být
             zavedla by se přepisovatelná metoda, něco jako getCursor(double x, double y)
 
+    designer file - add support for expressions
 
 #### SOON
-    window independent root component - could be parent of window
+    window and root components
+        window independent root component - could be parent of window
 
-    velikost popup meníčka nejen wrap ale i podle komponenty - např pro context menu
-        možná pak bude i potřeba respektovat velikosti MIN a MAX při synchronizaci okna
+        velikost popup meníčka nejen wrap ale i podle komponenty - např pro context menu
+            možná pak bude i potřeba respektovat velikosti MIN a MAX při synchronizaci okna
+
+        maybe need root for all windows, like a window manager - to apply designers to all windows
+            might need window manager or something... but then again, this way, windows could get leaked...
+                might be resolved by weak references or something like that... !
+                or by counting references to window.. if java supports it!
     
 #### NOW
     polish scale factors! try using actual size in millimeters + screen size info
 
     parsing design from file
-        implement structured designer and design
-
-        add support for expressions
-        add setters for various datatypes
+        cleanup
 
         location guess for exception based on substring original text and begin-end positions
-                might be useful to have locable exception - to store the location (might include file too, then ofc row and column begin-end)
+            might be useful to have locable exception - to store the location (might include file too, then ofc row and column begin-end)
             polish parser, maybe add compiler utilities, like task and/or/maybe entity and exceptions maybe, readers, etc.
 
-        cleanup
-        make structured designer independend of composite designer
-        rename using interface to using properties
         make sure names cannot have more than one space inbetween
-
-        setter optimalization for inheritance
-        use parser instead of page parser
+        optimalization - setters
 
 #### DONE
-design from file part #6
-    fixed parser
-    fixed composer - skip empty lines
-    fixed resolver
-        get method name
-        resolve setter
-    fixed designer file bugs
-    fixed structured setter
-
+design from file part #7
+    merged structured designer and composite designer
+    deleted unused test files
+    updated parser
+    change designer loader to support multiple streams at the same time
+    renamed composer elements (used "logical" prefix)
+    renamed "interface" to "properties" in design file and project code
+    changed composer to support book object
+    changed resolver to support logic object
+    added default design static field to window

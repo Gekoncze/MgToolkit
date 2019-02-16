@@ -4,10 +4,10 @@ import cz.mg.collections.tree.TreeLeaf;
 import cz.mg.parser.utilities.Substring;
 
 
-public class UsingInterface extends TreeLeaf<DesignerRoot> {
+public class LogicalDecorations extends TreeLeaf<LogicalDesigner> {
     private final Substring classPath;
 
-    public UsingInterface(Substring classPath) {
+    public LogicalDecorations(Substring classPath) {
         this.classPath = classPath;
     }
 

@@ -1,0 +1,13 @@
+USING DECORATIONS cz.mg.toolkit.graphics.decorations.component.DefaultComponentDecorations
+USING PROPERTIES cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface
+
+DEFINE DESIGN big text content BASED ON text content
+    font = "default, 48, regular"
+
+DEFINE DESIGN page panel BASED ON panel
+    padding = "4"
+    spacing = "4"
+
+DEFINE DESIGN big text container BASED ON content panel
+    padding = "4"
+    spacing = "4"
