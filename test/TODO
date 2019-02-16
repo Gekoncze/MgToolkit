@@ -99,11 +99,7 @@
     polish scale factors! try using actual size in millimeters + screen size info
 
     parsing design from file
-        implement loader logic
         implement structured designer and design
-
-        decorations will be looked up in usage-ed class via reflection
-        setters will be found in simplified properties interface via reflection
 
         add support for expressions
         add setters for various datatypes
@@ -117,11 +113,8 @@
         rename using interface to using properties
         make sure names cannot have more than one space inbetween
 
-        setter optimalization
+        setter optimalization for inheritance
 
 #### DONE
-design from file part #4
-    added runtime retention to anotations
-    fixed designer composer to use Value class
-    finished designer resolver implementation
-    TODO: test, debug, fix, cleanup
+design from file part #5
+    preparations for debug and fixes

@@ -21,6 +21,7 @@ import cz.mg.toolkit.layout.layouts.HorizontalLayout;
 import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.NoSizePolicy;
 import cz.mg.toolkit.utilities.sizepolices.SameAsHeightSizePolicy;
 
 
@@ -65,7 +66,7 @@ public class ToolkitDecoration extends Decoration {
         private void initComponent(){
             setLayout(new HorizontalLayout());
             setHorizontalSizePolicy(this, new FillParentSizePolicy());
-            setVerticalSizePolicy(this, new FixedSizePolicy());
+            setVerticalSizePolicy(this, new NoSizePolicy());
             setVerticalContentAlignment(this, 0.5);
         }
         

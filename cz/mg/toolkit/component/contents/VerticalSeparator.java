@@ -3,6 +3,7 @@ package cz.mg.toolkit.component.contents;
 import cz.mg.toolkit.component.Content;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.NoSizePolicy;
 
 
 public class VerticalSeparator extends Content {
@@ -14,6 +15,6 @@ public class VerticalSeparator extends Content {
     
     private void initComponent() {
         setHorizontalSizePolicy(this, new FillParentSizePolicy());
-        setVerticalSizePolicy(this, new FixedSizePolicy());
+        setVerticalSizePolicy(this, new NoSizePolicy());
     }
 }

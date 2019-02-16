@@ -24,6 +24,9 @@ import cz.mg.toolkit.event.events.MouseEvent;
 import cz.mg.toolkit.event.events.RedesignEvent;
 import cz.mg.toolkit.event.events.RedrawEvent;
 import cz.mg.toolkit.event.events.RelayoutEvent;
+import cz.mg.toolkit.graphics.designer.Designer;
+import cz.mg.toolkit.graphics.designer.designers.DesignersLocation;
+import cz.mg.toolkit.graphics.designer.loader.task.DesignerLoader;
 import cz.mg.toolkit.graphics.images.BitmapImage;
 import cz.mg.toolkit.impl.Impl;
 import cz.mg.toolkit.layout.layouts.OverlayLayout;
@@ -57,8 +60,13 @@ public class Window extends Wrapper implements ToplevelComponent {
     
     private void initComponent(){
         setLayout(new OverlayLayout());
-        setDesigner(this, new DefaultDesigner());
+        setDesigner(this, loadDesigner());
         design();
+    }
+
+    private Designer loadDesigner(){
+        DesignerLoader loader = new DesignerLoader(DesignersLocation.class.getResourceAsStream("DefaultDesigner"));
+        return loader.load();
     }
     
     private void initComponents(){

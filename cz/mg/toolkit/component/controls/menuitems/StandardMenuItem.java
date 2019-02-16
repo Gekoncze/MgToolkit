@@ -10,6 +10,8 @@ import cz.mg.toolkit.event.events.KeyboardButtonEvent;
 import cz.mg.toolkit.graphics.Image;
 import cz.mg.toolkit.utilities.KeyboardShortcut;
 import cz.mg.toolkit.utilities.SelectionGroup;
+import cz.mg.toolkit.utilities.sizepolices.NoSizePolicy;
+
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 
 
@@ -41,7 +43,7 @@ public class StandardMenuItem extends ActionMenuItem {
     private void initComponents(Image icon, String text, KeyboardShortcut keyboardShortcut, Boolean checked, SelectionGroup selectionGroup) {
         if(icon == null) setHidden(imageContent, true);
         setColumn(imageContent, 0);
-        setSizePolicy(imageContent, new FixedSizePolicy());
+        setSizePolicy(imageContent, new NoSizePolicy());
         imageContent.setAutosize(false);
         imageContent.setImage(icon);
         

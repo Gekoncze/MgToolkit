@@ -18,6 +18,7 @@ import cz.mg.toolkit.layout.layouts.VerticalLayout;
 import cz.mg.toolkit.utilities.Timer;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.NoSizePolicy;
 import cz.mg.toolkit.utilities.sizepolices.SameAsHeightSizePolicy;
 import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 
@@ -160,7 +161,7 @@ public class HorizontalTabArea extends Panel {
                 setActionInvocation(Button.ActionInvocation.EVENT_LEAVE);
                 setVerticalAlignment(this, 1.0);
                 setHorizontalSizePolicy(this, new WrapContentSizePolicy());
-                setVerticalSizePolicy(this, new FixedSizePolicy());
+                setVerticalSizePolicy(this, new NoSizePolicy());
             }
 
             private void initComponents(){

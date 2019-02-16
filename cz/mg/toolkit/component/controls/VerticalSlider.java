@@ -7,6 +7,7 @@ import cz.mg.toolkit.event.events.MouseButtonEvent;
 import cz.mg.toolkit.event.events.MouseMotionEvent;
 import static cz.mg.toolkit.utilities.properties.SimplifiedPropertiesInterface.*;
 import cz.mg.toolkit.utilities.sizepolices.FillParentSizePolicy;
+import cz.mg.toolkit.utilities.sizepolices.NoSizePolicy;
 
 
 public abstract class VerticalSlider<T> extends Slider<T> {
@@ -19,7 +20,7 @@ public abstract class VerticalSlider<T> extends Slider<T> {
     }
     
     private void initComponent(){
-        setHorizontalSizePolicy(this, new FixedSizePolicy());
+        setHorizontalSizePolicy(this, new NoSizePolicy());
         setVerticalSizePolicy(this, new FillParentSizePolicy());
     }
 

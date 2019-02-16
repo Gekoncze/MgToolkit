@@ -1,6 +1,6 @@
 package cz.mg.toolkit.component;
 
-import cz.mg.collections.node.TreeNode;
+import cz.mg.collections.tree.TreeNode;
 import cz.mg.toolkit.event.Event;
 import cz.mg.toolkit.event.EventListener;
 import cz.mg.toolkit.event.EventObserver;
