@@ -71,19 +71,15 @@ public class DesignerComposer {
     }
 
     private LogicalDecorations composeUsingDecorations(LineReader lineReader, TokenReader tokenReader){
-        ChainList<Substring> classPath = new ChainList<>();
-        Token token = tokenReader.takeRequired(Token.Type.NAME);
-        classPath.addLast(token.getContent());
-        while(tokenReader.takeOptional(Token.Type.SPECIAL, ".") != null){
-            token = tokenReader.takeRequired(Token.Type.NAME);
-            classPath.addLast(token.getContent());
-        }
-        tokenReader.readNoMore();
-        lineReader.readNoMoreChildren();
-        return new LogicalDecorations(Substring.union(classPath.getFirst(), classPath.getLast()));
+        return new LogicalDecorations(composeClassPath(lineReader, tokenReader));
     }
 
     private LogicalProperties composeUsingProperties(LineReader lineReader, TokenReader tokenReader){
+
+        return new LogicalProperties(composeClassPath(lineReader, tokenReader));
+    }
+
+    private Substring composeClassPath(LineReader lineReader, TokenReader tokenReader){
         ChainList<Substring> classPath = new ChainList<>();
         Token token = tokenReader.takeRequired(Token.Type.NAME);
         classPath.addLast(token.getContent());
@@ -93,35 +89,20 @@ public class DesignerComposer {
         }
         tokenReader.readNoMore();
         lineReader.readNoMoreChildren();
-        return new LogicalProperties(Substring.union(classPath.getFirst(), classPath.getLast()));
+        Substring cp = Substring.union(classPath.getFirst(), classPath.getLast());
+        if(cp.toString().contains(" ")) throw new ComposerException("Class path cannot contain spaces.");
+        return cp;
     }
 
     private LogicalDesign composeDefineDesign(LineReader lineReader, TokenReader tokenReader){
-        ChainList<Substring> name = new ChainList<>();
-        ChainList<Substring> parentName = new ChainList<>();
-
-        Token token = tokenReader.takeRequired(Token.Type.NAME);
-        name.addLast(token.getContent());
-        while((token = tokenReader.takeOptional(Token.Type.NAME)) != null){
-            name.addLast(token.getContent());
-        }
-
+        Substring name = composeName(tokenReader);
+        Substring parentName = null;
         if(tokenReader.takeOptional(Token.Type.KEYWORD, "BASED") != null){
             tokenReader.takeRequired(Token.Type.KEYWORD, "ON");
-
-            token = tokenReader.takeRequired(Token.Type.NAME);
-            parentName.addLast(token.getContent());
-            while((token = tokenReader.takeOptional(Token.Type.NAME)) != null){
-                parentName.addLast(token.getContent());
-            }
+            parentName = composeName(tokenReader);
         }
-
         tokenReader.readNoMore();
-
-        LogicalDesign logicalDesign = new LogicalDesign(
-                Substring.union(name.getFirst(), name.getLast()),
-                parentName.count() > 0 ? Substring.union(parentName.getFirst(), parentName.getLast()) : null
-        );
+        LogicalDesign logicalDesign = new LogicalDesign(name, parentName);
 
         Line line;
         int childLevel = lineReader.getLastIndentation() + 1;
@@ -136,51 +117,42 @@ public class DesignerComposer {
     }
 
     private LogicalSetter composeSetter(LineReader lineReader, TokenReader tokenReader){
-        ChainList<Substring> name = new ChainList<>();
-        ChainList<Substring> value = new ChainList<>();
-        boolean literal;
-
-        Token token = tokenReader.takeRequired(Token.Type.NAME);
-        name.addLast(token.getContent());
-        while((token = tokenReader.takeOptional(Token.Type.NAME)) != null){
-            name.addLast(token.getContent());
-        }
+        Substring name = composeName(tokenReader);
         tokenReader.takeRequired(Token.Type.SPECIAL, "=");
+
+        Token token;
+        boolean literal;
+        Substring value;
         if((token = tokenReader.takeOptional(Token.Type.LITERAL)) != null){
-            value.addLast(token.getContent());
+            value = token.getContent();
             literal = true;
         } else {
-            token = tokenReader.takeRequired(Token.Type.NAME);
-            value.addLast(token.getContent());
-            while((token = tokenReader.takeOptional(Token.Type.NAME)) != null){
-                value.addLast(token.getContent());
-            }
+            value = composeName(tokenReader);
             literal = false;
         }
         tokenReader.readNoMore();
         lineReader.readNoMoreChildren();
-        return new LogicalSetter(
-                Substring.union(name.getFirst(), name.getLast()),
-                new ChainList<>(new Value(Substring.union(value.getFirst(), value.getLast()), literal))
-        );
+        return new LogicalSetter(name, new ChainList<>(new Value(value, literal)));
     }
 
     private LogicalConstant composeDefineConstant(LineReader lineReader, TokenReader tokenReader){
-        ChainList<Substring> name = new ChainList<>();
-        Substring value;
+        Substring name = composeName(tokenReader);
+        tokenReader.takeRequired(Token.Type.SPECIAL, "=");
+        Substring value = tokenReader.takeRequired(Token.Type.LITERAL).getContent();
+        tokenReader.readNoMore();
+        lineReader.readNoMoreChildren();
+        return new LogicalConstant(name, value);
+    }
 
+    private Substring composeName(TokenReader tokenReader){
+        ChainList<Substring> name = new ChainList<>();
         Token token = tokenReader.takeRequired(Token.Type.NAME);
         name.addLast(token.getContent());
         while((token = tokenReader.takeOptional(Token.Type.NAME)) != null){
             name.addLast(token.getContent());
         }
-        tokenReader.takeRequired(Token.Type.SPECIAL, "=");
-        value = tokenReader.takeRequired(Token.Type.LITERAL).getContent();
-        tokenReader.readNoMore();
-        lineReader.readNoMoreChildren();
-        return new LogicalConstant(
-                Substring.union(name.getFirst(), name.getLast()),
-                value
-        );
+        Substring n = Substring.union(name.getFirst(), name.getLast());
+        if(n.toString().contains("  ")) throw new ComposerException("Name parts can be separated only by one space.");
+        return n;
     }
 }

@@ -24,4 +24,8 @@ public class StructuredSetter {
             values[0] = null;
         }
     }
+
+    public Method getMethod() {
+        return method;
+    }
 }

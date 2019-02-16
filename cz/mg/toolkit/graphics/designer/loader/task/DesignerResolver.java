@@ -30,6 +30,7 @@ public class DesignerResolver {
     private boolean[] locks;
     private boolean[] resolved;
     private HashMap<String, Boolean> usages;
+    private HashMap<Method, Boolean> methods;
 
     public DesignerResolver() {
     }
@@ -54,10 +55,13 @@ public class DesignerResolver {
             this.locks = new boolean[structuredDesigner.getDesigns().count()];
             this.resolved = new boolean[structuredDesigner.getDesigns().count()];
             int i = 0;
-            for(Design design : structuredDesigner.getDesigns()){
-                StructuredDesign structuredDesign = (StructuredDesign) design;
-                resolveDesignInheritance(i, structuredDesign, structuredDesigner);
+            for(StructuredDesign design : structuredDesigner.getDesigns()){
+                resolveDesignInheritance(i, design, structuredDesigner);
                 i++;
+            }
+
+            for(StructuredDesign design : structuredDesigner.getDesigns()){
+                optimizeDesign(design);
             }
 
             return structuredDesigner;
@@ -68,6 +72,7 @@ public class DesignerResolver {
             this.locks = null;
             this.resolved = null;
             this.usages = null;
+            this.methods = null;
         }
     }
 
@@ -329,5 +334,19 @@ public class DesignerResolver {
         }
         resolved[i] = true;
         locks[i] = false;
+    }
+
+    private void optimizeDesign(StructuredDesign design){
+        methods = new HashMap<>();
+        ChainList<ChainListItem<StructuredSetter>> redundantSetters = new ChainList<>();
+        for(ChainListItem<StructuredSetter> s = design.getSetters().getLastItem(); s != null; s = s.getPreviousItem()){
+            Method m = s.getData().getMethod();
+            if(!methods.containsKey(m)){
+                methods.put(m, true);
+            } else {
+                redundantSetters.addLast(s);
+            }
+        }
+        for(ChainListItem<StructuredSetter> redundandSetter : redundantSetters) redundandSetter.remove();
     }
 }
