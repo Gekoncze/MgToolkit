@@ -16,7 +16,7 @@ import cz.mg.toolkit.utilities.sizepolices.WrapContentSizePolicy;
 @ComponentProperties
 public class PropertiesInterface {
     private static final Color DEFAULT_COLOR = new Color(255, 0, 255, 255);
-    private static final Font DEFAULT_FONT = new Font("Serif", 18, Font.Style.REGULAR);
+    private static final Font DEFAULT_FONT = new Font("Serif", 1, Font.Style.REGULAR);
     private static final SizePolicy DEFAULT_SIZE_POLICY = new WrapContentSizePolicy();
     private static final Shape DEFAULT_SHAPE = new RectangleShape();
     private static final String DEFAULT_DESIGN_NAME = "";

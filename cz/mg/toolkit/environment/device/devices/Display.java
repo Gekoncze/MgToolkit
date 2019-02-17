@@ -5,8 +5,11 @@ import cz.mg.toolkit.impl.ImplDisplay;
 
 
 public class Display extends Device {
-    private double physicalWidth = 476.0;
-    private double physicalHeight = 270.0;
+    private static final double DEFAULT_PHYSICAL_WIDTH = 476.0;
+    private static final double DEFAULT_PHYSICAL_HEIGHT = 270.0;
+
+    private double physicalWidth = DEFAULT_PHYSICAL_WIDTH;
+    private double physicalHeight = DEFAULT_PHYSICAL_HEIGHT;
     private double horizontalZoom = 1.0;
     private double verticalZoom = 1.0;
     private final ImplDisplay implDisplay;

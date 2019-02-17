@@ -244,7 +244,7 @@ public class DesignerResolver {
         try {
             String[] values = value.toString().split(",");
             if(values.length != 3) throw new ResolveException(value, "Invalid number of parameters for font. Expected 3 (name, size, style), but got " + values.length);
-            return new Font(values[0].trim(), Integer.parseInt(values[1].trim()), Font.Style.valueOf(values[2].toUpperCase().trim()));
+            return new Font(values[0].trim(), Double.parseDouble(values[1].trim()), Font.Style.valueOf(values[2].toUpperCase().trim()));
         } catch(RuntimeException e){
             throw new ResolveException(value, e.getClass().getSimpleName() + ": " + e.getMessage());
         }

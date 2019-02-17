@@ -38,6 +38,7 @@ DEFINE DESIGN content BASED ON component
     foreground = "null"
 
 DEFINE DESIGN text content BASED ON content
+    font = "default, 4, bold"
     contrast color = contrast color
     contrast color = contrast color
     background = text content background
@@ -51,7 +52,7 @@ DEFINE DESIGN interactive text content BASED ON text content
     foreground = interactive text content foreground
 
 DEFINE DESIGN text input content BASED ON interactive text content
-    padding = "4"
+    padding = "1"
     foreground = text input content foreground
     horizontal content alignment = "0.5"
     vertical content alignment = "0.5"
@@ -71,10 +72,10 @@ DEFINE DESIGN content panel BASED ON panel
     foreground = "null"
 
 DEFINE DESIGN button BASED ON component
-    padding = "6"
+    padding = "2"
 
 DEFINE DESIGN toolkit decoration title BASED ON text content
-    font = "default, 18, bold"
+    font = "default, 5.5, bold"
     background color = title background color
     foreground color = title foreground color
     disabled background color = title disabled background color
@@ -84,9 +85,9 @@ DEFINE DESIGN toolkit decoration title BASED ON text content
 
 DEFINE DESIGN toolkit decoration title bar BASED ON panel
     foreground = "null"
-    fixed size = "24"
-    padding = "2"
-    horizontal spacing = "2"
+    fixed size = "7"
+    padding = "0.5"
+    horizontal spacing = "0.5"
     background color = title background color
     foreground color = title foreground color
     disabled background color = title disabled background color
@@ -95,7 +96,7 @@ DEFINE DESIGN toolkit decoration title bar BASED ON panel
     highlighted foreground color = title highlighted foreground color
 
 DEFINE DESIGN toolkit decoration button BASED ON button
-    padding = "4"
+    padding = "1"
     background color = title background color
     foreground color = title foreground color
     disabled background color = title disabled background color
@@ -127,8 +128,8 @@ DEFINE DESIGN close button content BASED ON content
     foreground = close button content foreground
 
 DEFINE DESIGN scroll button BASED ON button
-    padding = "6"
-    fixed size = "24"
+    padding = "1.5"
+    fixed size = "5"
 
 DEFINE DESIGN left scroll button content BASED ON scroll button
     foreground = left scroll button content foreground
@@ -143,8 +144,9 @@ DEFINE DESIGN down scroll button content BASED ON scroll button
     foreground = down scroll button content foreground
 
 DEFINE DESIGN spinner button BASED ON button
-    padding = "4"
-    fixed size = "12"
+    padding = "1"
+    fixed width = "5"
+    fixed height = "2.5"
 
 DEFINE DESIGN up spinner button content BASED ON content
     foreground = up spinner button content foreground
@@ -153,58 +155,58 @@ DEFINE DESIGN down spinner button content BASED ON content
     foreground = down spinner button content foreground
 
 DEFINE DESIGN horizontal tab area close button BASED ON close button
-    padding = "4"
+    padding = "1"
 
 DEFINE DESIGN horizontal tab area header BASED ON button
-    padding = "5"
-    horizontal spacing = "4"
-    fixed size = "24"
+    padding = "1.5"
+    horizontal spacing = "1"
+    fixed size = "7"
 
 DEFINE DESIGN horizontal tab area icon BASED ON content
 
 DEFINE DESIGN horizontal tab area text BASED ON text content
-    font = "default, 15, regular"
+    font = "default, 4.5, regular"
 
 DEFINE DESIGN decoration BASED ON panel
     background = "null"
     foreground = "null"
 
 DEFINE DESIGN check box BASED ON panel
-    padding = "4"
-    fixed size = "16"
+    padding = "1"
+    fixed size = "5"
     foreground = check box foreground
 
 DEFINE DESIGN radio button BASED ON panel
-    padding = "4"
-    fixed size = "16"
+    padding = "1"
+    fixed size = "5"
     foreground = radio button foreground
 
 DEFINE DESIGN menu BASED ON panel
-    spacing = "6"
-    padding = "6"
+    spacing = "2"
+    padding = "2"
 
 DEFINE DESIGN separator BASED ON content
     background = "null"
 
 DEFINE DESIGN horizontal separator BASED ON separator
-    fixed size = "5"
+    fixed size = "1.5"
     foreground = horizontal separator foreground
 
 DEFINE DESIGN vertical separator BASED ON separator
-    fixed size = "5"
+    fixed size = "1.5"
     foreground = vertical separator foreground
 
 DEFINE DESIGN standard menu item icon BASED ON content
-    fixed size = "16"
+    fixed size = "5"
 
 DEFINE DESIGN standard menu item description BASED ON text content
-    font = "default, 18, regular"
+    font = "default, 5.5, regular"
 
 DEFINE DESIGN standard menu item shortcut BASED ON text content
-    font = "default, 18, italic"
+    font = "default, 5.5, italic"
 
 DEFINE DESIGN slider BASED ON content
-    fixed size = "16"
+    fixed size = "5"
 
 DEFINE DESIGN horizontal slider BASED ON slider
     foreground = horizontal slider foreground
@@ -213,26 +215,26 @@ DEFINE DESIGN vertical slider BASED ON slider
     foreground = vertical slider foreground
 
 DEFINE DESIGN split area BASED ON panel
-    spacing = "4"
+    spacing = "1"
 
 DEFINE DESIGN selection list BASED ON panel
-    vertical padding = "2"
+    vertical padding = "0.5"
 
 DEFINE DESIGN selection list item BASED ON text content
     background = selection list item background
     foreground = selection list item foreground
-    horizontal padding = "4"
-    vertical padding = "2"
+    horizontal padding = "1"
+    vertical padding = "0.5"
 
 DEFINE DESIGN combo box text BASED ON text content
-    padding = "4"
+    padding = "1"
 
 DEFINE DESIGN combo box menu BASED ON context menu
-    padding = "4"
+    padding = "1"
 
 DEFINE DESIGN combo box open button BASED ON button
-    fixed size = "24"
-    padding = "6"
+    fixed size = "7"
+    padding = "2"
 
 DEFINE DESIGN combo box open button content BASED ON content
     foreground = combo box button content foreground

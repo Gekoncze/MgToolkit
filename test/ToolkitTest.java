@@ -2,6 +2,7 @@ package test;
 
 import cz.mg.collections.Collection;
 import cz.mg.collections.array.Array;
+import cz.mg.toolkit.component.controls.spinners.IntegerSpinner;
 import cz.mg.toolkit.event.events.*;
 import cz.mg.toolkit.graphics.designer.Designer;
 import cz.mg.toolkit.graphics.designer.StructuredDesigner;
@@ -42,8 +43,8 @@ public class ToolkitTest {
 
     public static void main(String[] args) throws IOException {
         Impl.setImplApi(new SwingImplApi());
-        Impl.getImplApi().getPrimaryDisplay().setHorizontalZoom(0.35);
-        Impl.getImplApi().getPrimaryDisplay().setVerticalZoom(0.35);
+        Impl.getImplApi().getPrimaryDisplay().setPhysicalWidth(312);
+        Impl.getImplApi().getPrimaryDisplay().setPhysicalHeight(178);
 
         Window.defaultDesigner = loadDesigner();
 
@@ -67,7 +68,7 @@ public class ToolkitTest {
         contextMenu.getMenu().updateComponents();
 
         Window window = new Window();
-        window.setSize(200*4, 150*4);
+        window.setSize(180, 140);
         window.setTitle("Yay!");
         window.setIcon(new BitmapImage(ToolkitTest2.class.getResourceAsStream("mg.png")));
         window.center();
@@ -106,8 +107,6 @@ public class ToolkitTest {
 
         Container windowPanel = window.getContentPanel();
         windowPanel.setLayout(new VerticalLayout());
-//        setVerticalSpacing(windowPanel, 4);
-//        setPadding(windowPanel, 4);
 
         CompactHorizontalScrollArea tabsArea = new CompactHorizontalScrollArea();
         tabsArea.setParent(windowPanel);
@@ -115,8 +114,6 @@ public class ToolkitTest {
         Container bigTextContainer = tabsArea.getContentPanel();
         setDesignName(bigTextContainer, "big text container");
         bigTextContainer.setLayout(new HorizontalLayout());
-//        setPadding(tabs, 8);
-//        setHorizontalSpacing(tabs, 8);
 
         int n = 5;
         for(int i = 0; i <= n; i++){
@@ -134,23 +131,18 @@ public class ToolkitTest {
 
         Panel v1 = new Panel();
         setDesignName(v1, "page panel");
-//        setPadding(v1, 4);
         v1.setLayout(new VerticalLayout());
         v1.setParent(scrollArea.getContentPanel());
-//        setVerticalSpacing(v1, 4);
 
         LayoutPanel h0 = new LayoutPanel();
-//        setPadding(h0, 8);
         h0.setLayout(new HorizontalLayout());
         h0.setParent(v1);
-//        setHorizontalSpacing(h0, 4);
         setHorizontalSizePolicy(h0, new WrapAndFillSizePolicy());
 
         TextButton tb = new TextButton();
         tb.getTextContent().setText("Pony");
         tb.setParent(h0);
         setSizePolicy(tb, new WrapContentSizePolicy());
-//        setPadding(tb, 4);
         tb.getEventListeners().addLast(new ActionAdapter() {
             @Override
             public void onEventEnter(ActionEvent e) {
@@ -163,7 +155,7 @@ public class ToolkitTest {
         ib.getImageContent().setImage(new BitmapImage(ToolkitTest2.class.getResourceAsStream("mg.png")));
         ib.setParent(h0);
         setSizePolicy(ib, new NoSizePolicy());
-        setFixedSize(ib, 64, 24);
+        setFixedSize(ib, 64*3/10, 24*3/10);
         ib.getEventListeners().addLast(new ActionAdapter() {
             @Override
             public void onEventEnter(ActionEvent e) {
@@ -174,10 +166,10 @@ public class ToolkitTest {
 
         TextInput ti = new TextInput();
         setSizePolicy(ti, new NoSizePolicy());
-        setMinWidth(ti, 0);
-        setMaxWidth(ti, 160);
-        setMinHeight(ti, 64);
-        setMaxHeight(ti, 64);
+        setMinWidth(ti, 0*3/10);
+        setMaxWidth(ti, 160*3/10);
+        setMinHeight(ti, 64*3/10);
+        setMaxHeight(ti, 64*3/10);
         ti.setParent(h0);
         ti.getTextContent().setText("Try typing here!");
         ti.getTextContent().getPlaceholderTextModel().setTextArrangement(new MultilineTextArrangement());
@@ -188,10 +180,8 @@ public class ToolkitTest {
         setContentAlignment(alignmentTest, 0.5);
 
         LayoutPanel h1 = new LayoutPanel();
-//        setPadding(h1, 8);
         h1.setLayout(new HorizontalLayout());
         h1.setParent(v1);
-//        setHorizontalSpacing(h1, 8);
         setHorizontalSizePolicy(h1, new WrapAndFillSizePolicy());
 
         label = new TextContent("Lorem ipsum 1");
@@ -204,8 +194,6 @@ public class ToolkitTest {
         label.setParent(h1);
 
         LayoutPanel h2 = new LayoutPanel();
-//        setHorizontalSpacing(h2, 8);
-//        setPadding(h2, 8);
         h2.setLayout(new HorizontalLayout());
         h2.setParent(v1);
         setHorizontalAlignment(h2, 1.0);
@@ -231,8 +219,6 @@ public class ToolkitTest {
         label.setParent(h2);
 
         LayoutPanel h4 = new LayoutPanel();
-//        setPadding(h1, 8);
-//        setHorizontalSpacing(h4, 8);
         h4.setLayout(new HorizontalLayout());
         h4.setParent(v1);
 
@@ -245,7 +231,7 @@ public class ToolkitTest {
         OvalButton ovalButton = new OvalButton();
         setShape(ovalButton, new OvalShape());
         setSizePolicy(ovalButton, new NoSizePolicy());
-        setFixedSize(ovalButton, 64*2, 32*2);
+        setFixedSize(ovalButton, 64*2*3/10, 32*2*3/10);
         ovalButton.setParent(v1);
         setForeground(ovalButton, null);
 
@@ -271,15 +257,15 @@ public class ToolkitTest {
             }
         });
 
-//        IntegerSpinner integerSpinner = new IntegerSpinner();
-//        integerSpinner.setParent(v1);
-//        integerSpinner.getEventListeners().addLast(new ActionAdapter() {
-//            @Override
-//            public void onEventEnter(ActionEvent e) {
-//                e.consume();
-//                System.out.println("Integer: " + integerSpinner.getValue() + " ;; " + e.getSource().getClass().getSimpleName());
-//            }
-//        });
+        IntegerSpinner integerSpinner = new IntegerSpinner();
+        integerSpinner.setParent(v1);
+        integerSpinner.getEventListeners().addLast(new ActionAdapter() {
+            @Override
+            public void onEventEnter(ActionEvent e) {
+                e.consume();
+                System.out.println("Integer: " + integerSpinner.getValue() + " ;; " + e.getSource().getClass().getSimpleName());
+            }
+        });
 //
 //        LongSpinner longSpinner = new LongSpinner();
 //        longSpinner.setParent(v1);
@@ -347,7 +333,7 @@ public class ToolkitTest {
         LayoutPanel vvp = new LayoutPanel();
         setHorizontalSizePolicy(vvp, new WrapContentSizePolicy());
         setVerticalSizePolicy(vvp, new NoSizePolicy());
-        setFixedHeight(vvp, 256);
+        setFixedHeight(vvp, 256*3/10);
         vvp.setLayout(new HorizontalLayout());
         vvp.setParent(v1);
 
@@ -389,7 +375,7 @@ public class ToolkitTest {
 
         TextInput mti = new TextInput();
         setSizePolicy(mti, new NoSizePolicy());
-        setFixedSize(mti, 128, 64);
+        setFixedSize(mti, 128*3/10, 64*3/10);
         mti.getTextContent().getPlaceholderTextModel().setText("Yay!\nYaay!\nYaaay!");
         mti.setParent(v1);
         mti.getTextContent().setText("Twilight Sparkle\nRarity\nFluttershy\nRainbow Dash\nApplejack\nPinkie Pie");

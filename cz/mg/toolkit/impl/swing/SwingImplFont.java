@@ -3,7 +3,6 @@ package cz.mg.toolkit.impl.swing;
 import cz.mg.toolkit.impl.ImplFont;
 import static cz.mg.toolkit.impl.swing.SwingImplGraphics.GRAPHICS;
 import cz.mg.toolkit.graphics.Font.Style;
-import static cz.mg.toolkit.graphics.Font.Style.*;
 
 
 public class SwingImplFont implements ImplFont {
@@ -18,7 +17,7 @@ public class SwingImplFont implements ImplFont {
         this.name = name;
         this.style = style;
         this.height = height;
-        swingFont = new java.awt.Font(name, styleToFlags(style), 10);
+        swingFont = new java.awt.Font(name, styleToFlags(style), 1);
         swingFontMetrics = SwingImplGraphics.GRAPHICS.getFontMetrics(swingFont);
     }
     

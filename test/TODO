@@ -103,9 +103,10 @@
                 or by counting references to window.. if java supports it!
     
 #### NOW
-    polish scale factors! try using actual size in millimeters + screen size info
+    fix font rendering - update resolution seems to be messed up
 
 #### DONE
-design from file part #9
-    added support for location of composer and resolver errors
-    change number format exceptions into traceable exceptions
+design polishment
+    polished all size/spacing/padding and related parameters to millimeters
+    fixed font parsing - can have double font size
+    TODO: fix font rendering
